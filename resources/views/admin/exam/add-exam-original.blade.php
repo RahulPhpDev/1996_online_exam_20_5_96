@@ -3,28 +3,14 @@
 @extends('layouts.partials.sidebar')
 @extends('layouts.partials.footer')
 @section('title', $title)
-@section('content')
-<style>
-.select2-container{
-  width: 30%;
-}
-input[type="checkbox" i] {
-    -webkit-appearance: checkbox;
-    box-sizing: border-box;
-}
-div.checker input {
-    opacity: 10 !important;
-    filter: alpha(opacity:10);
-    display: inline;
-    background: none;
-}
+@section('content')  
+<style type="text/css">
+  .editor{
+    width: 30x;
+    height:40px;
+  }
 
-div.radio input{ opacity: 10 !important;
-    filter: alpha(opacity:10);
-    display: inline-block;
-    background: none;
-}
-</style>  
+</style>
 <div id="content">
      <div class="container-fluid">
     <hr>
@@ -34,144 +20,157 @@ div.radio input{ opacity: 10 !important;
       <div class="span12">
         <div class="widget-box">
           <div class="widget-title"> <span class="icon"> <i class="icon-th"></i> </span>
-            <h5>Step 1</h5>
+            <h5>{{$title}}</h5>
           </div>
           
           <div class="widget-content nopadding">
             
-                {{ Form::open(array('route' => 'save-add-exam','class' => 'form-horizontal', 'id'=>'basic_validate'))}}
-
-               
+                {{ Form::open(array('route' => ['save-exam-question', $id],'class' => 'form-horizontal', 'id'=>'basic_validate'))}}
 
                 <div class="control-group">
-                  {{ Form::label('name','Exam Name',array('class' => 'control-label'))}}
+                  {{ Form::label('question','Question 1',array('class' => 'control-label'))}}
                 <div class="controls">
-                    {{ Form::text('exam_name') }}
+                    {{ Form::textarea('question[1][]',' ', array('class' => 'question editor')) }}
                 </div>
               </div>
-
-            <div class="control-group">
-              <label class="control-label">Exam Visible TO: </label>
-              <div class="controls" style="display: inline-block;">
-                <label>
-                  <input type="radio" name="exam_type" id = "exam_type_1" value = "1"/>
-                  All</label>
-               
-                <label>
-                  <input type="radio" name="exam_type" id = "exam_type_2" value = "2"/>
-                  Register Student</label>
-
-                   <label>
-                  <input type="radio" name="exam_type" id = "exam_type_3" value = "3" />
-                   Subscription Package </label>
-              </div>
-            </div>
 
               
+              <div class="controls controls-row">
+              <span  class="span1"> <input type="radio" name="answer[1]" value = "0"/></span>
+               <input type="text" placeholder="option 1" name = "option[1][]" class="span5 m-wrap">
 
+                 <span  class="span1"> <input type="radio" name="answer[1]" value = "1" /></span>
+               <input type="text" placeholder="Option 2"  name = "option[1][]" class="span5 m-wrap">
+             </div>
 
-            <div class="control-group" id = "subscription_div" style="display: none">
-              <label class="control-label">Select Subscription Package:</label>
-              <div class="controls">
-                <select name = "subscription[]" multiple >
-                  <option value = "">Select Option</option>
-                  <!-- <option value = "all">All</option> -->
-                 @foreach($allSubscription as $k => $v) 
-                  <option value="{{$k}}">{{$v}}</option>
-                 @endforeach 
-                </select>
+             <div class="controls controls-row">
+                <span  class="span1"> <input type="radio" name="answer[1]" value = "2" /></span>
+               <input type="text" placeholder="Option 3" class="span5 m-wrap"  name = "option[1][]">
+                <span  class="span1"> <input type="radio" name="answer[1]" value = "3"/></span>
+              <input type="text" placeholder="Option 4" class="span5 m-wrap"  name = "option[1][]">
+             </div>
+
+            
+              <div class="control-group controls controls-row">
+                <div  class="span6"> 
+                 <label class="control-label"  style="font-size: 16px"> Is Required </label>
+               <div class="controls">
+                  <input type="checkbox" name="is_required[1]" value="1" />
+               </div>
+            </div>
+
+            <div  class="span6"> 
+              <label class="control-label">Marks :</label>
+               <div class="controls">
+                <input type="text" name="total_mark[1]" />
               </div>
+             </div>
+           </div>
+
+
+            <div class="control-group controls controls-row">
+                <div  class="span6"> 
+                 <label class="control-label"  style="font-size: 16px"> Is Negative Marking </label>
+               <div class="controls">
+                  <input type="checkbox" name="is_negative[1]" class = "is_negative" />
+               </div>
             </div>
 
-          
-
-          <div class="control-group">
-              <label class="control-label">Do you want to Mark this is Payable: </label>
-              <div class="controls">
-                <label>
-                  <input type="checkbox" name="payable" id = "payable" value = "1"/>
-                  Yes</label>
-            </div>
-          </div>
+            <div  class="span6" style="display: none"> 
+              <label class="control-label">Negative Marks :</label>
+               <div class="controls">
+                <input type="text"  name="negative_mark[1]" class="span11" placeholder="Company name" />
+              </div>
+             </div>
+           </div>
 
 
-           <div class="control-group" id = "amout_div" style = "display:none;">
-                  {{ Form::label('amount','Payable Amount',array('class' => 'control-label'))}}
+
+           <div class="control-group">
+                  {{ Form::label('question','Question 1',array('class' => 'control-label'))}}
                 <div class="controls">
-                    {{ Form::text('amount') }}
+                    {{ Form::textarea('question[2][]',' ', array('class' => 'question editor')) }}
                 </div>
-              </div>      
+              </div>
+
+              
+              <div class="controls controls-row">
+              <span  class="span1"> <input type="radio" name="answer[2]" value = "0"/></span>
+               <input type="text" placeholder="option 1" name = "option[2][]" class="span5 m-wrap">
+
+                 <span  class="span1"> <input type="radio" name="answer[2]" value = "1" /></span>
+               <input type="text" placeholder="Option 2"  name = "option[2][]" class="span5 m-wrap">
+             </div>
+
+             <div class="controls controls-row">
+                <span  class="span1"> <input type="radio" name="answer[2]" value = "2" /></span>
+               <input type="text" placeholder="Option 3" class="span5 m-wrap"  name = "option[2][]">
+                <span  class="span1"> <input type="radio" name="answer[2]" value = "3"/></span>
+              <input type="text" placeholder="Option 4" class="span5 m-wrap"  name = "option[2][]">
+             </div>
+
+            
+              <div class="control-group controls controls-row">
+                <div  class="span6"> 
+                 <label class="control-label"  style="font-size: 16px"> Is Required </label>
+               <div class="controls">
+                  <input type="checkbox" name="is_required[2]" value="1" />
+               </div>
+            </div>
+
+            <div  class="span6"> 
+              <label class="control-label">Marks :</label>
+               <div class="controls">
+                <input type="text" name="total_mark[2]" />
+              </div>
+             </div>
+           </div>
 
 
-            <div class="control-group">
-                    {{Form::label('Description' , 'Description', array('class' => 'control-label')) }}
-                    <div class="controls">
-                        {{Form::textarea('description', ' ',array('class' =>'description_div', 'id' => 'description'))}}
-                    </div>
-                 </div>
+            <div class="control-group controls controls-row">
+                <div  class="span6"> 
+                 <label class="control-label"  style="font-size: 16px"> Is Negative Marking </label>
+               <div class="controls">
+                  <input type="checkbox" name="is_negative[2]" class = "is_negative" />
+               </div>
+            </div>
 
+            <div  class="span6" style="display: none"> 
+              <label class="control-label">Negative Marks :</label>
+               <div class="controls">
+                <input type="text"  name="negative_mark[2]" class="span11" placeholder="Company name" />
+              </div>
+             </div>
+           </div>
 
-
-                <div class="control-group">
-                    {{Form::label('notes' , 'Notes Before Exam', array('class' => 'control-label')) }}
-                    <div class="controls">
-                        {{Form::textarea('notes', ' ',array('class' =>'description_div', 'id' => 'notes'))}}
-                    </div>
-                 </div>
-
-                <div class="controls">
+           <div class="controls">
                     {{ Form::submit('save',array('class' => 'btn btn-success')) }}
                 </div>
-              </div>
+
               {{ Form::close() }}
+            </div>
           </div>
-        </div>
-        </div>
-        </div>
-</div>
+         </div>
+       </div>
+    </div>
 </div>
 <script src="{{ asset('js/backend_js/math_ckeditor/ckeditor/ckeditor.js') }}"></script>
 
 <script>
-    $(function(){
       $(document).ready(function(){
             CKEDITOR.editorConfig = function (config) {
-           config.toolbar_Full.push({ name: 'wiris', items : [ 'ckeditor_wiris_formulaEditor','ckeditor_wiris_formulaEditorChemistry']});
+          
       };
-      CKEDITOR.replace('description');
-      CKEDITOR.replace('notes');
-        });
+      CKEDITOR.replaceClass="editor";
 
-   var arr = [];
-   $("input[type=radio]").click(function () { 
-   if($('#exam_type_3').is(':checked')){ 
-    $("#subscription_div").show();
-   }else{
-    $("#subscription_div").hide();
-   }
-});
-// $('input[name="exam_type[]"]').click(function(){
-//   var atLeastOneIsChecked = $('#exam_type_3:checkbox:checked').length > 0;
-
-//     var id = $(this).attr('id');
-//    var check =  $(this).prop('checked');
-//    if(id == 'exam_type_3' && check === true){
-//     $("#subscription_div").show();
-//    }else{
-//     $("#subscription_div").hide();
-//    }
-
-   
-// });
-$('#payable').click(function(){
-     console.log('this');
-     if($(this).prop('checked')){
-       $("#amout_div").show(); 
-     }else{
-      $("#amout_div").hide(); 
-     }
-   });     
-
+      $(".is_negative").click(function(){
+       if ($(this).is(':checked')) {
+        var id = $(this).parent().parent().next('div').css("display", "block");
+       }else{
+        var id = $(this).parent().parent().next('div').css("display", "none");
+       }
+      });
+        
     });
   </script>
 @endsection

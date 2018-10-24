@@ -1,37 +1,36 @@
           
 
-<script src="{{ asset('js/backend_js/jquery.min.js') }}"></script>
-<script src="{{ asset('js/backend_js/math_ckeditor/ckeditor/ckeditor.js') }}"></script>
+ @include('layouts.partials.fetch_js')
+<script type="text/javascript">
+ $(function(){ 
+  $('#edit_<?php echo $id; ?>').on('click', function() {
+  if (CKEDITOR.instances.txt_area) {
+    CKEDITOR.instances.txt_area.destroy();
+  } else {
+    CKEDITOR.replace('textarea_<?php echo $id; ?>');
+  }
+  });
+});
 
-<script>
-      $(document).ready(function(){
-
-            CKEDITOR.editorConfig = function (config) {
-      };
-      // $('.ckeditor').ckeditor();
-      CKEDITOR.replaceClass="editor";
-      $(".is_negative").click(function(){
-       if ($(this).is(':checked')) {
-        var id = $(this).parent().parent().next('div').css("display", "block");
-       }else{
-        var id = $(this).parent().parent().next('div').css("display", "none");
-       }
-      });
-    });
-  </script>
-
+</script>
             <div class="control-group">
-               
                    <label class="control-label" for = "question_<?php echo $id; ?> ">Question <?php echo $id; ?></label>
                
                 <div class="controls">                    
-                     <textarea name = "question[<?php echo $id; ?>][]" id = "textarea_<?php echo $id; ?>" class = "question editor"></textarea>
+                     <button type = "button" id="edit_<?php echo $id; ?>">Editor</button>
+<br/>
+<!-- <textarea id="txt_area" rows="10" style="width:100%;">
+  Click edit to editor this textarea using ckeditor
+</textarea> -->
+
+<textarea name = "question[<?php echo $id; ?>][]" id = "textarea_<?php echo $id; ?>" class = "question editor"></textarea>
+
+
                 </div>
               </div>
 
-
               <div class="controls controls-row">
-              <span  class="span1"> <input type="radio" name="answer[<?php echo $id; ?>]" value = "0"/></span>
+              <span  class="span1"> <input checked type="radio" name="answer[<?php echo $id; ?>]" value = "0"/></span>
                <input type="text" placeholder="option 1" name = "option[<?php echo $id; ?>][]" class="span5 m-wrap">
 
                  <span  class="span1"> <input type="radio" name="answer[<?php echo $id; ?>]" value = "1" /></span>

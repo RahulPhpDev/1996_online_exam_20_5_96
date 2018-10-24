@@ -53,7 +53,7 @@
                     <span class=" control-label span6">
                    <?php echo  htmlspecialchars_decode($que['question']->question); ?>
                   </span>
-                  @if($que['is_required'] = 1)
+                  @if($que['question']->is_required == 1)
                   <?php
                   $totalRequiredQuestion++;
                   ?>

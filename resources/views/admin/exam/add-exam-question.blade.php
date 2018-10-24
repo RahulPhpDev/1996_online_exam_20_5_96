@@ -4,6 +4,7 @@
 @extends('layouts.partials.footer')
 @section('title', $title)
 @section('content')  
+
 <style type="text/css">
   .editor{
     width: 30x;
@@ -13,10 +14,21 @@
 </style>
    
 <script type="text/javascript">
-
+ 
   $(document).ready(function(){
+
+     $('#edit_1').on('click', function() {
+  if (CKEDITOR.instances.txt_area) {
+    CKEDITOR.instances.txt_area.destroy();
+  } else {
+    CKEDITOR.replace('textarea_1');
+  }
+  });
+
+
     var i = 1;
     $(".btn_add_more_cls").on("click", function(){
+      
       var thisId = $(this).attr("id");
       i++;
       if(i < 11){
@@ -24,8 +36,8 @@
         type : "get",
         url: "/more-question/"+i,
         success:function(data){
+          // alert('data');
           $("#more_question").append(data);
-          // $("#"+thisId).hide();
           }
         });
       }else{
@@ -54,13 +66,16 @@
                 <div class="control-group">
                   {{ Form::label('question','Question 1',array('class' => 'control-label'))}}
                 <div class="controls">
-                    {{ Form::textarea('question[1][]',' ', array('class' => 'question editor')) }}
+                    <button type = "button" id="edit_1">Editor</button>
+<br/>
+
+                    {{ Form::textarea('question[1][]',' ', array('class' => 'question editor', 'id'=> 'textarea_1')) }}
                 </div>
               </div>
 
               
               <div class="controls controls-row">
-              <span  class="span1"> <input type="radio" name="answer[1]" value = "0"/></span>
+              <span  class="span1"> <input checked type="radio" name="answer[1]" value = "0"/></span>
                <input type="text" placeholder="option 1" name = "option[1][]" class="span5 m-wrap">
 
                  <span  class="span1"> <input type="radio" name="answer[1]" value = "1" /></span>
@@ -108,12 +123,13 @@
              </div>
            </div>
 
-           
              <button  id = "btn_add_more_1" class="btn btn-primary btn-sm btn_add_more_cls pull-right" type ="button" >Add More</button>
-           <div id = "more_question"></div>
-           
 
-           <div class="controls">
+           <div id = "more_question"> </div>
+
+
+
+           <div class="controls" style="margin-top:20px ">
                   
 
 <button name="save" type="submit" class="btn btn-success" value="save">Save</button>
@@ -128,14 +144,10 @@
        </div>
     </div>
 </div>
-<script src="{{ asset('js/backend_js/math_ckeditor/ckeditor/ckeditor.js') }}"></script>
 
 <script>
       $(document).ready(function(){
-            CKEDITOR.editorConfig = function (config) {
-          
-      };
-      CKEDITOR.replaceClass="editor";
+       
 
       $(".is_negative").click(function(){
        if ($(this).is(':checked')) {

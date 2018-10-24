@@ -21,5 +21,18 @@
 
 <script src="{{ asset('js/backend_js/bootstrap-datepicker.min.js') }}"></script>
 <script src="{{ asset('js/backend_js/bootstrap-timepicker.min.js') }}"></script>
+<script src="{{ asset('js/backend_js/math_ckeditor/ckeditor/ckeditor.js') }}"></script>
+<script>
+$(function(){	
+//  $('.ck_editor_btn').on('click', function() {
+//  	alert('here');
+//   if (CKEDITOR.instances.txt_area) {
+//     CKEDITOR.instances.txt_area.destroy();
+//   } else {
+//     CKEDITOR.replace('txt_area');
+//   }
+// });
+ })
+</script>
 
 
