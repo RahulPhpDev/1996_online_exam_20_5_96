@@ -71,17 +71,15 @@ class AdminController extends Controller
             'duration' => $duration
         );
        Subscription::create($data);
-       return redirect('subscription')->with('success', 'New support ticket has been created! Wait sometime to get resolved');
+       return redirect('subscription')->with('success', 'Package Saved');
         } catch (QueryException $e) {
-            echo 'ey';
+        
             $msg =  $e->getMessage();
             return redirect()->back()->with('err_success',$msg);
         } catch (Exception $e) {
-            echo 'ex';
             $msg =  $e->getMessage();
             return redirect()->back()->with('err_success',$msg);
         } catch (Throwable $e) {
-            echo 'dfs';
             $msg = $e->getMessage();
           
              return redirect()->back()->with('err_success',$msg);
