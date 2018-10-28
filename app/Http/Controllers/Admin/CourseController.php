@@ -32,7 +32,7 @@ class CourseController extends Controller
      public function saveCourse(Request $request){
         try{
             $courseObj = new Course();
-            $courseObj->namess = $request['course'];
+            $courseObj->name = $request['course'];
             $courseObj->description = $request['description'];
             $courseObj->status = 1;
             $courseObj->add_date = date("Y-m-d");

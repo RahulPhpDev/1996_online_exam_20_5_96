@@ -6,6 +6,7 @@ use App\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use App\Model\Student;
 
 class RegisterController extends Controller
 {
@@ -47,10 +48,12 @@ class RegisterController extends Controller
      */
     protected function validator(array $data)
     {
+       
         return Validator::make($data, [
             'fname' => 'required|string|max:255',
             'lname' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
+        //    'enrollment' => 'required|regex:/(^[A-Za-z0-9 ]+$)+/|max:255|unique:students,enroll_number',
             'password' => 'required|string|min:6|confirmed',
         ]);
     }
@@ -63,16 +66,25 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        
-        return User::create([
-             'fname' => $data['fname'],
+            // $id = Company::create($input)->id;
+
+         $user = User::create([
+            'fname' => $data['fname'],
             'lname' => $data['lname'],
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
-            'user_type' => 1,
+            'user_type' => 3,
             'status' => 1,
             'add_date' => date("Y-m-d"),
         ]);
+      $id = $user->id;
+      Student::create([
+            'user_id' => $id,
+            'address' => $data['address'],
+           // 'enroll_number' => $data['enrollment'],
+            'status' => 1,
+         ]);
+    return $user;
 
       //   $userObj = new User();
       //    $userObj->fill(array(

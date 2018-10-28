@@ -125,7 +125,7 @@
 		$(function(){
       $("#user_type").on("change", function(){
         var usertype = $("#user_type").val();
-        if(usertype == 2){
+        if(usertype == 3){
           $("#student_other_details").show();
         }else{
             $("#student_other_details").hide(); 

@@ -29,8 +29,8 @@ class UserController extends Controller
     	$title = 'Users';
     	$allData = DB::table('users as u')
             ->leftJoin('students as s', 'u.id', '=', 's.user_id')
-            ->select('s.id as stu_id','u.id as id','fname','lname','username','email','user_type')
-            ->where('u.status',1)
+            ->select('s.id as stu_id','s.status as stu_status','u.id as id','fname','lname','username','email','user_type','u.status as status')
+            // ->where('u.status',1)
             ->get()->toArray();
       return view('admin.user.user-list',compact('title'))->with('allData' ,$allData);  
     }
@@ -77,14 +77,14 @@ class UserController extends Controller
 	        	  );
 	        $user =  Student::create($stuData);
   				}
-            return redirect()-> route('add-user')->with('success', 'Insert Successfully');
+            return redirect()-> route('users')->with('success', 'Insert Successfully');
        }
        catch(Exception $e){
-        return redirect()->route('add-course')->with('error', $e->getMessage());
+        return redirect()->route('add-user')->with('error', $e->getMessage());
        }
 
        catch(QueryException $e){
-        return redirect()->route('add-course')->with('error', $e->getMessage());
+        return redirect()->route('add-user')->with('error', $e->getMessage());
        }
     }
 
@@ -154,7 +154,7 @@ class UserController extends Controller
             $user->where('id' , $id)->update($userData);
             $studentObj = new Student;
             $studentData = $studentObj
-			->where('user_id',$id)
+		      	->where('user_id',$id)
             ->first();
             // echo '<pre>';print_r($studentData);die();
             if(($studentData)){
@@ -183,5 +183,37 @@ class UserController extends Controller
             ->where('u.id',$id)
             ->first();
        return view('admin.user.user-other-details')->with('allData',$allData);
+    }
+
+    public function approveUser(Request $request){
+       $id = $request['id'];
+       $user = User::find($id);
+       $user->status = 1;
+       $user->save();
+       $allData = DB::table('users as u')
+            ->leftJoin('students as s', 'u.id', '=', 's.user_id')
+            ->select('s.id as stu_id','u.id as id','fname','lname','username','email','user_type','course_id','enroll_number','join_date','end_date','phone_no')
+            ->where('u.id',$id)
+            ->first();
+         echo '
+                  <td>5</td>
+                  <td>'.$allData->fname.' '.$allData->lname.' </td>
+                  <td> '.$allData->email.' </td>
+                  <td>
+                     Student
+                 </td>
+                  <td>  <button type="button"  class="btn btn-info btn-sm des_details" data-toggle="modal" data-target="#myModal" data-id = "'.Crypt::encrypt($id).'">Description</button> </td>
+
+                   <td>
+                       <span class="text-success"> Approved </span>
+                     </td>
+                  <td>
+                  <a href="">Edit <i class="fa fa-fw fa-arrow-circle-right"></i></a>
+                  </td>
+                  <td>
+                  <a class = "text-center" > <i class="fa fa-fw fa-arrow-circle-right text-center">Delete</i></a>
+                  </td>
+                ';   
+                exit;
     }
 }

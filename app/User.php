@@ -5,6 +5,8 @@ namespace App;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
+use App\Model\Subscription;
+use App\Model\Exam;
 class User extends Authenticatable
 {
     use Notifiable;
@@ -33,5 +35,22 @@ protected $guarded = array();
     public function roles()
     {
         return $this->belongsToMany('App\Models\Role')->withTimestamps();
+    }
+
+    public function Subscription(){
+        $subscription = $this->belongsToMany(Subscription::class)->withPivot(['start_date', 'status'])->withTimestamps();
+        return $subscription;
+    }
+
+    public function Examghgf(){
+        $subscription = $this->belongsToMany(Exam::class)->withPivot(['start_date','subscription_id','end_date' ,'status'])->withTimestamps();
+        return $subscription;
+    }
+
+    public function Exam(){
+        $res = $this->belongsToMany(Exam::class,'user_exam')->withPivot(['status'])->where('user_exam.status','=' ,1);
+          
+
+        return $res;
     }
 }

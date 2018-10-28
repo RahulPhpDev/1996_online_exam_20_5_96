@@ -13,6 +13,8 @@
 });
 
 </script>
+<div class = "mt-15"></div>
+<div class = "mt-15"></div>
             <div class="control-group">
                    <label class="control-label" for = "question_<?php echo $id; ?> ">Question <?php echo $id; ?></label>
                
@@ -29,54 +31,67 @@
                 </div>
               </div>
 
-              <div class="controls controls-row">
-              <span  class="span1"> <input checked type="radio" name="answer[<?php echo $id; ?>]" value = "0"/></span>
-               <input type="text" placeholder="option 1" name = "option[<?php echo $id; ?>][]" class="span5 m-wrap">
-
-                 <span  class="span1"> <input type="radio" name="answer[<?php echo $id; ?>]" value = "1" /></span>
-               <input type="text" placeholder="Option 2"  name = "option[<?php echo $id; ?>][]" class="span5 m-wrap">
+              <div class="option_div mt-10" style="text-align: center;">
+               <input checked type="radio" name="answer[<?php echo $id; ?>]" value = "0"/>
+               <input type="text" placeholder="option 1" name = "option[<?php echo $id; ?>][]" class="span5">
+              <div class = "mt-15"> 
+                <input type="radio" name="answer[<?php echo $id; ?>]" value = "1" />
+               <input type="text" placeholder="Option 2"  name = "option[<?php echo $id; ?>][]" class="span5">
              </div>
 
-             <div class="controls controls-row">
-                <span  class="span1"> <input type="radio" name="answer[<?php echo $id; ?>]" value = "2" /></span>
-               <input type="text" placeholder="Option 3" class="span5 m-wrap"  name = "option[<?php echo $id; ?>][]">
-               
-                <span  class="span1"> <input type="radio" name="answer[<?php echo $id; ?>]" value = "3"/></span>
-              <input type="text" placeholder="Option 4" class="span5 m-wrap"  name = "option[<?php echo $id; ?>][]">
+             <div class = "mt-15">
+                <input type="radio" name="answer[<?php echo $id; ?>]" value = "2" />
+               <input type="text" placeholder="Option 3" class="span5"  name = "option[<?php echo $id; ?>][]">
+              </div> 
+               <div class = "mt-15">
+                <input type="radio" name="answer[<?php echo $id; ?>]" value = "3"/>
+              <input type="text" placeholder="Option 4" class="span5"  name = "option[<?php echo $id; ?>][]">
              </div>
-
+           </div>
             
-              <div class="control-group controls controls-row">
-                <div  class="span5"> 
-                 <label class="control-label"  style="font-size: 16px"> Is Required </label>
+             <div  class="" style="display: inline-block;margin-left:20px"> 
+                 <label class="control-label"  style="font-size: 16px"> Required </label>
                <div class="controls">
-                  <input type="checkbox" name="is_required[<?php echo $id; ?>]" value="1" />
+                    <input type="checkbox" name="is_required[<?php echo $id; ?>]" value="1" />
                </div>
-            </div>
+             </div>
 
-            <div  class="span4"> 
+             <div  class="" style="display: inline-block"> 
               <label class="control-label">Marks :</label>
                <div class="controls">
-                <input type="text" name="total_mark[<?php echo $id; ?>]" />
+                <input type="text" name="total_mark[<?php echo $id; ?>]" style = "width: 20%"/>
               </div>
              </div>
-           </div>
 
 
-            <div class="control-group controls controls-row">
-                <div  class="span5"> 
+             <div  class="">
+              <div  class=""  style="display: inline-block;margin-left:20px"> 
                  <label class="control-label"  style="font-size: 16px"> Is Negative Marking </label>
                <div class="controls">
-                  <input type="checkbox" name="is_negative[<?php echo $id; ?>]" class = "is_negative" />
+                 <input type="checkbox" name="is_negative[<?php echo $id; ?>]" class = "is_negative" />
                </div>
             </div>
 
-            <div  class="span4" style="display: none"> 
+            <div  class="" style="display: none"> 
               <label class="control-label">Negative Marks :</label>
                <div class="controls">
-                <input type="text"  name="negative_mark[<?php echo $id; ?>]" class="span11"  />
+                <input type="text"  name="negative_mark[<?php echo $id; ?>]" style = "width: 20%" class=""  />
               </div>
              </div>
            </div>
 
-          
+
+           
+<script>
+      $(document).ready(function(){
+
+      $(".is_negative").click(function(){
+       if ($(this).is(':checked')) {
+        var id = $(this).parent().parent().next('div').css("display", "inline-block");
+       }else{
+        var id = $(this).parent().parent().next('div').css("display", "none");
+       }
+      });
+        
+    });
+  </script>

@@ -69,7 +69,7 @@ class ExamController extends Controller
           $msg = 'Inserted Successfully';
           // return \Redirect::route('regions', [$id])->with('message', 'State saved correctly!!!');
 
-          return redirect()->route('add-exam-question',Crypt::encrypt($id))->with('err_success',$msg);     
+          return redirect()->route('add-exam-question',Crypt::encrypt($id))->with('success',$msg);     
         }
         catch (QueryException $e) {
             $msg =  $e->getMessage();
@@ -88,6 +88,7 @@ class ExamController extends Controller
          $id =  Crypt::decrypt($id);
          $getExamData =    Exam::findOrFail($id);
          $title = $getExamData['exam_name'];
+         // dd($getExamData);
          return view('admin.exam.add-exam-question',compact('getExamData','id'))->with('title',$title);
        }
 
@@ -96,11 +97,20 @@ class ExamController extends Controller
        DB::beginTransaction();
        try{
 
-            $examData =   Exam::Find($id);
-            $total_mark = $is_required = $totalQuestion = 0;
+          $examData =   Exam::Find($id);
+          $total_mark = (($examData->total_marks) > 0) ? $examData->total_marks : 0;
+          $is_required = (($examData->is_required) > 0) ? $examData->is_required : 0;
+          $totalQuestion = (($examData->total_question) >0 ) ? $examData->total_question  :  0;
+
+          $negative_question = (($examData->negative_question) >0 ) ? $examData->negative_question :  0;
+          $negative_marks  =  (($examData->negative_marks) >0 ) ? $examData->negative_marks  :  0;
+
+         
+          // $totalQuestion =  $request['total_mark'];$is_required = $totalQuestion = 0;
            if(isset($request['total_mark'])){ 
             $total_mark = $examData->total_marks + array_sum($request['total_mark']);
           }
+
 
            if(isset($request['is_required'])){ 
            $is_required =   $examData->required_question +  array_sum($request['is_required']);
@@ -108,11 +118,23 @@ class ExamController extends Controller
            if(isset($request['question'])){ 
             $totalQuestion = $examData->total_question   + count($request['question']);
           }
+
+          if(isset($request['is_negative'])){ 
+            $negative_question = $examData->negative_question   + count($request['is_negative']);
+          }
+
+          if(isset($request['negative_mark'])){ 
+            $negative_marks = $examData->negative_marks   + array_sum($request['negative_mark']);
+          }
+
+           
             // dd($examData->minimum_passing_marks);
 // echo $totalQuestion;die();
             $examData->total_marks = $total_mark;
             $examData->required_question =   $is_required ;
             $examData->total_question = $totalQuestion;
+            $examData->negative_question = $negative_question;
+            $examData->negative_marks = $negative_marks;
             $examData->save();
 
             $questionArray = $request['question'];
@@ -168,9 +190,9 @@ class ExamController extends Controller
           DB::commit();
           $msg = 'Inserted Successfully';
          if($request['save'] == 'continue'){
-          return redirect()->route('add-exam-question',Crypt::encrypt($id))->with('err_success',$msg);
+          return redirect()->route('add-exam-question',Crypt::encrypt($id))->with('success',$msg);
          }else{ 
-          return redirect()->route('confirm-exam',Crypt::encrypt($id))->with('err_success',$msg);     
+          return redirect()->route('confirm-exam',Crypt::encrypt($id))->with('success',$msg);     
           }
        }
        catch (QueryException $e) {
@@ -218,5 +240,57 @@ class ExamController extends Controller
      public function moreQuestion($id){
         return view('admin.exam.more-questions',compact('id'));
      }
+
+
+     public function examList(){
+         $title = 'Exam';
+         $examDetails = Exam::get()->where('status', 1);
+        //  dd($examDetails);
+         return view('admin.exam.exam-list', compact('examDetails','title'));
+     }
+
+     public function examQuestion($id){
+        // $e_id =  1;
+        $e_id = Crypt::decrypt($id);
+        $exam = new Exam();
+        $examQuestion =  $exam->getExamDetailsById($e_id);
+        // dd($examQuestion);
+        $title = $examQuestion['exam_details']->exam_name;
+        return view('admin.exam.exam-question',compact('examQuestion', 'id'))->with('title',$title);
+     }
+
+     public function editExamQuestion($e_id){
+        // $e_id =  1;
+         // $e_id = Crypt::decrypt($id);
+       $questionData =  Question::find($e_id);
+    //    foreach($questionData->Options as $data){
+    //          echo'<pre>';print_r($data)  ;
+    //    }  
+    // //    die('here');
+    //    dd($questionData);
+    $title = 'Yes';
+    return view('admin.exam.edit-exam-question', compact('questionData','title','e_id'));
+
+     }
+
+     public function updateExamQuestion(Request $req) {
+        // $e_id = 1;
+        $questionData =  Question::find($req['id']);
+
+        $questionData->question = htmlentities($req['question']);
+        $questionData->is_required = $req['is_required'];
+        $questionData->is_required = $req['is_required'];
+        $questionData->marks = $req['total_mark'];
+        // $questionData->is_negative_marking = $req['is_negative'];;
+        // $questionData->negative_marks = $req['negative_mark'];
+        $questionData->save();
+        foreach($questionData->Options as $key => $opData){
+          $opData->question_option =  $req['option'.++$key.''];
+          $opData->save();
+        }  
+
+        
+        // return response ()->json ( $data );
+    }
    }
 

@@ -14,7 +14,7 @@
 
 <!--Header-part-->
 <div id="header">
-  <h1><a href="dashboard.html">Matrix Admin</a></h1>
+ <a href="{{route('/')}}"> <h1>Matrix Admin</h1></a>
 </div>
 <!--close-Header-part--> 
 
@@ -42,7 +42,18 @@
       </ul>
     </li>
     <li class=""><a title="" href="#"><i class="icon icon-cog"></i> <span class="text">Settings</span></a></li>
-    <li class=""><a title="" href="login.html"><i class="icon icon-share-alt"></i> <span class="text">Logout</span></a></li>
+    <li class="">
+                                    <a class="dropdown-item" href="{{ route('logout') }}"
+                                       onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();">
+                                        Logout
+                                    </a>
+
+                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                        @csrf
+                                    </form>
+
+    </li>
   </ul>
 </div>
 

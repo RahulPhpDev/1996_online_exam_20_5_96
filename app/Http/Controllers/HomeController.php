@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
+use App\Model\Subscription;
 class HomeController extends Controller
 {
     /**
@@ -21,8 +21,15 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    public function dashboard(){
+        $title = 'Dashboard';
+        return view('admin.dashboard', compact('title'));
+    }
+
     public function index()
     {
+
         return view('home');
     }
 }

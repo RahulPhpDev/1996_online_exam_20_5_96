@@ -929,11 +929,11 @@ hr{ border-top-color:#dadada;}
 	margin-right: 13px;
 }
 .new-update .update-date {
-	color: #BBBBBB;
-	float: right;
-	margin: 4px -2px 0 0;
-	text-align: center;
-	width: 30px;
+    color: #191919;
+    float: right;
+    margin: 4px 4px 0 0px;
+    /*text-align: center;*/
+    width: 126px;
 }
 .new-update .update-date .update-day {
 	display: block;
@@ -1552,6 +1552,14 @@ body {
 }
 #sidebar .content{ display:none;}
 }
+
+.mt-10{
+  margin-top:10px;
+}
+.mt-15{
+  margin-top:15px;
+}
+
 @media (max-width: 767px) {
 body {
 	padding: 0 !important;

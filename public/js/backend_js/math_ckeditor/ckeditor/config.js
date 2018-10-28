@@ -22,7 +22,7 @@ CKEDITOR.editorConfig = function( config ) {
 		{ name: 'colors' },
 		{ name: 'tools' },
 		{ name: 'others' },
-		{ name: 'about' },
+		// { name: 'about' },
 		// { name: 'wiris',  groups : [ 'ckeditor_wiris_formulaEditor','ckeditor_wiris_formulaEditorChemistry'] } 
 	];
 

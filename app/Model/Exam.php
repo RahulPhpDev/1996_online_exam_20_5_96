@@ -13,9 +13,11 @@ class Exam extends Model
     protected $guarded = [];
     public $timestamps = false;
 
+      
 
     public function ExamQuestion(){
         $questionOutput = $this->belongsToMany(Question::class)->wherePivot('status', 1);
+        
         return $questionOutput;
     }
 

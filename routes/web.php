@@ -17,6 +17,8 @@
 // });
 
 
+//================ Guest ====================
+
 Route::get('/', [
     'as' => '/',
     'uses' => 'GuestController@index'
@@ -24,6 +26,20 @@ Route::get('/', [
 
 Route::get('/welcome', 'GuestController@index')->name('/welcome');
 Route::get('about-us', 'GuestController@aboutUs')->name('about-us');
+
+
+Route::get('package/{id}', 'GuestController@package')->name('package');
+
+Route::get('payment/{id?}', 'GuestController@payment')->name('payment');
+
+Route::group(['middleware' => ['auth']], function(){
+
+Route::get('save-package-exam/{id?}', 'Auth\UserController@savePackageExam')->name('save-package-exam');
+Route::get('subscrption-exam/{id?}', 'Auth\UserController@subscrptionExam')->name('subscrption-exam');
+
+Route::get('get-exam/{id}', 'Auth\UserController@getExam')->name('get-exam');
+
+});
 
 Route::get('/db' ,function(){
 $db = Config::get('database.connections.'.Config::get('database.default').'.database');
@@ -37,7 +53,9 @@ Route::get('/dbname', function(){
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
-
+// =========================== ADMIN ===========================
+Route::group(['middleware' => ['admin']], function(){
+    
 Route::get('/dashboard', 'HomeController@dashboard')->name('dashboard');
 
 Route::get('/course', 'Admin\CourseController@courseList')->name('course');
@@ -87,3 +105,15 @@ Route::post('exam-post-success/{id}', 'Admin\ExamController@examPostSuccess')->n
 
 Route::get('/more-question/{id}', 'Admin\ExamController@moreQuestion')->name('more-question');
 
+
+Route::get('/exam', 'Admin\ExamController@examList')->name('exam');
+
+Route::get('/exam-question/{id}', 'Admin\ExamController@examQuestion')->name('exam-question');
+
+Route::get('/edit-exam-question/{id}', 'Admin\ExamController@editExamQuestion')->name('edit-exam-question');
+
+Route::post('/updateExamQuestion','Admin\ExamController@updateExamQuestion')->name('updateExamQuestion');
+
+Route::post('/approve-user','Admin\UserController@approveUser')->name('approve-user');
+
+}) ; 

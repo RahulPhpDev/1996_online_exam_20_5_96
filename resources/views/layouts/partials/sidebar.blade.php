@@ -3,12 +3,13 @@
 <!--sidebar-menu-->
 <div id="sidebar"> <a href="#" class="visible-phone"><i class="icon icon-file"></i> Addons</a>
   <ul>
-    <li><a href="index.html"><i class="icon icon-home"></i> <span>Dashboard</span></a> </li>
+    <li><a href="{{route('dashboard')}}"><i class="icon icon-home"></i> <span>Dashboard</span></a> </li>
     <li><a href="{{route('users')}}"><i class="icon icon-user"></i> <span>User</span></a> </li>
 
     <li><a href="{{route('institution')}}"><i class="icon icon-signal"></i> <span>Institution</span></a> </li>
     <li><a href="{{route('course')}}"><i class="icon icon-signal"></i> <span>Course</span></a> </li>
     <li><a href="{{route('subscription')}}"><i class="icon  icon-reorder"></i> <span>Subscription</span></a></li>
+    <li><a href="{{route('add-exam')}}"><i class="icon  icon-reorder"></i> <span>Add Exam</span></a></li>
    <!--  
     <li><a href="grid.html"><i class="icon icon-fullscreen"></i> <span>Full width</span></a></li>
     <li class="submenu"> <a href="#"><i class="icon icon-list"></i> <span>Forms</span> <span class="label label-important">3</span></a>

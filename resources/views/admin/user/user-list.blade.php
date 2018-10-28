@@ -9,28 +9,50 @@
   width: 30%;
 }
 </style>  
+<script>
+ $(function(){ 
+    $(".approve").on("click", function(){
+        if(confirm("Are you sure to Approved?")){
+          var user_id = $(this).data('id');
+          $.ajax({
+            url:"/approve-user",
+            type: "post",
+            data: {
+               "_token": "{{ csrf_token() }}",
+               "id" : user_id 
+           },
+           success: function(succ_data) {
+                // location.reload();
+$("#user_"+user_id).html(succ_data);
+           }
+          });
+        }
+    });
+  });
+</script>
 <div id="content">
      <div class="container-fluid">
       <hr>
       
       @include('admin.messages.return-messages')
-     <a class ="btn btn-success pull-right" href="{{ route('add-course') }}">Add Course </a>
+     <a class ="btn btn-success pull-right" href="{{ route('add-user') }}">Add User </a>
     <div class="row-fluid">
       <div class="span12">
         <div class="widget-box">
           <div class="widget-title"> <span class="icon"> <i class="icon-th"></i> </span>
-            <h5>Course</h5>
+            <h5>User</h5>
           </div>
           <div class="widget-content nopadding">
             <table class="table table-bordered table-striped">
               <thead>
                 <tr>
                     <th> Id </th>
-                  <th>User Name</th>
+                  <!-- <th>User Name</th> -->
                   <th>Name</th>
                   <th>Email</th>
                   <th>User Type </th>
                   <th>Description </th>
+                  <th>Status </th>
                   <th>Edit</th>
                   <th>Delete</th>
                 </tr>
@@ -39,9 +61,13 @@
            <?php $i = 1; foreach($allData as $data) { 
 $data = get_object_vars($data);
             ?>     
-                <tr class="odd gradeX">
+
+
+
+
+                <tr class="odd gradeX" id = "user_{{$data['id']}}">
                   <td>{{$i}}</td>
-                  <td>{{$data['username']}}</td>
+                  <!-- <td>{{$data['username']}}</td> -->
                   <td>{{$data['fname'] .' '.$data['lname']}}</td>
                   <td>{{$data['email']}}</td>
                   <td>
@@ -51,7 +77,17 @@ $data = get_object_vars($data);
                      {{'Student'}}
                    @endif
                  </td>
-                  <td>  <button type="button"  class="btn btn-info btn-lg des_details" data-toggle="modal" data-target="#myModal" data-id = "{{Crypt::encrypt($data['id'])}}">Description</button> </td>
+                  <td>  <button type="button"  class="btn btn-info btn-sm des_details" data-toggle="modal" data-target="#myModal" data-id = "{{Crypt::encrypt($data['id'])}}">Description</button> </td>
+
+                   <td>
+                     @if($data['status'] == 1)
+                       <span class="text-success"> Approved </span>
+                    @else
+                    <button data-id = "{{$data['id']}}" type="button" class="btn btn-danger btn-sm text-center approve">
+                      Pending
+                    </button>
+                     @endif
+                 </td>
                   <td>
                   <a href="{{ route('edit-user', ['id' => Crypt::encrypt($data['id']) ]) }}">Edit <i class="fa fa-fw fa-arrow-circle-right"></i></a>&nbsp&nbsp
                   </td>
