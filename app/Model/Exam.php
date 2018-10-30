@@ -3,7 +3,7 @@
 namespace App\Model;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Model\ExamQuestion;
+// use App\Model\ExamQuestion;
 use App\Model\Question;
 use  App\Model\QuestionOption;
 use DB;
@@ -17,8 +17,7 @@ class Exam extends Model
 
     public function ExamQuestion(){
         $questionOutput = $this->belongsToMany(Question::class)->wherePivot('status', 1);
-        
-        return $questionOutput;
+         return $questionOutput;
     }
 
 

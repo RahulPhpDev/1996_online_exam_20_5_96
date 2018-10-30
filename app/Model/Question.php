@@ -4,6 +4,8 @@ namespace App\Model;
 
 use Illuminate\Database\Eloquent\Model;
 use  App\Model\QuestionOption;
+use  App\Model\QuestionRightAnswer;
+
 class Question extends Model
 {
    protected $table = "questions";
@@ -16,4 +18,8 @@ class Question extends Model
     	$optionData = $this->hasMany(QuestionOption::class);
     	return $optionData;
     }
+
+    public function rightAnswer(){
+	    return  $this->hasOne(QuestionRightAnswer::class,'question_id');
+	 }
 }
