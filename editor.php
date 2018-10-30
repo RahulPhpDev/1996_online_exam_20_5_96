@@ -124,3 +124,15 @@
          <a> 6</a>
          </div>
         </div>
+          
+          CREATE TABLE `user_answer` (
+  `id` int(11) NOT NULL  AUTO_INCREMENT,
+  `user_id` int(11) NOT NULL,
+  `exam_id` int(11) NOT NULL,
+  `question_id` int(11) NOT NULL,
+  `anwer_id` int(11) NOT NULL,
+  `time_taken` varchar(20) NOT NULL,
+  `status` tinyint(2) NOT NULL DEFAULT '0',
+  `marks` double NOT NULL DEFAULT '0',
+  `feedback` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
