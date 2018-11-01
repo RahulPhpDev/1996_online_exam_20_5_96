@@ -74,7 +74,7 @@ $('#update').on('click', function() {
                 <button type = "button" id="edit_1">Editor</button>
                     <br/>
                     {{-- Form::textarea('question',($test), array('id' => 'textarea','class' => 'question editor')) --}}
-                    <textarea name = "qustion" id = "textarea" class = "question editor"> <?php echo htmlspecialchars_decode($test); ?></textarea>
+                    <textarea name = "qustion" id = "textarea" class = "question editor"> <?php echo htmlspecialchars_decode($questionData->question); ?></textarea>
                 </div>
               </div>
                 @foreach($questionData->Options as $key => $options)  

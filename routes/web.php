@@ -47,10 +47,14 @@ Route::get('subscrption-exam/{id?}', 'Auth\UserController@subscrptionExam')->nam
 Route::get('get-exam/{id}', 'Auth\UserController@getExam')->name('get-exam');
 
 Route::match(array('GET','POST'),'save-answer/{id?}', 'Auth\UserController@saveAnswer')->name('save-answer');
+
+Route::get('view-result/{id}', 'Auth\UserController@viewResult')->name('view-result');
+
+
+
 });
 
 
-Route::get('view-result/{id}', 'Auth\UserController@viewResult')->name('view-result');
 
 
 Route::get('/db' ,function(){

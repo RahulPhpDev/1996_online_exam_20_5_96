@@ -104,7 +104,6 @@
       <div class="span4">
         <div class="widget-box">
           <div class="widget-title"> <span class="icon"> <i class="icon-list"></i> </span>
-            <h5>Half Width <code>class=Span6</code></h5>
           </div>
           <div class="widget-content">  <div class="widget-box collapsible">
           <div class="widget-title"> <a href="#collapseOne" data-toggle="collapse"> <span class="icon"><i class="icon-arrow-right"></i></span>
@@ -170,31 +169,6 @@
 
               </div> 
 
-              <!-- FORM -->
-               <div class="control-group">
-                  {{ Form::label('passing_mark','Passing Mark Type',array('class' => 'control-label'))}}
-                <div class="controls">
-                    {{ Form::radio('passing_mark_type', '1',true) }} Number
-                    {{ Form::radio('passing_mark_type', '2' , false) }} Percentage
-                </div>
-              </div>
-
-               <div class="control-group">
-                  {{ Form::label('passing_mark','Passing Mark',array('class' => 'control-label'))}}
-                <div class="controls">
-                    {{ Form::text('passing_mark') }}
-                </div>
-              </div>
-
-
-                <div class="controls">
-                    {{ Form::submit('Save and Continue',array('class' => 'btn btn-success')) }}
-                </div>
-
-              {{Form::close()}}
-
-
-
               </div>
            </div>
          </div>
@@ -243,7 +217,7 @@
       <div class="modal-content">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h4 class="modal-title">Modal Header</h4>
+          <h4 class="modal-title">Update Question</h4>
         </div>
         <div class="modal-body" id = "model_body">
           

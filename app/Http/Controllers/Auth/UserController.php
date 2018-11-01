@@ -55,11 +55,19 @@ class UserController extends Controller
     }
 
     public function getExam($e_id){
+      if(session()->has('exam_id')) {
+         session()->forget('exam_id');
+       }
 
-       session()->forget('exam_id');
+      if(session()->has('all_questions')) {
        session()->forget('all_questions');
+     }
+      if(session()->has('current_question')) {
        session()->forget('current_question');
+     }
+      if(session()->has('attempt_questions.queID')) {
        session()->forget('attempt_questions.queID');
+     }
 
          $id =  Crypt::decrypt($e_id);
          // echo $id;die();
@@ -157,11 +165,22 @@ class UserController extends Controller
 
      public function viewResult($exam_id){
       $false = 0;
+      
       $sessionExamId = session('exam_id');
-       session()->forget('exam_id');
+      if(session()->has('exam_id')) {
+         session()->forget('exam_id');
+       }
+
+      if(session()->has('all_questions')) {
        session()->forget('all_questions');
+     }
+      if(session()->has('current_question')) {
        session()->forget('current_question');
+     }
+      if(session()->has('attempt_questions.queID')) {
        session()->forget('attempt_questions.queID');
+     }
+
 
          $examId =  Crypt::decrypt($exam_id);
          if($examId != $sessionExamId){

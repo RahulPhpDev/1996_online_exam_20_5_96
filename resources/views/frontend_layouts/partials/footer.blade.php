@@ -6,12 +6,12 @@
     <div class="container">
         <div class="row">
             <div class="col-sm-6 col-md-4 col-sm-push-6 col-md-push-4 xs-box">
-                Time <span>23-10-2018 09:29:09 AM</span>
+                <!-- Time <span>23-10-2018 09:29:09 AM</span> -->
             </div>
             <div class="col-sm-6 col-md-4 col-sm-pull-6 col-md-pull-4">
                 <p class="copyright">&copy; Copyright 2018                    <span>Online Exam</span></p>
             </div>
-            <span>Powered by<a href="javascript::void(0)" target="_blank">MaaRula Online test</a></span>
+            <span>Powered by &nbsp;&nbsp; <a href="javascript::void(0)" target="_blank">MaaRula Online test</a></span>
         </div>
     </div>
 </footer>

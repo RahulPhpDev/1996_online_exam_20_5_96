@@ -15,15 +15,20 @@
               <div class="update-date"><strong>{{$title}}</strong></div>
               </div>
             </div>
-
+            @if($getExamData->Subscriptions())
             <div class="new-update clearfix"><i class="icon-ok-sign"></i>
               <div class="update-done"><strong>
                 Exam Package
               </strong>
               </div>
-              <div class="update-date"><span class="update-day"><strong>Platinum</strong></span></div>
+              <div class="update-date"><span class="update-day"><strong>
+          <?php foreach($getExamData->Subscriptions as $name){
+                echo $name->name;
+              }
+            ?>
+        </strong></span></div>
             </div>
-
+          @endif
             <div class="new-update clearfix"><i class="icon-ok-sign"></i>
               <div class="update-done"><strong>
                 Total Questions

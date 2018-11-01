@@ -28,7 +28,7 @@
                   <th>Name</th>
                   <th>Duration</th>
                   <th>Price</th>
-                  <th>Description</th>
+                  <!-- <th>Description</th> -->
                   <th>Edit</th>
                   <th>Delete</th>
                 </tr>
@@ -37,9 +37,17 @@
                 @foreach($allData as $data)
                 <tr class="gradeX">
                   <td>{{$data['name']}}</td>
-                  <td>{{$data['duration']}}</td>
+                  <td>
+                    @if($data['isDatePermit'] == 0)
+                     {{$data['duration']}}
+                    @else
+
+              {{ $data['start_date'].' To '.$data['end_date']}}
+                    @endif
+
+                 </td>
                   <td>{{$data['price']}}</td>
-                  <td class="center"><?php echo htmlspecialchars_decode($data['description']); ?></td>
+                 <!--  <td class="center"><?php// echo htmlspecialchars_decode($data['description']); ?></td> -->
                   <td class="center">Edit</td>
                   <td class="center">Delete</td>
                   

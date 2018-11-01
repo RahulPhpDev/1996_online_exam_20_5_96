@@ -33,7 +33,7 @@
       
       var thisId = $(this).attr("id");
       i++;
-      if(i < 11){
+      if(i < 6){
       $.ajax({
         type : "get",
         url: "/more-question/"+i,
@@ -43,7 +43,7 @@
           }
         });
       }else{
-        alert('can not add more than 10 question');
+        alert('can not add more than 5 question At One Time Please Click Save and Continue Button');
       }
     });
   });

@@ -124,9 +124,9 @@
 		<div class="container home">
 			<div class="top-bg-overlay-fill"></div>
 			<div class="lb-content text-center">
-				<h1 class="text-center font_bold m0" style="color: #fff"> Edu Expression</h1>
+				<h1 class="text-center font_bold m0" style="color: #fff"> Maarula Online Exam</h1>
 				<p class="text-center" style="color: #fff"><p>The most Powerful Examination Engine on Envato. Try Edu Expression today. Visit EduExpression.com for more information or details.</p></p>
-				<a href="Registers.html" data-redirect-url="/tests" class="btn btn-success h-btn mar-b8 mar-h4 js-tb-signup-anchor">Get Started For Free</a>
+				<!-- <a href="Registers.html" data-redirect-url="/tests" class="btn btn-success h-btn mar-b8 mar-h4 js-tb-signup-anchor">Get Started For Free</a> -->
 			</div>
 		</div>	
 		<div class="mb50"></div>
@@ -137,14 +137,14 @@
 				<div class="mb50"></div>
 									<div class="col-xs-12 header">
 						<h2 class="text-center font_bold m0">
-							The most powerful Online examination System 						</h2>
-						<p class="homehedp text-center">Edu Expression Enables you to conduct flexible online examination system with ease. Powerful system, dozen of settings, native mobile app and secure frame work make the software stand different in crowd.</p>
+							Try This Online examination System 						</h2>
+						<p class="homehedp text-center">Maarula Online Exam Portal  Enables you to conduct flexible online examination system with ease.where you can explore your knowledge, </p>
 					</div>
 										<!-- filter -->
 										<div class="col-xs-12 text-center">
 						<div class="filter">
 							<div class="btn-group">			
-								<a href="#" class="btn btn-success">Latest Packages</a>	
+								<!-- <a href="#" class="btn btn-success">Latest Packages</a> -->	
 							</div>
 						</div>
 					</div>
@@ -165,14 +165,15 @@
 					</div>
 					<div class="col-xs-12 text-center">
 						<div class="filter">
-							<div class="btn-group">			
-								<a href="Packages.html" class="btn btn-success">Show All</a>
+							<div class="btn-group">	
+									
+							<!-- 	<a href="Packages.html" class="btn btn-success">Show All</a> -->
 							</div>
 						</div>
 					</div>
 								</div>
 		</section>
-	<section class="section mycontainer" style="background-color: #f6f8fa;">
+	<!-- <section class="section mycontainer" style="background-color: #f6f8fa;">
 	<div class=" home">
 		<div class="mb50"></div>
 			<div class="flexslider ss" style="background: #f6f8fa;">
@@ -195,10 +196,10 @@
 			</div>
 		<div class="mb50"></div>
 	</div>
-</section>
+</section> -->
 
 
-<section class="section mycontainer" style="background-color: #f6f8fa;">
+<!-- <section class="section mycontainer" style="background-color: #f6f8fa;">
 	<div class="mb50"></div>
 	<div class="mb50"></div>
 		<div class="container home">
@@ -346,9 +347,9 @@
 
 		</div>	
 	<div class="mb50"></div>
-</section>
+</section> -->
 
-<section class="section mycontainer">
+<!-- <section class="section mycontainer">
 	<div class="container ">
 		<div class="mb50"></div>
 		<div class="row col-p30">
@@ -377,7 +378,7 @@
 		</div>
 		<div class="mb50"></div>
 	</div>
-</section>
+</section> -->
 
 <style type="text/css">
 	.top-bg-overlay-fill {
@@ -398,7 +399,7 @@
 			<div class="lb-content text-center">
 				<h1 class="text-center font_bold m0" style="color: #fff;">Start Your Exam Preparation Now!</h1>
 				<p class="text-center" style="color: #fff">PRACTICE, ANALYZE AND IMPROVE!</p>
-				<a href="Registers.html" data-redirect-url="/tests" class="btn btn-success h-btn mar-b8 mar-h4 js-tb-signup-anchor">Get Started For Free</a>
+				<!-- <a href="Registers.html" data-redirect-url="/tests" class="btn btn-success h-btn mar-b8 mar-h4 js-tb-signup-anchor">Get Started For Free</a> -->
 			</div>
 		</div>	
 		<div class="mb50"></div>
@@ -406,7 +407,7 @@
 </section>
 
 
-<section class="section mycontainer">
+<!-- <section class="section mycontainer">
 	<div class="mb50"></div>
 		<div class="container home">
 			<div class="col-sm-12">
@@ -425,7 +426,7 @@
 	    </div>
 		
 	<div class="mb50"></div>
-</section>
+</section> -->
 
 
 

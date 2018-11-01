@@ -61,7 +61,7 @@
         
         <div class="report_section">
 
-         <span class=""> <h2> Name: Rahullfgds </h2> </span>
+         <span class=""> <h2> Total Question </h2> </span>
 
            <!-- <div class="col-md-3">
               <a class="answered"> 1 </a>

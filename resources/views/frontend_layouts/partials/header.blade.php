@@ -5,7 +5,7 @@
 @include('frontend_layouts.partials.fetch_css')  
  @include('frontend_layouts.partials.fetch_js')
 <head>
-        <title>Online Exam :: @yield('title')</title><meta charset="UTF-8" />
+        <title>Maarula Online Exam</title><meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />   
     </head>
     <body>
@@ -60,9 +60,21 @@
     <a href="{{route('about-us')}}"><i class="fa fa-globe"></i>&nbsp;About Us</a>
 		
 	</li>
-	<li><a href="Packages/index/index.html"><i class="fa fa-shopping-cart"></i>&nbsp;Packages</a></li>
+	<li><a href="javascript::void(0)"><i class="fa fa-shopping-cart"></i>&nbsp;Packages</a></li>
+    @if( !(Auth::user()))
 	<li><a href="{{route('register')}}"><i class="fa fa-user"></i>&nbsp;Register</a></li>
 	<li><a href="{{route('login')}}"><i class="fa fa-lock"></i>&nbsp;Login</a></li>
+        
+        @else
+   <li> 
+    <a href="{{ route('logout') }}" onclick="event.preventDefault();document.getElementById('logout-form').submit();"><i class="fa fa-lock"></i> 
+        Logout 
+                </a>
+            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                @csrf
+            </form>
+        </li>
+       @endif
 </ul>
                                 </nav>
                                 </nav>

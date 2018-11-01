@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 // use App\Model\ExamQuestion;
 use App\Model\Question;
 use  App\Model\QuestionOption;
+use  App\Model\Subscription;
 use DB;
 
 class Exam extends Model
@@ -94,5 +95,12 @@ class Exam extends Model
         $res = $this->belongsToMany(Exam::class,'user_exam')->wherePivot('status' , "=", 1);
         // dd($res);
         return $res;
+    }
+
+     public function Subscriptions(){
+      $res = $this->belongsToMany(Subscription::class)->withPivot(['status'])->where('exam_subscription.status','=' ,1);
+          // return $this->belongsToMany('Budget')->where('training_id', '=', $training_id);
+
+      return $res;
     }
 }
