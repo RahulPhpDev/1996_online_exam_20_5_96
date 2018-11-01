@@ -83,5 +83,16 @@ class Exam extends Model
          
           return $result;
   		 }
-    
+
+    public function UserExam(){
+      // echo $userId;
+      // where(array(['exam_id', "=",$id], ['eq.status' , "=", 1]));
+        // $whereCondition = [
+        //     'user_id' , "=", $userId,
+        //     'exam_id', "=", $examID,
+        // ];
+        $res = $this->belongsToMany(Exam::class,'user_exam')->wherePivot('status' , "=", 1);
+        // dd($res);
+        return $res;
+    }
 }

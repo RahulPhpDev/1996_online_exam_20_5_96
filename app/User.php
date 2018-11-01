@@ -49,8 +49,8 @@ protected $guarded = array();
 
     public function Exam(){
         $res = $this->belongsToMany(Exam::class,'user_exam')->withPivot(['status'])->where('user_exam.status','=' ,1);
-          
-
         return $res;
     }
+
+    
 }
