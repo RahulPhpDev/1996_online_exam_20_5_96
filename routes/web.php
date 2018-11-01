@@ -18,6 +18,12 @@
 
 
 //================ Guest ====================
+Route::get('session', 'GuestController@sessionTest')->name('session');
+
+Route::get('nextSession', 'GuestController@nextSession')->name('nextSession');
+
+Route::get('checkSession', 'GuestController@checkSession')->name('checkSession');
+
 
 Route::get('/', [
     'as' => '/',
@@ -35,12 +41,17 @@ Route::get('payment/{id?}', 'GuestController@payment')->name('payment');
 Route::group(['middleware' => ['auth']], function(){
 
 Route::get('save-package-exam/{id?}', 'Auth\UserController@savePackageExam')->name('save-package-exam');
+
 Route::get('subscrption-exam/{id?}', 'Auth\UserController@subscrptionExam')->name('subscrption-exam');
 
 Route::get('get-exam/{id}', 'Auth\UserController@getExam')->name('get-exam');
 
-Route::match(array('GET','POST'),'save-answer/{id}', 'Auth\UserController@saveAnswer')->name('save-answer');
+Route::match(array('GET','POST'),'save-answer/{id?}', 'Auth\UserController@saveAnswer')->name('save-answer');
 });
+
+
+Route::get('view-result/{id}', 'Auth\UserController@viewResult')->name('view-result');
+
 
 Route::get('/db' ,function(){
 $db = Config::get('database.connections.'.Config::get('database.default').'.database');

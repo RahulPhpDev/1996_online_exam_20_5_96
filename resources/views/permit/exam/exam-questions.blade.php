@@ -4,7 +4,18 @@
 @extends('frontend_layouts.partials.sidebar')
 @extends('frontend_layouts.partials.footer')
 
-@section('content')  
+@section('content') 
+
+<script src='https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
+  <script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [['$','$'], ['\\(','\\)']],
+      ignoreClass: "math-editor" // put this here
+    }
+  });
+</script>
+
   <div class="maincontent">
     <section class="section">
       <div class="container">
@@ -12,22 +23,23 @@
            <div class = "col-md-7">
            <div class="mycontainer question_section">
              <div class = "questions">
-                <span>  {{ $questionDetails->question}}  </span>
+                <span> <?php echo htmlspecialchars_decode($questionDetails->question); ?> </span>
              </div> 
            
-             {{ Form::open(array('route' => ['save-answer', $id],'class' => 'form-horizontal', 'id'=>'basic_validate'))}} 
-                
-             <input type = "hidden" value = "{{$nextQuestionId}}" name = "nxt">
-                <input type = "hidden" value = "{{$questionDetails->id}}" name = "questionId">
+          {{-- Form::open(array('route' => ['save-answer',$examId],'class' => 'form-horizontal', 'id'=>'basic_validate'))--}} 
 
+ {{ Form::open(array('route' => 'save-answer','class' => 'form-horizontal', 'id'=>'basic_validate'))}} 
               <div class = "options">
                 @foreach($questionDetails->Options as $data)
                  <div class = "opt_data">
                     <input type ="radio" class ="rdo_opt" name = "answer" value = "{{$data['id']}}"> 
-                    <span class = "options_span">  {{$data->question_option}} </span> 
+                    <span class = "options_span"> 
+                       {{$data->question_option}}
+                      </span> 
                 </div>
                 @endforeach
               </div>
+
 
               
              <div class = "mt-10"> </div>
