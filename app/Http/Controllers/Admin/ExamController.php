@@ -88,6 +88,8 @@ class ExamController extends Controller
          $id =  Crypt::decrypt($id);
          $getExamData =    Exam::findOrFail($id);
          $title = $getExamData['exam_name'];
+
+
          // dd($getExamData);
          return view('admin.exam.add-exam-question',compact('getExamData','id'))->with('title',$title);
        }
@@ -141,7 +143,7 @@ class ExamController extends Controller
             foreach($questionArray as $qk => $qv){
                $total_per_question = 0;
                 if(isset($request['total_mark'][$qk])){
-                  $total_per_question = 0;
+                  $total_per_question = $request['total_mark'][$qk];
                 }
                $isRequired = (isset($request['is_required'][$qk])) ? 1 : 0;
                $is_negative = (isset($request['is_negative'][$qk])) ? 1 : 0;
@@ -268,7 +270,7 @@ class ExamController extends Controller
     //    }  
     // //    die('here');
     //    dd($questionData);
-    $title = 'Yes';
+    $title =  'Yes';
     return view('admin.exam.edit-exam-question', compact('questionData','title','e_id'));
 
      }
