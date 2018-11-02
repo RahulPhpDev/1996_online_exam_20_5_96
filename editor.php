@@ -1,138 +1,283 @@
 
 
-  <meta charset="UTF-8" />
-  <title>Maths Equations</title>
-<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> -->
-  <script src='https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
-  <script>
 
 
-  var newMathJax = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js';
-  var oldMathJax = 'cdn.mathjax.org/mathjax/latest/MathJax.js';
-  
-  MathJax.Hub.Config({
-  tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
-});
-  </script>
-</head>
-<body>
+<!-- =========================================== NEW =============================== -->
 
-  <p><math xmlns="http://www.w3.org/1998/Math/MathML"><mn>162</mn></math>162</p>
-</body>
-</html>
-
- <div class = "col-md-8"> dgfdsfsda</div>
-        <style type="text/css">
-        .report{
-            background-color: #cce0ff;
-            /*border:1px solid black;*/
-            padding:30px 20px 25px 20px;
-              box-shadow: 0 0 10px rgba(0,0,0,0.6);
-    -moz-box-shadow: 0 0 10px rgba(0,0,0,0.6);
-    -webkit-box-shadow: 0 0 10px rgba(0,0,0,0.6);
-    -o-box-shadow: 0 0 10px rgba(0,0,0,0.6);
-/*none|h-offset v-offset blur spread color |inset|initial|inherit;*/
+<div class="row-fluid">
+  <div class="span8">
+    <div class="quiz">
+      <div class="quiz_header">
+       
+        <h5>Dummy</h5>
+      </div>
+      <style type="text/css">
+      .quiz{
+        background: #fff;
+      }
+      .quiz_header{
+        padding:10px 0px 2px 10px;
+        font-size:32px;
+      }
+        .show_question{
+          /*border:1px solid red;*/
+          margin:10px;
+          padding:10px;
+          font-size: 15px;
+           border: 1px dotted transparent;
+          display: block;
+          box-shadow: 0px 0px 0px 1px rgba(0, 0, 1, 0.1);
         }
-            .report_section a {
-                    border: 1px solid #404040;
-                    padding: 8px 12px 7px 12px;
-                    line-height: 15px;
-                    border-radius: 30%;
-                    margin-top: 10px;
-                    display: block;
-                    text-align: center;
-                    font-size: 18px;
-                    color: #6666ff;
-                    font-weight: 620;
-                     /*background: #fff;*/
-                }
-
-                .answered{
-                    /*border: 2px solid #993300 !important;*/
-                    background: #00cc00;
-                    color:#ffffff !important;
-                    border:none !important;
-                 /* border-bottom:5px solid #666 !important;
-                  border-left: 2px solid transparent !important; 
-                 border-right: 5px solid transparent!important;
-                   */
-                  border-radius:30% !important;
-                }
-
-                .answered_escape{
-                       background: #ff7733;
-                    color:#ffffff !important;
-                     border:none !important;
-                }
-        </style>
-
-        <div class="col-sm-4 report">
+        .question_data{
+          /*display: inline;*/
         
-        <div class="report_section">
+         margin-top:20px;
+        }
+        .inline{
+          display: inline-block;
+        }
+        .question_serial{
+          padding:10px;
+        }
+        .question{
 
-         <span class=""> <h2> Name: Rahull </h2> </span>
-
+          font-size:17px;
+           letter-spacing: 0.5px;
+        }
+        .options_div{
          
+          padding:2px 0px 2px 40px;
+        }
+          .options i{
+              color: green;
+              position: absolute;
+          }
+        .options a{
+          padding-left:25px;
+         line-height:32px;
+        }
+        i .required_question{
+          /*position: absolute;*/
+          margin-top:-30px;
+        }
+        .other_question_information a{
+          /*display: inline;*/
 
-         <div class="col-md-3">
-          <a class="answered"> 1 </a>
-         </div>
-         <div class="col-md-3">
-        <a class="answered_escape"> 2 </a>
-         </div>
-         <div class="col-md-3">
-         <a class=""> 3 </a>
-         </div> <div class="col-md-3">
-         <a>4</a>
-         </div>
-         <div class="col-md-3">
-        <a> 5</a>
-         </div>
-         <div class="col-md-3">
-         <a> 6</a>
-         </div><div class="col-md-3">
-          <a> 1 </a>
-         </div>
-         <div class="col-md-3">
-        <a> 2 </a>
-         </div>
-         <div class="col-md-3">
-         <a> 3 </a>
-         </div> <div class="col-md-3">
-         <a>4</a>
-         </div>
-         <div class="col-md-3">
-        <a> 5</a>
-         </div>
-         <div class="col-md-3">
-         <a> 6</a>
-         </div><div class="col-md-3">
-          <a> 1 </a>
-         </div>
-         <div class="col-md-3">
-        <a> 2 </a>
-         </div>
-         <div class="col-md-3">
-         <a> 3 </a>
-         </div> <div class="col-md-3">
-         <a>4</a>
-         </div>
-         <div class="col-md-3">
-        <a> 5</a>
-         </div>
-         <div class="col-md-3">
-         <a> 6</a>
-         </div>
+          padding-left:50px;
+        }
+        .other_question_information span{
+          padding-left:8px;
+        }
+        .show_question:hover {
+        /*box-shadow: 0 0 11px rgba(33,33,33,.2); */
+        border:1px dotted rgba(0, 0, 1, 0.1);
+         background: #ededed;
+        /*box-shadow: 0px 0px 0px 1px rgba(0, 0, 0, 0);*/
+      }
+      .marks, .negative_marks {
+        background: none repeat scroll 0 0 #E1E1E1;
+        border-radius: 3px 3px 3px 3px;
+        border: 1px solid #E1E1E1;
+        /*float: ;*/
+        font-size: 12px;
+        margin-bottom: 10px;
+        padding: 3px 10px;
+        text-shadow: none;
+        margin-right: 7px;
+    }
+     .negative_marks{
+       background: none repeat scroll 0 0 orange;
+       /*padding:0px 10px ;*/
+       margin-left:5px;
+    }
+      </style>
+      
+
+      <div class="show_question">
+
+          <input name="_token" type="hidden" value="3zFDsalPBpf2LoZdeDnvYZb2GsQMMB6zC3aWsLT6">
+            <div class="question_data">
+              <span class="question_number"> Q 1 : </span>
+              <span class="inline question">
+                <p>
+                  <strong>what is 2 + 4 = ?</strong>
+                </p>
+              </span>
+              <i class="icon-star text-error required_question" style="display: inline"></i>
+            </div>
+            <!-- style="column-count: 2;" -->
+
+            <div class="options_div">
+                    <div class = "options" id = "option_question_id">
+                     <a> 2 </a>  
+                    </div> 
+                    <div class = "options" id = "option_question_id">
+                    <i class = "icon icon-ok"> </i> <a> 2 </a>  
+                    </div>
+                     <div class = "options" id = "option_question_id">
+                     <a> 2 </a>  
+                    </div>
+                     <div class = "options" id = "option_question_id">
+                     <a> 2 </a>  
+                    </div>
+                               
+               </div>
+
+           <div class = "other_question_information">
+                <div class="marks inline">
+                   Marks:    5 
+                </div>
+               <div class="negative_marks inline">
+                      Negative Marks:   5 
+                 </div>  
+             </div> 
+
+            </div>
+
+
+
+        <div class="show_question">
+
+          <input name="_token" type="hidden" value="3zFDsalPBpf2LoZdeDnvYZb2GsQMMB6zC3aWsLT6">
+            <div class="question_data">
+              <span class="question_number"> Q 1 : </span>
+              <span class="inline question">
+                <p>
+                  <strong>what is 2 + 4 = ?</strong>
+                </p>
+              </span>
+              <i class="icon-star text-error required_question" style="display: inline"></i>
+            </div>
+            <!-- style="column-count: 2;" -->
+
+            <div class="options_div">
+                    <div class = "options" id = "option_question_id">
+                     <a> 2 </a>  
+                    </div> 
+                    <div class = "options" id = "option_question_id">
+                    <i class = "icon icon-ok"> </i> <a> 2 </a>  
+                    </div>
+                     <div class = "options" id = "option_question_id">
+                     <a> 2 </a>  
+                    </div>
+                     <div class = "options" id = "option_question_id">
+                     <a> 2 </a>  
+                    </div>
+                               
+               </div>
+              <div class = "other_question_information">
+                <div class="marks inline">
+                   Marks:    5 
+                </div>
+               <div class="negative_marks inline">
+                      Negative Marks:   5 
+                 </div>  
+             </div>  
+            </div>
         </div>
-          
-          CREATE TABLE `user_answer` (
-  `id` int(11) NOT NULL  AUTO_INCREMENT,
-  `user_id` int(11) NOT NULL,
-  `exam_id` int(11) NOT NULL,
-  `question_id` int(11) NOT NULL,
-  `anwer_id` int(11) NOT NULL,
-  `time_taken` varchar(20) NOT NULL,
-  `status` tinyint(2) NOT NULL DEFAULT '0',
-  `marks` double NOT NULL DEFAULT '0',
-  `feedback` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+      </div>
+
+           <div class="span3" style="border:1px solid red;">
+              <div class="widget-box collapsible">
+          <div class="widget-title"> <a href="#collapseOne" data-toggle="collapse"> <span class="icon"><i class="icon-arrow-right"></i></span>
+            <h5>Other Information</h5>
+            </a>
+          </div>
+          <div class="collapse in" id="collapseOne">
+            <div class="widget-content">
+               <div class="row">
+
+
+                <div class="span4">
+                   <ul class="recent-posts">
+                    <li>
+                      <div class="article-post" style="padding:10px">
+                        Total Question
+                      <div class="fr">
+                        10
+                        </div>
+                      </div>
+                    </li>              
+                  </ul>
+               </div>
+
+                <div class="span4">
+                   <ul class="recent-posts">
+                    <li>
+                      <div class="article-post" style="padding:10px">
+                        Total Mark
+                      <div class="fr">
+                         30
+                        </div>
+                      </div>
+                    </li>              
+                  </ul>
+               </div>
+
+                <div class="span4">
+                   <ul class="recent-posts">
+                    <li>
+                      <div class="article-post" style="padding:10px">
+                        Required Question
+                      <div class="fr">
+                          2
+                        </div>
+                      </div>
+                    </li>              
+                  </ul>
+               </div>
+
+               <div class="span4">
+                   <ul class="recent-posts">
+                    <li>
+                      <div class="article-post" style="padding:10px">
+                        Total Negative Question
+                      <div class="fr">
+                         3
+                        </div>
+                      </div>
+                    </li>              
+                  </ul>
+               </div>
+
+              </div> 
+
+              <!-- FORM -->
+               <div class="control-group">
+               <label class="control-label"> Passing Mark Type</label>
+                
+                <div class="controls">
+                <input type = "radio" name = "passing_mark_type" id = "passing_mark_type" value="1"> Number
+                <input type = "radio" name = "passing_mark_type" id = "passing_mark_type" value="2"> Number
+                  
+                </div>
+              </div>
+
+               <div class="control-group">
+                  <label class="control-label"> Passing Mark</label>
+                <div class="controls">
+                    <input type = "text" name = "passing_mark" id = "passing_mark">
+                </div>
+              </div>
+
+
+                <div class="controls">
+                    <input type = "submit" class="btn btn-success"> Save And Continue 
+                </div>
+
+              {{Form::close()}}
+              </div> 
+
+             </div>
+          </div>
+         </div>
+         </div>
+       </div>
+         </div>
+
+
+    </div>
+
+
+
+<!-- ===============================================END New ================================ -->
