@@ -85,12 +85,7 @@
                 </div>
               </div>
 
-              <div class="control-group">
-                  {{ Form::label('enroll','Enrollment Number',array('class' => 'control-label'))}}
-                <div class="controls">
-                    {{ Form::text('enroll_number') }}
-                </div>
-              </div>
+              
 
                <div class="control-group">
                   {{ Form::label('start_date','Join Date',array('class' => 'control-label'))}}
@@ -107,6 +102,29 @@
               </div>
                   
           </div>
+
+          <div class="control-group">
+                {{ Form::label('password','Password',array('class' => 'control-label'))}}
+                <div class="controls">
+                  <input id="password" type="password" class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" name="password" required>
+
+                        @if ($errors->has('password'))
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $errors->first('password') }}</strong>
+                            </span>
+                             @endif
+                </div>
+              </div>
+
+           <div class="control-group">
+               {{ Form::label('confirm_password','Confirm Password',array('class' => 'control-label'))}}
+                <div class="controls">
+                     <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required>   
+                </div>
+              </div>   
+
+          
+
 
                 <div class="control-group">
                   

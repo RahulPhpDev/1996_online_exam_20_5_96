@@ -28,82 +28,160 @@
     <hr>
       @include('admin.messages.return-messages')
     
-    <div class="row-fluid">
-      <div class="span12">
-        <div class="widget-box">
-          <div class="widget-title"> <span class="icon"> <i class="icon-th"></i> </span>
-            <h5>{{$title}}</h5>
-          </div>
-          
-          <div class="widget-content nopadding">
-            
-               {{ Form::open(array('route' => ['save-confirm-exam', $id],'class' => 'form-horizontal', 'id'=>'basic_validate'))}}
-               <?php 
-               $totalQuestion = $totalMark = $totalRequiredQuestion = $totalNegativeQuestion = 0; 
+    
+<div class="row-fluid">
+  <div class="span8">
+    <div class="quiz">
+      <div class="quiz_header">
+       
+        <h5>{{$title}}</h5>
+      </div>
+      <style type="text/css">
+      .quiz{
+        background: #fff;
+      }
+      .quiz_header{
+        padding:10px 0px 2px 10px;
+        font-size:32px;
+      }
+        .show_question{
+          /*border:1px solid red;*/
+          margin:10px;
+          padding:10px;
+          font-size: 15px;
+           border: 1px dotted transparent;
+          display: block;
+          box-shadow: 0px 0px 0px 1px rgba(0, 0, 1, 0.1);
+        }
+        .question_data{
+          /*display: inline;*/
+        
+         margin-top:20px;
+        }
+        .inline{
+          display: inline-block;
+        }
+        .question_serial{
+          padding:10px;
+        }
+        .question{
 
-               foreach($examQuestion['question'] as $que) { 
+          font-size:17px;
+           letter-spacing: 0.5px;
+        }
+        .options_div{
+         
+          padding:2px 0px 2px 40px;
+        }
+          .options i{
+              color: green;
+              position: absolute;
+          }
+        .options a{
+          padding-left:25px;
+         line-height:32px;
+        }
+        i .required_question{
+          /*position: absolute;*/
+          margin-top:-30px;
+        }
+        .other_question_information a{
+          /*display: inline;*/
+
+          padding-left:50px;
+        }
+        .other_question_information span{
+          padding-left:8px;
+        }
+        .show_question:hover {
+        /*box-shadow: 0 0 11px rgba(33,33,33,.2); */
+        border:1px dotted rgba(0, 0, 1, 0.1);
+         background: #ededed;
+        /*box-shadow: 0px 0px 0px 1px rgba(0, 0, 0, 0);*/
+      }
+      .marks, .negative_marks {
+        background: none repeat scroll 0 0 #E1E1E1;
+        border-radius: 3px 3px 3px 3px;
+        border: 1px solid #E1E1E1;
+        /*float: ;*/
+        font-size: 12px;
+        margin-bottom: 10px;
+        padding: 3px 10px;
+        text-shadow: none;
+        margin-right: 7px;
+    }
+     .negative_marks{
+       background: none repeat scroll 0 0 orange;
+       /*padding:0px 10px ;*/
+       margin-left:5px;
+    }
+      </style>
+      
+
+      
+          <?php 
+               $totalQuestion = $totalMark = $totalRequiredQuestion = $totalNegativeQuestion = 0; 
+                foreach($examQuestion['question'] as $que) { 
                 $totalQuestion++;
                 $totalMark = $totalMark + $que['question']->marks;
-
-                 ?>
-                
-                <div class="control-group ">
-                  <span class=" control-label span2"> Q 1 : </span>
-
-                    <span class=" control-label span6">
-                   <?php echo  htmlspecialchars_decode($que['question']->question); ?>
-                  </span>
-                  @if($que['question']->is_required == 1)
-                  <?php
-                  $totalRequiredQuestion++;
                   ?>
-                      <i class="icon-star text-error required_question" style="display: inline;bottom:20px"></i>
-                  @endif
+         <div class="show_question">  
+            <div class="question_data">
+              <span class="question_number"> Q 1 : </span>
+              <span class="inline question">
+                <p>
+                 <?php echo  htmlspecialchars_decode($que['question']->question); ?>
+                </p>
+              </span>
+              <i class="icon-star text-error required_question" style="display: inline"></i>
+            </div>
+         
 
-              </div>
-               <!-- style="column-count: 2;" -->
+            <div class="options_div">
+              <?php foreach($que['options'] as $options) { ?>
+                    <div class = "options" id = "option_question_id">
+                      <?php if($que['right_anser']->option_id ==  $options->id ) {  ?>
+                      <i class = "icon icon-ok"> </i> 
+                      <?php } ?>
 
-                <div class="control-group ">
-                  <?php foreach($que['options'] as $options) { ?> 
-                   <div class="">
-                     <div class="control-label">
-                        <?php if($que['right_anser']->option_id ==  $options->id ) {  ?> 
-                           <span class=""> <i class="icon-ok text-success"></i></span>
-                        <?php } ?>
-                      <?php echo   $options->question_option; ?>
-                    </div>
-                  </div>
-                  <?php } ?>
+                     <a> <?php echo   $options->question_option; ?> </a>  
+                    </div> 
+                    <?php } ?> 
+            </div>
+
+           <div class = "other_question_information">
+                <div class="marks inline">
+                   Marks:   <?php echo $que['question']->marks; ?> 
                 </div>
+                   @if($que['question']->is_negative_marking == 1) 
+                    <?php
+                    $totalNegativeQuestion++;
+                    ?>
 
-                <div class="control-group ">
-                    <label class=" control-label"> Marks: </label> 
-                      <div class=" controls" style="margin-top:8px ">
-                     <?php echo $que['question']->marks; ?>
-                    </div>
-               </div>
+               <div class="negative_marks inline">
+                      Negative Marks:    <?php echo $que['question']->marks; ?> 
+                 </div>  
 
-              @if($que['question']->is_negative_marking == 1) 
-              <?php
-              $totalNegativeQuestion++;
-              ?>
-               <div class="control-group ">
-                    <label class=" control-label"> Negative Marks: </label> 
-                      <div class=" controls" style="margin-top:8px ">
-                     <?php echo $que['question']->marks; ?>
-                    </div>
-               </div>
               @endif 
-
+            </div> 
+            </div>
               <?php } ?>
 
-       <div class="widget-box collapsible">
+
+
+      
+        </div>
+      </div>
+
+           <div class="span4" >
+              <div class="widget-box collapsible">
           <div class="widget-title"> <a href="#collapseOne" data-toggle="collapse"> <span class="icon"><i class="icon-arrow-right"></i></span>
             <h5>Other Information</h5>
             </a>
           </div>
           <div class="collapse in" id="collapseOne">
             <div class="widget-content">
+               {{ Form::open(array('route' => ['save-confirm-exam', $id],'class' => '', 'id'=>'basic_validate'))}}
                <div class="row">
 
 
@@ -126,7 +204,7 @@
                       <div class="article-post" style="padding:10px">
                         Total Mark
                       <div class="fr">
-                          {{$totalMark}}
+                         {{$totalMark}}
                         </div>
                       </div>
                     </li>              
@@ -139,7 +217,7 @@
                       <div class="article-post" style="padding:10px">
                         Required Question
                       <div class="fr">
-                          {{$totalRequiredQuestion}}
+                         {{$totalRequiredQuestion}}
                         </div>
                       </div>
                     </li>              
@@ -163,17 +241,19 @@
 
               <!-- FORM -->
                <div class="control-group">
-                  {{ Form::label('passing_mark','Passing Mark Type',array('class' => 'control-label'))}}
+               <label class="control-label"> Passing Mark Type</label>
+                
                 <div class="controls">
-                    {{ Form::radio('passing_mark_type', '1',true) }} Number
-                    {{ Form::radio('passing_mark_type', '2' , false) }} Percentage
+                <input type = "radio" name = "passing_mark_type" id = "passing_mark_type" value="1" checked=""> Number
+                <input type = "radio" name = "passing_mark_type" id = "passing_mark_type" value="2"> Number
+                  
                 </div>
               </div>
 
                <div class="control-group">
-                  {{ Form::label('passing_mark','Passing Mark',array('class' => 'control-label'))}}
+                  <label class="control-label"> Passing Mark</label>
                 <div class="controls">
-                    {{ Form::text('passing_mark') }}
+                    <input type = "text" name = "passing_mark" id = "passing_mark">
                 </div>
               </div>
 
@@ -190,7 +270,11 @@
          </div>
          </div>
        </div>
+         </div>
+
+
     </div>
+
 </div>
 <script src="{{ asset('js/backend_js/math_ckeditor/ckeditor/ckeditor.js') }}"></script>
 
