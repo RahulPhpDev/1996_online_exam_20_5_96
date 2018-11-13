@@ -11,6 +11,7 @@ use Illuminate\Database\QueryException;
 use App\Service\PayUService\Exception;
 use App\Http\Requests\UserRequest; #form-validation
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 
 use Illuminate\Support\Facades\Crypt;
 class UserController extends Controller
@@ -43,14 +44,34 @@ class UserController extends Controller
 		return view('admin.user.add-user',compact('title','allCourse'));
     }
 
-    public function saveUser(Request $request){
+ // protected function validator(array $data)
+ //    {
+       
+ //        return Validator::make($data, [
+ //            'fname' => 'required|string|max:255',
+ //            'lname' => 'required|string|max:255',
+ //            'email' => 'required|string|email|max:255|unique:users',
+ //        //    'enrollment' => 'required|regex:/(^[A-Za-z0-9 ]+$)+/|max:255|unique:students,enroll_number',
+ //            'password' => 'required|string|min:6|confirmed',
+ //        ]);
+ //    }
+
+    public function  saveUser(Request $request){
     	// echo '<pre>';print_r($request->all());die();
     	try{
+
+        //  return Validator::make($request, [
+        //     'fname' => 'required|string|max:255',
+        //     'lname' => 'required|string|max:255',
+        //     'email' => 'required|string|email|max:255|unique:users',
+        // //    'enrollment' => 'required|regex:/(^[A-Za-z0-9 ]+$)+/|max:255|unique:students,enroll_number',
+        //     'password' => 'required|string|min:6|confirmed',
+        // ]);
 
  // $plan = 123; // some logic to decide user's 
 
 		$userData = array(
-			'password' => bcrypt('12345'),
+		      	'password' => bcrypt($request['password']),
             'status' => 1,
             'add_date' => date("Y-m-d"),
             'username' => $request['username'],
@@ -70,7 +91,7 @@ class UserController extends Controller
 	        	$stuData = array(
 	        		'user_id' => $lastInsertedId,
 	        		'course_id' =>  $request['course_id'],
-	        		'enroll_number' => $request['enroll_number'],
+	        		//'enroll_number' => $request['enroll_number'],
 	        		'status' => 1,
 	        		'join_date' => $request['join_date'],
 	        		'end_date' => $request['end_date'],

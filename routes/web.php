@@ -18,6 +18,7 @@
 
 
 //================ Guest ====================
+// Route::get('send','MailController@send');
 Route::get('session', 'GuestController@sessionTest')->name('session');
 
 Route::get('nextSession', 'GuestController@nextSession')->name('nextSession');
