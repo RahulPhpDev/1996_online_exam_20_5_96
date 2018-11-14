@@ -226,6 +226,24 @@ class UserController extends Controller
       $totalMark = array_sum($marks);
 
       if($false != 1){
+	      
+	   // ALTER TABLE `results` CHANGE `result_status` `result_status` TINYINT(1) NOT NULL DEFAULT '0', CHANGE `right_answer` `right_answer` INT(11) NOT NULL DEFAULT '0', CHANGE `negative_marks` `negative_marks` DOUBLE NOT NULL DEFAULT '0', CHANGE `correct_answer` `correct_answer` INT(11) NOT NULL DEFAULT '0', CHANGE `wrong_answer` `wrong_answer` INT(11) NOT NULL DEFAULT '0', CHANGE `not_attempt` `not_attempt` INT(11) NOT NULL DEFAULT '0', CHANGE `feedback` `feedback` MEDIUMTEXT CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL, CHANGE `add_date` `add_date` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP;
+
+        $resultObj = new Result();
+        $resultData = array(
+          'exam_id' => $sessionExamId,
+          'student_id' => $userId,
+          'obtain_mark' => $totalMark,
+          'result_status' => 1,
+          'right_answer' => 2,
+          'negative_marks' =>  5,
+          'correct_answer' => 2,
+          'wrong_answer' =>  1,
+          'not_attempt' => 1,
+      );
+      $id =  $resultObj::create($resultData)->id;    
+	      
+	      
         $viewData = array(
           'examDetails' => $examDetails,
           'userExamData' => $userExamData,
