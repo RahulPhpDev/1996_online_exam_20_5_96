@@ -129,7 +129,7 @@ Route::get('/exam-question/{id}', 'Admin\ExamController@examQuestion')->name('ex
 
 Route::get('/edit-exam-question/{id}', 'Admin\ExamController@editExamQuestion')->name('edit-exam-question');
 
-Route::post('/updateExamQuestion','Admin\ExamController@updateExamQuestion')->name('updateExamQuestion');
+Route::post('/updateExamQuestion/{id?}','Admin\ExamController@updateExamQuestion')->name('updateExamQuestion');
 
 Route::post('/approve-user','Admin\UserController@approveUser')->name('approve-user');
 

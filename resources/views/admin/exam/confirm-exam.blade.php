@@ -4,6 +4,8 @@
 @extends('layouts.partials.footer')
 @section('title', $title)
 @section('content')  
+
+<link href="{{ asset('frontend/css/exam_question.css') }}" rel="stylesheet">
 <style type="text/css">
   .editor{
     width: 30x;
@@ -16,12 +18,6 @@
   .span4{
     /*border:1px solid red;*/
   }
-/*.required_question{
-  font-size: 7px;
-    color: red;
-    position: relative;
-    top: 9px;float: inherit;margin: 5px;
-}*/
 </style>
 <div id="content">
      <div class="container-fluid">
@@ -36,104 +32,28 @@
        
         <h5>{{$title}}</h5>
       </div>
-      <style type="text/css">
-      .quiz{
-        background: #fff;
-      }
-      .quiz_header{
-        padding:10px 0px 2px 10px;
-        font-size:32px;
-      }
-        .show_question{
-          /*border:1px solid red;*/
-          margin:10px;
-          padding:10px;
-          font-size: 15px;
-           border: 1px dotted transparent;
-          display: block;
-          box-shadow: 0px 0px 0px 1px rgba(0, 0, 1, 0.1);
-        }
-        .question_data{
-          /*display: inline;*/
-        
-         margin-top:20px;
-        }
-        .inline{
-          display: inline-block;
-        }
-        .question_serial{
-          padding:10px;
-        }
-        .question{
-
-          font-size:17px;
-           letter-spacing: 0.5px;
-        }
-        .options_div{
-         
-          padding:2px 0px 2px 40px;
-        }
-          .options i{
-              color: green;
-              position: absolute;
-          }
-        .options a{
-          padding-left:25px;
-         line-height:32px;
-        }
-        i .required_question{
-          /*position: absolute;*/
-          margin-top:-30px;
-        }
-        .other_question_information a{
-          /*display: inline;*/
-
-          padding-left:50px;
-        }
-        .other_question_information span{
-          padding-left:8px;
-        }
-        .show_question:hover {
-        /*box-shadow: 0 0 11px rgba(33,33,33,.2); */
-        border:1px dotted rgba(0, 0, 1, 0.1);
-         background: #ededed;
-        /*box-shadow: 0px 0px 0px 1px rgba(0, 0, 0, 0);*/
-      }
-      .marks, .negative_marks {
-        background: none repeat scroll 0 0 #E1E1E1;
-        border-radius: 3px 3px 3px 3px;
-        border: 1px solid #E1E1E1;
-        /*float: ;*/
-        font-size: 12px;
-        margin-bottom: 10px;
-        padding: 3px 10px;
-        text-shadow: none;
-        margin-right: 7px;
-    }
-     .negative_marks{
-       background: none repeat scroll 0 0 orange;
-       /*padding:0px 10px ;*/
-       margin-left:5px;
-    }
-      </style>
-      
-
-      
+       
           <?php 
-               $totalQuestion = $totalMark = $totalRequiredQuestion = $totalNegativeQuestion = 0; 
+               $totalQuestion = $totalMark = $totalRequiredQuestion = $totalNegativeQuestion =$questionNumber =  0; 
                 foreach($examQuestion['question'] as $que) { 
+                $questionNumber++;
                 $totalQuestion++;
                 $totalMark = $totalMark + $que['question']->marks;
                   ?>
          <div class="show_question">  
             <div class="question_data">
-              <span class="question_number"> Q 1 : </span>
+              <span class="question_number"> Q {{$questionNumber}}: </span>
               <span class="inline question">
                 <p>
                  <?php echo  htmlspecialchars_decode($que['question']->question); ?>
                 </p>
               </span>
+
+              <a  href="{{ route('edit-exam-question', ['id' =>  Crypt::encrypt($que['question']->id) ]) }}" class = "edit_question btn btn-error pull-right"> Edit  </a>
+
+              @if($que['question']->is_required == 1)  
               <i class="icon-star text-error required_question" style="display: inline"></i>
+               @endif
             </div>
          
 
@@ -280,6 +200,19 @@
 
 <script>
       $(document).ready(function(){
+
+        // $(".edit_question").on('click', function(){
+        //   var qId =   $(this).data('id');
+        //   $.ajax({
+        //     type : "get",
+        //     url: "/edit-exam-question/"+qId,
+        //     success:function(data){
+        //       // console.log(data);
+
+        //       $("#model_body").html(data);
+        //     }
+        //   });
+        // });
             CKEDITOR.editorConfig = function (config) {
           
       };
@@ -292,7 +225,8 @@
         var id = $(this).parent().parent().next('div').css("display", "none");
        }
       });
-        
     });
   </script>
+
+
 @endsection

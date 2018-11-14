@@ -261,35 +261,39 @@ class ExamController extends Controller
         return view('admin.exam.exam-question',compact('examQuestion', 'id'))->with('title',$title);
      }
 
-     public function editExamQuestion($e_id){
+     public function editExamQuestion($id){
         // $e_id =  1;
-         // $e_id = Crypt::decrypt($id);
-       $questionData =  Question::find($e_id);
-    //    foreach($questionData->Options as $data){
-    //          echo'<pre>';print_r($data)  ;
-    //    }  
-    // //    die('here');
-    //    dd($questionData);
-    $title =  'Yes';
-    return view('admin.exam.edit-exam-question', compact('questionData','title','e_id'));
+         $e_id = Crypt::decrypt($id);
+         // echo $e_id;die();
+         $questionData =  Question::find($e_id);
+         // dd($questionData->rightAnswer['option_id']);
+         $title =  'Edit Question';
+    return view('admin.exam.edit-exam-question', compact('questionData','title','e_id','id'));
 
      }
 
-     public function updateExamQuestion(Request $req) {
-        // $e_id = 1;
-        $questionData =  Question::find($req['id']);
-
+     public function updateExamQuestion(Request $req, $id) {
+    
+         $e_id = Crypt::decrypt($id);
+      // dd($req);
+        $questionData =  Question::find($e_id);
+        $req['is_required'] = ($req['is_required']) ? $req['is_required'] : 0;
         $questionData->question = htmlentities($req['question']);
         $questionData->is_required = $req['is_required'];
-        $questionData->is_required = $req['is_required'];
+        // $questionData->is_required = $req['is_required'];
         $questionData->marks = $req['total_mark'];
         // $questionData->is_negative_marking = $req['is_negative'];;
         // $questionData->negative_marks = $req['negative_mark'];
         $questionData->save();
         foreach($questionData->Options as $key => $opData){
-          $opData->question_option =  $req['option'.++$key.''];
+          $incrementKey = ++$key;
+          if($req['answer'] == $req['option'.$incrementKey.'']){
+            
+          }
+          $opData->question_option =  $req['option'.$incrementKey.''];
           $opData->save();
-        }  
+         
+        } 
 
         
         // return response ()->json ( $data );

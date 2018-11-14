@@ -1,5 +1,9 @@
-
- @include('layouts.partials.fetch_js')
+@extends('layouts.partials.inner_layout')
+@extends('layouts.partials.header')
+@extends('layouts.partials.sidebar')
+@extends('layouts.partials.footer')
+@section('title', $title)
+@section('content')   
 <!-- <script src="{{ asset('js/mathJx.js') }}"> -->
 
    <script src='https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
@@ -30,44 +34,53 @@
   });
 
 
-$('#update').on('click', function() {
- var editorVal =  CKEDITOR.instances['textarea'].getData();
+// $('#update').on('click', function() {
+//  var editorVal =  CKEDITOR.instances['textarea'].getData();
 
- // alert(dd);
- $.ajax({
-     type: 'post',
-     url: '/updateExamQuestion',
-     data: {
-         '_token': $('input[name=_token]').val(),
-         'id': <?php echo $e_id;?>,
-         'option1': $('input[name=option1]').val(),
-         'question': editorVal,
-         'option2': $('input[name=option2]').val(),
-         'option3': $('input[name=option3]').val(),
-         'option4': $('input[name=option4]').val(),
-         'is_required': $('input[name=is_required]').val(),
-         'total_mark': $('input[name=total_mark]').val(),
-         'is_negative': $('input[name=is_negative]').val(),
-         'negative_mark': $('input[name=negative_mark]').val(),
-     },
-     success: function(succ_data) {
-          location.reload();
+//  // alert(dd);
+//  $.ajax({
+//      type: 'post',
+//      url: '/updateExamQuestion',
+//      data: {
+//          '_token': $('input[name=_token]').val(),
+//          'id': <?php //echo $e_id;?>,
+//          'option1': $('input[name=option1]').val(),
+//          'question': editorVal,
+//          'option2': $('input[name=option2]').val(),
+//          'option3': $('input[name=option3]').val(),
+//          'option4': $('input[name=option4]').val(),
+//          'is_required': $('input[name=is_required]').val(),
+//          'total_mark': $('input[name=total_mark]').val(),
+//          'is_negative': $('input[name=is_negative]').val(),
+//          'negative_mark': $('input[name=negative_mark]').val(),
+//      },
+//      success: function(succ_data) {
+//           location.reload();
 
-     }
- });
-});
+//      }
+//  });
+// });
 
   });
 
 </script>
-<!-- <div id="content">
+<style type="text/css">
+  .option_div{
+    /*position: relative;*/
+  }
+  .option_div input[type="radio"]{
+    float: left;
+    margin:9px 19px 2px 8px;
+  }
+</style>
+<div id="content">
      <div class="container-fluid">
     <hr>
-     <h5> {{$title}}</h5>
-      -->
+     <!-- <h5> {{$title}}</h5> -->
+     
 
-                {{ Form::open(array('','class' => '', 'id'=>'basic_validate'))}}
-
+                {{--Form::open(array('','class' => '', 'id'=>'basic_validate'))--}}
+ {{ Form::open(array('route' => ['updateExamQuestion', $id],'class' => '', 'id'=>'basic_validate'))}} 
                 <div class="control-group">
                   {{ Form::label('question','Question 1',array('class' => 'control-label'))}}
                 <div class="controls">
@@ -77,9 +90,19 @@ $('#update').on('click', function() {
                     <textarea name = "qustion" id = "textarea" class = "question editor"> <?php echo htmlspecialchars_decode($questionData->question); ?></textarea>
                 </div>
               </div>
-                @foreach($questionData->Options as $key => $options)  
-                  <div class="controls controls-row">
-                  <input type="text" name = "option{{++$key}}" id = "option{{++$key}}" value = "{{$options->question_option}}" class="span5 m-wrap" >
+                @foreach($questionData->Options as $key => $options)
+                  <?php
+                  $incrementKey = ++$key;
+                  ?>
+                     
+                  <div class="controls controls-row option_div">
+                    <?php
+                    // echo $options->id.'<br>'.$questionData->rightAnswer['option_id'];die();
+                   $check =  ($questionData->rightAnswer['option_id'] == $options->id) ? 'checked' :'';
+
+                    ?> 
+                    <input type="radio" name = "answer" {{$check}} value = "{{$options->question_option}}"/>  
+                  <input type="text" name = "option{{$incrementKey}}" id = "option{{$incrementKey}}" value = "{{$options->question_option}}" class="span3 m-wrap" >
                 </div>
               @endforeach
 
@@ -118,15 +141,15 @@ $('#update').on('click', function() {
            </div>
 
            <div class="controls">
-                  <button name="save" type="button" id = "update" class="btn btn-success" value="save">Update</button>
+                  <input type="submit" name="save" id = "update" class="btn btn-success" value="save">Update
 
                 </div>
 
               {{ Form::close() }}
             
-    <!-- </div>
+    </div>
 </div>
- -->
+
 <script>
       $(document).ready(function(){
            
@@ -141,3 +164,6 @@ $('#update').on('click', function() {
         
     // });
   </script>
+
+
+@endsection

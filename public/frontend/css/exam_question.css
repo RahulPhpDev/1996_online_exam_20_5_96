@@ -1,0 +1,96 @@
+/*exam_question.css*/
+
+ .quiz{
+        background: #fff;
+      }
+      .quiz_header{
+        padding:10px 0px 2px 10px;
+        font-size:32px;
+      }
+        .show_question{
+          /*border:1px solid red;*/
+          margin:10px;
+          padding:10px;
+          font-size: 15px;
+           border: 1px dotted transparent;
+          display: block;
+          box-shadow: 0px 0px 0px 1px rgba(0, 0, 1, 0.1);
+        }
+        .question_data{
+         margin-top:20px;
+         position: relative;
+        }
+        .inline{
+          display: inline-block;
+        }
+        .question_serial{
+          padding:10px;
+        }
+        .question{
+
+          font-size:17px;
+           letter-spacing: 0.5px;
+        }
+        .options_div{
+         position: relative;
+          padding:2px 0px 2px 40px;
+        }
+        .options{
+          border-top:1px dotted #dddddd;
+          padding:top:4px;
+        }
+         .options:last{
+          border-bottom:1px dotted #dddddd;
+        }
+          .options i{
+              color: green;
+              position: absolute;
+              top:10px;
+          }
+        .options a{
+          padding-left:25px;
+         line-height:32px;
+        }
+         .required_question{
+              position: absolute;
+          top: 6px;
+          /* margin-top: -30px; */
+          font-size: 12px;
+          /* right: 39px; */
+          margin-left: 11px;
+        }
+        .other_question_information a{
+          /*display: inline;*/
+
+          padding-left:50px;
+        }
+        .other_question_information span{
+          padding-left:8px;
+        }
+        .show_question:hover {
+        /*box-shadow: 0 0 11px rgba(33,33,33,.2); */
+        border:1px dotted rgba(0, 0, 1, 0.1);
+         background: #ededed;
+        /*box-shadow: 0px 0px 0px 1px rgba(0, 0, 0, 0);*/
+      }
+
+       .show_question:hover .options {
+        
+         /*background: #ededed;*/
+      }
+      .marks, .negative_marks {
+        background: none repeat scroll 0 0 #E1E1E1;
+        border-radius: 3px 3px 3px 3px;
+        border: 1px solid #E1E1E1;
+        /*float: ;*/
+        font-size: 12px;
+        margin-bottom: 10px;
+        padding: 3px 10px;
+        text-shadow: none;
+        margin-right: 7px;
+    }
+     .negative_marks{
+       background: none repeat scroll 0 0 orange;
+       /*padding:0px 10px ;*/
+       margin-left:5px;
+    }
