@@ -100,7 +100,7 @@ class UserController extends Controller
         $passArray = array(
          'examDetails' => $examData,
          'questionDetails' => $questionDetails,
-         'nextQuestionId' => $questionKeys[1],
+       //  'nextQuestionId' => $questionKeys[1],
          'examId' => $e_id,
         );
 
@@ -110,57 +110,73 @@ class UserController extends Controller
 
    
     public function saveAnswer(Request $request){ 
-      if($request['save'] ==  'continue'){
-         $examId = session('exam_id');
-         $last_attempt_question = session('current_question');
-         $answerID = $request['answer'];
-         $lastQuestionData =  Question::find($last_attempt_question); 
+    $examId = session('exam_id');
+    $examDetails = Exam::find($examId);
+      if($request['save'] !==  'continue' && $request['save'] !==  'skip' ){
+          
+          $last_attempt_question = session('current_question');
+          $allQuestion = session('all_questions');
+          $allAttemptQuestion = session('attempt_questions.queID');
+          $pending_questions = array_diff($allQuestion,$allAttemptQuestion);
+          $nextQuestionId = current($pending_questions);
+          
+      }
+      // echo '<pre>';print_r($questionDetails);die();
 
-        session()->push('attempt_questions.queID', $last_attempt_question);
-         $allQuestion = session('all_questions');
-         $allAttemptQuestion = session('attempt_questions.queID');
+      else if($request['save'] ==  'continue'){
+        // dd($request);
+        $last_attempt_question = session('current_question');
+        $answerID = $request['answer'];
+        $lastQuestionData =  Question::find($last_attempt_question); 
 
-      $pending_questions = array_diff($allQuestion,$allAttemptQuestion);
-       $rightAnswerId = ($lastQuestionData->rightAnswer->option_id);
-       $status = 0;
-       if($rightAnswerId ==  $answerID ){
+       session()->push('attempt_questions.queID', $last_attempt_question);
+        $allQuestion = session('all_questions');
+        $allAttemptQuestion = session('attempt_questions.queID');
+
+        $pending_questions = array_diff($allQuestion,$allAttemptQuestion);
+        $rightAnswerId = ($lastQuestionData->rightAnswer->option_id);
+        $status = 0;
+        if($rightAnswerId ==  $answerID ){
         $status = 1;
-       }
-       if($rightAnswerId !=  $answerID ){
+        }
+        if($rightAnswerId !=  $answerID ){
         $status = 2;
-       }
+        }
 
-        $examDetails = Exam::find($examId);
-
-       $userData = Auth::user();
-       $userId = $userData['id'];
-       UserAnswer::create([
-          'user_id' => $userId,
-          'exam_id' => $examId,
-          'question_id' => $last_attempt_question,
-          'answer_id' => $answerID,
-          'status' => $status,
-          'mark' => $lastQuestionData['marks'],
-       ]);
-
-       if(empty($pending_questions)){
-        $msg = "Here Is Your Result";
-        return redirect()->route('view-result',Crypt::encrypt($examId))->with('success',$msg); 
-       }
+      $userData = Auth::user();
+      $userId = $userData['id'];
+      UserAnswer::create([
+         'user_id' => $userId,
+         'exam_id' => $examId,
+         'question_id' => $last_attempt_question,
+         'answer_id' => $answerID,
+         'status' => $status,
+         'mark' => $lastQuestionData['marks'],
+      ]);
+      $nextQuestionId = current($pending_questions);
+      }
+      else if($request['save'] ==  'skip'){
+          $last_attempt_question = session('current_question');
+          session()->push('attempt_questions.queID', $last_attempt_question);
+          $allQuestion = session('all_questions');
+          $allAttemptQuestion = session('attempt_questions.queID');
+          $pending_questions = array_diff($allQuestion,$allAttemptQuestion);
+          $nextQuestionId = current($pending_questions);
       }
 
-
+      if(empty($pending_questions)){
+       $msg = "Here Is Your Result";
+       return redirect()->route('view-result',Crypt::encrypt($examId))->with('success',$msg); 
+      }
       
-     $nextQuestionId = current($pending_questions);
-      session(['current_question' => $nextQuestionId]);
-         $questionDetails    = Question::find($nextQuestionId);
-
-
-       $passArray = array(
-        'examDetails' => $examDetails,
-        'questionDetails' => $questionDetails,
-      );
-     return view('permit.exam.exam-questions',$passArray);
+    session(['current_question' => $nextQuestionId]);
+    $questionDetails    = Question::find($nextQuestionId);
+    // dd($questionDetails);
+     $passArray = array(
+      'examDetails' => $examDetails,
+      'questionDetails' => $questionDetails,
+    );
+    return view('permit.exam.exam-questions',$passArray);
      }
 
      public function viewResult($exam_id){
