@@ -45,8 +45,9 @@
              <div class = "mt-10"> </div>
              <div class = "mt-10"> </div>
              <div class="controls">
-                
-                <button name="save" type="submit" class="btn btn-success" value="skip">Skip</button>
+                 @if($questionDetails->is_required == 0)
+                 <button name="save" type="submit" class="btn btn-success" value="skip">Skip</button>
+		 @endif
                 <button name="save" type="submit" value="continue" class="btn btn-success">Save And Next Question</button>
             </div>
             
