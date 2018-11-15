@@ -31,7 +31,7 @@
           font-size:17px;
            letter-spacing: 0.5px;
         }
-        .options_div{
+        .options_rel_div{
          position: relative;
           padding:2px 0px 2px 40px;
         }
@@ -45,7 +45,7 @@
           .options i{
               color: green;
               position: absolute;
-              top:10px;
+              top:12px;
           }
         .options a{
           padding-left:25px;
