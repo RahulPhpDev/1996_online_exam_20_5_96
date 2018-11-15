@@ -127,7 +127,7 @@ Route::get('/exam', 'Admin\ExamController@examList')->name('exam');
 
 Route::get('/exam-question/{id}', 'Admin\ExamController@examQuestion')->name('exam-question');
 
-Route::get('/edit-exam-question/{id}', 'Admin\ExamController@editExamQuestion')->name('edit-exam-question');
+Route::get('/edit-exam-question/{id}/{exam_id?}', 'Admin\ExamController@editExamQuestion')->name('edit-exam-question');
 
 Route::post('/updateExamQuestion/{id?}','Admin\ExamController@updateExamQuestion')->name('updateExamQuestion');
 
