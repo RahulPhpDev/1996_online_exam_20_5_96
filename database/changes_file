@@ -6,3 +6,10 @@ admin/exam/edit-exam-question.view
 view/admin/exam/confirm-exam.blade
 
 web.php
+
+changes on 11/15
+C:\xampp\htdocs\1996_online_exam_20_5_96-master\public\frontend\css\exam_question.css
+C:\xampp\htdocs\1996_online_exam_20_5_96-master\app\Http\Controllers\Admin\ExamController.php
+C:\xampp\htdocs\1996_online_exam_20_5_96-master\routes\web.php
+C:\xampp\htdocs\1996_online_exam_20_5_96-master\public\frontend\css\exam_question.css
+C:\xampp\htdocs\1996_online_exam_20_5_96-master\resources\views\admin\exam\confirm-exam.blade.php
