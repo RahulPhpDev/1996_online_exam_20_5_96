@@ -17,3 +17,4 @@
 
 <link href="{{ asset('css/backend_css/bootstrap-datepicker.min.css') }}" rel="stylesheet">
 <link href="{{ asset('css/backend_css/bootstrap-timepicker.min.css') }}" rel="stylesheet">
+<link href="{{ asset('css/validation.css') }}" rel="stylesheet">

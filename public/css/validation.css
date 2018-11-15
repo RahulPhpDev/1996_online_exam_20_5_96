@@ -1,0 +1,10 @@
+/*validation.css*/
+
+
+label.error {
+    color: red;
+    display: inline;
+    margin: 0px 0px 0px 12px;
+    font-size: 13px;
+    font-weight: 500;
+}

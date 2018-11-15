@@ -4,6 +4,69 @@
 @extends('layouts.partials.footer')
 @section('title', $title)
 @section('content')  
+
+<script type="text/javascript">
+  
+$(document).ready(function () {
+
+    $('#basic_validate').validate({ // initialize the plugin
+        rules: {
+            exam_name: { required: true,minlength: 3 },
+            // description:{required:true}
+            amount:{
+              required: function(){
+                  if($("input[name=payable]").is(':checked')){
+                      return true;
+                  }
+                  else
+                  {
+                      return false;
+                  }
+              }
+            },
+            exam_type:{
+               required: function(){
+                  if($("input[name=payable]").prop('checked') == false){
+                      return true;
+                  }
+                  else
+                  {
+                      return false;
+                  }
+              }
+            },
+             "subscription[]": {
+
+              required: function(){
+                  if($("#exam_type_3").prop('checked') == true){
+                      return true;
+                  }
+                  else
+                  {
+                      return false;
+                  }
+              }
+              },
+
+        },
+        messages: {
+                  
+                    exam_name: {
+                        required: "Exam Name Should Not be blank",
+                        minlength: "Exam Name must be at least 3 characters long"
+                    },
+                    amount:{required:"Amount should not be blank"},
+                    exam_type:{required:"Select Exam Type"},
+                    "subscription[]": {
+                        required :"Select Package"
+                      },
+                  }
+    });
+
+});
+
+
+</script>
 <div id="content">
      <div class="container-fluid">
     <hr>
@@ -20,8 +83,6 @@
             
                 {{ Form::open(array('route' => 'save-add-exam','class' => 'form-horizontal', 'id'=>'basic_validate'))}}
 
-               
-
                 <div class="control-group">
                   {{ Form::label('name','Exam Name',array('class' => 'control-label'))}}
                 <div class="controls">
@@ -29,7 +90,25 @@
                 </div>
               </div>
 
-            <div class="control-group">
+              <div class="control-group">
+              <label class="control-label">Do you want to Mark this is Payable: </label>
+              <div class="controls">
+                <label>
+                  <input type="checkbox" name="payable" id = "payable" value = "1"/>
+                  Yes</label>
+            </div>
+          </div>
+
+
+           <div class="control-group" id = "amout_div" style = "display:none;">
+                  {{ Form::label('amount','Payable Amount',array('class' => 'control-label'))}}
+                <div class="controls">
+                    {{ Form::text('amount', ' ',array('class' =>'mark', 'id' => 'amount'))}}
+                </div>
+              </div>   
+
+
+            <div class="control-group exam_visibility">
               <label class="control-label">Exam Visible TO: </label>
               <div class="controls" style="display: inline-block;">
                 <label>
@@ -59,25 +138,6 @@
                 </select>
               </div>
             </div>
-
-          
-
-          <div class="control-group">
-              <label class="control-label">Do you want to Mark this is Payable: </label>
-              <div class="controls">
-                <label>
-                  <input type="checkbox" name="payable" id = "payable" value = "1"/>
-                  Yes</label>
-            </div>
-          </div>
-
-
-           <div class="control-group" id = "amout_div" style = "display:none;">
-                  {{ Form::label('amount','Payable Amount',array('class' => 'control-label'))}}
-                <div class="controls">
-                    {{ Form::text('amount') }}
-                </div>
-              </div>      
 
 
             <div class="control-group">
@@ -133,25 +193,14 @@
     $("#subscription_div").hide();
    }
 });
-// $('input[name="exam_type[]"]').click(function(){
-//   var atLeastOneIsChecked = $('#exam_type_3:checkbox:checked').length > 0;
-
-//     var id = $(this).attr('id');
-//    var check =  $(this).prop('checked');
-//    if(id == 'exam_type_3' && check === true){
-//     $("#subscription_div").show();
-//    }else{
-//     $("#subscription_div").hide();
-//    }
-
-   
-// });
 $('#payable').click(function(){
-     console.log('this');
      if($(this).prop('checked')){
        $("#amout_div").show(); 
+    $(".exam_visibility").hide();
+    $("#subscription_div").hide();
      }else{
       $("#amout_div").hide(); 
+    $(".exam_visibility").show();
      }
    });     
 

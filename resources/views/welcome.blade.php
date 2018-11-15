@@ -199,7 +199,7 @@
 </section> -->
 
 
-<!-- <section class="section mycontainer" style="background-color: #f6f8fa;">
+ <section class="section mycontainer" style="background-color: #f6f8fa;">
 	<div class="mb50"></div>
 	<div class="mb50"></div>
 		<div class="container home">
@@ -207,7 +207,7 @@
 							<div class="col-sm-12">
 	            <div class="section-testimonials  el_max_height"">
 	            	<div class="">
-	                <h3 class="title-small mrg-left text-center ">TESTIMONIALS</h3>
+	                <h3 class="title-small mrg-left text-center ">Our Topper</h3>
 	                <div class="owl-carousel owl-portfolio">
 						                    <div class="owl-el">
 
@@ -347,7 +347,7 @@
 
 		</div>	
 	<div class="mb50"></div>
-</section> -->
+</section> 
 
 <!-- <section class="section mycontainer">
 	<div class="container ">

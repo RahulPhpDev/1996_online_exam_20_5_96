@@ -49,6 +49,51 @@
   });
 
 </script>
+
+
+
+<script type="text/javascript">
+  
+$(document).ready(function () {
+
+    $('#basic_validate').validate({ // initialize the plugin
+        rules: {
+          // "total_mark[1]": { required: true},
+          "option[]": { required: true,minlength: 3 },
+
+        },
+        messages: {
+                  
+                     // "total_mark[1]": {
+                     //    required :"Select Mark"
+                     //  }, 
+                      "option[]": {
+                        required :"Select Package"
+                      },
+                  }
+    });
+
+    $(".total_mark_input").rules("add", { 
+    required:true, 
+     messages: {
+        required: "Enter something else"
+      }
+  });
+
+$(".option_input").each(function(){
+    $(".option_input").rules("add", { 
+    required:true, 
+     messages: {
+        required: "Enter something eldfasdfse"
+      }
+  });
+
+});
+});
+
+
+</script>
+
 <div id="content">
      <div class="container-fluid">
     <hr>
@@ -78,29 +123,24 @@
               
               <div class="option_div mt-10" style="text-align: center;">
                <input checked type="radio" name="answer[1]" value = "0"/>
-               <input type="text" placeholder="option 1" name = "option[1][]" class="span5">
+               <input type="text" placeholder="option 1" name = "option[1][]" class="span5 option_input">
               <div class = "mt-15">
                   <input type="radio" name="answer[1]" value = "1" />
-               <input type="text" placeholder="Option 2"  name = "option[1][]" class="span5 ">
+               <input type="text"  placeholder="Option 2"  name = "option[1][]" class="span5 option_input">
               </div>
 
                <div class = "mt-15">
                 <input type="radio" name="answer[1]" value = "2" />
-                <input type="text" placeholder="Option 3" class="span5 m-wrap"  name = "option[1][]">
+                <input type="text" placeholder="Option 3" class="span5 m-wrap option_input"  name = "option[1][]">
 
              </div>
                 <div class = "mt-15">
                  <input type="radio" name="answer[1]" value = "3"/>
-                 <input type="text" placeholder="Option 4" class="span5 m-wrap"  name = "option[1][]">
+                 <input type="text" placeholder="Option 4" class="span5 m-wrap option_input"  name = "option[1][]">
                </div>
-
-
              </div>
 
-             
 
-            
-              
               <div  class="" style="display: inline-block;margin-left:20px"> 
                  <label class="control-label"  style="font-size: 16px"> Required </label>
                <div class="controls">
@@ -111,7 +151,7 @@
             <div  class="" style="display: inline-block"> 
               <label class="control-label">Marks :</label>
                <div class="controls">
-                <input type="text" name="total_mark[1]" style = "width: 20%"/>
+                <input type="text" class ="total_mark_input" name="total_mark[1]" style = "width: 20%"/>
               </div>
              </div>
 

@@ -1,15 +1,9 @@
-changes on 11/14
-exam Controller controller/Admin
+new file ==> public/js/jquery.validator
 
-admin/exam/edit-exam-question.view
+view/layouts/partials/fetch_js
 
-view/admin/exam/confirm-exam.blade
+public/css/common/validation.css (new)
 
-web.php
+view/layouts/partials/fetch_css (add validtion)
 
-changes on 11/15
-C:\xampp\htdocs\1996_online_exam_20_5_96-master\public\frontend\css\exam_question.css
-C:\xampp\htdocs\1996_online_exam_20_5_96-master\app\Http\Controllers\Admin\ExamController.php
-C:\xampp\htdocs\1996_online_exam_20_5_96-master\routes\web.php
-C:\xampp\htdocs\1996_online_exam_20_5_96-master\public\frontend\css\exam_question.css
-C:\xampp\htdocs\1996_online_exam_20_5_96-master\resources\views\admin\exam\confirm-exam.blade.php
+view/admin/exam/add-exam.blade
