@@ -80,14 +80,15 @@
      
 
                 {{--Form::open(array('','class' => '', 'id'=>'basic_validate'))--}}
- {{ Form::open(array('route' => ['updateExamQuestion', $id],'class' => '', 'id'=>'basic_validate'))}} 
+          {{ Form::open(array('route' => ['updateExamQuestion', $id],'class' => 'form-horizontal', 'id'=>'basic_validate'))}} 
+          <input type = "hidden" name = "exam_id" value  = "{{$examID}}">
                 <div class="control-group">
                   {{ Form::label('question','Question 1',array('class' => 'control-label'))}}
                 <div class="controls">
                 <button type = "button" id="edit_1">Editor</button>
                     <br/>
                     {{-- Form::textarea('question',($test), array('id' => 'textarea','class' => 'question editor')) --}}
-                    <textarea name = "qustion" id = "textarea" class = "question editor"> <?php echo htmlspecialchars_decode($questionData->question); ?></textarea>
+                    <textarea name = "question" id = "textarea" class = "question editor"> <?php echo htmlspecialchars_decode($questionData->question); ?></textarea>
                 </div>
               </div>
                 @foreach($questionData->Options as $key => $options)
@@ -101,47 +102,64 @@
                    $check =  ($questionData->rightAnswer['option_id'] == $options->id) ? 'checked' :'';
 
                     ?> 
-                    <input type="radio" name = "answer" {{$check}} value = "{{$options->question_option}}"/>  
-                  <input type="text" name = "option{{$incrementKey}}" id = "option{{$incrementKey}}" value = "{{$options->question_option}}" class="span3 m-wrap" >
+                    <input type="radio" name = "answer" {{$check}} value = "{{$options->id}}"/>  
+                  <input type="text" name = "option[{{$options->id}}]" id = "option{{$incrementKey}}" value = "{{$options->question_option}}" class="span3 m-wrap" >
                 </div>
               @endforeach
+              <style>
+                .inline_div label{
+                  display: inline-block;
+  width: 152px;
+                  text-align:right;
+                }
 
-             <div class="control-group controls controls-row">
-                <div  class="span5"> 
-                 <label class="control-label"  style="font-size: 16px"> Is Required </label>
-               <div class="controls">
-               <?php $checked = $questionData->is_required == 1 ? 'checked' :''; ?>
-                  <input type="checkbox" name="is_required" value="1" {{$checked}} />
-               </div>
-            </div>
+                .inline_div input{
+                  display:inline !important;
+                  margin-right:20px;
+                  padding-bottom:-2px;
+                }
+                .border_top{
+                  border-top:1px dotted #dfdfdf;
+                }
+                input.mark {
+                      padding: 6px;
+                      width: 42px;
+                      text-align: center;
+                  }
+                </style>
+            <div class = "inline_div">
+             <div class="">
+                
 
-            <div  class="span4"> 
-              <label class="control-label">Marks :</label>
-               <div class="controls">
-                <input type="text" name="total_mark" value="{{$questionData->marks}}" />
-              </div>
+             <div  class="controls border_top"> 
+              <label class="">Marks :</label>
+                <input type="text" class = "mark"  name="total_mark" value="{{$questionData->marks}}" />
              </div>
-           </div>
-           
-            <div class="control-group controls controls-row">
-                <div  class="span5"> 
-                 <label class="control-label"  style="font-size: 16px"> Is Negative Marking </label>
-               <div class="controls">
-               <?php $negativeChecked = $questionData->is_negative_marking == 1 ? 'checked' :''; ?>
-                  <input type="checkbox" name="is_negative" class = "is_negative" {{$negativeChecked}}/>
-               </div>
-            </div>
-
-            <div  class="span4 negative_mark_div" style="display: none"> 
-              <label class="control-label">Negative Marks :</label>
-               <div class="controls">
-                <input type="text"  name="negative_mark" class="span11" value = "{{$questionData->negative_marks}}"   />
+             <div  class="controls border_top" > 
+                <?php $checked = $questionData->is_required == 1 ? 'checked' :''; ?>
+                  <input type="checkbox"  style = "" name="is_required" value="1" {{$checked}} />
+                 <label class="" style="font-size: 16px;text-align:center"> Is Required </label>               
               </div>
+                <div  class="controls border_top">                  
+               <?php $negativeChecked = $questionData->is_negative_marking == 1 ? 'checked' :''; 
+               $negativeVal = $questionData->is_negative_marking == 1 ? 1 :0; 
+               ?>
+                  <input type="checkbox" name="is_negative" value = "{{$negativeVal}}" class = "is_negative" {{$negativeChecked}} />
+
+                  <label class=""  style="font-size: 16px"> Is Negative Marking </label>
+            </div>
+              
+            <div  class="controls negative_mark_div border_top" style="display: none"> 
+              <label class="">Negative Marks :</label>
+              <input type="text" class = "mark" name="negative_mark" value = "{{$questionData->negative_marks}}"   />
              </div>
+
+            
            </div>
+        </div>
 
            <div class="controls">
-                  <input type="submit" name="save" id = "update" class="btn btn-success" value="save">Update
+                  <input type="submit" name="save" id = "update" class="btn btn-success" value="Update">
 
                 </div>
 
@@ -155,14 +173,27 @@
            
       // $(".is_negative").click(function(){
        if ( $(".is_negative").is(':checked')) {
-         $('.negative_mark_div').css("display", "block");
+         $('.negative_mark_div').css("display", "inline");
         
        }else{
-        $('.negative_mark_div').css("display",  "none");
+        $('.negative_mark_div').css("visibility",  "hidden");
+       }
+      // });
+        
+    // });
+
+    $(".is_negative").click(function(){
+       if ( $(".is_negative").is(':checked')) {
+         $('.negative_mark_div').css("display", "inline");
+         $('.negative_mark_div').css("visibility", "visible");
+        
+       }else{
+        
+        $('.negative_mark_div').css("visibility",  "hidden");
        }
       });
         
-    // });
+     });
   </script>
 
 
