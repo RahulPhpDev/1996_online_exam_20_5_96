@@ -49,7 +49,7 @@
                 </p>
               </span>
 
-              <a  href="{{ route('edit-exam-question', ['id' =>  Crypt::encrypt($que['question']->id) ]) }}" class = "edit_question btn btn-error pull-right"> Edit  </a>
+              <a  href="{{ route('edit-exam-question', ['id' =>  Crypt::encrypt($que['question']->id),'exam_id' => $id ]) }}" class = "edit_question btn btn-error pull-right"> Edit  </a>
 
               @if($que['question']->is_required == 1)  
               <i class="icon-star text-error required_question" style="display: inline"></i>
@@ -59,9 +59,11 @@
 
             <div class="options_div">
               <?php foreach($que['options'] as $options) { ?>
-                    <div class = "options" id = "option_question_id">
-                      <?php if($que['right_anser']->option_id ==  $options->id ) {  ?>
-                      <i class = "icon icon-ok"> </i> 
+                    <div class = "options options_rel_div" id = "option_question_id">
+                      <?php 
+                   
+                      if($que['right_anser']->option_id ==  $options->id ) { ?>
+                          <i class = "icon icon-ok"> </i> 
                       <?php } ?>
 
                      <a> <?php echo   $options->question_option; ?> </a>  
@@ -93,8 +95,8 @@
         </div>
       </div>
 
-           <div class="span4" >
-              <div class="widget-box collapsible">
+           <div class="span4 " >
+              <div class="widget-box collapsible other_form_info">
           <div class="widget-title"> <a href="#collapseOne" data-toggle="collapse"> <span class="icon"><i class="icon-arrow-right"></i></span>
             <h5>Other Information</h5>
             </a>
