@@ -213,10 +213,10 @@ class ExamController extends Controller
        public function confirmExam($id){
         $questionObj = new Question();
         $de_id =  Crypt::decrypt($id);
-        // echo $id;die();
+        // echo $de_id;die();
         $exam = new Exam();
         $examQuestion =  $exam->getExamDetailsById($de_id);
-        // dd($total_marks);
+        // dd($examQuestion);
         $title = $examQuestion['exam_details']->exam_name;
         return view('admin.exam.confirm-exam',compact('examQuestion', 'id'))->with('title',$title);
         // 
@@ -261,42 +261,42 @@ class ExamController extends Controller
         return view('admin.exam.exam-question',compact('examQuestion', 'id'))->with('title',$title);
      }
 
-     public function editExamQuestion($id){
-        // $e_id =  1;
+     public function editExamQuestion($id, $examID){
          $e_id = Crypt::decrypt($id);
-         // echo $e_id;die();
+
          $questionData =  Question::find($e_id);
-         // dd($questionData->rightAnswer['option_id']);
          $title =  'Edit Question';
-    return view('admin.exam.edit-exam-question', compact('questionData','title','e_id','id'));
+    return view('admin.exam.edit-exam-question', compact('questionData','title','e_id','id','examID'));
 
      }
 
-     public function updateExamQuestion(Request $req, $id) {
-    
+     public function updateExamQuestion(Request $req, $id) {  
+        
          $e_id = Crypt::decrypt($id);
-      // dd($req);
         $questionData =  Question::find($e_id);
+
+        $questionData->rightAnswer['option_id'] = $req['answer'];
+        $questionData->rightAnswer->save();
+
         $req['is_required'] = ($req['is_required']) ? $req['is_required'] : 0;
         $questionData->question = htmlentities($req['question']);
         $questionData->is_required = $req['is_required'];
-        // $questionData->is_required = $req['is_required'];
         $questionData->marks = $req['total_mark'];
-        // $questionData->is_negative_marking = $req['is_negative'];;
-        // $questionData->negative_marks = $req['negative_mark'];
-        $questionData->save();
-        foreach($questionData->Options as $key => $opData){
-          $incrementKey = ++$key;
-          if($req['answer'] == $req['option'.$incrementKey.'']){
-            
-          }
-          $opData->question_option =  $req['option'.$incrementKey.''];
-          $opData->save();
-         
-        } 
 
+        $negativeMarks = ($req['is_negative'] == 1) ? $req['negative_mark'] : '0';
+        $questionData->is_negative_marking = ($req['is_negative']) ? 1 : 0;
+
+        $questionData->negative_marks =  $negativeMarks;
+        $questionData->save();
         
-        // return response ()->json ( $data );
+        foreach($questionData->Options as $key => $opData){
+            $opData->question_option =  $req['option'][$opData->id];
+            $opData->save();
+        }
+        // return redirect()->route('profile', ['id' => 1]);
+        $exam_id = $req['exam_id'];
+        return redirect()->route('confirm-exam',  ['id' => $exam_id]);
+        // confirmExam
     }
    }
 
