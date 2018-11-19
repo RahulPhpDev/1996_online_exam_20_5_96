@@ -1,9 +1,42 @@
-new file ==> public/js/jquery.validator
+  11-Nov -Changes
+   modified:   app/Http/Controllers/Admin/ExamController.php
+        modified:   app/Http/Controllers/Admin/UserController.php
+        modified:   app/Http/Controllers/MailController.php
+        modified:   app/Http/Requests/UserRequest.php
+        modified:   app/Model/Exam.php
+        modified:   app/User.php
+        modified:   database/changes_file
+        modified:   public/css/backend_css/matrix-style.css
+        modified:   public/frontend/css/exam_question.css
+        modified:   public/frontend/css/style.css
+        modified:   public/frontend/design300/css/style.css
+        modified:   public/frontend/js/custom.min.js
+        modified:   public/js/backend_js/math_ckeditor/ckeditor/config.js
+        deleted:    resources/views/admin/exam/add-exam-original.blade.php
+        modified:   resources/views/admin/exam/add-exam-question.blade.php
+        modified:   resources/views/admin/exam/add-exam.blade.php
+        deleted:    resources/views/admin/exam/confirm-exam.blade - Copy.php
+        modified:   resources/views/admin/exam/confirm-exam.blade.php
+        modified:   resources/views/admin/exam/exam-list.blade.php
+        modified:   resources/views/admin/exam/exam-question.blade.php
+        modified:   resources/views/admin/exam/more-questions.blade.php
+        modified:   resources/views/admin/user/add-user.blade.php
+        modified:   resources/views/frontend_layouts/partials/header.blade.php
+        modified:   resources/views/welcome.blade.php
+        modified:   routes/web.php
 
-view/layouts/partials/fetch_js
 
-public/css/common/validation.css (new)
 
-view/layouts/partials/fetch_css (add validtion)
+   .env.example
+        .gitattributes
+        .gitignore
+        1_nov.zip
+        app/Http/Requests/QuestionRequest.php
+        nbproject/
+        public/js/backend_js/math_ckeditor/ckeditor/plugins/ckeditor_wiris/cache/79/
+        public/js/backend_js/math_ckeditor/ckeditor/plugins/ckeditor_wiris/formulas/79/
+        resources/views/admin/exam/edit-exam.blade.php
+        resources/views/admin/exam/exam-accessbility.blade.php
+        resources/views/admin/user/register-student.blade.php
 
-view/admin/exam/add-exam.blade
+adminemail123

@@ -129,20 +129,6 @@ $(document).ready(function () {
           </div>
             </div>
 
-              
-         
-
-            <div class="control-group" id = "subscription_div" style="display: none">
-              <label class="control-label">Select Subscription Package:</label>
-              <div class="controls">
-                <select class="multiselect" name = "subscription[]" multiple >
-                 @foreach($allSubscription as $k => $v) 
-                  <option value="{{$k}}">{{$v}}</option>
-                 @endforeach 
-                </select>
-              </div>
-            </div>
-
 
             <div class="control-group">
                     {{Form::label('Description' , 'Description', array('class' => 'control-label')) }}

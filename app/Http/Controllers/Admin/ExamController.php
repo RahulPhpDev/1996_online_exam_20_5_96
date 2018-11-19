@@ -19,7 +19,11 @@ use App\Model\ExamQuestion;
 use App\Model\QuestionOption;
 use App\Model\QuestionRightAnswer;
 use App\Model\Question;
+use App\User;
 
+// request
+
+use App\Http\Requests\QuestionRequest;
 class ExamController extends Controller
 {
    
@@ -34,7 +38,7 @@ class ExamController extends Controller
     }
     
     public function saveAddExam(Request $request){
-        // dd($request->all());
+           // dd($request->all());
         DB::beginTransaction();
         try{
             $exam = new Exam();
@@ -65,6 +69,19 @@ class ExamController extends Controller
                     ExamSubscription::create($subdata);
                 }
             }
+
+            if( $request['exam_type'] == 2){
+              foreach($request['student_id'] as $userId){
+                 $extraFieldInUserExam = array(
+                    'status' => 1, 
+                    'user_id' => $userId,
+                    'start_date' => date('Y-m-d')
+                  );
+
+                 $userDetails =  User::find($userId);
+                 $userDetails->Exam()->attach($id,$extraFieldInUserExam);
+               }
+             }
           DB::commit();
           $msg = 'Inserted Successfully';
           // return \Redirect::route('regions', [$id])->with('message', 'State saved correctly!!!');
@@ -213,25 +230,30 @@ class ExamController extends Controller
        public function confirmExam($id){
         $questionObj = new Question();
         $de_id =  Crypt::decrypt($id);
-        // echo $de_id;die();
         $exam = new Exam();
         $examQuestion =  $exam->getExamDetailsById($de_id);
-        // dd($examQuestion);
         $title = $examQuestion['exam_details']->exam_name;
         return view('admin.exam.confirm-exam',compact('examQuestion', 'id'))->with('title',$title);
         // 
     }
 
      public function saveConfirmExam(Request $request , $id){
-             
          $de_id =  Crypt::decrypt($id);
          $examDetails = Exam::find($de_id);
          $title = 'Confirm Exam';
-         // dd($examDetails);
          $examDetails->minimum_passing_marks = $request['passing_mark'];
          $examDetails->passing_marks_type = $request['passing_mark_type'];
          $examDetails->save();
          return view('admin.exam.confirm-exam-post',compact('title'));
+     }
+
+     public function editExam($id){
+         $de_id =  Crypt::decrypt($id);
+         $examDetails = Exam::find($de_id);
+         // dd($examDetails);
+         $title = 'Edit '.$examDetails['exam_name']. ' Exam';
+         // dd( $title );
+         return view('admin.exam.edit-exam',compact('examDetails','id', 'title'));
      }
 
      public function examPostSuccess($id){
@@ -247,7 +269,6 @@ class ExamController extends Controller
      public function examList(){
          $title = 'Exam';
          $examDetails = Exam::get()->where('status', 1);
-        //  dd($examDetails);
          return view('admin.exam.exam-list', compact('examDetails','title'));
      }
 
@@ -256,19 +277,44 @@ class ExamController extends Controller
         $e_id = Crypt::decrypt($id);
         $exam = new Exam();
         $examQuestion =  $exam->getExamDetailsById($e_id);
-        // dd($examQuestion);
+      //dd($examQuestion);
         $title = $examQuestion['exam_details']->exam_name;
         return view('admin.exam.exam-question',compact('examQuestion', 'id'))->with('title',$title);
      }
 
      public function editExamQuestion($id, $examID){
          $e_id = Crypt::decrypt($id);
-
          $questionData =  Question::find($e_id);
          $title =  'Edit Question';
     return view('admin.exam.edit-exam-question', compact('questionData','title','e_id','id','examID'));
 
      }
+
+     public function removeExamQuestion($e_question_id, $e_examID){
+
+         $question_id = Crypt::decrypt($e_question_id);
+         $examID = Crypt::decrypt($e_examID);         
+        $examData = Exam::findOrFail($examID);
+        $questionData = Question::findOrFail($question_id);
+        //dd($questionData);
+        $examData->total_marks = $examData['total_marks'] - $questionData['marks'];
+        $examData->total_question = $examData['total_question'] - 1;
+        $examData->required_question = $examData['required_question'] - ($questionData['is_required'] == 1) ? 1 : 0;
+         $examData->negative_question = $examData['negative_question'] - ($questionData['is_negative_marking'] == 1) ? 1 : 0;
+         if($questionData['is_negative_marking'] == 1){
+          $examData->negative_marks = $examData['negative_marks'] - $questionData['negative_marks'];
+         } 
+        $examData->save();
+        $questionData->rightAnswer()->delete();
+        $questionData->Options()->delete();
+        $examData->ExamQuestion()->detach($question_id);
+        $questionData->delete();
+        return redirect()->back()->with('success', 'Question Removed!');
+
+
+     }
+
+     
 
      public function updateExamQuestion(Request $req, $id) {  
         
@@ -297,6 +343,22 @@ class ExamController extends Controller
         $exam_id = $req['exam_id'];
         return redirect()->route('confirm-exam',  ['id' => $exam_id]);
         // confirmExam
+    }
+
+    public function examAccessbility($id){
+       $e_id = Crypt::decrypt($id);
+       $examDetails =  Exam::findOrFail($e_id);
+
+       return view('admin.exam.exam-accessbility',compact('examDetails', 'id','examAccessbilityData'));
+    }
+
+    public function removeExamUser( Request $req, $id){
+       $e_id = Crypt::decrypt($id);
+        $examData = Exam::find($e_id);
+        foreach($req['all_ids'] as $ids){ 
+          $examData->UserExamData()->updateExistingPivot(
+            $ids, array('status' => 0), false);
+        }
     }
    }
 

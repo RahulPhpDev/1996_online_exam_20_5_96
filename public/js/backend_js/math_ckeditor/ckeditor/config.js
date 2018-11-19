@@ -46,6 +46,10 @@ CKEDITOR.editorConfig = function( config ) {
        }
    };
    config.disallowedContent = '*{font*}; *{margin*}; *{color*}; span;';
+   config.language = 'fr';
+	config.uiColor = '#AADC6E';  
+	   config.height = '30vh';
+
 };
 
 

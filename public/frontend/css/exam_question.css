@@ -94,3 +94,17 @@
        /*padding:0px 10px ;*/
        margin-left:5px;
     }
+
+
+.other_info{
+         position: relative;
+          padding:5px 0px 5px 33px;
+          border-top:1px dotted #dddddd;
+          font-size:15px;
+          margin:2px 0px 2px 5px;
+
+        }
+      .other_info > .control-label {
+          border-top:1px dotted #dddddd;
+          padding:top:4px;
+        } 

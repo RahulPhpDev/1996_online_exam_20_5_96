@@ -1595,3 +1595,9 @@ div.dataTables_wrapper .ui-widget-header {
 }
 #sidebar .content{ display:none;}
 }
+input.mark {
+    padding: 6px;
+    width: 42px;
+    text-align: center;
+}
+

@@ -19,7 +19,7 @@
               <thead>
                 <tr>
                   <th>Name</th>
-                  <th>Visible To</th>
+                  <th>Visible</th>
                   <th>Total Question</th>
                   <th>Total Mark</th>
                   <th>Passing Mark</th>
@@ -33,15 +33,15 @@
            <?php foreach($examDetails as $data) { ?>     
                 <tr class="odd">
                   <td>{{$data['exam_name']}}</td>
-                  <td> <button type = "button"class ="btn btn-success"> Visible To </button> </td>
+                  <td> <button data-toggle="modal" data-target="#myModal" type = "button" class = "show_visible_to" class ="btn btn-success" data-id = "{{ Crypt::encrypt($data['id'])  }}"> Visible </button> </td>
                   <td> {{$data['total_question']}} </td>
                   <td> {{$data['total_marks']}}</td>
                   <td> {{$data['minimum_passing_marks']}} </td>
                   <td> <button type = "button" class ="btn btn-success"> Other </button></td>
                   <td> <a class ="btn btn-success" href="{{ route('exam-question', ['id' => Crypt::encrypt($data['id']) ]) }}">Questions <i class="fa fa-fw fa-arrow-circle-right"></i></a>&nbsp&nbsp
                    </td>
-                  <td> <button type = "button"class ="btn btn-success"> Edit </button> </td>
-                  <td> <button type = "button"class ="btn btn-success"> Disable </button> </td>
+                  <td> <a type = "button" class ="btn btn-sm btn-success" href="{{ route('edit-exam', ['id' => Crypt::encrypt($data['id']) ]) }}"> Edit </a> </td>
+                  <td> <button type = "button" class ="btn btn-success"> Disable </button> </td>
                 </tr>
                 
            <?php } ?>
@@ -53,4 +53,44 @@
         </div>
 </div>
 </div>
+
+
+
+<!-- Modal -->
+<div id="myModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Exam Visible</h4>
+      </div>
+      <div class="modal-body">
+      
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+<script type="text/javascript">
+  $(document).ready(function(){
+    $(".show_visible_to").on("click", function(){
+      var exam_id = $(this).data("id"); 
+       $.ajax({
+        url:"exam-accessbility/"+exam_id,
+        method:"GET",
+      success:function(data){
+          $(".modal-body").html(data);
+          }
+       });
+    });
+  });
+
+</script>
 @endsection

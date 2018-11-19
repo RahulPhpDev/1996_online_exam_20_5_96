@@ -57,16 +57,12 @@
 $(document).ready(function () {
 
     $('#basic_validate').validate({ // initialize the plugin
+        ignore: [],
+              debug: false,
         rules: {
-          // "total_mark[1]": { required: true},
           "option[]": { required: true,minlength: 3 },
-
         },
         messages: {
-                  
-                     // "total_mark[1]": {
-                     //    required :"Select Mark"
-                     //  }, 
                       "option[]": {
                         required :"Select Package"
                       },
@@ -76,7 +72,7 @@ $(document).ready(function () {
     $(".total_mark_input").rules("add", { 
     required:true, 
      messages: {
-        required: "Enter something else"
+        required: "Mark for question is required"
       }
   });
 
@@ -84,11 +80,20 @@ $(".option_input").each(function(){
     $(".option_input").rules("add", { 
     required:true, 
      messages: {
-        required: "Enter something eldfasdfse"
+        required: "Option is required"
       }
   });
-
 });
+
+$(".question_textarea").each(function(){
+    $(".question_textarea").rules("add", { 
+    required:true, 
+     messages: {
+        required: "Question is Missing"
+      }
+  });
+});
+
 });
 
 
@@ -116,7 +121,7 @@ $(".option_input").each(function(){
                     <button type = "button" id="edit_1">Editor</button>
 <br/>
 
-                    {{ Form::textarea('question[1][]',' ', array('class' => 'question editor', 'id'=> 'textarea_1')) }}
+                    {{ Form::textarea('question[1][]',' ', array('class' => 'question editor question_textarea', 'id'=> 'textarea_1')) }}
                 </div>
               </div>
 

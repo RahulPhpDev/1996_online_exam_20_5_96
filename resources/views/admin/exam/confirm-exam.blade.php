@@ -18,7 +18,72 @@
   .span4{
     /*border:1px solid red;*/
   }
+  .hide{
+    display: none;
+  }
 </style>
+<script type="text/javascript">
+//  setInterval(function(){
+//     // var $sample = $(".show_question");
+//     if($(".show_question").is(":hover")) {
+//          // $(this).children(".edit_question").removeClass('hide');
+//     }
+//     else {
+      
+//     }
+
+// }, 200);
+  // var isHovered = $('.show_question').is(":hover"); // returns true or false
+// if ( $('.show_question').length > 0 ) {
+// if ( $('.show_question').is(':hover')) {
+//     console.log('is hovedfsafdfasr');
+// }
+// }
+//  setInterval(function(){
+//  if ($('.show_question:hover').length === 0)
+// { 
+//   if($('.show_question').is(":hover")){
+//     console.log('is hover');
+//         $(this).children(".edit_question").removeClass('hide');
+//   }
+// }
+// }, 200);
+
+//   setInterval(function(){
+// // $(document).ready(function(){
+//     var $sample = $(".show_question");
+//     if($sample.is(":hover")) {
+//      $(this).children(".edit_question").removeClass('hide');
+//     }
+//     else {
+//        $sample.css("background", "");
+//     }
+    
+// // });
+
+// }, 200);
+
+
+</script>
+<style type="text/css">
+
+.action_div {
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+}
+.action_div a {
+  background: #dedede;
+  padding:3px;
+  margin:0px 2px 0px 2px;
+}
+.add_more_question{
+  padding:4px;
+  margin-right:10px;
+}
+</style>
+
 <div id="content">
      <div class="container-fluid">
     <hr>
@@ -30,8 +95,14 @@
     <div class="quiz">
       <div class="quiz_header">
        
-        <h5>{{$title}}</h5>
+        <h5>{{$title}}
+ <a  href="{{ route('add-exam-question', ['exam_id' => $id ]) }}" class = "add_more_question  btn btn-success pull-right"> Add More Question </a>
+
+        </h5>
+
+
       </div>
+
        
           <?php 
                $totalQuestion = $totalMark = $totalRequiredQuestion = $totalNegativeQuestion =$questionNumber =  0; 
@@ -49,8 +120,11 @@
                 </p>
               </span>
 
-              <a  href="{{ route('edit-exam-question', ['id' =>  Crypt::encrypt($que['question']->id),'exam_id' => $id ]) }}" class = "edit_question btn btn-error pull-right"> Edit  </a>
+             <div class = "action_div"> 
+              <a  href="{{ route('edit-exam-question', ['id' =>  Crypt::encrypt($que['question']->id),'exam_id' => $id ]) }}" class = "edit_question btn  btn-error pull-right"> Edit  </a>
 
+              <a  href="{{ route('remove-exam-question', ['id' =>  Crypt::encrypt($que['question']->id),'exam_id' => $id ]) }}" class = "remove_question  btn btn-error pull-right"> Remove  </a>
+            </div>
               @if($que['question']->is_required == 1)  
               <i class="icon-star text-error required_question" style="display: inline"></i>
                @endif
@@ -107,61 +181,39 @@
                <div class="row">
 
 
-                <div class="span4">
-                   <ul class="recent-posts">
-                    <li>
-                      <div class="article-post" style="padding:10px">
-                        Total Question
-                      <div class="fr">
-                          {{$totalQuestion}}
-                        </div>
+                <div class="" >
+                   
+                        <div class="other_info" >
+                         Total Question :
+                          {{$examQuestion['exam_details']->total_question}}
+                       
                       </div>
-                    </li>              
-                  </ul>
-               </div>
+                   
+                      <div class="other_info" >
+                        Total Mark :
+                            {{$examQuestion['exam_details']->total_marks}}
+                      
+                      </div>
 
-                <div class="span4">
-                   <ul class="recent-posts">
-                    <li>
-                      <div class="article-post" style="padding:10px">
-                        Total Mark
-                      <div class="fr">
-                         {{$totalMark}}
-                        </div>
+                        <div class="other_info" >
+                          Required Question :
+                            {{$examQuestion['exam_details']->required_question}}
+                      
                       </div>
-                    </li>              
-                  </ul>
-               </div>
 
-                <div class="span4">
-                   <ul class="recent-posts">
-                    <li>
-                      <div class="article-post" style="padding:10px">
-                        Required Question
-                      <div class="fr">
-                         {{$totalRequiredQuestion}}
-                        </div>
+                       <div class="other_info" >
+                        Total Negative Question :
+                            {{$examQuestion['exam_details']->negative_question}}
+                      
                       </div>
-                    </li>              
-                  </ul>
-               </div>
-
-               <div class="span4">
-                   <ul class="recent-posts">
-                    <li>
-                      <div class="article-post" style="padding:10px">
-                        Total Negative Question
-                      <div class="fr">
-                          {{$totalNegativeQuestion}}
-                        </div>
-                      </div>
-                    </li>              
-                  </ul>
-               </div>
 
               </div> 
 
+
+
+
               <!-- FORM -->
+                <div class="other_info form-inline" > 
                <div class="control-group">
                <label class="control-label"> Passing Mark Type</label>
                 
@@ -173,10 +225,9 @@
               </div>
 
                <div class="control-group">
-                  <label class="control-label"> Passing Mark</label>
-                <div class="controls">
-                    <input type = "text" name = "passing_mark" id = "passing_mark">
-                </div>
+                  <label class="control-label"> Passing Mark
+<input type = "text" class = "mark" name = "passing_mark" id = "passing_mark">
+                  </label>
               </div>
 
 
@@ -184,6 +235,7 @@
                     {{ Form::submit('Save and Continue',array('class' => 'btn btn-success')) }}
                 </div>
 
+              </div>
               {{Form::close()}}
               </div> 
 

@@ -3,25 +3,29 @@
 @extends('layouts.partials.sidebar')
 @extends('layouts.partials.footer')
 @section('title', $title)
-@section('content')  
-<style type="text/css">
-  .editor{
-    width: 30x;
-    height:40px;
-  }
-  .article-post{
-    padding:10px;  
-  }
+@section('content') 
 
-  .span4{
-    /*border:1px solid red;*/
-  }
-/*.required_question{
-  font-size: 7px;
-    color: red;
-    position: relative;
-    top: 9px;float: inherit;margin: 5px;
-}*/
+<style type="text/css">
+
+.action_div {
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+}
+.action_div a {
+  background: #dedede;
+  padding:3px;
+  margin:0px 2px 0px 2px;
+}
+.add_more_question{
+  padding:4px;
+  margin-right:10px;
+}
+</style>
+<link href="{{ asset('frontend/css/exam_question.css') }}" rel="stylesheet"> 
+<style type="text/css">
+
 </style>
 <div id="content">
      <div class="container-fluid">
@@ -34,115 +38,49 @@
     <div class="quiz">
       <div class="quiz_header">
        
-        <h5>{{$title}}</h5>
+        <h5>{{$title}}
+ <a  href="{{ route('add-exam-question', ['exam_id' => $id ]) }}" class = "add_more_question  btn btn-success pull-right"> Add More Question </a>
+
+        </h5>
+
+
       </div>
-      <style type="text/css">
-      .quiz{
-        background: #fff;
-      }
-      .quiz_header{
-        padding:10px 0px 2px 10px;
-        font-size:32px;
-      }
-        .show_question{
-          /*border:1px solid red;*/
-          margin:10px;
-          padding:10px;
-          font-size: 15px;
-           border: 1px dotted transparent;
-          display: block;
-          box-shadow: 0px 0px 0px 1px rgba(0, 0, 1, 0.1);
-        }
-        .question_data{
-          /*display: inline;*/
-        
-         margin-top:20px;
-        }
-        .inline{
-          display: inline-block;
-        }
-        .question_serial{
-          padding:10px;
-        }
-        .question{
 
-          font-size:17px;
-           letter-spacing: 0.5px;
-        }
-        .options_div{
-         
-          padding:2px 0px 2px 40px;
-        }
-          .options i{
-              color: green;
-              position: absolute;
-          }
-        .options a{
-          padding-left:25px;
-         line-height:32px;
-        }
-        i .required_question{
-          /*position: absolute;*/
-          margin-top:-30px;
-        }
-        .other_question_information a{
-          /*display: inline;*/
-
-          padding-left:50px;
-        }
-        .other_question_information span{
-          padding-left:8px;
-        }
-        .show_question:hover {
-        /*box-shadow: 0 0 11px rgba(33,33,33,.2); */
-        border:1px dotted rgba(0, 0, 1, 0.1);
-         background: #ededed;
-        /*box-shadow: 0px 0px 0px 1px rgba(0, 0, 0, 0);*/
-      }
-      .marks, .negative_marks {
-        background: none repeat scroll 0 0 #E1E1E1;
-        border-radius: 3px 3px 3px 3px;
-        border: 1px solid #E1E1E1;
-        /*float: ;*/
-        font-size: 12px;
-        margin-bottom: 10px;
-        padding: 3px 10px;
-        text-shadow: none;
-        margin-right: 7px;
-    }
-     .negative_marks{
-       background: none repeat scroll 0 0 orange;
-       /*padding:0px 10px ;*/
-       margin-left:5px;
-    }
-      </style>
-      
-
-      
+       
           <?php 
-               $totalQuestion = $totalMark = $totalRequiredQuestion = $totalNegativeQuestion = 0; 
+               $totalQuestion = $totalMark = $totalRequiredQuestion = $totalNegativeQuestion =$questionNumber =  0; 
                 foreach($examQuestion['question'] as $que) { 
+                $questionNumber++;
                 $totalQuestion++;
                 $totalMark = $totalMark + $que['question']->marks;
                   ?>
          <div class="show_question">  
             <div class="question_data">
-              <span class="question_number"> Q 1 : </span>
+              <span class="question_number"> Q {{$questionNumber}}: </span>
               <span class="inline question">
-                
+                <p>
                  <?php echo  htmlspecialchars_decode($que['question']->question); ?>
-                
+                </p>
               </span>
-                <button class = "edit_question btn btn-error pull-right" type = "button" id = "edit_question" data-id = "{{$que['question']->id}}"  data-toggle="modal" data-target="#myModal"> Edit </button>
+
+             <div class = "action_div"> 
+              <a  href="{{ route('edit-exam-question', ['id' =>  Crypt::encrypt($que['question']->id),'exam_id' => $id ]) }}" class = "edit_question btn  btn-error pull-right"> Edit  </a>
+
+              <a  href="{{ route('remove-exam-question', ['id' =>  Crypt::encrypt($que['question']->id),'exam_id' => $id ]) }}" class = "remove_question  btn btn-error pull-right"> Remove  </a>
+            </div>
+              @if($que['question']->is_required == 1)  
               <i class="icon-star text-error required_question" style="display: inline"></i>
+               @endif
             </div>
          
 
             <div class="options_div">
               <?php foreach($que['options'] as $options) { ?>
-                    <div class = "options" id = "option_question_id">
-                      <?php if($que['right_anser']->option_id ==  $options->id ) {  ?>
-                      <i class = "icon icon-ok"> </i> 
+                    <div class = "options options_rel_div" id = "option_question_id">
+                      <?php 
+                   
+                      if($que['right_anser']->option_id ==  $options->id ) { ?>
+                          <i class = "icon icon-ok"> </i> 
                       <?php } ?>
 
                      <a> <?php echo   $options->question_option; ?> </a>  
@@ -184,59 +122,42 @@
             <div class="widget-content">
                {{ Form::open(array('route' => ['save-confirm-exam', $id],'class' => '', 'id'=>'basic_validate'))}}
                <div class="row">
-
-
-                <div class="span4">
-                   <ul class="recent-posts">
-                    <li>
-                      <div class="article-post" style="padding:10px">
-                        Total Question
-                      <div class="fr">
-                          {{$totalQuestion}}
-                        </div>
+                <div class="" >
+                        <div class="other_info" >
+                         Total Question :
+                          {{$examQuestion['exam_details']->total_question}}
+                       
                       </div>
-                    </li>              
-                  </ul>
-               </div>
-
-                <div class="span4">
-                   <ul class="recent-posts">
-                    <li>
-                      <div class="article-post" style="padding:10px">
-                        Total Mark
-                      <div class="fr">
-                         {{$totalMark}}
-                        </div>
+                   
+                      <div class="other_info" >
+                        Total Mark :
+                            {{$examQuestion['exam_details']->total_marks}}
+                      
                       </div>
-                    </li>              
-                  </ul>
-               </div>
 
-                <div class="span4">
-                   <ul class="recent-posts">
-                    <li>
-                      <div class="article-post" style="padding:10px">
-                        Required Question
-                      <div class="fr">
-                         {{$totalRequiredQuestion}}
-                        </div>
+                       <div class="other_info" >
+                       	@php
+                       	$passingType = ($examQuestion['exam_details']->passing_marks_type ==1) ? ' ':' %';
+                       	@endphp
+                        Passing Mark :
+                            {{$examQuestion['exam_details']->minimum_passing_marks}}
+                            {{ 	$passingType}}
+                      
                       </div>
-                    </li>              
-                  </ul>
-               </div>
 
-               <div class="span4">
-                   <ul class="recent-posts">
-                    <li>
-                      <div class="article-post" style="padding:10px">
-                        Total Negative Question
-                      <div class="fr">
-                          {{$totalNegativeQuestion}}
-                        </div>
+                        <div class="other_info" >
+                          Required Question :
+                            {{$examQuestion['exam_details']->required_question}}
+                      
                       </div>
-                    </li>              
-                  </ul>
-               </div>
+
+                       <div class="other_info" >
+                        Total Negative Question :
+                            {{$examQuestion['exam_details']->negative_question}}
+                      
+                      </div>
+
+        			  </div>
 
               </div> 
 
@@ -260,7 +181,7 @@
 <script>
       $(document).ready(function(){
 
-        $(".edit_question").on('click', function(){
+/*        $(".edit_question").on('click', function(){
           var qId =   $(this).data('id');
           $.ajax({
             type : "get",
@@ -271,7 +192,8 @@
               $("#model_body").html(data);
             }
           });
-        });
+          */
+        //});
             CKEDITOR.editorConfig = function (config) {
           
       };

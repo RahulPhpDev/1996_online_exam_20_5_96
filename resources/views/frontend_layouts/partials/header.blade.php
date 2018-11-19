@@ -54,7 +54,8 @@
                             </div>
                             <div class="col-sm-12 col-md-9">
                                 <nav class="navbar-right">
-                                    <ul  id="frontMenu" class="menu"><li class="toggle-menu"><i class="fa icon_menu"></i></li><li class="mobilshopping"><a class="shop" href="Carts/View.html"><i class="fa fa-shopping-bag">0</i></a></li>
+                                    <ul  id="frontMenu" class="menu">
+                                        
 	<li class="active"><a href="{{route('/welcome')}}"><i class="fa fa-home"></i>&nbsp;Home</a></li>
 	<li>
     <a href="{{route('about-us')}}"><i class="fa fa-globe"></i>&nbsp;About Us</a>
@@ -76,7 +77,6 @@
         </li>
        @endif
 </ul>
-                                </nav>
                                 </nav>
                             </div>
                         </div>

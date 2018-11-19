@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use App\Model\Question;
 use  App\Model\QuestionOption;
 use  App\Model\Subscription;
+use App\User;
 use DB;
 
 class Exam extends Model
@@ -86,21 +87,17 @@ class Exam extends Model
   		 }
 
     public function UserExam(){
-      // echo $userId;
-      // where(array(['exam_id', "=",$id], ['eq.status' , "=", 1]));
-        // $whereCondition = [
-        //     'user_id' , "=", $userId,
-        //     'exam_id', "=", $examID,
-        // ];
         $res = $this->belongsToMany(Exam::class,'user_exam')->wherePivot('status' , "=", 1);
-        // dd($res);
+        return $res;
+    }
+
+     public function UserExamData(){
+        $res = $this->belongsToMany(User::class,'user_exam')->wherePivot('status' , "=", 1);
         return $res;
     }
 
      public function Subscriptions(){
       $res = $this->belongsToMany(Subscription::class)->withPivot(['status'])->where('exam_subscription.status','=' ,1);
-          // return $this->belongsToMany('Budget')->where('training_id', '=', $training_id);
-
       return $res;
     }
 }

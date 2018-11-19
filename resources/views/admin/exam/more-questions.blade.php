@@ -13,6 +13,7 @@
 });
 
 </script>
+
 <div class = "mt-15"></div>
 <div class = "mt-15"></div>
             <div class="control-group">
@@ -59,7 +60,7 @@
              <div  class="" style="display: inline-block"> 
               <label class="control-label">Marks :</label>
                <div class="controls">
-                <input type="text" name="total_mark[<?php echo $id; ?>]" style = "width: 20%"/>
+                <input type="text" class="total_mark_input" name="total_mark[<?php echo $id; ?>]" style = "width: 20%"/>
               </div>
              </div>
 

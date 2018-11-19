@@ -19,13 +19,6 @@ class UserController extends Controller
 
 
 
-       // $allData = DB::table('users as u')->leftjoin('students as s', function ($join) {
-       //      $join->where('u.user_type', '=', '2')->on('u.id', '=', 's.user_id');
-       //  })->
-               // ->select('organisations.*', 'organisations.title AS org_title', 'subscription_plans.*', 'subscription_plans.title AS plan_title')
-
-       // get()->toArray();
-       // echo '<pre>';print_r($allData);die();
     public function userList(){
     	$title = 'Users';
     	$allData = DB::table('users as u')
@@ -38,9 +31,7 @@ class UserController extends Controller
 
 	public function addUser(){
 		$title = 'Add User';
-		// $allCourse = Course::where('status', 1)->get();
 		$allCourse = Course::where('status', 1)->pluck('name','id')->toArray();
-		
 		return view('admin.user.add-user',compact('title','allCourse'));
     }
 
@@ -56,25 +47,16 @@ class UserController extends Controller
  //        ]);
  //    }
 
-    public function  saveUser(Request $request){
+    public function  saveUser(UserRequest $request){
     	// echo '<pre>';print_r($request->all());die();
     	try{
 
-        //  return Validator::make($request, [
-        //     'fname' => 'required|string|max:255',
-        //     'lname' => 'required|string|max:255',
-        //     'email' => 'required|string|email|max:255|unique:users',
-        // //    'enrollment' => 'required|regex:/(^[A-Za-z0-9 ]+$)+/|max:255|unique:students,enroll_number',
-        //     'password' => 'required|string|min:6|confirmed',
-        // ]);
-
- // $plan = 123; // some logic to decide user's 
 
 		$userData = array(
 		      	'password' => bcrypt($request['password']),
             'status' => 1,
             'add_date' => date("Y-m-d"),
-            'username' => $request['username'],
+            'username' => 'fdsf',
             'fname' => $request['fname'],
             'lname' => $request['lname'],
             'email' => $request['email'],
@@ -236,5 +218,12 @@ class UserController extends Controller
                   </td>
                 ';   
                 exit;
+    }
+
+    public function getRegisterStudent(){
+      // die('this');
+      $userData = User::where('user_type',3)->get()->toArray();
+      return view('admin.user.register-student',compact('userData'));
+      // dd($userData);
     }
 }

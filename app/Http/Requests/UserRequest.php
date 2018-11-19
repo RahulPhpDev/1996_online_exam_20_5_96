@@ -27,21 +27,22 @@ class UserRequest extends FormRequest
             //in this we decalre our validation
         'fname' => array('required'),
         'lname' => array('required'),
-        // 'required|email|unique:users',
-        'username' => array('required|unique:users'),
-        'email' => array('required'),
+        'email' => 'required|string|email|max:255|unique:users',
+        'password' => 'required|string|min:6|confirmed',
         ];
     }
 
     public function messages()
     {
         return [
-            // |unique:user
+//             // |unique:user
         'fname.required' => ':attribute can\'t be null ',
         'lname.required' => ':attribute can\'t be null ',
-        'username.required' => ':attribute can\'t be null ',
+// //        'username.required' => ':attribute can\'t be null ',
         'email.required' => ':attribute can\'t be null ',
-        // 'email.unique' => ':attribute Already Exist',
+         'email.unique' => ':attribute Already Exist',
+         'password.required' => ':attribute can\'t be null',
+         'password.confirmed' => ':attribute is not confirmed',
        ];
     }
 }

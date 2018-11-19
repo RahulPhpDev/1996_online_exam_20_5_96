@@ -18,7 +18,7 @@
 
 
 //================ Guest ====================
-// Route::get('send','MailController@send');
+Route::get('send','MailController@send');
 Route::get('session', 'GuestController@sessionTest')->name('session');
 
 Route::get('nextSession', 'GuestController@nextSession')->name('nextSession');
@@ -129,8 +129,19 @@ Route::get('/exam-question/{id}', 'Admin\ExamController@examQuestion')->name('ex
 
 Route::get('/edit-exam-question/{id}/{exam_id?}', 'Admin\ExamController@editExamQuestion')->name('edit-exam-question');
 
+Route::get('/remove-exam-question/{id}/{exam_id?}', 'Admin\ExamController@removeExamQuestion')->name('remove-exam-question');
+
 Route::post('/updateExamQuestion/{id?}','Admin\ExamController@updateExamQuestion')->name('updateExamQuestion');
 
 Route::post('/approve-user','Admin\UserController@approveUser')->name('approve-user');
 
+
+Route::get('/get-register-student', 'Admin\UserController@getRegisterStudent')->name('get-register-student');
+
+Route::get('/exam-accessbility/{id}', 'Admin\ExamController@examAccessbility')->name('exam-accessbility');
+
+
+Route::any('/remove-exam-user/{id}', 'Admin\ExamController@removeExamUser')->name('remove-exam-user');
+
+Route::get('/edit-exam/{id}', 'Admin\ExamController@editExam')->name('edit-exam');
 }) ; 

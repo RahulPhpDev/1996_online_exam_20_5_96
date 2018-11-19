@@ -8,7 +8,40 @@
 .select2-container{
   width: 30%;
 }
-</style>  
+</style>
+
+
+
+<script type="text/javascript">
+  
+$(document).ready(function () {
+    $('#basic_validate').validate({ // initialize the plugin
+        ignore: [],
+              debug: false,
+        rules: {
+           user_type: { required: true },
+           fname: { required: true,minlength: 3  },
+           lname: { required: true,minlength: 3  },
+           email: { required: true, email: true,minlength: 3  },
+       //    join_date: { required: true },
+        //   end_date: { required: true,minlength: 3  },
+           password: { required: true,minlength: 3  },
+           confirm_password:{ required: true,minlength: 3  },
+        },
+        messages: {
+          user_type: {required :"Select User Type",},
+          fname: {required :"First Name is required",minlength : "First Name Should have 3 character"},
+          lname: {required :"Last Name is required",minlength : "Last Should have 3 character"},
+          email: {required :"Email is required",email :"Not a valid email", minlength : "Email should have 3 character"},
+         // join_date: {required :"Last Name",minlength : "First Should have 3 character"},
+         // end_date: {required :"Last Name",minlength : "First Should have 3 character"},
+          password: {required :"Password is required",minlength : "password Should have 3 character"},
+          confirm_password: {required :"Confirm Password is required"},
+                  }
+    });
+
+});
+</script>
 <div id="content">
      <div class="container-fluid">
     <hr>
@@ -27,20 +60,20 @@
                 <div class="control-group">
                     {{ Form::label('usertype','Select User',array('class' => 'control-label'))}}
                   <div class="controls">
-                    {{ Form::select('user_type', array('2' => 'Course Admin', '3' => 'Student'), 'default',array('id' => 'user_type')) }}
+                    {{ Form::select('user_type', array('3' => 'Student','2' => 'Course Admin' ), 'default',array('id' => 'user_type')) }}
                   </div>
                 </div>
 
                 
 
-                <div class="control-group">
-                  {{ Form::label('user','User Name',array('class' => 'control-label'))}}
+<!--                <div class="control-group">
+                  {{-- Form::label('user','User Name',array('class' => 'control-label'))--}}
                 <div class="controls">
-                    {{ Form::text('username') }}
+                    {{-- Form::text('username') --}}
                     <a class="tip" style="margin-left:10px" href="#" title="Use For Login Credidtials"><i class=" icon-question-sign"></i></a> 
                 </div>
 
-              </div>
+              </div>-->
 
               <div class="control-group">
                   {{ Form::label('name','First Name',array('class' => 'control-label'))}}
@@ -108,11 +141,14 @@
                 <div class="controls">
                   <input id="password" type="password" class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" name="password" required>
 
-                        @if ($errors->has('password'))
+                        <?php
+                        /*
+                        if ($errors->has('password'))
                             <span class="invalid-feedback" role="alert">
                                 <strong>{{ $errors->first('password') }}</strong>
                             </span>
-                             @endif
+                            */
+                            ?>
                 </div>
               </div>
 
@@ -122,9 +158,6 @@
                      <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required>   
                 </div>
               </div>   
-
-          
-
 
                 <div class="control-group">
                   
