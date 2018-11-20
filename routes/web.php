@@ -144,4 +144,12 @@ Route::get('/exam-accessbility/{id}', 'Admin\ExamController@examAccessbility')->
 Route::any('/remove-exam-user/{id}', 'Admin\ExamController@removeExamUser')->name('remove-exam-user');
 
 Route::get('/edit-exam/{id}', 'Admin\ExamController@editExam')->name('edit-exam');
+
+Route::post('/update-exam/{id}', 'Admin\ExamController@updateExam')->name('update-exam');
+
+Route::get('/profile', 'Admin\UserController@profile')->name('profile');
+
+Route::post('/update-profile', 'Admin\UserController@updateProfile')->name('update-profile');
+
+
 }) ; 

@@ -2,11 +2,8 @@
 
 namespace App\Http\Controllers\Admin;
 
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use App\Model\Course;
-use App\Model\Student;
-use App\User;
+
+
 use Illuminate\Database\QueryException;
 use App\Service\PayUService\Exception;
 use App\Http\Requests\UserRequest; #form-validation
@@ -14,6 +11,13 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
 use Illuminate\Support\Facades\Crypt;
+use Auth;
+
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use App\Model\Course;
+use App\Model\Student;
+use App\User;
 class UserController extends Controller
 {
 
@@ -224,6 +228,27 @@ class UserController extends Controller
       // die('this');
       $userData = User::where('user_type',3)->get()->toArray();
       return view('admin.user.register-student',compact('userData'));
-      // dd($userData);
+    
+    }
+
+    public function profile(){
+       $user = Auth::user();
+    //    dd($user->toArray());
+       $title  = 'My Profile';
+       return view('admin.user.profile',compact('title', 'user'));
+    }
+
+    public function updateProfile(Request $request){
+           $user = Auth::user();
+           $userDetails = User::FindorFail($user['id']);
+           $userDetails->fname = $request['fname'];
+           $userDetails->lname = $request['lname'];
+           $userDetails->phone_no = $request['phone_no'];
+            if($request['password']){
+             $userDetails->password = bcrypt($request['password']);
+            }
+           $userDetails->save();
+           return redirect()-> route('profile')->with('success', 'Update Successfully');
+          
     }
 }
