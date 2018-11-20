@@ -47,8 +47,7 @@ class ExamController extends Controller
                 $isPayable =1;
                 $amount = $request['amount'];
             }
-            $examData = array(
-                'exam_name' => $request['exam_name'],
+            $examData = array('exam_name' => $request['exam_name'],
                 'is_payable' => $isPayable,
                 'payable_amount' => $amount,
                 'description' => $request['description'],
@@ -250,10 +249,29 @@ class ExamController extends Controller
      public function editExam($id){
          $de_id =  Crypt::decrypt($id);
          $examDetails = Exam::find($de_id);
-         // dd($examDetails);
+        //  dd($examDetails->toArray());
          $title = 'Edit '.$examDetails['exam_name']. ' Exam';
          // dd( $title );
          return view('admin.exam.edit-exam',compact('examDetails','id', 'title'));
+     }
+
+     public function updateExam(Request $req, $id){
+        //  dd($req);
+        $de_id =  Crypt::decrypt($id);
+        $examDetails = Exam::find($de_id);
+        $input = Input::only('exam_name', 'passing_marks_type','minimum_passing_marks','description','notes');
+        
+        $examObj = new Exam();
+        $examObj->exists = true;
+        $examObj->id = 3; //already exists in database.
+        $examObj->exam_name = $input['exam_name'];
+        $examObj->passing_marks_type = $input['passing_marks_type'];
+        $examObj->minimum_passing_marks = $input['minimum_passing_marks'];
+        $examObj->description = $input['description'];
+        $examObj->notes = $input['notes'];
+        $examObj->save();
+        return redirect()->route('exam')->with('success', 'Exam Details are updated!');
+
      }
 
      public function examPostSuccess($id){
