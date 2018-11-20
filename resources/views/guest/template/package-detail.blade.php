@@ -27,7 +27,7 @@
                                 <strong>Exams :</strong> <span
                                     class="text-info"><strong>
                                    @foreach($package->Exam as $exam)
-                                    {{$exam->exam_name}}
+                                    {{$exam->exam_name}} |
                                    @endforeach
                                          </strong></span>
                             </div>

@@ -14,6 +14,8 @@ use App\Model\Question;
 use App\Model\Exam;
 use App\Model\UserAnswer;
 use App\Model\Result;
+use Session;
+
 
 class UserController extends Controller
 {
@@ -48,9 +50,8 @@ class UserController extends Controller
     }
 
     public function subscrptionExam($id = ''){
-    	$id = 1;
- 		   $package =  Subscription::find($id);
-
+       $sid =  Crypt::decrypt($id);
+ 		   $package =  Subscription::find($sid);
     	return view('permit.exam.package-exam',compact('package'));
 
     }
@@ -63,12 +64,20 @@ class UserController extends Controller
       if(session()->has('all_questions')) {
        session()->forget('all_questions');
      }
+
+     if(session()->has('all_questions_class')) {
+      session()->forget('all_questions_class');
+    }
+
       if(session()->has('current_question')) {
        session()->forget('current_question');
      }
-      if(session()->has('attempt_questions.queID')) {
-       session()->forget('attempt_questions.queID');
-     }
+     
+     if(session()->has('user_answer.question')) {
+      session()->forget('user_answer.question');
+    }
+
+  
 
          $id =  Crypt::decrypt($e_id);
          // echo $id;die();
@@ -79,14 +88,19 @@ class UserController extends Controller
         $allQuestionArray = array();
         foreach($questionData as $que){
           $allQuestionArray[] = $que['id'];
+          $all_questions_class_array[$que['id']] = 'pending'; 
         }
+
+        
+      session(['all_questions_class' => $all_questions_class_array]);
+
 
       session(['exam_id' => $id]);
       session(['all_questions' => $allQuestionArray]);
       $questionKeys = session('all_questions');
       $current_question = $questionKeys[0];
       session(['current_question' => $current_question]);
- // dd($value[0]);
+ 
          $questionDetails    = Question::find($current_question);
          // $nextQuestionId = $examData->ExamQuestion[1]['id'];
        
@@ -95,42 +109,39 @@ class UserController extends Controller
         //   'next_question' => $nextQuestionId,
         //   'exam_id' => $id
         // ]);
-
-         // dd(session()->all());
-       
         $passArray = array(
          'examDetails' => $examData,
          'questionDetails' => $questionDetails,
        //  'nextQuestionId' => $questionKeys[1],
          'examId' => $e_id,
+         'all_questions_class' => session('all_questions_class'),
         );
-
-        // dd($examData);
         return view('permit.exam.exam-questions',$passArray);
     }
 
    
-    public function saveAnswer(Request $request){ 
-    $examId = session('exam_id');
-    $examDetails = Exam::find($examId);
+    public function saveAnswer(Request $request){
+    
+      // Session::put('all_questions_class.'.$id,'answer');
+      $userData = Auth::user(); 
+      $userId = $userData['id'];
+     $examId = session('exam_id');
+     $examDetails = Exam::find($examId);
+    //  all_questions_class
       if($request['save'] !==  'continue' && $request['save'] !==  'skip' ){
-          
           $last_attempt_question = session('current_question');
           $allQuestion = session('all_questions');
           $allAttemptQuestion = session('attempt_questions.queID');
           $pending_questions = array_diff($allQuestion,$allAttemptQuestion);
           $nextQuestionId = current($pending_questions);
-          
       }
       // echo '<pre>';print_r($questionDetails);die();
 
       else if($request['save'] ==  'continue'){
-        // dd($request);
         $last_attempt_question = session('current_question');
         $answerID = $request['answer'];
         $lastQuestionData =  Question::find($last_attempt_question); 
-
-       session()->push('attempt_questions.queID', $last_attempt_question);
+        session()->push('attempt_questions.queID', $last_attempt_question);
         $allQuestion = session('all_questions');
         $allAttemptQuestion = session('attempt_questions.queID');
 
@@ -138,23 +149,26 @@ class UserController extends Controller
         $rightAnswerId = ($lastQuestionData->rightAnswer->option_id);
         $status = 0;
         if($rightAnswerId ==  $answerID ){
-        $status = 1;
+          $status = 1;
         }
         if($rightAnswerId !=  $answerID ){
-        $status = 2;
+         $status = 2;
         }
 
-      $userData = Auth::user();
-      $userId = $userData['id'];
-      UserAnswer::create([
+     
+      $lastAnswerid = UserAnswer::create([
          'user_id' => $userId,
          'exam_id' => $examId,
          'question_id' => $last_attempt_question,
          'answer_id' => $answerID,
          'status' => $status,
          'mark' => $lastQuestionData['marks'],
-      ]);
-      $nextQuestionId = current($pending_questions);
+      ])->id;
+      session()->push('user_answer.question',$lastAnswerid );
+
+        $nextQuestionId = current($pending_questions);
+        Session::put('all_questions_class.'.$last_attempt_question,'answered');
+        
       }
       else if($request['save'] ==  'skip'){
           $last_attempt_question = session('current_question');
@@ -163,6 +177,17 @@ class UserController extends Controller
           $allAttemptQuestion = session('attempt_questions.queID');
           $pending_questions = array_diff($allQuestion,$allAttemptQuestion);
           $nextQuestionId = current($pending_questions);
+
+           $lastAnswerid = UserAnswer::create([
+             'user_id' => $userId,
+             'exam_id' => $examId,
+             'question_id' => $last_attempt_question,
+             'answer_id' =>0,
+             'status' => 3,
+             'mark' => 0,
+          ])->id;
+      session()->push('user_answer.question',$lastAnswerid );
+      Session::put('all_questions_class.'.$last_attempt_question,'answered_escape');
       }
 
       if(empty($pending_questions)){
@@ -172,17 +197,16 @@ class UserController extends Controller
       
     session(['current_question' => $nextQuestionId]);
     $questionDetails    = Question::find($nextQuestionId);
-    // dd($questionDetails);
      $passArray = array(
       'examDetails' => $examDetails,
       'questionDetails' => $questionDetails,
+      'all_questions_class' =>  session('all_questions_class'),
     );
     return view('permit.exam.exam-questions',$passArray);
-     }
+  }
 
-     public function viewResult($exam_id){
+  public function viewResult($exam_id){
       $false = 0;
-      
       $sessionExamId = session('exam_id');
       if(session()->has('exam_id')) {
          session()->forget('exam_id');
@@ -197,52 +221,72 @@ class UserController extends Controller
       if(session()->has('attempt_questions.queID')) {
        session()->forget('attempt_questions.queID');
      }
-
+     $user_answer_question = array();
+     if(session()->has('user_answer.question')) {
+       $user_answer_question = session('user_answer.question');
+    }
 
          $examId =  Crypt::decrypt($exam_id);
-         if($examId != $sessionExamId){
-          $false = 1;
-         }
-
-        // $examId = 1;
+ 
+      if($false == 0){  
         $examUserObj = new UserAnswer();
        $userData = Auth::user();
 
        $userId = $userData['id'];
        $examDetails =  Exam::find($examId);
-          // dd($examDetails['exam_name']);
+      
       $userExamData  = $examDetails->UserExam()
                         ->where('user_exam.user_id','=',$userId)
-                        ->get();     
+                        ->get()->toArray();     
+
       if(!empty($userExamData)){ #user has this exam
         $getResult = $examUserObj->getUserExamAnswer($userId , $examId);
       }else{
         $false = 1;
       }
-      $totalMark = 0;
-      $marks = array();
-      foreach($getResult as $res){
-          $marks[] = $res->mark;
+    }
+      if($false != 1){ 
+        $totalMark = 0;
+        $marks = array();
+        foreach($getResult as $res){
+            $marks[] = $res->mark;
+        }
+        $totalMark = array_sum($marks);
+       
+        //Check For IF Student IS Pass Or Not 
+        if($examDetails['passing_marks_type'] == 1){
+          $passingNumber = $examDetails['minimum_passing_marks'] ;
+        }else if($examDetails['passing_marks_type']){
+          $passingNumber =  ($examDetails['total_marks'] * $examDetails['minimum_passing_marks'])/100 ;
+        }
+// End
+    $passingStatus = 2; #fail
+      if($passingNumber <= $totalMark ){
+        $passingStatus = 1; #pass
       }
-      $totalMark = array_sum($marks);
-
-      if($false != 1){
-
         $resultObj = new Result();
         $resultData = array(
           'exam_id' => $sessionExamId,
           'student_id' => $userId,
           'obtain_mark' => $totalMark,
-          'result_status' => 1,
+          'result_status' => $passingStatus,
           'right_answer' => 2,
           'negative_marks' =>  5,
           'correct_answer' => 2,
           'wrong_answer' =>  1,
           'not_attempt' => 1,
-      );
-      $id =  $resultObj::create($resultData)->id;    
-	      
-	      
+       );
+      $id =  $resultObj::create($resultData)->id;  
+      foreach($user_answer_question as $key => $value){
+        $userAnswerDetails =  UserAnswer::find($value);
+        $userAnswerDetails->result_id = $id;
+        $userAnswerDetails->save();
+      }
+
+      if(session()->has('user_answer.question')) {
+       session()->forget('user_answer.question');
+     }
+     
         $viewData = array(
           'examDetails' => $examDetails,
           'userExamData' => $userExamData,

@@ -5,14 +5,22 @@
 @extends('frontend_layouts.partials.footer')
 
 @section('content') 
-
+<!-- tex2jax: {
+      inlineMath: [['$','$'], ['\\(','\\)']],
+      ignoreClass: "math-editor", // put this here
+      ShowMathMenu: false,
+    } -->
 <script src='https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
   <script type="text/x-mathjax-config">
   MathJax.Hub.Config({
-    tex2jax: {
-      inlineMath: [['$','$'], ['\\(','\\)']],
-      ignoreClass: "math-editor" // put this here
-    }
+   
+     showMathMenu: false,
+  extensions: ["tex2jax.js"],
+  jax: ["input/TeX", "output/HTML-CSS"],
+  tex2jax: {
+      skipTags: ["body"],
+      processClass: "equation"
+  }
   });
 </script>
 
@@ -28,7 +36,7 @@
            
           {{-- Form::open(array('route' => ['save-answer',$examId],'class' => 'form-horizontal', 'id'=>'basic_validate'))--}} 
 
- {{ Form::open(array('route' => 'save-answer','class' => 'form-horizontal', 'id'=>'basic_validate'))}} 
+            {{ Form::open(array('route' => 'save-answer','class' => 'form-horizontal', 'id'=>'basic_validate'))}} 
               <div class = "options">
                 @foreach($questionDetails->Options as $data)
                  <div class = "opt_data">
@@ -50,8 +58,6 @@
 		           @endif
                 <button name="save" type="submit" value="continue" class="btn btn-success">Save And Next Question</button>
             </div>
-            
-
 
              </div>
 
@@ -69,15 +75,24 @@
           </div>
          <div class="col-md-3">
             <a class="answered_escape"> 2 </a>
-         </div> -->
-
-         @for($i = 1; $i <= $examDetails['total_question']; $i++)
-
-        <div class="col-md-3">
-            <a class=""> {{$i}} </a>
          </div>
-         @endfor
+
+         <div class="col-md-3">
+            <a class="pending"> 3 </a>
+         </div>  -->
+
         
+
+
+       <?php 
+       $i = 1;
+      //  dd($all_questions_class);
+       foreach($all_questions_class as $question_id => $class) { ?>
+         
+         <div class="col-md-3">
+            <a class="{{$class}}"> {{$i}} </a>
+         </div>
+         <?php $i++; } ?>
         </div>
           </div>
         </div>

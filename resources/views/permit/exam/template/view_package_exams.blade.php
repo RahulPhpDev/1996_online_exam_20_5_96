@@ -8,6 +8,11 @@
     padding-right:30px;
     padding-top:10px;
   }
+  .text_heading strong{
+    display: inline-block;
+  width: 130px;
+  text-align: right;
+  }
 </style>
  
 <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 bhoechie-tab-menu">

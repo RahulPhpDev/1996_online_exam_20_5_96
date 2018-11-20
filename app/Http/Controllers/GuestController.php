@@ -26,7 +26,7 @@ class GuestController extends Controller
         $id =  Crypt::decrypt($id);
         $package =  Subscription::find($id);
         $otherPackage = Subscription::get()->where('id', '!=', $id);
-        // dd($otherPackage);
+        // dd($package);
     	return view('guest.package',compact('package','otherPackage'));
     }
 
