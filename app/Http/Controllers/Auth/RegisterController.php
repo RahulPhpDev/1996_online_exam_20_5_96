@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use App\Model\Student;
 
+use Image;
+use File;
 class RegisterController extends Controller
 {
     /*
@@ -66,8 +68,6 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-            // $id = Company::create($input)->id;
-
          $user = User::create([
             'fname' => $data['fname'],
             'lname' => $data['lname'],
@@ -84,13 +84,30 @@ class RegisterController extends Controller
            // 'enroll_number' => $data['enrollment'],
             'status' => 1,
          ]);
-    return $user;
+        $image = $data['profile'];
+        $userDetailsByID = User::find($id);
+        $input['imagename'] = 'profile_'.$id.'.'.$image->getClientOriginalExtension();
+        $imagesPath =  public_path().'/images';
+        $profilePath =  $imagesPath.'/profile';
+        if(!File::exists($profilePath)) {
+            File::makeDirectory($profilePath, 0777, true, true);
+       }
+       $destinationPath =$profilePath.'/thumbnail';
+       if(!File::exists($destinationPath)) {
+          File::makeDirectory($destinationPath, 0777, true, true);
+         }
+       $thumb_img = Image::make($image->getRealPath())->resize(250, 200);
+       $thumb_img->save($destinationPath.'/'. $input['imagename'],80);
 
-      //   $userObj = new User();
-      //    $userObj->fill(array(
-             
-      //          )
-      //       );
-      // $userObj->save();
+        // first load profile page in original
+        $originalPath =  $profilePath.'/original';
+        if(!File::exists($originalPath)) {
+                File::makeDirectory($originalPath, 0777, true, true);
+        }
+        $image->move($originalPath, $input['imagename']);
+        
+        return $user;
+//        ALTER TABLE `students` CHANGE `enroll_number` `enroll_number` VARCHAR(55) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL;
+     
     }
 }
