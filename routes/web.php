@@ -19,7 +19,13 @@
 
 //================ Guest ====================
 Route::get('send','MailController@send');
+
+Route::get('/downloadPDF/{id?}','GuestController@downloadPDF');
+
 Route::get('session', 'GuestController@sessionTest')->name('session');
+
+Route::get('intervation', 'GuestController@intervation')->name('intervation');
+
 
 Route::get('nextSession', 'GuestController@nextSession')->name('nextSession');
 

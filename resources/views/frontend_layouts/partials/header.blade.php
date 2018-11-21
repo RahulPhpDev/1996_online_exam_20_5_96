@@ -36,6 +36,14 @@
 
     });
 </script>
+<style>
+ /* .rpic{
+     border:1px solid red;
+ } */
+ /* .rpic img{
+            border-radius: 50%;
+        } */
+        </style>
 
 <div id="preloader">
     <div id="status">&nbsp;</div>
@@ -76,6 +84,7 @@
             </form>
         </li>
        @endif
+      
 </ul>
                                 </nav>
                             </div>

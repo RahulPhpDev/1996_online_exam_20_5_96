@@ -1,0 +1,8 @@
+composer require barryvdh/laravel-dompdf => for pdf
+
+
+user_answer table
+status ==> 
+1 => right answer
+2 => wrong answer
+3 => skip

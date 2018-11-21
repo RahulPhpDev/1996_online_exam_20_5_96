@@ -6,7 +6,12 @@ use Illuminate\Http\Request;
 use App\Model\Subscription;
 use Illuminate\Support\Facades\Crypt;
 use App\Model\Exam;
+use Image; 
+use PDF;
+use Dompdf\Dompdf;
+use Mpdf;
 
+use App\User;
 // use Session;
 
 class GuestController extends Controller
@@ -70,5 +75,83 @@ class GuestController extends Controller
        \Session::put('somekey', 'somevalue');
 
         dd(session('somekey'));
+    }
+
+    public function intervation(){
+        // die('this');
+        // open an image file
+            // $img = Image::make('images/backend_images/gallery/imgbox3.jpg');
+
+            // // // resize image instance
+            // $img->resize(320, 240);
+
+            // // insert a watermark
+            // $img->insert('images/backend_images/gallery/imgbox1.jpg');
+
+            // // save image in desired format
+            // $img->save('images/backend_images/gallery/update_img.jpg');
+
+
+            $watermark =  Image::make('images/backend_images/watermark.jpg');
+            $img = Image::make('images/backend_images/logo.png');
+            //#1
+            $watermarkSize = $img->width() - 20; //size of the image minus 20 margins
+            //#2
+            $watermarkSize = $img->width() / 2; //half of the image size
+            //#3
+            $resizePercentage = 70;//70% less then an actual image (play with this value)
+            $watermarkSize = round($img->width() * ((100 - $resizePercentage) / 100), 2); //watermark will be $resizePercentage less then the actual width of the image
+
+            // resize watermark width keep height auto
+            $watermark->resize($watermarkSize, null, function ($constraint) {
+                $constraint->aspectRatio();
+            });
+            //insert resized watermark to image center aligned
+            $img->insert($watermark, 'center');
+            //save new image
+            $img->save('images/backend_images/watermark-logo.png');
+
+
+    }
+    function downloadPDF($id =''){
+$user = User::find(1);
+        $pdf = PDF::loadView('pdf',$user);
+$pdf->setWatermarkImage(public_path('images/backend_images/watermark.jpg'));
+$pdf->save(public_path('file.pdf'));
+die('here');
+$watermark =  Image::make('images/backend_images/watermark.jpg');
+$watermarkSize = $img->width() - 20; //size of the image minus 20 margins
+//#2
+$watermarkSize = $img->width() / 2; //half of the image size
+//#3
+$resizePercentage = 70;//70% less then an actual image (play with this value)
+$watermarkSize = round($img->width() * ((100 - $resizePercentage) / 100), 2); //watermark will be $resizePercentage less then the actual width of the image
+
+// resize watermark width keep height auto
+$watermark->resize($watermarkSize, null, function ($constraint) {
+    $constraint->aspectRatio();
+});
+$img->insert($watermark, 'center');
+        // dd($dompdf);
+        // $id = 1;
+        // $user = User::find($id);
+
+        // $dompdf->loadHtml($html);
+        // $dompdf->render();
+        // $canvas = $dompdf->getCanvas();
+        // $dompdf->SetWatermarkImage("http://127.0.0.1:8000/images/backend_images/watermark.jpg");
+        // $canvas->page_script('
+        //   $pdf->set_opacity(.5);
+        //   $pdf->image("http://127.0.0.1:8000/images/backend_images/watermark.jpg", {100px}, {100px}, {80%}, {80%});
+        // ');
+        // $dompdf->stream("invoice.pdf");
+        // return $dompdf->download('invoice.pdf');
+        // die('check');
+
+
+
+        // $pdf = PDF::loadView('pdf', compact('user'));
+        // $pdf->setWatermarkImage('images/backend_images/watermark.jpg');
+        // return $pdf->download('invoice.pdf');
     }
 }
