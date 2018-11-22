@@ -59,3 +59,14 @@ git add  resources/views/guest/template/package-detail.blade.php
 git add  resources/views/permit/exam/exam-questions.blade.php
 git add  resources/views/permit/exam/template/view_package_exams.blade.php
 
+
+
+git add app/Http/Controllers/Auth/RegisterController.php
+git add app/Http/Controllers/GuestController.php
+git add composer.json
+git add composer.lock
+git add config/app.php
+git add database/status_meaning
+git add resources/views/frontend_layouts/partials/header.blade.php
+git add routes/web.php
+
