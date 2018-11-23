@@ -17,7 +17,7 @@
                     <div class="product col-md-7 service-image-left ">
                         <div class="mycontainer">
                             <center>
-                          
+                        
                       <img src="{{ asset('frontend/img/nia.png') }}" alt="Test123" id="item-display" />           
                        </center>
                        <div class="product_description">

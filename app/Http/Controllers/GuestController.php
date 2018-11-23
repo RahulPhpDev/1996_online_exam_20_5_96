@@ -10,13 +10,14 @@ use Image;
 use PDF;
 use Dompdf\Dompdf;
 use Mpdf;
-
+use Auth;
 use App\User;
 // use Session;
 
 class GuestController extends Controller
 {
     public function index(){
+      
 	    	$SubscriptionData  = Subscription::where('status', 1)->get();
 	    	return view('welcome',compact('SubscriptionData'));
     }
@@ -35,6 +36,12 @@ class GuestController extends Controller
     	return view('guest.package',compact('package','otherPackage'));
     }
 
+    public function allpackage(){
+       $allPackage = Subscription::get()->where('status', 1);
+    	return view('guest.allpackage',compact('allPackage'));
+    }
+
+    
     public function payment(){
         return view('guest.payment');
     }

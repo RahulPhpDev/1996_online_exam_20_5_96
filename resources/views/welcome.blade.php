@@ -150,18 +150,12 @@
 						</div>
 					</div>
 					<div class="col-xs-12 text-center homepackage">
-							@foreach($SubscriptionData as $sub)	            			                
-		                    <div class="item  col-md-3">
-		                        <div class="thumbnail mycontainer item_img" style="padding: 5px">
-		                            <a class="" href="{{ route('package', ['id' => Crypt::encrypt($sub->id) ]) }}">
-		                            <img src="{{ asset('frontend/img/nia.png') }}" alt=" Package" class="
-		                            group list-group-image" />		                            </a>
-		                            <div class="caption">
-		                                 <h4 class="group inner list-group-item-heading"><strong>{{$sub->name}}</strong></h4>
-		                            </div>
-		                        </div>
-		                    </div>
-			            	@endforeach			            
+
+					  @php $componentData = array(
+						'SubscriptionData' => $SubscriptionData,
+						); @endphp
+						@component('homepage.subscription_package', $componentData)
+						@endcomponent      
 
 					</div>
 					<div class="col-xs-12 text-center">

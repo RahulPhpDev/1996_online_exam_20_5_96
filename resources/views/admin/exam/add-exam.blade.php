@@ -147,16 +147,15 @@ $(document).ready(function () {
             <div class="control-group">
                     {{Form::label('Description' , 'Description', array('class' => 'control-label')) }}
                     <div class="controls">
-                        {{Form::textarea('description', ' ',array('class' =>'description_div', 'id' => 'description'))}}
+                        {{Form::textarea('description', ' ',array('class' =>'description_div textarea_editor span8' ,'rows'=>'6', 'id' => 'description'))}}
+                       
                     </div>
                  </div>
 
-
-
                 <div class="control-group">
-                    {{Form::label('notes' , 'Notes Before Exam', array('class' => 'control-label')) }}
+                    {{Form::label('notes' , 'Notes Before Examdf', array('class' => 'control-label')) }}
                     <div class="controls">
-                        {{Form::textarea('notes', ' ',array('class' =>'description_div', 'id' => 'notes'))}}
+                        {{Form::textarea('notes', ' ',array('class' =>'notes_area span8' ,'rows'=>'6', 'id' => 'notes'))}}
                     </div>
                  </div>
 
@@ -172,16 +171,12 @@ $(document).ready(function () {
 </div>
 </div>
 <script src="{{ asset('js/backend_js/math_ckeditor/ckeditor/ckeditor.js') }}"></script>
-
+            
 <script>
     $(function(){
+      $('.textarea_editor').wysihtml5();
+      $('.notes_area').wysihtml5();
       $(document).ready(function(){
-            CKEDITOR.editorConfig = function (config) {
-           config.toolbar_Full.push({ name: 'wiris', items : [ 'ckeditor_wiris_formulaEditor','ckeditor_wiris_formulaEditorChemistry']});
-      };
-      CKEDITOR.replace('description');
-      CKEDITOR.replace('notes');
-
          $('.multiselect').multiselect({
                 nonSelectedText: 'Select Option!',
                 buttonWidth: 250,

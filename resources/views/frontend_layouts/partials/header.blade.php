@@ -69,20 +69,95 @@
     <a href="{{route('about-us')}}"><i class="fa fa-globe"></i>&nbsp;About Us</a>
 		
 	</li>
-	<li><a href="javascript::void(0)"><i class="fa fa-shopping-cart"></i>&nbsp;Packages</a></li>
+	<li><a href="{{route('allpackage')}}"><i class="fa fa-shopping-cart"></i>&nbsp;Packages</a></li>
     @if( !(Auth::user()))
 	<li><a href="{{route('register')}}"><i class="fa fa-user"></i>&nbsp;Register</a></li>
 	<li><a href="{{route('login')}}"><i class="fa fa-lock"></i>&nbsp;Login</a></li>
         
         @else
-   <li> 
-    <a href="{{ route('logout') }}" onclick="event.preventDefault();document.getElementById('logout-form').submit();"><i class="fa fa-lock"></i> 
-        Logout 
+
+<style>
+div.avatarbox {
+    background: #106eca;
+    border: none;
+    border-radius: 40px;
+    color: #fff;
+    float: left;
+    font-size: 10px;
+    font-weight: 700;
+    line-height: 25px;
+    overflow: hidden;
+    position: relative;
+    text-align: center;
+    width: 32px;
+    height: 32px;
+}
+div.material_avatar {
+  
+    cursor: pointer;
+    border-radius: 40px;
+    width: 30px;
+    height: 30px;
+    font-size: 12px;
+    padding: 3px;
+    margin-top: 2px;
+    position: relative;
+    float: left;
+    margin: 0;
+    border: none;
+    background: none;
+    color: #fff;
+    font-weight: bold;
+    text-align: center;
+    line-height: 25px;
+    overflow: hidden;
+    -moz-border-radius: 40px;
+    -webkit-border-radius: 40px;
+}
+.profile_img{
+    border-radius: 40px;
+  
+    overflow: hidden;
+    position: relative;
+    text-align: center;
+    width: 32px;
+    height: 32px;
+}
+</style>
+
+        <li  class="dropdown" id="profile-messages" ><a title="" href="#" data-toggle="dropdown" data-target="#profile-messages" class="dropdown-toggle">
+                <?php
+                  if(!Auth::user()->profile_image){
+                    $profilePic  = Auth::user()->fname[0]. ''.Auth::user()->lname[0];
+                    ?>
+
+                   <div class="avatarbox material_avatar showtip tooltipstered" style="background-color: #106eca">{{ $profilePic}}</div>
+                   <?php
+                    }else{
+                        $profilePic = '/images/profile/thumbnail/'.Auth::user()->profile_image;
+                    ?>
+                    <img src="{{ asset( $profilePic )}}"  class="avatarbox material_avatar profile_img"/>
+                    <?php
+                }
+            ?>
+        
+
+        <b class="caret"></b></a>
+      <ul class="dropdown-menu">
+        <li><a href="#"><i class="icon-user"></i> My Profile</a></li>
+        <li class="divider"></li>
+        <li><a href="#"><i class="icon-check"></i> My Tasks</a></li>
+        <li class="divider"></li>
+        <li><a href="{{ route('logout') }}" onclick="event.preventDefault();document.getElementById('logout-form').submit();"><i class="fa fa-lock"></i> 
+              Logout 
                 </a>
             <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                 @csrf
-            </form>
-        </li>
+            </form></li>
+      </ul>
+    </li>
+
+  
        @endif
       
 </ul>

@@ -24,9 +24,9 @@ class UserController extends Controller
     	 $userData = Auth::user();
     	 $userId = $userData['id'];
          $package =  Subscription::find($id);
-      
+         $examIdArray = array();
          foreach($package->Exam as $examId){
-         	$examIdArray[] = $examId['id'];
+          	$examIdArray[] = $examId['id'];
          }
 
         $userDetails =  User::find($userId);
@@ -43,7 +43,7 @@ class UserController extends Controller
 	  	'start_date' => date('Y-m-d')
 	  );
 	  foreach($examIdArray as $eid){
-	     $userDetails->Exam()->attach($eid,$extraFieldInUserExam);
+	     $userDetails->Exam()->sync($eid,$extraFieldInUserExam);
 	 }
     $msg = 'Congratulation !! Please Explore Package';
 	 return redirect()->route('subscrption-exam',Crypt::encrypt($id))->with('success',$msg); 
