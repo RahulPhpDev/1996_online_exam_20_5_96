@@ -22,7 +22,8 @@ class UserController extends Controller
     public function savePackageExam($c_id){
     	 $id =  Crypt::decrypt($c_id);
     	 $userData = Auth::user();
-    	 $userId = $userData['id'];
+       $userId = $userData['id'];
+      
          $package =  Subscription::find($id);
          $examIdArray = array();
          foreach($package->Exam as $examId){
@@ -30,9 +31,10 @@ class UserController extends Controller
          }
 
         $userDetails =  User::find($userId);
-
-
-		$package->User()->attach($id, ['status' => 1,
+        // dd($userDetails);
+		$package->User()->attach($id, [
+      'user_id' => $userId,
+      'status' => 1,
 			'start_date' => date('Y-m-d'),
 			'created_at' => date('Y-m-d') ]
 		);
@@ -43,7 +45,7 @@ class UserController extends Controller
 	  	'start_date' => date('Y-m-d')
 	  );
 	  foreach($examIdArray as $eid){
-	     $userDetails->Exam()->sync($eid,$extraFieldInUserExam);
+	     $userDetails->Exam()->attach($eid,$extraFieldInUserExam);
 	 }
     $msg = 'Congratulation !! Please Explore Package';
 	 return redirect()->route('subscrption-exam',Crypt::encrypt($id))->with('success',$msg); 
