@@ -70,3 +70,17 @@ git add database/status_meaning
 git add resources/views/frontend_layouts/partials/header.blade.php
 git add routes/web.php
 
+
+
+git add   app/Http/Controllers/Auth/RegisterController.php
+git add   app/Http/Controllers/Auth/UserController.php
+git add   app/Http/Controllers/GuestController.php
+git add   app/Http/Controllers/HomeController.php
+git add   resources/views/admin/exam/add-exam.blade.php
+git add   resources/views/frontend_layouts/partials/header.blade.php
+git add   resources/views/guest/package.blade.php
+git add   resources/views/permit/exam/template/view_package_exams.blade.php
+git add   resources/views/welcome.blade.php
+git add   routes/web.php
+git add  resources/views/guest/allPackage.blade.php
+ git add resources/views/homepage/
