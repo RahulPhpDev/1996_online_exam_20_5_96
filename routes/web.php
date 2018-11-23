@@ -43,6 +43,8 @@ Route::get('about-us', 'GuestController@aboutUs')->name('about-us');
 
 Route::get('package/{id}', 'GuestController@package')->name('package');
 
+Route::get('allpackage', 'GuestController@allpackage')->name('allpackage');
+
 Route::get('payment/{id?}', 'GuestController@payment')->name('payment');
 
 Route::group(['middleware' => ['auth']], function(){

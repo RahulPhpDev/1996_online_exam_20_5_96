@@ -105,9 +105,10 @@ class RegisterController extends Controller
                 File::makeDirectory($originalPath, 0777, true, true);
         }
         $image->move($originalPath, $input['imagename']);
-        
+        $userDetailsByID->profile_image = $input['imagename'];
+        $userDetailsByID->save();
         return $user;
-//        ALTER TABLE `students` CHANGE `enroll_number` `enroll_number` VARCHAR(55) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL;
+
      
     }
 }
