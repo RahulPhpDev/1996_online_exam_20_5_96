@@ -28,11 +28,18 @@ class GuestController extends Controller
         return view('guest.about-us');
     }
 
-    public function package($id){
-        $id =  Crypt::decrypt($id);
+    public function package($eid){
+        $id =  Crypt::decrypt($eid);
         $package =  Subscription::find($id);
         $otherPackage = Subscription::get()->where('id', '!=', $id);
-        // dd($package);
+        if(Auth::user()){
+            $permit_redirect = true;
+            $res = $package->User()->where('user_id', Auth::user()->id)->exists();
+            if($res === true){
+                return redirect()->route('save-package-exam', array('id' => $eid));
+            }
+        }
+
     	return view('guest.package',compact('package','otherPackage'));
     }
 
