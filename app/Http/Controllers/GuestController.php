@@ -19,7 +19,31 @@ class GuestController extends Controller
     public function index(){
       
 	    	$SubscriptionData  = Subscription::where('status', 1)->get();
-	    	return view('welcome',compact('SubscriptionData'));
+
+            $nonSubscriptionExams =  Exam::where('status' , 1)
+                                            ->where('exam_visible_status', 1)
+                                            ->get(['id','exam_name','total_question', 'total_marks']);
+             $examDetails = $allExam = array();                                         
+                if(Auth::user()){
+                    $user = User::find(Auth::user()->id);
+                    foreach($user->Exam as $exam){
+                  if($exam['exam_visible_status'] == 2){    
+                      $examDetails[] = array(
+                            'id' => $exam->id,
+                            'exam_name' => $exam->exam_name,
+                            'total_question' => $exam->total_question,
+                            'total_marks' => $exam->total_marks,
+                        );  
+                      }
+                    }
+                } 
+                $allExam = array_merge($nonSubscriptionExams->toArray(), $examDetails);
+            // dd($allExam);
+                                         // ->where(function($q){
+                                         // $q->where('exam_visible_status', 2)
+                                         //   ->orWhere('exam_visible_status', 1);
+                                         //  })->get();
+	    	return view('welcome',compact('SubscriptionData','nonSubscriptionExams','userExamDetails','allExam'));
     }
 
    

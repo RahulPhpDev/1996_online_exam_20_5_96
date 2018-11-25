@@ -10,6 +10,8 @@
     <hr>
     <div class="row-fluid">
       <div class="span12">
+          <a href = "{{route('add-exam')}}" class = "float-right btn btn-primary" style="text-align: right">
+         Add Exam </a>
         <div class="widget-box">
           <div class="widget-title"> <span class="icon"> <i class="icon-th"></i> </span>
             <h5>Exam</h5>
@@ -33,15 +35,26 @@
            <?php foreach($examDetails as $data) { ?>     
                 <tr class="odd">
                   <td>{{$data['exam_name']}}</td>
-                  <td> <button data-toggle="modal" data-target="#myModal" type = "button" class = "show_visible_to" class ="btn btn-success" data-id = "{{ Crypt::encrypt($data['id'])  }}"> Visible </button> </td>
+                  @php
+                   $examVisible  = '';
+                  if($data['exam_visible_status']== 1){
+                  $examVisible = 'All';
+                }else if($data['exam_visible_status']== 2){
+                   $examVisible = 'Register Student';
+                }else if($data['exam_visible_status']== 3){
+                  $examVisible = 'Package';
+                }
+
+                  @endphp
+                  <td> <button data-toggle="modal" data-target="#myModal" type = "button"  class ="show_visible_to btn btn-primary" data-id = "{{ Crypt::encrypt($data['id'])  }}"> {{$examVisible}} </button> </td>
                   <td> {{$data['total_question']}} </td>
                   <td> {{$data['total_marks']}}</td>
                   <td> {{$data['minimum_passing_marks']}} </td>
-                  <td> <button type = "button" class ="btn btn-success"> Other </button></td>
+                  <td> <button type = "button" class ="btn btn-primary"> Other </button></td>
                   <td> <a class ="btn btn-success" href="{{ route('exam-question', ['id' => Crypt::encrypt($data['id']) ]) }}">Questions <i class="fa fa-fw fa-arrow-circle-right"></i></a>&nbsp&nbsp
                    </td>
                   <td> <a type = "button" class ="btn btn-sm btn-success" href="{{ route('edit-exam', ['id' => Crypt::encrypt($data['id']) ]) }}"> Edit </a> </td>
-                  <td> <button type = "button" class ="btn btn-success"> Disable </button> </td>
+                  <td> <button type = "button" class ="btn btn-danger"> Disable </button> </td>
                 </tr>
                 
            <?php } ?>

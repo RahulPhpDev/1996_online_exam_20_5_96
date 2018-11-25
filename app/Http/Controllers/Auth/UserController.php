@@ -79,12 +79,17 @@ class UserController extends Controller
       session()->forget('user_answer.question');
     }
 
-  
+    $userData = Auth::user(); 
+      $userId = $userData['id'];
 
          $id =  Crypt::decrypt($e_id);
-         // echo $id;die();
-         // $id = 1;
          $examData = Exam::find($id);
+         $hasUserExam = $examData->UserExamData()->where('user_id', $userId)->exists();
+
+      if($hasUserExam == false){
+        $examData->UserExamData()->attach($id, ['user_id' => $userId, 'status' => 1,
+      'start_date' => date('Y-m-d')] );
+      }
          $questionData = $examData->ExamQuestion;
 
         $allQuestionArray = array();
@@ -240,13 +245,13 @@ class UserController extends Controller
       $userExamData  = $examDetails->UserExam()
                         ->where('user_exam.user_id','=',$userId)
                         ->get()->toArray();     
-
       if(!empty($userExamData)){ #user has this exam
         $getResult = $examUserObj->getUserExamAnswer($userId , $examId);
       }else{
         $false = 1;
       }
     }
+
       if($false != 1){ 
         $totalMark = 0;
         $marks = array();
@@ -269,7 +274,7 @@ class UserController extends Controller
         $resultObj = new Result();
         $resultData = array(
           'exam_id' => $sessionExamId,
-          'student_id' => $userId,
+          'user_id' => $userId,
           'obtain_mark' => $totalMark,
           'result_status' => $passingStatus,
           'right_answer' => 2,

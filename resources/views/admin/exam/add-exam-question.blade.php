@@ -38,7 +38,6 @@
         type : "get",
         url: "/more-question/"+i,
         success:function(data){
-          // alert('data');
           $("#more_question").append(data);
           }
         });

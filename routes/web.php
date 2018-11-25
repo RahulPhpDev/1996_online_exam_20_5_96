@@ -158,6 +158,7 @@ Route::post('/update-exam/{id}', 'Admin\ExamController@updateExam')->name('updat
 Route::get('/profile', 'Admin\UserController@profile')->name('profile');
 
 Route::post('/update-profile', 'Admin\UserController@updateProfile')->name('update-profile');
+Route::get('/result', 'Admin\ResultController@view')->name('result');
 
-
+ 
 }) ; 

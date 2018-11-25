@@ -9,9 +9,11 @@
     <li><a href="{{route('institution')}}"><i class="icon icon-signal"></i> <span>Institution</span></a> </li>
     <li><a href="{{route('course')}}"><i class="icon icon-signal"></i> <span>Course</span></a> </li>
     <li><a href="{{route('subscription')}}"><i class="icon  icon-reorder"></i> <span>Subscription</span></a></li>
-    <li><a href="{{route('add-exam')}}"><i class="icon  icon-reorder"></i> <span>Add Exam</span></a></li>
+    <li><a href="{{route('add-exam')}}"><i class="icon  icon-book"></i> <span>Add Exam</span></a></li>
 
-    <li><a href="{{route('exam')}}"><i class="icon  icon-reorder"></i> <span>Exam</span></a></li>
+    <li><a href="{{route('exam')}}"><i class="icon  icon-book"></i> <span>Exam</span></a></li>
+
+      <li><a href="{{route('result')}}"><i class="icon  icon-hdd"></i> <span>Result</span></a></li>
    <!--  
     <li><a href="grid.html"><i class="icon icon-fullscreen"></i> <span>Full width</span></a></li>
     <li class="submenu"> <a href="#"><i class="icon icon-list"></i> <span>Forms</span> <span class="label label-important">3</span></a>

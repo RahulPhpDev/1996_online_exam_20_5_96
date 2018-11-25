@@ -78,11 +78,9 @@ echo $userData['fname'].' '.$userData['lname'];
     </li>
   </ul>
 </div>
-
 <!--start-top-serch-->
 <div id="search">
-  <input type="text" placeholder="Search here..."/>
-  <button type="submit" class="tip-bottom" title="Search"><i class="icon-search icon-white"></i></button>
+  <a class="tip-bottom btn" style="margin-top:10px" href = "{{route('/')}}"> Vist Site</a>
 </div>
 <!--close-top-serch--> 
 

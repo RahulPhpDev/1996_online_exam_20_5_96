@@ -30,7 +30,7 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    protected $redirectTo = '/';
 
     /**
      * Create a new controller instance.
@@ -84,6 +84,7 @@ class RegisterController extends Controller
            // 'enroll_number' => $data['enrollment'],
             'status' => 1,
          ]);
+      if(isset($data['profile'])){
         $image = $data['profile'];
         $userDetailsByID = User::find($id);
         $input['imagename'] = 'profile_'.$id.'.'.$image->getClientOriginalExtension();
@@ -107,6 +108,7 @@ class RegisterController extends Controller
         $image->move($originalPath, $input['imagename']);
         $userDetailsByID->profile_image = $input['imagename'];
         $userDetailsByID->save();
+    }
         return $user;
 
      

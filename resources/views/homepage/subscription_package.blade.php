@@ -55,7 +55,6 @@
                 itemWidth = sampwidth / incno;
             }
             $(this).css({ 'transform': 'translateX(0px)', 'width': itemWidth * itemNumbers });
-            console.log(itemWidth);
             $(this).find(itemClass).each(function () {
                 $(this).outerWidth(itemWidth);
             });
@@ -130,10 +129,15 @@
     .MultiCarousel .leftLst.over, .MultiCarousel .rightLst.over { pointer-events: none; background:#ccc; }
     .caption{margin-top:4px}
 </style>
+@php
+ $subscriptionCount = count($SubscriptionData->toArray());
+@endphp
 
+@if($subscriptionCount > 3)
 <div class = "view_all">
     <a href = "{{route('allpackage')}}" class = "button btn btn_blue view_all_btn"> View All </a>
    </div> 
+   @endif
 
 <div class="MultiCarousel" data-items="1,3,5,6" data-slide="1" id="MultiCarousel"  data-interval="1000">
             <div class="MultiCarousel-inner">
@@ -146,12 +150,14 @@
                      <div class="caption">
                         <h4 class="group inner list-group-item-heading"><strong>{{$sub->name}}</strong></h4>
                      </div>
+                    </a>
                   </div>
-                </a>
                 </div>
                    </div>
 			    @endforeach			 
             </div>
+           @if($subscriptionCount > 3) 
             <button class="btn btn-primary leftLst"><</button>
             <button class="btn btn-primary rightLst">></button>
+          @endif
     </div>

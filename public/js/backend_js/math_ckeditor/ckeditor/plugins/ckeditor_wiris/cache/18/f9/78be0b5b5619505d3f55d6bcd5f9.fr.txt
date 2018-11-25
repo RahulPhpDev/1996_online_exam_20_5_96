@@ -1,0 +1,1 @@
+{"result":{"text":"4 sur 2 espace égal à espace ?"},"status":"ok"}

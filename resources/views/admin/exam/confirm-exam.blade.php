@@ -226,7 +226,10 @@
 
                <div class="control-group">
                   <label class="control-label"> Passing Mark
-<input type = "text" class = "mark" name = "passing_mark" id = "passing_mark">
+                   @php
+                   $passingMark = ($examQuestion['exam_details']->minimum_passing_marks) ? $examQuestion['exam_details']->minimum_passing_marks : '';
+                   @endphp 
+                {!! Form::text('passing_mark', $passingMark, ['class' => 'mark', 'id' => 'passing_mark']) !!}
                   </label>
               </div>
 

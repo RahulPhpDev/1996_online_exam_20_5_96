@@ -11,11 +11,44 @@
                 
                 <div class="widget-content nopadding updates">
             <div class="new-update clearfix"><i class="icon-ok-sign"></i>
-             <div class="update-done"><span class="update-day">Exam :</span></div>
+             <div class="update-done"><span class="update-day"><strong>Exam : </strong></span></div>
               <div class="update-date"><strong>{{$title}}</strong></div>
               </div>
             </div>
-            @if($getExamData->Subscriptions())
+
+            @php
+              $examPackageLabel = '';
+              if($getExamData['exam_visible_status'] == 3)
+              $examPackageLabel = 'Package';
+              else if($getExamData['exam_visible_status'] == 2)
+              $examPackageLabel = 'Register';
+              else if($getExamData['exam_visible_status'] == 1)
+              $examPackageLabel = 'All';
+            @endphp
+
+            <div class="new-update clearfix"><i class="icon-ok-sign"></i>
+              <div class="update-done"><strong>
+                Exam {{$examPackageLabel}}
+              </strong>
+              </div>
+              <div class="update-date"><span class="update-day"><strong>
+
+          <?php  if($getExamData['exam_visible_status'] == 3){
+            foreach($getExamData->Subscriptions as $name){
+                echo $name->name;
+              }
+
+          } else if($getExamData['exam_visible_status'] == 1){
+            echo 'All';
+          }else if($getExamData['exam_visible_status'] == 2){
+            echo 'Register User';
+          }
+
+            ?>
+                </strong></span></div>
+            </div>
+
+            @if($getExamData['exam_visible_status'] == 3)
             <div class="new-update clearfix"><i class="icon-ok-sign"></i>
               <div class="update-done"><strong>
                 Exam Package
@@ -29,6 +62,8 @@
         </strong></span></div>
             </div>
           @endif
+
+
             <div class="new-update clearfix"><i class="icon-ok-sign"></i>
               <div class="update-done"><strong>
                 Total Questions
