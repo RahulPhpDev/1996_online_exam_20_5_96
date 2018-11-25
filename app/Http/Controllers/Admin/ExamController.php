@@ -103,10 +103,8 @@ class ExamController extends Controller
        public function addExamQuestion($id){
          $id =  Crypt::decrypt($id);
          $getExamData =    Exam::findOrFail($id);
+         // dd($getExamData->toArray());
          $title = $getExamData['exam_name'];
-
-
-         // dd($getExamData);
          return view('admin.exam.add-exam-question',compact('getExamData','id'))->with('title',$title);
        }
 
@@ -210,7 +208,8 @@ class ExamController extends Controller
          if($request['save'] == 'continue'){
           return redirect()->route('add-exam-question',Crypt::encrypt($id))->with('success',$msg);
          }else{ 
-          return redirect()->route('confirm-exam',Crypt::encrypt($id))->with('success',$msg);     
+          return redirect()->route('confirm-exam',Crypt::encrypt($id))->with('success',$msg);
+               
           }
        }
        catch (QueryException $e) {
