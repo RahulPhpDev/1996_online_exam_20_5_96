@@ -16,7 +16,11 @@ use App\Model\UserAnswer;
 use App\Model\Result;
 use Session;
 
-
+use DB;
+use Image; 
+use PDF;
+use Dompdf\Dompdf;
+use Mpdf;
 class UserController extends Controller
 {
     public function savePackageExam($c_id){
@@ -304,6 +308,44 @@ class UserController extends Controller
       }else{
         return redirect()->route('/');
       }
+     }
 
+     public function allResult(){
+      $userData = Auth::user();
+      $userId = $userData['id'];
+      $examCount =   Result::where('user_id', '=',$userId) ->groupBy('exam_id')->count();
+
+      $resultData = Result::where('user_id', '=',$userId)
+                           ->groupBy('exam_id')->select('*', DB::raw('count(*) as total')) ->paginate(10);
+
+
+
+      // // $resultData =  Result::where('user_id', '=',$userId)
+      // //                        ->groupBy('exam_id')
+      // //                        ->orderBy('id','DESC')
+      // //                        ->paginate(10); 
+      //                        dd($resultData);
+      return view('permit.exam.all-result', compact('resultData','examCount'));
+     }
+
+     public function examResult($id){
+        $examId = Crypt::decrypt($id);
+        $userData = Auth::user();
+        $userId = $userData['id'];
+        $resultData =   Result::where(['user_id' => $userId, 'exam_id' => $examId]) 
+                              ->orderBy('id','DESC')
+                              ->paginate(10); 
+      
+        return view('permit.exam.exam-result', compact('resultData'));                       
+     }
+
+     public function downloadExamPdf($id){
+       $resultId = Crypt::decrypt($id);
+       $userData = Auth::user();
+       $userId = $userData['id'];
+       $data = Result::find($resultId);
+        $pdf = PDF::loadView('permit.exam.download-exam-pdf',compact('data'));
+        $examName = $data->Exam->exam_name;
+        return $pdf->download('MaaRula_'.$examName.'_'.($resultId+15).'.pdf');
      }
 }

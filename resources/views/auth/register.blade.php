@@ -100,9 +100,9 @@
                                 <span class="text-danger"> *</span></small>
                             </label>
 
-                        <div class="col-sm-4">
+                        <div class="col-sm-4" style = "  display: flex!important">
 
-                         <input id="password" type="password" class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" name="password" required>
+                         <input id="password" type="password" class=" form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" name="password" required  >
 
                                 @if ($errors->has('password'))
                                     <span class="invalid-feedback" role="alert">
@@ -110,6 +110,7 @@
                                     </span>
                                      @endif
                          </div>
+                         <input type="checkbox" class = "" onclick="showPassword()" > Show Password
                     </div>
 
 
@@ -164,4 +165,15 @@
     </div>
 </section>       
  </div>
+
+ <script>
+ function showPassword() {
+    var x = document.getElementById("password");
+    if (x.type === "password") {
+        x.type = "text";
+    } else {
+        x.type = "password";
+    }
+}
+ </script>
 @endsection

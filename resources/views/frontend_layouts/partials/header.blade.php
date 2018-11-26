@@ -144,8 +144,9 @@ div.material_avatar {
 
         <b class="caret"></b></a>
       <ul class="dropdown-menu">
-       <!--  <li><a href="#"><i class="icon-user"></i> My Profile</a></li>
+        <li><a href="#"><i class="icon-user"></i> Show Result</a></li>
         <li class="divider"></li>
+       <!--  
         <li><a href="#"><i class="icon-check"></i> My Tasks</a></li>
         <li class="divider"></li> -->
         <li><a href="{{ route('logout') }}" onclick="event.preventDefault();document.getElementById('logout-form').submit();"><i class="fa fa-lock"></i> 
