@@ -16,6 +16,7 @@ use App\Model\UserAnswer;
 use App\Model\Result;
 use Session;
 
+use Redirect;
 use DB;
 use Image; 
 use PDF;
@@ -60,6 +61,12 @@ class UserController extends Controller
  		   $package =  Subscription::find($sid);
     	return view('permit.exam.package-exam',compact('package'));
 
+    }
+   
+    public function examInstruction($e_id){
+      $id = Crypt::decrypt($e_id);
+      $examData = Exam::find($id);
+      return view('permit.exam.exam-instruction',compact('examData'));
     }
 
     public function getExam($e_id){
@@ -348,4 +355,26 @@ class UserController extends Controller
         $examName = $data->Exam->exam_name;
         return $pdf->download('MaaRula_'.$examName.'_'.($resultId+15).'.pdf');
      }
+   
+     public function deleteExam($id){
+       $examId = Crypt::decrypt($id);
+       $examDetails = Exam::find($examId);
+       $examSubscriptionID = $examDetails->Subscriptions()->allRelatedIds()->toArray();
+       foreach($examSubscriptionID as $eSi){
+         $examDetails->Subscriptions()->sync( array( 
+          $eSi => array( 'status' => 0 ),
+         ), false);
+       }
+       $examUserID = $examDetails->UserExamData()->allRelatedIds()->toArray();
+
+       foreach($examUserID as $eUi){
+        $examDetails->UserExamData()->sync( array( 
+          $eUi => array( 'status' => 0 ),
+         ), false);
+       }
+       $examDetails->status = 0;
+       $examDetails->save();
+       return Redirect::back()->withErrors(['success', 'Exam Is Disable']);
+     }
+    
 }
