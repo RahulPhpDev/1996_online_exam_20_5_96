@@ -35,9 +35,9 @@
                         <h4 class="group inner list-group-item-heading"><strong>{{$exam['exam_name']}}</strong></h4>
                      </div>
                      <div class="caption_bottom">
-                     	<div class = "sideline" style="    border-right: 2px solid #fff;     margin-top: 10px;">  <h2 style="position: relative;top: 25px; right: 50px;"> 20 </h2> <h4 class = "center" style="position: relative; right: 50px;"> Question </h4> </div>
+                     	<div class = "sideline" style="    border-right: 2px solid #fff;     margin-top: 10px;">  <h2 style="position: relative;top: 25px; right: 50px;"> {{$exam['total_question']}} </h2> <h4 class = "center" style="position: relative; right: 50px;"> Question </h4> </div>
 
-                     	<div class = "">  <h2 style="position: relative;top: 25px;left:16px"> 20 </h2> <h4 style=" " class = "center"> <span>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</span>Marks </h4> </div>
+                     	<div class = "">  <h2 style="position: relative;top: 25px;left:16px"> {{$exam['total_marks']}} </h2> <h4 style=" " class = "center"> <span>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</span>Marks </h4> </div>
                      </div>
                     </a>
                   </div>
