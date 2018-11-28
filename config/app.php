@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'name' => env('APP_NAME', 'Maarula Online Test'),
+    'name' => env('APP_NAME', 'MaaRula Online Test'),
 
     /*
     |--------------------------------------------------------------------------

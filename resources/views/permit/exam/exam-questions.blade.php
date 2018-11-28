@@ -64,26 +64,10 @@
              {{ Form::close() }}
            </div>
 
-           <div class = "col-md-5 report">
+           <div class = "col-md-5 report hidden-sm">
         
         <div class="report_section">
-
          <span class=""> <h2> Total Question </h2> </span>
-
-           <!-- <div class="col-md-3">
-              <a class="answered"> 1 </a>
-          </div>
-         <div class="col-md-3">
-            <a class="answered_escape"> 2 </a>
-         </div>
-
-         <div class="col-md-3">
-            <a class="pending"> 3 </a>
-         </div>  -->
-
-        
-
-
        <?php 
        $i = 1;
       //  dd($all_questions_class);

@@ -1,86 +1,30 @@
-  11-Nov -Changes
-git add  app/Http/Controllers/Admin/ExamController.php
 git add  app/Http/Controllers/Admin/UserController.php
-git add  app/Http/Controllers/MailController.php
-git add  app/Http/Requests/UserRequest.php
-git add  app/Model/Exam.php
-git add  app/User.php
-git add  database/changes_file
-git add  public/css/backend_css/matrix-style.css
-git add  public/frontend/css/exam_question.css
-git add  public/frontend/css/style.css
-git add  public/frontend/design300/css/style.css
-git add  public/frontend/js/custom.min.js
-git add  public/js/backend_js/math_ckeditor/ckeditor/config.js
-deleted:    resources/views/admin/exam/add-exam-original.blade.php
-git add  resources/views/admin/exam/add-exam-question.blade.php
-git add  resources/views/admin/exam/add-exam.blade.php
-deleted:    resources/views/admin/exam/confirm-exam.blade - Copy.php
-git add  resources/views/admin/exam/confirm-exam.blade.php
-git add  resources/views/admin/exam/exam-list.blade.php
-git add  resources/views/admin/exam/exam-question.blade.php
-git add  resources/views/admin/exam/more-questions.blade.php
-git add  resources/views/admin/user/add-user.blade.php
+git add  app/Http/Controllers/Auth/UserController.php
+git add  config/database.php
+git add  resources/views/admin/user/user-list.blade.php
+git add  resources/views/auth/register.blade.php
 git add  resources/views/frontend_layouts/partials/header.blade.php
+git add  resources/views/permit/exam/result.blade.php
 git add  resources/views/welcome.blade.php
 git add  routes/web.php
 
 
+git add  public/frontend/css/welcome_css.css
+git add   resources/views/permit/exam/all-result.blade.php
+git add  resources/views/permit/exam/download-exam-pdf.blade.php
+git add  resources/views/permit/exam/exam-result.blade.php
 
-.env.example
-.gitattributes
-.gitignore
-1_nov.zip
-app/Http/Requests/QuestionRequest.php
-nbproject/
-public/js/backend_js/math_ckeditor/ckeditor/plugins/ckeditor_wiris/cache/79/
-public/js/backend_js/math_ckeditor/ckeditor/plugins/ckeditor_wiris/formulas/79/
-resources/views/admin/exam/edit-exam.blade.php
-resources/views/admin/exam/exam-accessbility.blade.php
-resources/views/admin/user/register-student.blade.php
 
-adminemail123
-
-20 == Novgit add  composer.lock
-ALTER TABLE `user_answer` ADD `result_id` INT(11) NOT NULL DEFAULT '0' AFTER `id`;
-
-git add  app/Http/Controllers/Admin/ExamController.php
-git add  app/Http/Controllers/Admin/UserController.php
-git add  resources/views/admin/exam/edit-exam.blade.php
-git add  resources/views/layouts/partials/header.blade.php
-git add  routes/web.php
-git add resources/views/admin/user/profile.blade.php
-
-git add  app/Http/Controllers/Admin/ExamController.php
 git add  app/Http/Controllers/Auth/UserController.php
-git add  app/Http/Controllers/GuestController.php
-git add  database/changes_file
-git add  resources/views/guest/template/package-detail.blade.php
+git add  public/frontend/design300/css/style.css
+git add  resources/views/admin/exam/exam-list.blade.php
+git add  resources/views/frontend_layouts/partials/header.blade.php
+git add  resources/views/homepage/exam.blade.php
+git add  resources/views/homepage/subscription_package.blade.php
 git add  resources/views/permit/exam/exam-questions.blade.php
+git add  resources/views/permit/exam/exam-result.blade.php
 git add  resources/views/permit/exam/template/view_package_exams.blade.php
+git add  routes/web.php
+git add resources/views/permit/exam/exam-instruction.blade.php
+git add app/Http/Controllers/Auth/UserController.php
 
-
-
-git add app/Http/Controllers/Auth/RegisterController.php
-git add app/Http/Controllers/GuestController.php
-git add composer.json
-git add composer.lock
-git add config/app.php
-git add database/status_meaning
-git add resources/views/frontend_layouts/partials/header.blade.php
-git add routes/web.php
-
-
-
-git add   app/Http/Controllers/Auth/RegisterController.php
-git add   app/Http/Controllers/Auth/UserController.php
-git add   app/Http/Controllers/GuestController.php
-git add   app/Http/Controllers/HomeController.php
-git add   resources/views/admin/exam/add-exam.blade.php
-git add   resources/views/frontend_layouts/partials/header.blade.php
-git add   resources/views/guest/package.blade.php
-git add   resources/views/permit/exam/template/view_package_exams.blade.php
-git add   resources/views/welcome.blade.php
-git add   routes/web.php
-git add  resources/views/guest/allPackage.blade.php
- git add resources/views/homepage/

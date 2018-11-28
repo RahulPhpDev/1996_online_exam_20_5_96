@@ -161,9 +161,8 @@ class UserController extends Controller
             $user->where('id' , $id)->update($userData);
             $studentObj = new Student;
             $studentData = $studentObj
-		      	->where('user_id',$id)
-            ->first();
-            // echo '<pre>';print_r($studentData);die();
+                        ->where('user_id',$id)
+                        ->first();
             if(($studentData)){
 	        	$stuData = array(
             		'status' => 0,

@@ -92,7 +92,11 @@ $data = get_object_vars($data);
                   <a href="{{ route('edit-user', ['id' => Crypt::encrypt($data['id']) ]) }}">Edit <i class="fa fa-fw fa-arrow-circle-right"></i></a>&nbsp&nbsp
                   </td>
                   <td>
-                  <a class = "text-center" href="{{ route('delete-user', ['id' => Crypt::encrypt($data['id']) ]) }}"> <i class="fa fa-fw fa-arrow-circle-right text-center">Delete</i></a>&nbsp&nbsp
+                  @if($data['status'] == 1)
+                  <a class = "btn btn-danger text-center" href="{{ route('delete-user', ['id' => Crypt::encrypt($data['id']) ]) }}"> <i class="fa fa-fw fa-arrow-circle-right text-center">Delete</i></a>&nbsp&nbsp
+                  @else
+                  <a class = "btn btn-primary text-center" href="javascript::void(0)">Pending</a>&nbsp&nbsp
+                     @endif
                   </td>
                 </tr>
                 

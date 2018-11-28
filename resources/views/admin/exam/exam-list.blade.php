@@ -52,9 +52,12 @@
                   <td> {{$data['minimum_passing_marks']}} </td>
                   <td> <button type = "button" class ="btn btn-primary"> Other </button></td>
                   <td> <a class ="btn btn-success" href="{{ route('exam-question', ['id' => Crypt::encrypt($data['id']) ]) }}">Questions <i class="fa fa-fw fa-arrow-circle-right"></i></a>&nbsp&nbsp
-                   </td>
+                   </td> 
                   <td> <a type = "button" class ="btn btn-sm btn-success" href="{{ route('edit-exam', ['id' => Crypt::encrypt($data['id']) ]) }}"> Edit </a> </td>
-                  <td> <button type = "button" class ="btn btn-danger"> Disable </button> </td>
+                 <form method = "post" action = "{{ route('delete-exam',['id'=> Crypt::encrypt($data['id'])]) }}"> 
+                 {{ Form::open(array('route' => ['delete-exam', Crypt::encrypt($data['id']) ] ) )}}
+                  <td> <button type = "submit" class ="btn btn-danger" >Disable  </button> </td>
+                  {{ Form::close() }}
                 </tr>
                 
            <?php } ?>

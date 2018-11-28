@@ -59,8 +59,15 @@ Route::match(array('GET','POST'),'save-answer/{id?}', 'Auth\UserController@saveA
 
 Route::get('view-result/{id}', 'Auth\UserController@viewResult')->name('view-result');
 
+Route::get('all-result/', 'Auth\UserController@allResult')->name('all-result');
 
+Route::get('exam-result/{id}', 'Auth\UserController@examResult')->name('exam-result');
 
+Route::get('download-exam-pdf/{id}', 'Auth\UserController@downloadExamPdf')->name('download-exam-pdf');
+
+Route::get('exam-instruction/{id}', 'Auth\UserController@examInstruction')->name('exam-instruction');
+
+Route::Post("delete-exam/{id}",  'Auth\UserController@deleteExam')->name('delete-exam');
 });
 
 

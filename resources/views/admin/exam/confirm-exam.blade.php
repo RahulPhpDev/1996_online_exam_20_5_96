@@ -84,6 +84,20 @@
 }
 </style>
 
+<script src='https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
+  <script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+   
+     showMathMenu: false,
+  extensions: ["tex2jax.js"],
+  jax: ["input/TeX", "output/HTML-CSS"],
+  tex2jax: {
+      skipTags: ["body"],
+      processClass: "equation"
+  }
+  });
+</script>
+
 <div id="content">
      <div class="container-fluid">
     <hr>
@@ -97,12 +111,8 @@
        
         <h5>{{$title}}
  <a  href="{{ route('add-exam-question', ['exam_id' => $id ]) }}" class = "add_more_question  btn btn-success pull-right"> Add More Question </a>
-
         </h5>
-
-
       </div>
-
        
           <?php 
                $totalQuestion = $totalMark = $totalRequiredQuestion = $totalNegativeQuestion =$questionNumber =  0; 
@@ -162,9 +172,6 @@
             </div> 
             </div>
               <?php } ?>
-
-
-
       
         </div>
       </div>

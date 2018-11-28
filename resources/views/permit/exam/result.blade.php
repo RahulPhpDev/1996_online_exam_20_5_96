@@ -32,7 +32,7 @@ var currentScrollPos = window.pageYOffset;
        <span style="font-size:20px">with score of <b>{{$totalMark}}</b></span> <br/><br/><br/>
        <span style="font-size:25px"><i>dated</i></span><br>
      {{ date("F j, Y")}}  <br>
-      <span style="font-size:10px"><i>Marula Classess</i></span>
+      <span style="font-size:10px"><i>MaaRula Classess</i></span>
 </div>
 </div>
 @endsection

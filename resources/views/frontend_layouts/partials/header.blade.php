@@ -10,41 +10,33 @@
     </head>
     <body>
 
-
-<script type="text/javascript">
-    $( document ).ready(function() {
-
-        $( "#products_animation_id" ).hover(
-          function() {
-                $( "#products_animation" ).show(500);
-            }, function() {
-                //$( "#products_animation" ).hide(500);
-            }
-        );
-
-         $( "#products_animation" ).hover(
-          function() {
-                // $( "#products_animation" ).show(500);
-            }, function() {
-                $( "#products_animation" ).hide(500);
-            }
-        );
-
-        $( "#products_animation_id" ).click(function(event) {
-            $( "#products_animation" ).toggle();
-        });
-
-    });
-</script>
 <style>
- /* .rpic{
-     border:1px solid red;
- } */
- /* .rpic img{
-            border-radius: 50%;
-        } */
-        </style>
+	@media only screen and (max-width: 600px) {
+    .h-wrapper{position: relative;}
+    .menu li:not(:first-child) {display: none;}
+    .img{width: 81px;height: 78px;}
 
+    .menu.responsive .icon {
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+  .menu.responsive li {
+    display: block;
+    text-align: left;
+  }
+}
+        </style>
+<script>
+function myFunction() {
+    var x = document.getElementById("frontMenu");
+    if (x.className === "menu") {
+        x.className += " responsive";
+    } else {
+        x.className = "menu";
+    }
+}
+</script>
 <div id="preloader">
     <div id="status">&nbsp;</div>
 </div>
@@ -56,20 +48,23 @@
                     <div class="container">
                         <div class="row">
                             <div class="col-sm-12 col-md-3">
-                        <div  class="logo-text"><a href="index.html">
+                        <div  class="logo-text"><a href="{{route('/')}}">
                         <img src="{{ asset('frontend/img/logo.jpg')}}" alt="MaaRula Online test" class="img-responsive front-logo img-circle" /></a>
                     </div>
                             </div>
                             <div class="col-sm-12 col-md-9">
                                 <nav class="navbar-right">
                                     <ul  id="frontMenu" class="menu">
-                                        
+                                    <li class="toggle-menu" onclick = "myFunction();"><i class="fa icon_menu"></i></li>
 	<li class="active"><a href="{{route('/welcome')}}"><i class="fa fa-home"></i>&nbsp;Home</a></li>
 	<li>
     <a href="{{route('about-us')}}"><i class="fa fa-globe"></i>&nbsp;About Us</a>
 		
 	</li>
-	<li><a href="{{route('allpackage')}}"><i class="fa fa-shopping-cart"></i>&nbsp;Packages</a></li>
+    <li><a href="{{route('allpackage')}}"><i class="fa fa-shopping-cart"></i>&nbsp;Packages</a></li>
+    @if((Auth::user()) && Auth::user()['user_type'] ==1 )
+      <li><a href="{{route('dashboard')}}"><i class="fa fa-dashboard"></i>&nbsp;Dashboard</a></li>
+    @endif
     @if( !(Auth::user()))
 	<li><a href="{{route('register')}}"><i class="fa fa-user"></i>&nbsp;Register</a></li>
 	<li><a href="{{route('login')}}"><i class="fa fa-lock"></i>&nbsp;Login</a></li>
@@ -144,8 +139,9 @@ div.material_avatar {
 
         <b class="caret"></b></a>
       <ul class="dropdown-menu">
-       <!--  <li><a href="#"><i class="icon-user"></i> My Profile</a></li>
+        <li><a href="{{route('all-result')}}"><i class="icon-user"></i> Show Result</a></li>
         <li class="divider"></li>
+       <!--  
         <li><a href="#"><i class="icon-check"></i> My Tasks</a></li>
         <li class="divider"></li> -->
         <li><a href="{{ route('logout') }}" onclick="event.preventDefault();document.getElementById('logout-form').submit();"><i class="fa fa-lock"></i> 
