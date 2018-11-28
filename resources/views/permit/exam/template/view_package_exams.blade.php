@@ -85,7 +85,7 @@
                     </center>
 
                     <div class="addtocart" style="margin-top:15px;">
-                        <a href="{{route('get-exam', Crypt::encrypt($exam->id))}}"  class="btn btn-success shopCart" id="addtocart" style="background: #68c6ec;border: #68c6ec;border-radius: 10px: ">&nbsp; Explore Exam</a>       
+                        <a href="{{route('exam-instruction', Crypt::encrypt($exam->id))}}"  class="btn btn-success shopCart" id="addtocart" style="background: #68c6ec;border: #68c6ec;border-radius: 10px: ">&nbsp; Explore Exam</a>       
                   </div>
                 </div>
                @endforeach

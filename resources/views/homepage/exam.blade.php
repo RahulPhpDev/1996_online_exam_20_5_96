@@ -28,7 +28,7 @@
                 <div class="item ">
                 <div class = "item_margin" style="border:1px dashed #fff;">
                 <div class="pad15">
-             <a class="" href="{{ route('get-exam', ['id' => Crypt::encrypt($exam['id']) ]) }}">
+                 <a class="" href="{{ route('exam-instruction', ['id' => Crypt::encrypt($exam['id']) ]) }}">
                      <div class="caption" style = "height:80px;border-bottom:1px solid white; ">
                      	 <img src="{{ asset('/frontend/img/exam/exam_icon_3.png') }}" alt=" Exam" class="exam_icon" />
 

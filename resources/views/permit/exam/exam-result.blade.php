@@ -66,8 +66,10 @@ tr:nth-child(even) {background-color: #f2f2f2;}
      </tr>
      @endforeach
 </tbody>
-    </table>
+    </table>  <?php echo $resultData->render(); ?>
+
       </div>
+    
      </div>
     </div>
 

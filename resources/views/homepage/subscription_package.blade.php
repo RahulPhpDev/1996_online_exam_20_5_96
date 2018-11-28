@@ -99,9 +99,15 @@
 
     //It is used to get some elements from btn
     function click(ell, ee) {
+        var bodyWidth = $('body').width(); 
+        var slidePix = 2;
+       if (bodyWidth <= 768) {
+                 slidePix = 1;
+            }
+            
         var Parent = "#" + $(ee).parent().attr("id");
         var slide = $(Parent).attr("data-slide");
-        ResCarousel(ell, Parent, slide*2);
+        ResCarousel(ell, Parent, slide*slidePix);
     }
 
 });
