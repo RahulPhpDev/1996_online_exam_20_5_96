@@ -20,7 +20,7 @@ class CourseController extends Controller
      }
      public function courseList(){
          $title = 'Course';
-         $allData = Course::where('status', 1)->get();;
+         $allData = Course::where('status', 1)->paginate(10);;
      	 return view('admin.course.course_list',compact('title','allData'));
      }
      

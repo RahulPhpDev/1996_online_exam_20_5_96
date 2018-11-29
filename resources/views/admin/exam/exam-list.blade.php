@@ -10,13 +10,13 @@
     <hr>
     <div class="row-fluid">
       <div class="span12">
-          <a href = "{{route('add-exam')}}" class = "float-right btn btn-primary" style="text-align: right">
+          <a href = "{{route('add-exam')}}" class = "pull-right btn btn-og">
          Add Exam </a>
-        <div class="widget-box">
+        <div class="">
           <div class="widget-title"> <span class="icon"> <i class="icon-th"></i> </span>
             <h5>Exam</h5>
           </div>
-          <div class="widget-content nopadding">
+          <div class=" nopadding">
             <table class="table table-bordered table-striped">
               <thead>
                 <tr>
@@ -63,6 +63,7 @@
            <?php } ?>
               </tbody>
             </table>
+            {{$examDetails->render()}}
           </div>
         </div>
         </div>

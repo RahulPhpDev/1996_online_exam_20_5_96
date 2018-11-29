@@ -29,6 +29,11 @@ class ExamController extends Controller
    
 //    var  $date =  date("Y-m-d");
 
+    public function examList(){
+        $title = 'Exam';
+        $examDetails = Exam::where('status', 1)->paginate(10);
+        return view('admin.exam.exam-list', compact('examDetails','title'));
+    }
     public function addExam(){
         $title = 'Exam Step 1';
         $allCourse = Course::where('status', 1)->get();
@@ -283,11 +288,7 @@ class ExamController extends Controller
      }
 
 
-     public function examList(){
-         $title = 'Exam';
-         $examDetails = Exam::get()->where('status', 1);
-         return view('admin.exam.exam-list', compact('examDetails','title'));
-     }
+     
 
      public function examQuestion($id){
         // $e_id =  1;

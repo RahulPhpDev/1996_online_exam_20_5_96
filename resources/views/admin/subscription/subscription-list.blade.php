@@ -5,6 +5,7 @@
 @extends('layouts.partials.footer')
 @section('title', $title)
 @section('content')
+
 <div id="content">
   <div id="content-header">
    
@@ -17,25 +18,28 @@
       <div class="span12">
        
        
-        <div class="widget-box">
+        <div class="">
           <div class="widget-title"> <span class="icon"><i class="icon-th"></i></span>
             <h5>Subscription Package</h5>
           </div>
-          <div class="widget-content nopadding">
-            <table class="table table-bordered data-table">
+          <div class="">
+            <table class="table table-bordered table-striped">
               <thead>
                 <tr>
+                <th> SN </th>
                   <th>Name</th>
                   <th>Duration</th>
                   <th>Price</th>
-                  <!-- <th>Description</th> -->
                   <th>Edit</th>
                   <th>Delete</th>
                 </tr>
               </thead>
               <tbody>
+              @php  $i = 1; @endphp
                 @foreach($allData as $data)
+              
                 <tr class="gradeX">
+                  <td>{{$i}}</td>
                   <td>{{$data['name']}}</td>
                   <td>
                     @if($data['isDatePermit'] == 0)
@@ -47,15 +51,15 @@
 
                  </td>
                   <td>{{$data['price']}}</td>
-                 <!--  <td class="center"><?php// echo htmlspecialchars_decode($data['description']); ?></td> -->
-                  <td class="center">Edit</td>
-                  <td class="center">Delete</td>
-                  
-                  
+                  <td class="center">
+                    <a class = "btn btn-danger" href = "{{route('edit-subscription', ['id' => Crypt::encrypt($data['id']) ]) }}">Edit</a></td>
+                  <td class="center" ><a class = "btn btn-og">Delete </a></td>
                 </tr>
+                @php  $i++; @endphp
                 @endforeach
               </tbody>
             </table>
+            {{$allData->render()}}
           </div>
         </div>
       </div>

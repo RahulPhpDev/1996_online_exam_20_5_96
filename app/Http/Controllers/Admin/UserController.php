@@ -24,12 +24,14 @@ class UserController extends Controller
 
 
     public function userList(){
-    	$title = 'Users';
-    	$allData = DB::table('users as u')
-            ->leftJoin('students as s', 'u.id', '=', 's.user_id')
-            ->select('s.id as stu_id','s.status as stu_status','u.id as id','fname','lname','username','email','user_type','u.status as status')
-            // ->where('u.status',1)
-            ->get()->toArray();
+       $title = 'Users';
+       $allData = User::paginate(10);
+      //  dd($allData);
+    	// $allData = DB::table('users as u')
+      //       ->leftJoin('students as s', 'u.id', '=', 's.user_id')
+      //       ->select('s.id as stu_id','s.status as stu_status','u.id as id','fname','lname','username','email','user_type','u.status as status')
+      //       // ->where('u.status',1)
+      //       ->get()->toArray();
       return view('admin.user.user-list',compact('title'))->with('allData' ,$allData);  
     }
 
@@ -52,10 +54,7 @@ class UserController extends Controller
  //    }
 
     public function  saveUser(UserRequest $request){
-    	// echo '<pre>';print_r($request->all());die();
     	try{
-
-
 		$userData = array(
 		      	'password' => bcrypt($request['password']),
             'status' => 1,

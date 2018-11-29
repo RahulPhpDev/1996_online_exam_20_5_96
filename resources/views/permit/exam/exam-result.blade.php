@@ -15,6 +15,7 @@
 .report_th >span ,.report_td >span{margin-right:18%}
 
 tr:nth-child(even) {background-color: #f2f2f2;}
+
 </style>
 
 

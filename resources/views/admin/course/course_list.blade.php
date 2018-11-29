@@ -17,11 +17,11 @@
      <a class ="btn btn-success pull-right" href="{{ route('add-course') }}">Add Course </a>
     <div class="row-fluid">
       <div class="span12">
-        <div class="widget-box">
+        <div class="">
           <div class="widget-title"> <span class="icon"> <i class="icon-th"></i> </span>
             <h5>Course</h5>
           </div>
-          <div class="widget-content nopadding">
+          <div class=" nopadding">
             <table class="table table-bordered table-striped">
               <thead>
                 <tr>
@@ -39,16 +39,17 @@
                   <td>{{$data['name']}}</td>
                   <td>  <button type="button"  class="btn btn-info btn-lg des_details" data-toggle="modal" data-target="#myModal" data-id = "{{Crypt::encrypt($data['id'])}}">Description</button> </td>
                   <td>
-                  <a href="{{ route('edit-course', ['id' => Crypt::encrypt($data['id']) ]) }}">Edit <i class="fa fa-fw fa-arrow-circle-right"></i></a>&nbsp&nbsp
+                  <a href="{{ route('edit-course', ['id' => Crypt::encrypt($data['id']) ]) }}" class="btn btn-og">Edit</a>
                   </td>
                   <td>
-                  <a class = "text-center" href="{{ route('delete-course', ['id' => Crypt::encrypt($data['id']) ]) }}"> <i class="fa fa-fw fa-arrow-circle-right text-center">Delete</i></a>&nbsp&nbsp
+                  <a class = "text-center btn btn-og" href="{{ route('delete-course', ['id' => Crypt::encrypt($data['id']) ]) }}" > Delete</a>&nbsp&nbsp
                   </td>
                 </tr>
                 
            <?php $i++;} ?>
               </tbody>
             </table>
+            {{$allData->render()}}
           </div>
         </div>
         </div>

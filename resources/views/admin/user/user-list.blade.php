@@ -8,6 +8,7 @@
 .select2-container{
   width: 30%;
 }
+
 </style>  
 <script>
  $(function(){ 
@@ -23,7 +24,7 @@
            },
            success: function(succ_data) {
                 // location.reload();
-$("#user_"+user_id).html(succ_data);
+          $("#user_"+user_id).html(succ_data);
            }
           });
         }
@@ -38,11 +39,11 @@ $("#user_"+user_id).html(succ_data);
      <a class ="btn btn-success pull-right" href="{{ route('add-user') }}">Add User </a>
     <div class="row-fluid">
       <div class="span12">
-        <div class="widget-box">
+        <div class="">
           <div class="widget-title"> <span class="icon"> <i class="icon-th"></i> </span>
             <h5>User</h5>
           </div>
-          <div class="widget-content nopadding">
+          <div class="">
             <table class="table table-bordered table-striped">
               <thead>
                 <tr>
@@ -59,7 +60,7 @@ $("#user_"+user_id).html(succ_data);
               </thead>
               <tbody>
            <?php $i = 1; foreach($allData as $data) { 
-$data = get_object_vars($data);
+//$data = get_object_vars($data);
             ?>     
 
 
@@ -103,8 +104,11 @@ $data = get_object_vars($data);
            <?php $i++;} ?>
               </tbody>
             </table>
+        
           </div>
+          <?php echo $allData->render(); ?>
         </div>
+    
         </div>
         </div>
 </div>

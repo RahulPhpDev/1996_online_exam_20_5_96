@@ -116,6 +116,9 @@ Route::get('delete-user/{id}', 'Admin\UserController@deleteUser')->name('delete-
 
 Route::get('/subscription','Admin\AdminController@subscriptionList')->name('subscription');
 Route::get('/add-subscription','Admin\AdminController@addSubscription')->name('add-subscription');
+Route::get('/edit-subscription/{id}','Admin\AdminController@editSubscription')->name('edit-subscription');
+Route::post('/update-subscription/{id}','Admin\AdminController@updateSubscription')->name('update-subscription');
+
 
 Route::post('/save-subscription', 'Admin\AdminController@saveSubscription')->name('save-subscription');
 

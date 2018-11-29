@@ -6,7 +6,9 @@
 @section('content') 
 
 <style type="text/css">
-
+.action_div{
+  display:none;
+}
 .action_div {
     position: absolute;
     right: 0;
@@ -14,14 +16,27 @@
     bottom: 0;
 }
 .action_div a {
-  background: #dedede;
-  padding:3px;
+  width:60px;
+  padding:5px;
   margin:0px 2px 0px 2px;
 }
 .add_more_question{
   padding:4px;
   margin-right:10px;
 }
+
+.quiz{overflow-y:scroll; max-height:730px;}
+.other_info > h5 {
+  display: inline-block;
+  width: 190px;
+grid-template-columns: max-content max-content;
+grid-gap:5px;
+text-align:right;
+margin-right:10px;
+}
+
+.other_info > h3:after { content: ":"; }
+.other_info > h4{ display:inline-block;}
 </style>
 <link href="{{ asset('frontend/css/exam_question.css') }}" rel="stylesheet"> 
 <style type="text/css">
@@ -30,9 +45,7 @@
 <div id="content">
      <div class="container-fluid">
     <hr>
-      @include('admin.messages.return-messages')
-    
-    
+      @include('admin.messages.return-messages')    
 <div class="row-fluid">
   <div class="span8">
     <div class="quiz">
@@ -40,13 +53,8 @@
        
         <h5>{{$title}}
  <a  href="{{ route('add-exam-question', ['exam_id' => $id ]) }}" class = "add_more_question  btn btn-success pull-right"> Add More Question </a>
-
         </h5>
-
-
       </div>
-
-       
           <?php 
                $totalQuestion = $totalMark = $totalRequiredQuestion = $totalNegativeQuestion =$questionNumber =  0; 
                 foreach($examQuestion['question'] as $que) { 
@@ -64,9 +72,9 @@
               </span>
 
              <div class = "action_div"> 
-              <a  href="{{ route('edit-exam-question', ['id' =>  Crypt::encrypt($que['question']->id),'exam_id' => $id ]) }}" class = "edit_question btn  btn-error pull-right"> Edit  </a>
+              <a  href="{{ route('edit-exam-question', ['id' =>  Crypt::encrypt($que['question']->id),'exam_id' => $id ]) }}" class = "edit_question btn  btn-og pull-right"> Edit  </a>
 
-              <a  href="{{ route('remove-exam-question', ['id' =>  Crypt::encrypt($que['question']->id),'exam_id' => $id ]) }}" class = "remove_question  btn btn-error pull-right"> Remove  </a>
+              <a  href="{{ route('remove-exam-question', ['id' =>  Crypt::encrypt($que['question']->id),'exam_id' => $id ]) }}" class = "remove_question  btn btn-danger pull-right"> Remove  </a>
             </div>
               @if($que['question']->is_required == 1)  
               <i class="icon-star text-error required_question" style="display: inline"></i>
@@ -105,10 +113,6 @@
             </div> 
             </div>
               <?php } ?>
-
-
-
-      
         </div>
       </div>
 
@@ -121,17 +125,19 @@
           <div class="collapse in" id="collapseOne">
             <div class="widget-content">
                {{ Form::open(array('route' => ['save-confirm-exam', $id],'class' => '', 'id'=>'basic_validate'))}}
+
+
                <div class="row">
                 <div class="" >
                         <div class="other_info" >
-                         Total Question :
-                          {{$examQuestion['exam_details']->total_question}}
+                          <h5> Total Question : </h5>
+                          <h4> <i>  {{$examQuestion['exam_details']->total_question}} </i> </h4> 
                        
                       </div>
-                   
+                  
                       <div class="other_info" >
-                        Total Mark :
-                            {{$examQuestion['exam_details']->total_marks}}
+                      <h5>  Total Mark :</h5>
+                           <h4> <i>  {{$examQuestion['exam_details']->total_marks}}</i> </h4> 
                       
                       </div>
 
@@ -139,26 +145,24 @@
                        	@php
                        	$passingType = ($examQuestion['exam_details']->passing_marks_type ==1) ? ' ':' %';
                        	@endphp
-                        Passing Mark :
-                            {{$examQuestion['exam_details']->minimum_passing_marks}}
-                            {{ 	$passingType}}
+                         <h5>  Passing Mark :</h5>
+                         <h4> <i>    {{$examQuestion['exam_details']->minimum_passing_marks}}
+                            {{ 	$passingType}} </i> </h4> 
                       
                       </div>
 
                         <div class="other_info" >
-                          Required Question :
-                            {{$examQuestion['exam_details']->required_question}}
+                        <h5>  Required Question :</h5>
+                        <h4> <i>   {{$examQuestion['exam_details']->required_question}} </i> </h4> 
                       
                       </div>
 
                        <div class="other_info" >
-                        Total Negative Question :
-                            {{$examQuestion['exam_details']->negative_question}}
+                       <h5>  Total Negative Question :</h5>
+                       <h4> <i>  {{$examQuestion['exam_details']->negative_question}} </i> </h4> 
                       
                       </div>
-
         			  </div>
-
               </div> 
 
               </div> 
@@ -175,11 +179,20 @@
 
 </div>
 <script src="{{ asset('js/backend_js/math_ckeditor/ckeditor/ckeditor.js') }}"></script>
-
-
-
 <script>
+  
+
+
       $(document).ready(function(){
+        // $(".show_question").hover(function(){
+        // $(this).children(".action_div a").css("display": "inline");
+        // }
+
+         $(".show_question").hover(function(){
+          $(this).find(".action_div").css({"display": "inline"});
+        }, function(){
+          $(this).find(".action_div").css({"display": "none"});
+    });
 
 /*        $(".edit_question").on('click', function(){
           var qId =   $(this).data('id');
