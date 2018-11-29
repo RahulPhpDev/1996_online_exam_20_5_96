@@ -1,1 +1,21 @@
 
+git add app/Http/Controllers/Admin/AdminController.php
+git add app/Http/Controllers/Admin/CourseController.php
+git add app/Http/Controllers/Admin/ExamController.php
+git add app/Http/Controllers/Admin/UserController.php
+git add database/changes_file
+git add public/css/backend_css/maarula-style.css
+git add public/css/common/style.css
+git add resources/views/admin/course/course_list.blade.php
+git add resources/views/admin/exam/exam-list.blade.php
+git add resources/views/admin/exam/exam-question.blade.php
+git rm    resources/views/admin/subscription/add-subscription.balde.php
+git add resources/views/admin/subscription/subscription-list.blade.php
+git add resources/views/admin/user/user-list.blade.php
+git add resources/views/layouts/partials/fetch_css.blade.php
+git add resources/views/permit/exam/exam-result.blade.php
+git add routes/web.php
+git add public/css/backend_css/pagination.css
+git add   resources/views/admin/subscription/edit-subscription.blade.php
+
+

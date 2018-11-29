@@ -356,25 +356,6 @@ class UserController extends Controller
         return $pdf->download('MaaRula_'.$examName.'_'.($resultId+15).'.pdf');
      }
    
-     public function deleteExam($id){
-       $examId = Crypt::decrypt($id);
-       $examDetails = Exam::find($examId);
-       $examSubscriptionID = $examDetails->Subscriptions()->allRelatedIds()->toArray();
-       foreach($examSubscriptionID as $eSi){
-         $examDetails->Subscriptions()->sync( array( 
-          $eSi => array( 'status' => 0 ),
-         ), false);
-       }
-       $examUserID = $examDetails->UserExamData()->allRelatedIds()->toArray();
-
-       foreach($examUserID as $eUi){
-        $examDetails->UserExamData()->sync( array( 
-          $eUi => array( 'status' => 0 ),
-         ), false);
-       }
-       $examDetails->status = 0;
-       $examDetails->save();
-       return Redirect::back()->withErrors(['success', 'Exam Is Disable']);
-     }
+     
     
 }

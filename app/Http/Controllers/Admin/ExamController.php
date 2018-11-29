@@ -363,6 +363,27 @@ class ExamController extends Controller
         // confirmExam
     }
 
+    public function deleteExam($id){
+        $examId = Crypt::decrypt($id);
+        $examDetails = Exam::find($examId);
+        $examSubscriptionID = $examDetails->Subscriptions()->allRelatedIds()->toArray();
+        foreach($examSubscriptionID as $eSi){
+          $examDetails->Subscriptions()->sync( array( 
+           $eSi => array( 'status' => 0 ),
+          ), false);
+        }
+        $examUserID = $examDetails->UserExamData()->allRelatedIds()->toArray();
+ 
+        foreach($examUserID as $eUi){
+         $examDetails->UserExamData()->sync( array( 
+           $eUi => array( 'status' => 0 ),
+          ), false);
+        }
+        $examDetails->status = 0;
+        $examDetails->save();
+        return Redirect::back()->withErrors(['success', 'Exam Is Disable']);
+      }
+    
     public function examAccessbility($id){
        $e_id = Crypt::decrypt($id);
        $examDetails =  Exam::findOrFail($e_id);

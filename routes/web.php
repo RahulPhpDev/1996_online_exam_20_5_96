@@ -66,8 +66,6 @@ Route::get('exam-result/{id}', 'Auth\UserController@examResult')->name('exam-res
 Route::get('download-exam-pdf/{id}', 'Auth\UserController@downloadExamPdf')->name('download-exam-pdf');
 
 Route::get('exam-instruction/{id}', 'Auth\UserController@examInstruction')->name('exam-instruction');
-
-Route::Post("delete-exam/{id}",  'Auth\UserController@deleteExam')->name('delete-exam');
 });
 
 
@@ -118,6 +116,7 @@ Route::get('/subscription','Admin\AdminController@subscriptionList')->name('subs
 Route::get('/add-subscription','Admin\AdminController@addSubscription')->name('add-subscription');
 Route::get('/edit-subscription/{id}','Admin\AdminController@editSubscription')->name('edit-subscription');
 Route::post('/update-subscription/{id}','Admin\AdminController@updateSubscription')->name('update-subscription');
+Route::post('/delete-subscription/{id}','Admin\AdminController@deleteSubscription')->name('delete-subscription');
 
 
 Route::post('/save-subscription', 'Admin\AdminController@saveSubscription')->name('save-subscription');
@@ -170,5 +169,6 @@ Route::get('/profile', 'Admin\UserController@profile')->name('profile');
 Route::post('/update-profile', 'Admin\UserController@updateProfile')->name('update-profile');
 Route::get('/result', 'Admin\ResultController@view')->name('result');
 
+Route::Post("delete-exam/{id}",  'Admin\ExamController@deleteExam')->name('delete-exam');
  
 }) ; 

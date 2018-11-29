@@ -53,7 +53,19 @@
                   <td>{{$data['price']}}</td>
                   <td class="center">
                     <a class = "btn btn-danger" href = "{{route('edit-subscription', ['id' => Crypt::encrypt($data['id']) ]) }}">Edit</a></td>
-                  <td class="center" ><a class = "btn btn-og">Delete </a></td>
+                  <td class="center" ><a class = "btn btn-og delete_btn">Delete </a>
+                  <div class = "delete_div" style = "display:none">
+                  {{Form::open(array('route' => array('delete-subscription','id' => Crypt::encrypt($data['id']) ), 'method' => 'post','class' => 'form-horizontal'))}}
+                  <div class="control-group">
+                    {{Form::label('option' , 'Delete Exam Also', array('class' => 'control-label')) }}
+                    <div class="mt-10">
+                      <input type="submit" name="save" value="Yes" class = 'btn btn-lg btn-primary'>
+                      <input type="submit" name="save" value="No" class = 'btn btn-lg btn-success'>
+                     <span class="tip" data-original-title="Exam will not be delete."><i class="icon-pencil"></i></span>
+                  </div>
+                  {{Form::Close()}}
+                  </div>
+                  </td>
                 </tr>
                 @php  $i++; @endphp
                 @endforeach
@@ -66,4 +78,40 @@
     </div>
   </div>
 </div>
+<script>
+$(function(){
+  $(".delete_btn").on("click", function(){
+    // console.log(this);
+    $(this).next(".delete_div").css({"display": "inline"});
+    $(this).removeClass('delete_btn');
+    $(this).text('Hide');
+    $(this).addClass('show_delete_btn');
+  });
+
+  
+});  
+// $('.table').on('click', 'a.show_delete_btn', function(event) {
+//   console.log('92'+this);
+//     $(this).next(".delete_div").css({"display": "none"});
+//     $(this).removeClass('show_delete_btn');
+//     $(this).addClass('delete_btn');
+//     $(this).text('Deletesfsf');  
+// });
+
+// $(document).on('click', "a.show_delete_btn", function() {
+//   console.log('92'+this);
+//     $(this).next(".delete_div").css({"display": "none"});
+//     $(this).removeClass('show_delete_btn');
+//     $(this).addClass('delete_btn');
+//     $(this).text('Delete');      
+// });
+
+//  $(".show_delete_btn").on("click", function(){
+//     console.log('92'+this);
+//     $(this).next(".delete_div").css({"display": "none"});
+//     $(this).removeClass('show_delete_btn');
+//     $(this).addClass('delete_btn');
+//     $(this).text('Delete');
+//   });
+</script>
 @endsection
