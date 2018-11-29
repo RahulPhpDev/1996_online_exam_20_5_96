@@ -39,8 +39,7 @@ class AdminController extends Controller
 
     public function subscriptionList(){ 
         $title = 'Subscription Package';
-        $allData = Subscription::where(array('status' => 1))->get();
-     
+        $allData = Subscription::where(array('status' => 1))->paginate(10);
         return view('admin/subscription/subscription-list',compact('allData','title'));
     }
     
@@ -85,5 +84,74 @@ class AdminController extends Controller
              return redirect()->back()->with('err_success',$msg);
         }
     }
+
+    public function editSubscription($id){
+         $title = 'Edit Course';
+         $newId =  Crypt::decrypt($id);
+         $editData = Subscription::findOrFail($newId);
+        // dd($editData);
+     	 return view('admin.subscription.edit-subscription',compact('title','editData'));
+    }
+
+    public function updateSubscription(Request $request, $id){
+        $newId =  Crypt::decrypt($id);
+        $isDatePermitted = 0;
+        $start_date = $end_date = "";
+        $duration = $request->duration;
+       if($request->start_date){
+           $isDatePermitted = 1;
+           $start_date = $request->start_date."00:00:00";
+           $end_date = $request->end_date."00:00:00";
+           $duration = 0;
+        }
+      try{
+         $data = array(
+           'name' => $request->name,
+           'description' => $request->description,
+           'price' => $request->price,
+           'isDatePermit' =>$isDatePermitted,
+           'start_date' =>$request->start_date,
+           'end_date' => $request->end_date,
+           'status'=> 1,
+           'duration' => $duration
+       );
+      Subscription::where('id', $newId)->update($data);
+      $msg = 'Data Updated'; 
+      return redirect()->route('subscription')->with('success',$msg);
+    } catch (QueryException $e) {
+        
+        $msg =  $e->getMessage();
+        return redirect()->back()->with('err_success',$msg);
+    } catch (Exception $e) {
+        $msg =  $e->getMessage();
+        return redirect()->back()->with('err_success',$msg);
+    } catch (Throwable $e) {
+        $msg = $e->getMessage();
+         return redirect()->back()->with('err_success',$msg);
+    }
+   }
+
+   public function deleteSubscription($id){
+       $newId =  Crypt::decrypt($id);
+       $subscriptionData = Subscription::find($newId);
+       $inputValue = Input::get('save');
+       if($inputValue == 'Yes'){
+        $allExamData = $subscriptionData->Exam()->allRelatedIds()->toArray();
+        foreach($allExamData  as $examId){
+            $subscriptionData->Exam()->sync( array( 
+                $examId => array( 'status' => 0 ),
+               ), false);
+        }
+       }
+       $allReletedUser = $subscriptionData->User()->allRelatedIds()->toArray();
+        foreach($allReletedUser  as $userId){
+            $subscriptionData->User()->sync( array( 
+                $userId => array( 'status' => 0 ),
+            ), false);
+        }
+        Subscription::where('id', $newId)->update(['status' => 0]);
+        $msg = 'Package Removed';
+        return redirect()->back()->with('success',$msg);
+   }
 
 }

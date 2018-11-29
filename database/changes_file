@@ -19,3 +19,12 @@ git add public/css/backend_css/pagination.css
 git add   resources/views/admin/subscription/edit-subscription.blade.php
 
 
+git add app/Http/Controllers/Admin/AdminController.php
+git add app/Http/Controllers/Admin/ExamController.php
+git add app/Http/Controllers/Auth/UserController.php
+git add database/changes_file
+git add resources/views/admin/subscription/subscription-list.blade.php
+git add routes/web.php
+
+
+
