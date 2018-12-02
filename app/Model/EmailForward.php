@@ -1,9 +1,12 @@
 <?php
 
-namespace App;
+namespace App\Model;
 
 use Illuminate\Database\Eloquent\Model;
 use DB;
+use Mail;
+use Config;
+
 class EmailForward extends Model
 {
     public $table = 'email_forward';
@@ -11,6 +14,9 @@ class EmailForward extends Model
     protected $guarded = [];
 
     public function saveEmailForward($params){
+        $msg = $params->message;
+        $subject = $params->subject;
+        $receiverEmail = $params->receiverEmail;
     	$data = array(
 	                'user_id'   =>	$params->receiverID,
 	                'email'     =>  $params->receiverEmail,
@@ -18,16 +24,24 @@ class EmailForward extends Model
 	                'sujbect'   =>  $params->subject,
 	                'message'   =>  $params->message,
 	                'send_date' =>  date('Y-m-d : H:mm:s'),
+                    'status'    => 1,
                  );
       DB::table('email_forward')->insertGetId($data);
 
-      
-        // Mail::send(array(), array(), function ($message) use ($outputData->message) {
-        //   $message->to($userEmail)
-        //     ->subject($outputData->subject)
-        //     ->from($adminEmail)
-        //     ->setBody( $outputData->message, 'text/html');
-        // });
+
+    $data = array(
+       'email' => $receiverEmail,
+       'subject' => $subject,
+       'msg' =>$msg
+        );
+
+    Mail::send( 'mail', $data, function( $message ) use ($data)
+    {
+        $message->to( $data['email'] )
+        ->from( Config::get('mail.from.address'), Config('app.name'))
+        ->subject( $data['subject']);
+    });
+
 
     }
 }

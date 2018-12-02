@@ -72,6 +72,13 @@ Route::get('exam-instruction/{id}', 'Auth\UserController@examInstruction')->name
 
 
 Route::get('/db' ,function(){
+	$msg = 'rahul';
+	echo "'$msg'";
+	die();
+	echo Config::get('mail.from.name');
+	echo Config::get('mail.from.address');
+
+	//  echo env('mail.from.name');die();
 $db = Config::get('database.connections.'.Config::get('database.default').'.database');
 echo $db;
 });
