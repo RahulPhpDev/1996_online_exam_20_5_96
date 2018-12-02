@@ -1,10 +1,10 @@
 <?php
 
-namespace App;
+namespace App\Model;
 
 use Illuminate\Database\Eloquent\Model;
 
-use App\EmailForward;
+use App\Model\EmailForward;
 use DB;
 use stdClass;
 class Alert extends Model
@@ -19,7 +19,7 @@ class Alert extends Model
     		->leftJoin('email_template as et', 'a.email_template_id', '=', 'et.id')
     		->where('a.id', $params->alert_id)
     		->get();
-    	$alertData  = 	$alertDatas[0];
+    	$alertData  = $alertDatas[0];
 
     	$output =  new stdClass;
 
@@ -56,11 +56,7 @@ class Alert extends Model
 
 		$inputObjSendEmail->subject = $output->subject;
 		$inputObjSendEmail->message = $output->message;
-		// $paramsEmail = "dfgs";
-
 		$emailforwardObj->saveEmailForward($inputObjSendEmail);
-
-		// $output = array($subjectOutput , $messageOutput);
 
 		return $output;
     }
@@ -68,7 +64,6 @@ class Alert extends Model
    
 
     public function getMessage($inputMessage){
-    	// dd($inputMessageObj->email_db_params);
     	$params = $inputMessage->email_db_params;
     	$msgtemplate  = $inputMessage->message;
     	$inputParms  = $inputMessage->msg_argument;
