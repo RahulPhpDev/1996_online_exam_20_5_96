@@ -22,4 +22,6 @@ class Question extends Model
     public function rightAnswer(){
 	    return  $this->hasOne(QuestionRightAnswer::class,'question_id');
 	 }
+
+     
 }

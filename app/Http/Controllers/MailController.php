@@ -9,9 +9,11 @@ class MailController extends Controller
 {
     public function send(){
     	Mail::send(['text' => 'mail'],['name','MaaRula Online Test'],function($message){
-    		$message->to('mrrahul2016@gmail.com','To Amrish')->subject('Test Email');
-    		$message->from('admin@maarulaonlinetest.com','Rahul');
+    		$message->to('associate.rahul.chauhan@gmail.com','To Raul')
+            ->subject('Test Email');
+    		$message->from('mrrahul2016@gmail.com','Rahul');
     	});
+        die(' check');
     }
     
      public function checkEmail(){

@@ -7,9 +7,11 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use App\Model\Student;
-
+use App\Model\Alert;
 use Image;
 use File;
+
+use stdClass;
 class RegisterController extends Controller
 {
     /*
@@ -68,6 +70,8 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
+
+
          $user = User::create([
             'fname' => $data['fname'],
             'lname' => $data['lname'],
@@ -108,9 +112,18 @@ class RegisterController extends Controller
         $image->move($originalPath, $input['imagename']);
         $userDetailsByID->profile_image = $input['imagename'];
         $userDetailsByID->save();
-    }
-        return $user;
+       }
 
-     
+/*
+       
+        $emailParams = new stdClass;
+        $emailParams->user_id = $id;
+        $emailParams->user_email =  $data['email'];
+        $emailParams->alert_id = 1;
+        $emailParams->msg_params = [  $data['fname'].' '.$data['lname'] , $data['email'],$data['password'] ];
+       $alertObj = new Alert();
+       $outputData =  $alertObj->sendEmail($emailParams);
+*/
+        return $user;
     }
 }

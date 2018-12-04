@@ -6,6 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 use App\User;
 use App\Model\Exam;
 use DB;
+
+
+use  App\Model\QuestionRightAnswer;
 class Result extends Model
 {
     protected $guarded = [];
@@ -18,6 +21,11 @@ class Result extends Model
 
     public function Exam(){
     	$res = $this->belongsTo(Exam::class);
+        return $res;
+    }
+
+    public function QuestionAnswer(){
+        $res =   $this->hasOne(QuestionRightAnswer::class,'question_id');
         return $res;
     }
 }
