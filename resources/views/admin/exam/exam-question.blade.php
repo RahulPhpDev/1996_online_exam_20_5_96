@@ -120,7 +120,7 @@ margin-right:10px;
                     ?>
 
                <div class="negative_marks inline">
-                      Negative Marks:    <?php echo $que['question']->marks; ?> 
+                      Negative Marks:    <?php echo $que['question']->negative_marks; ?> 
                  </div>  
 
               @endif 

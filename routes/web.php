@@ -47,6 +47,7 @@ Route::get('allpackage', 'GuestController@allpackage')->name('allpackage');
 
 Route::get('payment/{id?}', 'GuestController@payment')->name('payment');
 
+
 Route::group(['middleware' => ['auth']], function(){
 
 Route::get('save-package-exam/{id?}', 'Auth\UserController@savePackageExam')->name('save-package-exam');
@@ -67,7 +68,9 @@ Route::get('download-exam-pdf/{id}', 'Auth\UserController@downloadExamPdf')->nam
 
 Route::get('exam-instruction/{id}', 'Auth\UserController@examInstruction')->name('exam-instruction');
 
+
 Route::get('exams-question/{id}', 'Auth\UserExamController@examsQuestion')->name('exams-question');
+
 
 });
 

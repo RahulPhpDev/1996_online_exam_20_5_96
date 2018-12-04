@@ -60,7 +60,7 @@ tr:nth-child(even) {background-color: #f2f2f2;}
         <td > <span class = "center"> {{$res->Exam->total_marks}} </span></td>
         <td > <span class = "center"> {{ $res->obtain_mark}} </span></td>
         @php
-        $passingStatus = ($res->result_status == 2) ? 'Pass' : 'Fail'; 
+        $passingStatus = ($res->result_status == 2) ? 'Fail' : 'Pass'; 
         @endphp
         <td > <span class = "center"> {{$passingStatus}}</span></td>
         <td ><span class = "center"><a href = "{{ route('download-exam-pdf', ['id' => Crypt::encrypt($res->id) ]) }}" class ="button btn btn-success"> Download </a> </span></td>
