@@ -1,89 +1,71 @@
+
 @extends('frontend_layouts.partials.inner_layout')
 @extends('frontend_layouts.partials.header')
 @extends('frontend_layouts.partials.sidebar')
 @extends('frontend_layouts.partials.footer')
 
-@section('content')  
+@section('content') 
 
-
-<link href="{{ asset('frontend/css/welcome_css.css') }}" rel="stylesheet">
-<div class="maincontent">
-                <style type="text/css">
-
-.action_div{
-  display:none;
+<style type="text/css">
+  .question_section {
+    box-shadow: 0 0 2px rgba(0,0,0,0.6);
+    -moz-box-shadow: 0 0 10px rgba(0,0,0,0.6);
+    /* -webkit-box-shadow: 0 0 10px rgba(0,0,0,0.6); */
+    -o-box-shadow: 0 0 10px rgba(0,0,0,0.6);
+    margin: 10px 6px 3px 10px;
+    min-height: 163px !important;
 }
-.action_div {
-    position: absolute;
-    right: 0;
-    top: 0;
-    bottom: 0;
+.love p{
+  margin: 0 0 0px 19px;
 }
-.action_div a {
-  width:60px;
-  padding:5px;
-  margin:0px 2px 0px 2px;
+.love{
+      display: block;
+    padding-top: 19px;
 }
-.add_more_question{
-  padding:4px;
-  margin-right:10px;
-}
-
-.quiz{overflow-y:scroll; max-height:730px;}
-.other_info > h5 {
-  display: inline-block;
-  width: 190px;
-grid-template-columns: max-content max-content;
-grid-gap:5px;
-text-align:right;
-margin-right:10px;
-}
-
-.other_info > h3:after { content: ":"; }
-.other_info > h4{ display:inline-block;}
 </style>
+<script src='https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
+  <script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+   
+     showMathMenu: false,
+  extensions: ["tex2jax.js"],
+  jax: ["input/TeX", "output/HTML-CSS"],
+  tex2jax: {
+      skipTags: ["body"],
+      processClass: "equation"
+  }
+  });
+</script>
 
-    <div class="item-container">    
-     <div class="container"> 
-      <div class="col-md-12">
-      <div class="quiz">
-      <div class="quiz_header">
-       
-        <h5> <?php echo $resultData->Exam->exam_name; ?> </h5>
+  <div class="maincontent">
+    <section class="section">
+      <div class="container">
+    <div class="col-md-12">
+           <div class = "col-md-7">
+           <div class="mycontainer">
 
-      </div>
-         
-         <div class="show_question">  
-            <div class="question_data">
-              <span class="question_number"> Q : </span>
-              <span class="inline question">
-                <p>
-                 <?php echo $resultData->Exam->exam_name?>
-                </p>
-              </span>
-
-              <?php
-              foreach($resultData->Exam->ExamQuestion as $examQuestion){
-
-echo $examQuestion->question;
-               ?>
-
-
-              <?php } ?>
-             
-             
-            </div>
-         
-
-            </div>
-          
-        </div
-
-      </div>
-     </div>
-    </div>
-
-
+  @php $questionNumber = 1; @endphp
+    @foreach($resultData as $examQuestion)   
+           <div class="question_section">
+           <div class = "hate"> 
+             <div class = "questions">
+                <span class = "love"> <?php echo  htmlspecialchars_decode($examQuestion->question); ?> </span>
+             </div> 
+              <div class = "options">
+                 <div class = "opt_data">
+                    <span class = "options_span"> 
+                       {{$examQuestion->question_option}}
+                      </span> 
+                </div>
+                  @php $questionNumber++; @endphp
+                   </div>
+                 </div>
+              </div>
+                @endforeach
+              
+             </div>
+           </div>
         </div>
+      </section>    
 </div>
 @endsection

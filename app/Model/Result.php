@@ -28,4 +28,30 @@ class Result extends Model
         $res =   $this->hasOne(QuestionRightAnswer::class,'question_id');
         return $res;
     }
+
+       public function getResultByUserId($id){
+            // echo $id;die();
+         DB::enableQueryLog();
+         $query = DB::table('results as r')
+                    ->leftJoin('user_answer as ua', 'r.id',  '=', 'ua.result_id')
+                    ->leftJoin('questions as q', 'q.id',  '=', 'ua.question_id')
+                    ->leftJoin('question_options as qo', 'qo.id',  '=', 'ua.answer_id')
+                    ->select('q.*','r.*','ua.*','qo.*')
+                    ->where(array(['r.id', "=",$id]));
+                    // DB::table('users')->toSql()
+                    // dd(DB::getQueryLog());
+
+                    // , ['eq.status' , "=", 1]
+          $result = $query->get()->toArray();
+          $sql = $query->toSql();
+         // dd(DB::getQueryLog());
+
+// $bindings = $query->getBindings();
+//           dd($sql);
+          // dd($query);
+          // dd($result);
+          return $result;
+         } 
 }
+
+

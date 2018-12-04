@@ -69,7 +69,7 @@ Route::get('download-exam-pdf/{id}', 'Auth\UserController@downloadExamPdf')->nam
 Route::get('exam-instruction/{id}', 'Auth\UserController@examInstruction')->name('exam-instruction');
 
 
-Route::get('exams-question/{id}', 'Auth\UserExamController@examsQuestion')->name('exams-question');
+Route::get('exams-question/{id}', 'Auth\UserExamController@viewExamQuestions')->name('exams-question');
 
 
 });
