@@ -22,17 +22,21 @@ use Image;
 use PDF;
 use Dompdf\Dompdf;
 use Mpdf;
+use stdClass;
 class UserExamController extends Controller
 {
 
 	public function viewExamQuestions($resultId){
-	    $r_id = 1;
+	      $r_id = 2;
 	    // Crypt::decrypt($resultId);
         $userData = Auth::user();
         $userId = $userData['id'];
         $userDetails =  User::find($userId);
-   		$resultData =     Result::find($r_id);
-   		
+   	  	// $resultData =     Result::find($r_id);
+        $resultObj = new Result;
+       $resultData =  $resultObj->getResultByUserId($r_id);
+       // dd($resultData);
+   		 //return view('permit.userExam.result-question',compact('resultData'));
   	    return view('permit/userExam.exam-question',compact('resultData'));
 	}
 }

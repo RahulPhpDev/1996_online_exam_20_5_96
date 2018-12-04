@@ -1,3 +1,7 @@
-
+git add app/Http/Controllers/Auth/UserExamController.php
+git add app/Model/Result.php
+git add resources/views/permit/user-exam/result-question.blade.php
+git add resources/views/permit/userExam/exam-question.blade.php
+git add routes/web.php
 
 
