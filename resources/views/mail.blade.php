@@ -1,1 +1,5 @@
-this is dummy email from maaRula User
+<?php
+
+echo $msg; 
+
+?>

@@ -13,4 +13,23 @@ class MailController extends Controller
     		$message->from('admin@maarulaonlinetest.com','Rahul');
     	});
     }
+    
+     public function checkEmail(){
+        $alertid = 1;
+        $userId = 1;
+        // (==username==),(==email==),(==password==)
+        $username = 'Rahul Chauhan';
+        $email = 'mrrahul2016@gmail.com';
+        $password = '12345678';
+        $userData = User::find($userId);
+        $userEmail =  $userData->email;
+        // $emailParams = new stdClass;
+        $emailParams = new stdClass;
+        $emailParams->user_id = $userId;
+        $emailParams->user_email = $userEmail;
+        $emailParams->alert_id = $alertid;
+        $emailParams->msg_params = [ $username ,$email, $password ];
+       $alertObj = new Alert();
+       $outputData =  $alertObj->sendEmail($emailParams);
+     }
 }
