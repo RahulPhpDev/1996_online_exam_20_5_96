@@ -18,6 +18,7 @@ class UserAnswer extends Model
                     	// ->where(array(['exam_id', "=",$id], ['eq.status' , "=", 1]));
 
     	 			->where('user_id',$userId)
+                    ->where('result_id',0)
     	 			->where('exam_id',$examID);
              $result = $query->get();
          	 $resultData = $result->toArray();

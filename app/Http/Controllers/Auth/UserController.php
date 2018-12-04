@@ -166,11 +166,14 @@ class UserController extends Controller
         $pending_questions = array_diff($allQuestion,$allAttemptQuestion);
         $rightAnswerId = ($lastQuestionData->rightAnswer->option_id);
         $status = 0;
+        $mark = 0;
         if($rightAnswerId ==  $answerID ){
           $status = 1;
+          $mark =  '-'.$lastQuestionData['marks'];
         }
         if($rightAnswerId !=  $answerID ){
          $status = 2;
+          $mark = $lastQuestionData['negative_marks'];
         }
 
      
@@ -180,7 +183,7 @@ class UserController extends Controller
          'question_id' => $last_attempt_question,
          'answer_id' => $answerID,
          'status' => $status,
-         'mark' => $lastQuestionData['marks'],
+         'mark' =>  $mark,
       ])->id;
       session()->push('user_answer.question',$lastAnswerid );
 
