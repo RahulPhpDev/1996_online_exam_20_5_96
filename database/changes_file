@@ -7,3 +7,15 @@ git add routes/web.php
 
 ALTER TABLE `subscriptions` ADD `image` VARCHAR(255) NULL AFTER `status`;
 ALTER TABLE `exams` ADD `image` VARCHAR(255) NULL AFTER `notes`;
+
+git add app/Http/Controllers/Admin/AdminController.php
+git add app/Http/Controllers/Admin/ExamController.php
+git add database/changes_file
+git add resources/views/admin/exam/add-exam.blade.php
+git add resources/views/admin/exam/exam-list.blade.php
+git add resources/views/admin/subscription/add-subscription.blade.php
+git add resources/views/admin/subscription/subscription-list.blade.php
+git add resources/views/auth/login.blade.php
+git add resources/views/auth/register.blade.php
+git add routes/web.php
+

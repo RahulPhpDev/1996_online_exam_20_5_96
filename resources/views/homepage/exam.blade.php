@@ -5,13 +5,9 @@
 	 	<div class="container home">
 	 		<div class="top-bg-overlay-fill"></div>
 			<div class="lb-content text-center">
-				<h1 class="text-center font_bold m0" style="color: #fff;">Start Your Exam Preparation Now!</h1>
+				<h1 class="text-center font_bold m0" style="color: #fff;margin-bottom:40px">Start Your Exam Preparation Now!</h1>
 				
-				@if(count($allExam) > 3)
-					<div class = "view_all">
-					    <a href = "{{route('allpackage')}}" class = "button btn btn_blue view_all_btn"> View All </a>
-					  </div> 
-				 @endif  
+				
 <style type="text/css">
 	.caption_bottom >div{
 		display: inline-block;
@@ -20,40 +16,75 @@
 	.exam_icon{
 		width:55px;
 	}
+
+	
+	.daily-quiz-card {
+    height: 288px;
+    padding: 12px 16px 46px;
+    border-radius: 3px;
+    border-color: transparent;
+    background-color: #fff;
+    -webkit-box-shadow: 0 2px 4px 1px rgba(0,0,0,.15);
+    box-shadow: 0 2px 4px 1px rgba(0,0,0,.15);
+}
+ .mt-card {
+    position: relative;
+    float: left;
+    width: 224px;
+    white-space: normal;
+    border: 2px solid #eaeaea;
+    z-index: 20;
+    margin: 20px 12px;
+}
+
+	.card-details {
+		position: relative;
+    left: -25px;
+    right: 37px;
+    bottom: 46px;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    color: black;
+    top: 23px;
+    text-align: center;
+    height: 120px;
+}
+.card-details .count {
+    float: right;
+    color: #495563;
+}
+.card-details li {
+    text-transform: uppercase;
+    font-size: 13px;
+    color: #8e9aa9;
+    padding: 12px 0;
+}
 </style>
 
-<div class="MultiCarousel" data-items="1,3,5,6" data-slide="1" id="MultiCarousel"  data-interval="1000">
-            <div class="MultiCarousel-inner">
+	<div class = "mt-10" style = "margin-top:40px"> </div>
             @foreach($allExam as $exam)	    
-                <div class="item ">
-                <div class = "item_margin" style="border:1px dashed #fff;">
-                <div class="pad15">
-                 <a class="" href="{{ route('exam-instruction', ['id' => Crypt::encrypt($exam['id']) ]) }}">
-                     <div class="caption" style = "height:80px;border-bottom:1px solid white; ">
-                     	 <img src="{{ asset('/frontend/img/exam/exam_icon_3.png') }}" alt=" Exam" class="exam_icon" />
+			<div class="panel-group col-sm-4">
+				<div class="panel panel-info">
+				@php // $pic = (!is_null($exam['image'])) ? '/images/exam/thumbnail/'.$exam['image'] : '';  @endphp
+              
+				<div class="panel-heading"> <img src="" ></div>
+				<h4 class="group inner list-group-item-heading"><strong>{{$exam['exam_name']}}</strong></h4>
+				<div class="panel-body">
+				<ul class="card-details hidden-on-attempted">
+					<li>Questions <span class="count ng-binding">{{$exam['total_question']}}</span></li>
+				   <li>Total Time <span class="count ng-binding">120mins</span></li>
+				</ul>
+				
+				</div>
+			  </div>
+			</div>
 
-                        <h4 class="group inner list-group-item-heading"><strong>{{$exam['exam_name']}}</strong></h4>
-                     </div>
-                     <div class="caption_bottom">
-                     	<div class = "sideline" style="    border-right: 2px solid #fff;     margin-top: 10px;">  <h2 style="position: relative;top: 25px; right: 50px;"> {{$exam['total_question']}} </h2> <h4 class = "center" style="position: relative; right: 50px;"> Question </h4> </div>
-
-                     	<div class = "">  <h2 style="position: relative;top: 25px;left:16px"> {{$exam['total_marks']}} </h2> <h4 style=" " class = "center"> <span>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</span>Marks </h4> </div>
-                     </div>
-                    </a>
-                  </div>
-                </div>
-                   </div>
 			    @endforeach			 
             </div>
-           @if(count($allExam) > 3)
-            <button class="btn btn-primary leftLst"> < </button>
-            <button class="btn btn-primary rightLst"> > </button>
-            @endif
          
-    </div>
-
-
-			</div>
+         
+ 
 		</div>	
 		<div class="mb50"></div>
 	
