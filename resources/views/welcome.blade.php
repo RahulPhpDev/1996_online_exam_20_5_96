@@ -40,7 +40,14 @@
 		<div class="mb50"></div>
 	
 </section>
- 		<section class="section mycontainer">
+ 	
+
+@component('homepage.exam', compact('nonSubscriptionExams','allExam'))@endcomponent  
+
+@component('homepage.testimonial')@endcomponent  
+ 
+
+	<section class="section mycontainer">
 			<div class="container home">
 				<div class="mb50"></div>
 									<div class="col-xs-12 header">
@@ -75,13 +82,7 @@
 					</div>
 				</div>
 		</section>
-
-
-@component('homepage.testimonial')@endcomponent  
- 
-
-
-@component('homepage.exam', compact('nonSubscriptionExams','allExam'))@endcomponent  
+		
 
 <script>
 	$(document).ready(function () {
