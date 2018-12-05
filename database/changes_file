@@ -5,3 +5,5 @@ git add resources/views/permit/userExam/exam-question.blade.php
 git add routes/web.php
 
 
+ALTER TABLE `subscriptions` ADD `image` VARCHAR(255) NULL AFTER `status`;
+ALTER TABLE `exams` ADD `image` VARCHAR(255) NULL AFTER `notes`;

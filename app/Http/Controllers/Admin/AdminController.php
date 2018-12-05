@@ -8,6 +8,10 @@ use App\Model\Institution;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Input;
 
+use Image;
+use File;
+
+
 use \Throwable ;
  use App\Services\PayUService\Exception;
 use Illuminate\Database\QueryException;
@@ -49,6 +53,7 @@ class AdminController extends Controller
     }
     
     public function saveSubscription(Request $request){
+        
         $isDatePermitted = 0;
          $start_date = $end_date = "";
          $duration = $request->duration;
@@ -69,10 +74,34 @@ class AdminController extends Controller
             'status'=> 1,
             'duration' => $duration
         );
-       Subscription::create($data);
+        $subId =  Subscription::create($data)->id;
+       if(isset($request['image'])){
+        $image = $request['image'];
+        $detailsByID = Subscription::find($subId);
+        $imageName = 'package_'.$subId.'.'.$image->getClientOriginalExtension();
+        $imagesPath =  public_path().'/images';
+        $imgPath =  $imagesPath.'/package';
+        if(!File::exists($imgPath)) {
+            File::makeDirectory($imgPath, 0777, true, true);
+       }
+       $destinationPath =$imgPath.'/thumbnail';
+       if(!File::exists($destinationPath)) {
+          File::makeDirectory($destinationPath, 0777, true, true);
+         }
+       $thumb_img = Image::make($image->getRealPath())->resize(250, 200);
+       $thumb_img->save($destinationPath.'/'. $imageName,80);
+
+        // first load profile page in original
+        $originalPath =  $imgPath.'/original';
+        if(!File::exists($originalPath)) {
+                File::makeDirectory($originalPath, 0777, true, true);
+        }
+        $image->move($originalPath, $imageName);
+        $detailsByID->image = $imageName;
+        $detailsByID->save();
+       }
        return redirect('subscription')->with('success', 'Package Saved');
         } catch (QueryException $e) {
-        
             $msg =  $e->getMessage();
             return redirect()->back()->with('err_success',$msg);
         } catch (Exception $e) {
@@ -80,11 +109,41 @@ class AdminController extends Controller
             return redirect()->back()->with('err_success',$msg);
         } catch (Throwable $e) {
             $msg = $e->getMessage();
-          
              return redirect()->back()->with('err_success',$msg);
         }
     }
 
+    public function updateSubscriptionImg(Request $request){
+        $message = 'No Image Found';
+        if(isset($request['image'])){
+            $image = $request['image'];
+            $subId = $request->sub_id;
+            $imageName = 'package_'.$subId.'.'.$image->getClientOriginalExtension();
+            $imagesPath =  public_path().'/images';
+            $imgPath =  $imagesPath.'/package';
+            if(!File::exists($imgPath)) {
+                File::makeDirectory($imgPath, 0777, true, true);
+           }
+           $destinationPath =$imgPath.'/thumbnail';
+           if(!File::exists($destinationPath)) {
+              File::makeDirectory($destinationPath, 0777, true, true);
+             }
+           $thumb_img = Image::make($image->getRealPath())->resize(250, 200);
+           $thumb_img->save($destinationPath.'/'. $imageName,80);
+    
+            // first load profile page in original
+            $originalPath =  $imgPath.'/original';
+            if(!File::exists($originalPath)) {
+                    File::makeDirectory($originalPath, 0777, true, true);
+            }
+            $image->move($originalPath, $imageName);
+            $data = ['image'=> $imageName];
+            Subscription::where('id', $request->sub_id)->update($data);
+            $message = 'Image Updated';
+           }
+           return redirect('subscription')->with('success', $message);
+    }
+    
     public function editSubscription($id){
          $title = 'Edit Course';
          $newId =  Crypt::decrypt($id);

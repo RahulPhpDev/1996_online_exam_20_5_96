@@ -6,13 +6,12 @@
 @section('title', $title)
 @section('content')
 <div id="content">
-     <div class="container-fluid">
+    <div class="container-fluid">
     <hr>
     <div class="row-fluid">
       <div class="span12">
           <a href = "{{route('add-exam')}}" class = "pull-right btn btn-og">
          Add Exam </a>
-        <div class="">
           <div class="widget-title"> <span class="icon"> <i class="icon-th"></i> </span>
             <h5>Exam</h5>
           </div>
@@ -26,6 +25,8 @@
                   <th>Total Mark</th>
                   <th>Passing Mark</th>
                   <th> Other Details </th>
+                  <th>Image </th>
+                  <th>Update Image </th>
                   <th> View/Edit Question </th>
                   <th> Edit </th>
                   <th> Disable </th>
@@ -46,17 +47,20 @@
                 }
 
                   @endphp
-                  <td> <button data-toggle="modal" data-target="#myModal" type = "button"  class ="show_visible_to btn btn-primary" data-id = "{{ Crypt::encrypt($data['id'])  }}"> {{$examVisible}} </button> </td>
+                  <td class = "center"> <button data-toggle="modal" data-target="#myModal" type = "button"  class ="show_visible_to btn btn-primary" data-id = "{{ Crypt::encrypt($data['id'])  }}"> {{$examVisible}} </button> </td>
                   <td> {{$data['total_question']}} </td>
                   <td> {{$data['total_marks']}}</td>
                   <td> {{$data['minimum_passing_marks']}} </td>
-                  <td> <button type = "button" class ="btn btn-primary"> Other </button></td>
-                  <td> <a class ="btn btn-success" href="{{ route('exam-question', ['id' => Crypt::encrypt($data['id']) ]) }}">Questions <i class="fa fa-fw fa-arrow-circle-right"></i></a>&nbsp&nbsp
+                  <td class = "center"> <button type = "button" class ="btn btn-primary"> Other </button></td>
+                 @php  $pic = (!is_null($data['image'])) ? '/images/exam/thumbnail/'.$data['image'] : '';  @endphp
+                 <td class = "center">  <img style = "max-width:120px" src="{{ asset( $pic )}}"  class="avatarbox material_avatar package_img"/> </td>
+                 <td class="center"> <a class = "btn btn-danger update_img" data-exid = "{{$data['id']}}" >Update</a></td>
+                  <td class = "center"> <a class ="btn btn-success" href="{{ route('exam-question', ['id' => Crypt::encrypt($data['id']) ]) }}">Questions <i class="fa fa-fw fa-arrow-circle-right"></i></a>&nbsp&nbsp
                    </td> 
-                  <td> <a type = "button" class ="btn btn-sm btn-success" href="{{ route('edit-exam', ['id' => Crypt::encrypt($data['id']) ]) }}"> Edit </a> </td>
+                  <td class = "center"> <a type = "button" class ="btn btn-sm btn-success" href="{{ route('edit-exam', ['id' => Crypt::encrypt($data['id']) ]) }}"> Edit </a> </td>
                  <form method = "post" action = "{{ route('delete-exam',['id'=> Crypt::encrypt($data['id'])]) }}"> 
                  {{ Form::open(array('route' => ['delete-exam', Crypt::encrypt($data['id']) ] ) )}}
-                  <td> <button type = "submit" class ="btn btn-danger" >Disable  </button> </td>
+                  <td  class = "center">  <button type = "submit" class ="btn btn-danger" >Disable  </button> </td>
                   {{ Form::close() }}
                 </tr>
                 
@@ -66,12 +70,35 @@
             {{$examDetails->render()}}
           </div>
         </div>
-        </div>
-        </div>
-</div>
-</div>
+       </div>
+    </div>
+ </div>
 
 
+
+<div class="modal fade" id="imagemodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">              
+      <div class="modal-body">
+      	<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
+        <img src="" class="imagepreview" style="width: 100%;" >
+        {{Form::open(array('route' => array('update-exam-img'), 'method' => 'post','class' => 'form-horizontal', 'id'=>'popup_form','enctype'=>'multipart/form-data'))}}
+
+        <input type = "hidden" value = "" id = "ex_id" name = 'exam_id'>
+            <div class="control-group">
+                    {{Form::label('image' , 'Upload Photo', array('class' => 'control-label')) }}
+                    <div class="controls"> 
+                        {{Form::file('image')}}
+                      </div>
+                 </div>
+        <div class="form-actions">
+                 {{Form::submit('Update',array('class' => 'btn btn-success btn-lg'))}}
+                </div>
+                 {{ Form::close()}}
+      </div>
+    </div>
+  </div>
+</div>
 
 <!-- Modal -->
 <div id="myModal" class="modal fade" role="dialog">
@@ -97,6 +124,26 @@
 
 <script type="text/javascript">
   $(document).ready(function(){
+
+    	$('.package_img').on('click', function() {
+      var source =  $(this).attr('src');
+      console.log(source);
+			$('.imagepreview').attr('src',source);
+			$('#popup_form').hide();   
+			$('#imagemodal').modal('show');   
+		});		
+
+    	$('.update_img').on('click', function() {
+        $('#imagemodal').modal('show'); 
+       var subId =  $(this).data("exid");
+       $('#popup_form').show();
+       $("#ex_id").val(subId);
+       $(".imagepreview").hide();  
+		});		
+
+
+
+
     $(".show_visible_to").on("click", function(){
       var exam_id = $(this).data("id"); 
        $.ajax({

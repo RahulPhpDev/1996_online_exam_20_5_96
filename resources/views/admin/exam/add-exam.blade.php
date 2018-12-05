@@ -81,7 +81,7 @@ $(document).ready(function () {
           
           <div class="widget-content nopadding">
             
-                {{ Form::open(array('route' => 'save-add-exam','class' => 'form-horizontal', 'id'=>'basic_validate'))}}
+                {{ Form::open(array('route' => 'save-add-exam','class' => 'form-horizontal', 'id'=>'basic_validate','enctype'=>'multipart/form-data'))}}
 
                 <div class="control-group">
                   {{ Form::label('name','Exam Name',array('class' => 'control-label'))}}
@@ -153,11 +153,19 @@ $(document).ready(function () {
                  </div>
 
                 <div class="control-group">
-                    {{Form::label('notes' , 'Notes Before Examdf', array('class' => 'control-label')) }}
+                    {{Form::label('notes' , 'Notes Before Exam', array('class' => 'control-label')) }}
                     <div class="controls">
                         {{Form::textarea('notes', ' ',array('class' =>'notes_area span8' ,'rows'=>'6', 'id' => 'notes'))}}
                     </div>
                  </div>
+
+                 <div class="control-group">
+                    {{Form::label('image' , 'Upload Photo', array('class' => 'control-label')) }}
+                    <div class="controls"> 
+                        {{Form::file('image')}}
+                      </div>
+                 </div>
+
 
                 <div class="controls">
                     {{ Form::submit('save',array('class' => 'btn btn-success')) }}

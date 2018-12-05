@@ -11,6 +11,10 @@ use Illuminate\Database\QueryException;
 use DB;
 // MODEL 
 
+use Image;
+use File;
+
+
 use App\Model\Course;
 use App\Model\Exam;
 use App\Model\Subscription;
@@ -86,10 +90,36 @@ class ExamController extends Controller
                  $userDetails->Exam()->attach($id,$extraFieldInUserExam);
                }
              }
-          DB::commit();
+          
           $msg = 'Inserted Successfully';
-          // return \Redirect::route('regions', [$id])->with('message', 'State saved correctly!!!');
 
+          if(isset($request['image'])){
+            $detailsByID = Exam::find($id);
+            $image = $request['image'];
+            $imageName = 'exam_'.$id.'.'.$image->getClientOriginalExtension();
+            
+            $imagesPath =  public_path().'/images';
+            $imgPath =  $imagesPath.'/exam';
+            if(!File::exists($imgPath)) {
+                File::makeDirectory($imgPath, 0777, true, true);
+           }
+           $destinationPath =$imgPath.'/thumbnail';
+           if(!File::exists($destinationPath)) {
+              File::makeDirectory($destinationPath, 0777, true, true);
+             }
+           $thumb_img = Image::make($image->getRealPath())->resize(250, 200);
+           $thumb_img->save($destinationPath.'/'. $imageName,80);
+    
+            // first load profile page in original
+            $originalPath =  $imgPath.'/original';
+            if(!File::exists($originalPath)) {
+                    File::makeDirectory($originalPath, 0777, true, true);
+            }
+            $image->move($originalPath, $imageName);
+            $detailsByID->image = $imageName;
+            $detailsByID->save();
+        }
+        DB::commit();
           return redirect()->route('add-exam-question',Crypt::encrypt($id))->with('success',$msg);     
         }
         catch (QueryException $e) {
@@ -104,6 +134,37 @@ class ExamController extends Controller
             return redirect()->back()->with('err_success',$msg);
         }
        }
+
+       public function updateExamImg(Request $request){
+        $message = 'No Image Found';
+        if(isset($request['image'])){
+            $image = $request['image'];
+            $Id = $request->exam_id;
+            $imageName = 'package_'.$Id.'.'.$image->getClientOriginalExtension();
+            $imagesPath =  public_path().'/images';
+            $imgPath =  $imagesPath.'/exam';
+            if(!File::exists($imgPath)) {
+                File::makeDirectory($imgPath, 0777, true, true);
+           }
+           $destinationPath =$imgPath.'/thumbnail';
+           if(!File::exists($destinationPath)) {
+              File::makeDirectory($destinationPath, 0777, true, true);
+             }
+           $thumb_img = Image::make($image->getRealPath())->resize(250, 200);
+           $thumb_img->save($destinationPath.'/'. $imageName,80);
+    
+            // first load profile page in original
+            $originalPath =  $imgPath.'/original';
+            if(!File::exists($originalPath)) {
+                    File::makeDirectory($originalPath, 0777, true, true);
+            }
+            $image->move($originalPath, $imageName);
+            $data = ['image'=> $imageName];
+            Exam::where('id',$Id)->update($data);
+            $message = 'Image Updated';
+           }
+           return redirect('exam')->with('success', $message);
+      }
 
        public function addExamQuestion($id){
          $id =  Crypt::decrypt($id);

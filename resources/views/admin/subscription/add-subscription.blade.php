@@ -33,11 +33,11 @@ div.radio input{ opacity: 10 !important;
         <div class="span12">
           <div class="widget-box">
             <div class="widget-title"> <span class="icon"> <i class="icon-info-sign"></i> </span>
-              <h5>Security validation</h5>
+              <h5>Add Package</h5>
             </div>
             <div class="widget-content nopadding">
           
-                 {{Form::open(array('route' => array('save-subscription'), 'method' => 'post','class' => 'form-horizontal', 'id'=>'basic_validate'))}}
+                 {{Form::open(array('route' => array('save-subscription'), 'method' => 'post','class' => 'form-horizontal', 'id'=>'basic_validate','enctype'=>'multipart/form-data'))}}
 
                 <div class="control-group">
                     {{Form::label('name', 'Name', array('class' => 'control-label'))}}
@@ -88,11 +88,26 @@ div.radio input{ opacity: 10 !important;
                    <div class="control-group">
                     {{Form::label('Description' , 'Description', array('class' => 'control-label')) }}
                     <div class="controls">
-                        {{Form::textarea('description', ' ',array('class' =>'description_div', 'id' => 'description'))}}
+                        {{Form::textarea('description', ' ',array('class' =>'description_div span8', 'id' => 'description'))}}
                     </div>
                  </div>
+
+                 <div class="control-group">
+                    {{Form::label('image' , 'Upload Photo', array('class' => 'control-label')) }}
+                    <div class="controls"> 
+                        {{Form::file('image')}}
+                      </div>
+                 </div>
+                 <!-- <div class="form-group">
+                        <label for="group_name" class="col-sm-2 control-label"><small>Upload Photo</small></label>
+                        <div class="col-sm-4">
+                        <input type="file" name="profile"  class="" id="profile"/>       
+                        </div>
+                    </div> -->
+
+
                   <div class="form-actions">
-                 {{Form::submit('save',array('class' => 'btn-info'))}}
+                 {{Form::submit('Save',array('class' => 'btn btn-success btn-lg'))}}
                 </div>
                  {{ Form::close()}}
                  </div>
@@ -102,10 +117,9 @@ div.radio input{ opacity: 10 !important;
       </div>
     </div>
 
-<script src="{{ asset('js/backend_js/math_ckeditor/ckeditor/ckeditor.js') }}"></script>
   <script>
-        
        $(document).ready(function(){
+        $('.description_div').wysihtml5();
           $(".valid_date").on("click",function(){
               
                 if($(this).prop("checked") == true){
@@ -121,12 +135,5 @@ div.radio input{ opacity: 10 !important;
             format:'yyyy-mm-dd',
           });
        });
-       $(document).ready(function(){
-            CKEDITOR.editorConfig = function (config) {
-           config.toolbar_Full.push({ name: 'wiris', items : [ 'ckeditor_wiris_formulaEditor','ckeditor_wiris_formulaEditorChemistry']});
-      };
-      CKEDITOR.replace('description');
-        });
-        
         </script>
 @endsection

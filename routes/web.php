@@ -130,6 +130,7 @@ Route::get('/add-subscription','Admin\AdminController@addSubscription')->name('a
 Route::get('/edit-subscription/{id}','Admin\AdminController@editSubscription')->name('edit-subscription');
 Route::post('/update-subscription/{id}','Admin\AdminController@updateSubscription')->name('update-subscription');
 Route::post('/delete-subscription/{id}','Admin\AdminController@deleteSubscription')->name('delete-subscription');
+Route::post('/update-subscription-img','Admin\AdminController@updateSubscriptionImg')->name('update-subscription-img');
 
 
 Route::post('/save-subscription', 'Admin\AdminController@saveSubscription')->name('save-subscription');
@@ -143,6 +144,7 @@ Route::get('add-exam-question/{id}', 'Admin\ExamController@addExamQuestion')->na
 
 Route::post('/save-exam-question/{id}', 'Admin\ExamController@saveExamQuestion')->name('save-exam-question');
 
+Route::post('/update-exam-img','Admin\ExamController@updateExamImg')->name('update-exam-img');
 
 Route::get('confirm-exam/{id}', 'Admin\ExamController@confirmExam')->name('confirm-exam');
 

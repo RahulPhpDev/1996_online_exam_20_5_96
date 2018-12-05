@@ -30,7 +30,9 @@
                   <th>Name</th>
                   <th>Duration</th>
                   <th>Price</th>
+                  <th>Image</th>
                   <th>Edit</th>
+                  <th>Update Image</th>
                   <th>Delete</th>
                 </tr>
               </thead>
@@ -48,9 +50,19 @@
 
               {{ $data['start_date'].' To '.$data['end_date']}}
                     @endif
-
                  </td>
                   <td>{{$data['price']}}</td>
+                  <?php
+                   $pic = '';
+                  if(!is_null($data['image'])){
+                    $pic = '/images/package/thumbnail/'.$data['image'];
+                  }
+                    ?>
+                   
+                  
+                  <td class = "center">  <img style = "max-width:120px" src="{{ asset( $pic )}}"  class="avatarbox material_avatar package_img"/> </td>
+                  <td class="center">
+                    <a class = "btn btn-danger update_img" data-subid = "{{$data['id']}}" >Update</a></td>
                   <td class="center">
                     <a class = "btn btn-danger" href = "{{route('edit-subscription', ['id' => Crypt::encrypt($data['id']) ]) }}">Edit</a></td>
                   <td class="center" ><a class = "btn btn-og delete_btn">Delete </a>
@@ -78,8 +90,57 @@
     </div>
   </div>
 </div>
+
+<div class="modal fade" id="imagemodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">              
+      <div class="modal-body">
+      	<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
+        <img src="" class="imagepreview" style="width: 100%;" >
+        {{Form::open(array('route' => array('update-subscription-img'), 'method' => 'post','class' => 'form-horizontal', 'id'=>'basic_validate','enctype'=>'multipart/form-data'))}}
+
+        <input type = "hidden" value = "" id = "subs_id" name = 'sub_id'>
+            <div class="control-group">
+                    {{Form::label('image' , 'Upload Photo', array('class' => 'control-label')) }}
+                    <div class="controls"> 
+                        {{Form::file('image')}}
+                      </div>
+                 </div>
+        <div class="form-actions">
+                 {{Form::submit('Update',array('class' => 'btn btn-success btn-lg'))}}
+                </div>
+                 {{ Form::close()}}
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+<style>
+
+</style>
+
 <script>
+
+
 $(function(){
+  	$('.package_img').on('click', function() {
+      var source =  $(this).attr('src');
+      console.log(source);
+			$('.imagepreview').attr('src',source);
+			$('#imagemodal').modal('show');   
+		});		
+
+    	$('.update_img').on('click', function() {
+        $('#imagemodal').modal('show'); 
+       var subId =  $(this).data("subid");
+       $("#subs_id").val(subId);
+       $(".imagepreview").hide();  
+		});		
+
+
   $(".delete_btn").on("click", function(){
     // console.log(this);
     $(this).next(".delete_div").css({"display": "inline"});
@@ -113,5 +174,6 @@ $(function(){
 //     $(this).addClass('delete_btn');
 //     $(this).text('Delete');
 //   });
+
 </script>
 @endsection

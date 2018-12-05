@@ -147,8 +147,8 @@
                         <div class="col-sm-4">
                         <input type="file" name="profile"  class="" id="profile"/>       
                         </div>
-                       
                     </div>
+                    
                     <div class="form-group text-center">
                         <div class="col-sm-offset-2 col-sm-2">
                           <div id = "enable-button">
