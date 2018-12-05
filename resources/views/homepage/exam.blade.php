@@ -41,41 +41,67 @@
 		position: relative;
     left: -25px;
     right: 37px;
-    bottom: 46px;
+    /* bottom: 85px; */
     padding: 0;
     margin: 0;
     list-style: none;
     color: black;
-    top: 23px;
+    top: 1px;
     text-align: center;
-    height: 120px;
+    height: 92px;
 }
 .card-details .count {
-    float: right;
+    /*float: right;*/
     color: #495563;
 }
 .card-details li {
     text-transform: uppercase;
     font-size: 13px;
     color: #8e9aa9;
-    padding: 12px 0;
+    padding: 8px 0;
+}
+.examQuestion h5{
+	float: right;
+}
+.examQuestionCount span{
+	float: left;
+	    margin-top: -4px;
+}
+.btn-custom {
+      padding: 5px 66px;
+    letter-spacing: 0.6px;
+    text-transform: uppercase;
+    border: none;
 }
 </style>
 
 	<div class = "mt-10" style = "margin-top:40px"> </div>
             @foreach($allExam as $exam)	    
-			<div class="panel-group col-sm-4">
+			<div class="panel-group col-sm-3">
 				<div class="panel panel-info">
-				@php // $pic = (!is_null($exam['image'])) ? '/images/exam/thumbnail/'.$exam['image'] : '';  @endphp
+				@php  $pic = (!is_null($exam['image'])) ? '/images/exam/thumbnail/'.$exam['image'] : '/images/exam/exam_icon_2.png';  @endphp
               
-				<div class="panel-heading"> <img src="" ></div>
+				<div class="panel-heading"> <img style = "max-width:120px;    height: 95px;" src="{{ asset( $pic )}}"  class="avatarbox material_avatar package_img"/></div>
 				<h4 class="group inner list-group-item-heading"><strong>{{$exam['exam_name']}}</strong></h4>
 				<div class="panel-body">
 				<ul class="card-details hidden-on-attempted">
-					<li>Questions <span class="count ng-binding">{{$exam['total_question']}}</span></li>
-				   <li>Total Time <span class="count ng-binding">120mins</span></li>
+					<li>
+						<div class="row">
+							<div class="col-md-6 examQuestion"><h5>Questions </h5></div>
+							<div class="col-md-6 examQuestionCount"><span class="count ">{{$exam['total_question']}}</span>	</div>
+						</div>
+					</li>
+					<li>
+						<div class="row">
+							<div class="col-md-6 examQuestion"><h5>	 Total Time </h5> </div>
+							<div class="col-md-6 examQuestionCount"><span class="count">120mins</span></div>
+						</div>  
+					</li>
 				</ul>
 				
+				</div>
+				<div class="panel-footer">
+					<a href = ""><button type = "button" class = "button btn-success btn-custom"> Explore </button></a> 
 				</div>
 			  </div>
 			</div>

@@ -24,7 +24,7 @@ class GuestController extends Controller
 
             $nonSubscriptionExams =  Exam::where('status' , 1)
                                             ->where('exam_visible_status', 1)
-                                            ->get(['id','exam_name','total_question', 'total_marks']);
+                                            ->get(['id','exam_name','total_question', 'total_marks','image']);
              $examDetails = $allExam = array();                                         
                 if(Auth::user()){
                     $user = User::find(Auth::user()->id);
@@ -35,6 +35,7 @@ class GuestController extends Controller
                             'exam_name' => $exam->exam_name,
                             'total_question' => $exam->total_question,
                             'total_marks' => $exam->total_marks,
+                            'image' => $exam->image,
                         );  
                       }
                     }
