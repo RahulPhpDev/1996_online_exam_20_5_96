@@ -22,7 +22,7 @@
                                 <div class="row">
                                     <div class="col-xs-12 col-md-12">
                                         <span class="lead">
-                                                                                        <span class="text-danger">
+                                            <span class="text-danger">
                                                 <strong>
                                                     <strike>
                                                         <img src="img/currencies/ef1e801ee13715b41e55c16886597878.gif"> 500.00                                                    </strike>

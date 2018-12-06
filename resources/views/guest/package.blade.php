@@ -16,9 +16,9 @@
                 <div class="col-md-12">
                     <div class="product col-md-7 service-image-left ">
                         <div class="mycontainer">
-                            <center>
-                        
-                      <img src="{{ asset('frontend/img/nia.png') }}" alt="Test123" id="item-display" />           
+                            <center style = "border-bottom:1px dashed #ddd">
+                            @php  $pic = (!is_null($package->image)) ? '/images/package/thumbnail/'.$package->image : '/images/package/dummy.jpg';  @endphp
+                      <img src="{{ asset( $pic) }}" alt="Package" id="item-display" />           
                        </center>
                        <div class="product_description">
                         <?php echo htmlspecialchars_decode($package['description']);?>

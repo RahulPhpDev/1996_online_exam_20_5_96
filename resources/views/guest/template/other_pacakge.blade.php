@@ -15,6 +15,10 @@
                             <div class="col-md-3">
                                  <a  href="{{ route('package', ['id' => Crypt::encrypt($other->id) ]) }}">
                                     <div class="img-thumbnail">
+                                
+                            @php  $pic = (!is_null($other->image)) ? '/images/package/thumbnail/'.$other->image : '/images/package/dummy.jpg';  @endphp
+                      <img src="{{ asset( $pic) }}"
+
                           <img src="{{ asset('frontend/img/nia.png') }}" alt="Test123" id="item-display" />                                            </div>
                                     <div style="clear: both;"></div>
 

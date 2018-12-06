@@ -139,3 +139,65 @@ table tr th a:hover{text-decoration: none;}
     text-align: center;
 
 }
+
+.caption_bottom >div{
+    display: inline-block;
+    margin:0px 10px 0px 10px;
+}
+.exam_icon{
+    width:55px;
+}
+
+
+.daily-quiz-card {
+height: 288px;
+padding: 12px 16px 46px;
+border-radius: 3px;
+border-color: transparent;
+background-color: #fff;
+-webkit-box-shadow: 0 2px 4px 1px rgba(0,0,0,.15);
+box-shadow: 0 2px 4px 1px rgba(0,0,0,.15);
+}
+.mt-card {
+position: relative;
+float: left;
+width: 224px;
+white-space: normal;
+border: 2px solid #eaeaea;
+z-index: 20;
+margin: 20px 12px;
+}
+
+.card-details {
+    list-style: none;
+position: relative;
+left: -19px;
+}
+.card-details .count {
+    float: right;
+color: #495563;
+margin-right: 31px !important;
+}
+.card-details > li >h5{
+display: inline;
+}
+.card-details li {
+text-transform: uppercase;
+font-size: 13px;
+color: #8e9aa9;
+padding: 8px 0;
+text-align: left;
+}
+.examQuestion h5{
+display: inline;
+}
+.examQuestionCount span{
+float: left;
+    margin-top: -4px;
+}
+.btn-custom {
+  padding: 5px 66px;
+letter-spacing: 0.6px;
+text-transform: uppercase;
+border: none;
+}

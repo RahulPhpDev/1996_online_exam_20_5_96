@@ -109,10 +109,13 @@
         var slide = $(Parent).attr("data-slide");
         ResCarousel(ell, Parent, slide*slidePix);
     }
-
 });
 </script>
 <style type="text/css">
+.list-group-image {
+    height: 230px;
+}
+
 .view_all:hover .btn_blue{
     background:#72a9d3 !important;
     color:#fff !important; 
@@ -152,10 +155,11 @@
                 <div class = "item_margin">
                 <div class="pad15">
              <a class="" href="{{ route('package', ['id' => Crypt::encrypt($sub->id) ]) }}">
-               <img src="{{ asset('frontend/img/nia.png') }}" alt=" Package" class="group list-group-image" />
-                     <div class="caption">
+             @php  $pic = (!is_null($sub->image)) ? '/images/package/thumbnail/'.$sub->image : '/images/package/dummy.jpg';  @endphp
+                    <img src="{{ asset( $pic )}}" alt=" Package" class="group list-group-image" />
+                      <div class="caption">
                         <h4 class="group inner list-group-item-heading"><strong>{{$sub->name}}</strong></h4>
-                     </div>
+                      </div>
                     </a>
                   </div>
                 </div>
