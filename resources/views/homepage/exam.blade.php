@@ -1,6 +1,5 @@
 
 <section class="section mycontainer" style="position: relative;background-size: cover;min-height: 350px;text-align: center;">
-	<div class="mb50"></div>
 	 	<div class="container home">
 	 		<div class="top-bg-overlay-fill"></div>
 			<div class="lb-content text-center">
@@ -20,7 +19,7 @@
 						<h5>Questions </h5><span class="count ">{{$exam['total_question']}}</span>
 					</li>
 					<li>
-						<h5> Total Time </h5> <span class="count">120mins</span>
+						<h5> Total Time </h5> <span class="count">{{$exam['time']}} Mins</span>
 					</li>
 				</ul>
 				</div>
@@ -32,7 +31,12 @@
 			</div>
 			    @endforeach			 
             </div>
+
+      @if(count($allExam) >=7)
+		<div class = "view_all">
+	    <a href = "{{route('allpackage')}}" class = "button btn btn_blue view_all_btn"> View All </a>
+	   </div> 
+		@endif
 		</div>	
-		<div class="mb50"></div>
 	
 </section>

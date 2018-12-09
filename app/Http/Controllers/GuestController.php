@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Model\Subscription;
 use Illuminate\Support\Facades\Crypt;
 use App\Model\Exam;
+use App\Model\Course;
 use Image; 
 use PDF;
 use Dompdf\Dompdf;
@@ -14,17 +15,23 @@ use Auth;
 use App\User;
 
 use App\helpers\helper;
+use Session;
 // use Session;
 
 class GuestController extends Controller
 {
     public function index(){
-      
+      $courseObj = new Course;
+   
 	    	$SubscriptionData  = Subscription::where('status', 1)->get();
 
             $nonSubscriptionExams =  Exam::where('status' , 1)
                                             ->where('exam_visible_status', 1)
-                                            ->get(['id','exam_name','total_question', 'total_marks','image']);
+                                            ->orderBy('id', 'DESC')
+                                            ->take(8)
+                                            ->get(['id','exam_name','total_question', 'total_marks','image','time']);
+             $courseData =   $courseObj->getCourseHaveExam();
+                                 
              $examDetails = $allExam = array();                                         
                 if(Auth::user()){
                     $user = User::find(Auth::user()->id);
@@ -36,17 +43,14 @@ class GuestController extends Controller
                             'total_question' => $exam->total_question,
                             'total_marks' => $exam->total_marks,
                             'image' => $exam->image,
+                            'time' => $exam->time,
                         );  
                       }
                     }
                 } 
                 $allExam = array_merge($nonSubscriptionExams->toArray(), $examDetails);
-            // dd($allExam);
-                                         // ->where(function($q){
-                                         // $q->where('exam_visible_status', 2)
-                                         //   ->orWhere('exam_visible_status', 1);
-                                         //  })->get();
-	    	return view('welcome',compact('SubscriptionData','nonSubscriptionExams','userExamDetails','allExam'));
+    // dd($courseData);
+	    	return view('welcome',compact('SubscriptionData','nonSubscriptionExams','userExamDetails','allExam','courseData'));
     }
 
    
@@ -81,6 +85,9 @@ class GuestController extends Controller
     }
 
     public function sessionTest(){
+         session()->flush();
+;
+         die();
        // $data = session()->all();
        // session()->flush();
         // session('exam_id', '2');
@@ -99,7 +106,9 @@ class GuestController extends Controller
 
 
         // session()->push('current_question.new[]', 'developers ');
-        echo __LINE__.session('exam_id');
+        //echo __LINE__.session('exam_id');
+        Session::save();
+
         dd(session()->all());
     }
 

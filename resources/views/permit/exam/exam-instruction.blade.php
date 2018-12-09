@@ -18,22 +18,69 @@
 .clear{
     clear: both;
 }
+.desciption{
+  width: 60%;
+  /*//margin: auto;*/
+  text-align: justify;
+letter-spacing: .8px;
+padding:2px 8px;
+margin:25px 2px ;
+}
+
+table {
+  border-collapse: collapse;
+  width: 50%;
+}
+
+th, td {
+  padding: 3px;
+  text-align: left;
+  /*border-bottom: 1px solid #ddd;*/
+}
 </style>
   <div class="maincontent">
     <section class="section">
       <div class="container">
 	 	<div class="row justify-content-start">
            <div class = "col align-self-center ">
-              <div class = "exam_notes"> 
+              <div class = "exam_notes">
+              <div class = "info">
+               <table>
+                 <tr>
+                    <th> Exam </th>
+                    <td> {{$examData->exam_name}} </td>
+                  </tr>
+                   
+                   <tr>
+                    <th> Question </th>
+                    <td> {{$examData->total_question}}</td>
+                  </tr>
+                   <tr>
+                    <th> Total Mark </th>
+                    <td> {{$examData->total_marks}}</td>
+                  </tr> 
+                  <tr>
+                    <th> Required Passing Mark </th>
+                    <td> {{$examData->minimum_passing_marks}} </td>
+                  </tr>
+                   <tr>
+                    <th>Time </th>
+                    <td> {{$examData->time}} Minute</td>
+                  </tr> 
+
+               </table>
+              </div> 
+              <div class = "desciption">
                <?php echo htmlspecialchars_decode($examData->notes); ?> 
-               <div  class="alert alert-success col-sm-6"> 
+              </div>
+               <div  class=""> 
                     <h3 class = "best_wish"> ALL THE BEST <?php $userData = Auth::User(); echo $userData['fname'].' '.$userData['lname']; ?></h3>
                 </div>
             </div>
             <div class = "clear"> </div>
           
-            <form action = "{{route('get-exam', ['id' => Crypt::encrypt($examData->id)])}}" method = "GET">
-                <input class = "btn btn-success" type = "Submit" value =  "I AGREE">
+            <form action = "{{route('get-exam', ['id' => Crypt::encrypt($examData->id)])}}" method = "GET" style="padding: 1px;">
+                <input class = "btn btn-success" type = "Submit" value =  "Lets Start">
             </form>
           
         </div>

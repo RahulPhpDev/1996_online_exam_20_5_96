@@ -48,6 +48,4 @@
 				   
 	    	</div>
 	    </div>
-		
-	<div class="mb50"></div>
 </section> 

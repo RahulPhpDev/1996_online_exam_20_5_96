@@ -37,19 +37,19 @@
 				<!-- <a href="Registers.html" data-redirect-url="/tests" class="btn btn-success h-btn mar-b8 mar-h4 js-tb-signup-anchor">Get Started For Free</a> -->
 			</div>
 		</div>	
-		<div class="mb50"></div>
 	
 </section>
  	
 
 @component('homepage.exam', compact('nonSubscriptionExams','allExam'))@endcomponent  
 
+@component('homepage.course',compact('courseData'))@endcomponent  
+
 @component('homepage.testimonial')@endcomponent  
  
 
 	<section class="section mycontainer">
 			<div class="container home">
-				<div class="mb50"></div>
 									<div class="col-xs-12 header">
 						<h2 class="text-center font_bold m0">
 							Try This Online examination System 						</h2>

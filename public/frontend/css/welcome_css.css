@@ -98,3 +98,77 @@
     left: 0;
     right: 0;
 }
+
+.list-group-image {
+    height: 230px;
+}
+
+.view_all:hover .btn_blue{
+    background:#72a9d3 !important;
+    color:#fff !important; 
+}
+
+.btn{box-shadow:none;}
+.btn_blue{background:#4096DB !important}
+.view_all{float:right; }
+.view_all_btn{color:#F8FBFE;padding:7px 15px;letter-spacing:1px;font-size:17px}
+    .MultiCarousel {
+         float: left; overflow: hidden; padding: 15px; width: 100%; position:relative; 
+         }
+    .MultiCarousel .MultiCarousel-inner { transition: 1s ease all; float: left; }
+    .item_margin{        margin:0px 4px 0px 4px;border: 1px solid #ddd;    }
+        .MultiCarousel .MultiCarousel-inner .item { float: left;}
+        .MultiCarousel .MultiCarousel-inner .item > div { text-align: center; padding:10px; margin:10px;color:#666;}
+    .MultiCarousel .leftLst, .MultiCarousel .rightLst { position:absolute; border-radius:50%;top:calc(50% - 20px); }
+    .MultiCarousel .leftLst { left:0; }
+    .MultiCarousel .rightLst { right:0; }
+    .MultiCarousel .leftLst.over, .MultiCarousel .rightLst.over { pointer-events: none; background:#ccc; }
+    .caption{margin-top:4px}
+
+
+    .fancy-collapse-panel .panel-default > .panel-heading {
+padding: 0;
+
+}
+.fancy-collapse-panel .panel-heading a {
+padding: 12px 35px 12px 15px;
+display: inline-block;
+width: 100%;
+background-color: rgba(0, 0, 0, 0.53);
+color: #ffffff;
+position: relative;
+text-decoration: none;
+text-align: center;
+}
+.fancy-collapse-panel .panel-heading a:after {
+font-family: "FontAwesome";
+content: "\f147";
+position: absolute;
+right: 20px;
+font-size: 20px;
+font-weight: 400;
+top: 50%;
+line-height: 1;
+margin-top: -10px;
+}
+
+.fancy-collapse-panel .panel-heading a.collapsed:after {
+content: "\f196";
+}
+
+.exam_explore_div{
+
+        text-align: center;
+}
+
+.couse_exam_div{
+
+		    box-shadow: 1px 1px 14px #ccc;
+		    padding:15px 8px;
+	}
+	.exam_couse {
+    /* box-shadow: 1px 1px 10px #8d8dd6; */
+    margin: 4px 2px 14px 0;
+    border: 1px dashed #ccc;
+
+}

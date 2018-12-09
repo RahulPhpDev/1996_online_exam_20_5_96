@@ -7,6 +7,10 @@ git add routes/web.php
 
 ALTER TABLE `subscriptions` ADD `image` VARCHAR(255) NULL AFTER `status`;
 ALTER TABLE `exams` ADD `image` VARCHAR(255) NULL AFTER `notes`;
+ALTER TABLE `exams` ADD `time` INT(5) NOT NULL DEFAULT '0' AFTER `payable_amount`;
+ALTER TABLE `exams` ADD `course_relate` TINYINT(1) NOT NULL DEFAULT '0' AFTER `exam_visible_status`;
+
+
 
 git add app/Http/Controllers/Admin/AdminController.php
 git add app/Http/Controllers/Admin/ExamController.php

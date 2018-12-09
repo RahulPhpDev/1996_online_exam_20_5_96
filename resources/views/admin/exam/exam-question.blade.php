@@ -198,29 +198,12 @@ margin-right:10px;
 
 
       $(document).ready(function(){
-        // $(".show_question").hover(function(){
-        // $(this).children(".action_div a").css("display": "inline");
-        // }
-
          $(".show_question").hover(function(){
           $(this).find(".action_div").css({"display": "inline"});
         }, function(){
           $(this).find(".action_div").css({"display": "none"});
     });
 
-/*        $(".edit_question").on('click', function(){
-          var qId =   $(this).data('id');
-          $.ajax({
-            type : "get",
-            url: "/edit-exam-question/"+qId,
-            success:function(data){
-              // console.log(data);
-
-              $("#model_body").html(data);
-            }
-          });
-          */
-        //});
             CKEDITOR.editorConfig = function (config) {
           
       };

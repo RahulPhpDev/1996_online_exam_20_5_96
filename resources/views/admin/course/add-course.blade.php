@@ -4,6 +4,22 @@
 @extends('layouts.partials.footer')
 @section('title', $title)
 @section('content')
+<script type="text/javascript">
+$(document).ready(function () {
+
+    $('#basic_validate').validate({ // initialize the plugin
+        rules: {
+            course: { required: true,minlength: 3 },
+        },
+        messages: { 
+              course: {
+                  required: "Course Name Should Not be blank",
+                  minlength: "Course Name must be at least 3 characters long"
+              },
+            },
+      });
+ });
+</script>
 <div id="content">
      <div class="container-fluid">
     <hr>
@@ -34,14 +50,13 @@
                 <div class="control-group">
                     <label class="control-label">Description</label>
                     <div class="controls">
-                        <textarea cols="80" id="editor1" name="description" rows="10" > </textarea>
+                       {{Form::textarea('description', ' ',array('class' =>'description span8' ,'rows'=>'6', 'id' => 'editor1'))}}
                     </div>
                 </div>
                 
                 <div class="control-group">
-                  
                 <div class="controls">
-                    {{ Form::submit('save',array('class' => 'btn btn-success')) }}
+                    {{ Form::submit('Save',array('class' => 'btn btn-success')) }}
                 </div>
               </div>
               {{ Form::close() }}
@@ -52,7 +67,6 @@
 </div>
 </div>
 <script>
-	
-		CKEDITOR.replace( 'editor1');
+      $('.description').wysihtml5();
 	</script>
 @endsection

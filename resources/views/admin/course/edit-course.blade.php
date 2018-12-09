@@ -4,6 +4,21 @@
 @extends('layouts.partials.footer')
 @section('title', $title)
 @section('content')
+<script type="text/javascript">
+$(document).ready(function () {
+    $('#basic_validate').validate({ // initialize the plugin
+        rules: {
+            course: { required: true,minlength: 3 },
+        },
+        messages: { 
+              course: {
+                  required: "Course Name Should Not be blank",
+                  minlength: "Course Name must be at least 3 characters long"
+              },
+            },
+      });
+ });
+</script>
 <div id="content">
      <div class="container-fluid">
     <hr>
@@ -28,14 +43,15 @@
                 <div class="control-group">
                     <label class="control-label">Description</label>
                     <div class="controls">
-                        <textarea cols="80" id="editor1" name="description" rows="10" >{{$editData->description}} </textarea>
+                         {{Form::textarea('description', $editData->description,array('class' =>'description span8' ,'rows'=>'6', 'id' => 'editor1'))}}
+                     
                     </div>
                 </div>
                 
                 <div class="control-group">
                   
                 <div class="controls">
-                    {{ Form::submit('save',array('class' => 'btn btn-success')) }}
+                    {{ Form::submit('Update',array('class' => 'btn btn-success btn-custom')) }}
                 </div>
               </div>
               {{ Form::close() }}
@@ -46,15 +62,6 @@
 </div>
 </div>
 <script>
-		// CKEDITOR.config.devtools_styles =
-		// 	'#cke_tooltip { line-height: 20px; font-size: 12px; padding: 5px; border: 2px solid #333; background: #ffffff }' +
-		// 	'#cke_tooltip h2 { font-size: 14px; border-bottom: 1px solid; margin: 0; padding: 1px; }' +
-		// 	'#cke_tooltip ul { padding: 0pt; list-style-type: none; }';
-  // CKEDITOR.replace( 'editor1');
-		CKEDITOR.replace( 'editor1', {
-			height: 150,
-      width:600,
-			// extraPlugins: 'devtools'
-		} );
+   $('.description').wysihtml5();
 	</script>
 @endsection

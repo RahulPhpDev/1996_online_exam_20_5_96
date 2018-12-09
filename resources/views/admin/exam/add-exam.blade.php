@@ -8,7 +8,7 @@
 <script type="text/javascript">
   
 $(document).ready(function () {
-
+$(".multiselect-clear-filter").hide();
     $('#basic_validate').validate({ // initialize the plugin
         rules: {
             exam_name: { required: true,minlength: 3 },
@@ -45,24 +45,21 @@ $(document).ready(function () {
                   {
                       return false;
                   }
-              }
+                }
               },
-
         },
-        messages: {
-                  
-                    exam_name: {
-                        required: "Exam Name Should Not be blank",
-                        minlength: "Exam Name must be at least 3 characters long"
-                    },
-                    amount:{required:"Amount should not be blank"},
-                    exam_type:{required:"Select Exam Type"},
-                    "subscription[]": {
-                        required :"Select Package"
-                      },
-                  }
+        messages: { 
+              exam_name: {
+              required: "Exam Name Should Not be blank",
+              minlength: "Exam Name must be at least 3 characters long"
+              },
+              amount:{required:"Amount should not be blank"},
+              exam_type:{required:"Select Exam Type"},
+              "subscription[]": {
+                  required :"Select Package"
+                },
+            }
     });
-
 });
 
 
@@ -90,15 +87,26 @@ $(document).ready(function () {
                 </div>
               </div>
 
+
+          <div class="control-group" id = "course_div">
+                  {{ Form::label('course','Select Course',array('class' => 'control-label'))}}
+                <div class="controls">
+                   <select class="multiselect" name = "course[]" multiple >
+                     @foreach($allCourse as $ck => $cv) 
+                      <option value="{{$ck}}">{{$cv}}</option>
+                       @endforeach 
+                  </select>
+                </div>
+              </div> 
+
               <div class="control-group">
-              <label class="control-label">Do you want to Mark this is Payable: </label>
+              <label class="control-label"> Is Payable: </label>
               <div class="controls">
                 <label>
                   <input type="checkbox" name="payable" id = "payable" value = "1"/>
                   Yes</label>
             </div>
           </div>
-
 
            <div class="control-group" id = "amout_div" style = "display:none;">
                   {{ Form::label('amount','Payable Amount',array('class' => 'control-label'))}}
@@ -168,7 +176,7 @@ $(document).ready(function () {
 
 
                 <div class="controls">
-                    {{ Form::submit('save',array('class' => 'btn btn-success')) }}
+                    {{ Form::submit('Save',array('class' => 'btn btn-success btn-custom')) }}
                 </div>
               {{ Form::close() }}
               </div>

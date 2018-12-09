@@ -8,6 +8,7 @@ use App\Model\Question;
 use  App\Model\QuestionOption;
 use  App\Model\Subscription;
 use App\User;
+use App\Model\Course;
 use DB;
 
 class Exam extends Model
@@ -98,6 +99,16 @@ class Exam extends Model
 
      public function Subscriptions(){
       $res = $this->belongsToMany(Subscription::class)->withPivot(['status'])->where('exam_subscription.status','=' ,1);
+      return $res;
+    }
+
+     public function Courses(){
+      $res = $this->belongsToMany(Course::class)->withPivot(['status'])->where('course_exam.status','=' ,1);
+      return $res;
+    }
+
+    public function AllCourses(){
+      $res = $this->belongsToMany(Course::class)->withPivot(['status']);
       return $res;
     }
 }

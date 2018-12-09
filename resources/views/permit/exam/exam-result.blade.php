@@ -4,7 +4,11 @@
 @extends('frontend_layouts.partials.footer')
 
 @section('content')  
-
+<script type="text/javascript">
+  $(function(){
+    alert(' dhfl');
+  })
+</script>
 
 <link href="{{ asset('frontend/css/welcome_css.css') }}" rel="stylesheet">
 <div class="maincontent">

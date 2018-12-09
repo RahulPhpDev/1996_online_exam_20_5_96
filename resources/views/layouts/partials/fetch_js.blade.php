@@ -8,7 +8,6 @@
 <script src="{{ asset('js/backend_js/bootstrap.min.js') }}"></script>
 <script src="{{ asset('js/backend_js/bootstrap-colorpicker.js') }}"></script>
 <script src="{{ asset('js/backend_js/bootstrap-datepicker.js') }}"></script>
-<script src="{{ asset('js/backend_js/jquery.toggle.buttons.js') }}"></script>
 <script src="{{ asset('js/backend_js/masked.js') }}"></script>
 <script src="{{ asset('js/backend_js/jquery.uniform.js') }}"></script>
 <script src="{{ asset('js/backend_js/select2.min.js') }}"></script>

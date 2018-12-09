@@ -21,52 +21,38 @@
   .hide{
     display: none;
   }
+
 </style>
 <script type="text/javascript">
-//  setInterval(function(){
-//     // var $sample = $(".show_question");
-//     if($(".show_question").is(":hover")) {
-//          // $(this).children(".edit_question").removeClass('hide');
-//     }
-//     else {
-      
-//     }
 
-// }, 200);
-  // var isHovered = $('.show_question').is(":hover"); // returns true or false
-// if ( $('.show_question').length > 0 ) {
-// if ( $('.show_question').is(':hover')) {
-//     console.log('is hovedfsafdfasr');
-// }
-// }
-//  setInterval(function(){
-//  if ($('.show_question:hover').length === 0)
-// { 
-//   if($('.show_question').is(":hover")){
-//     console.log('is hover');
-//         $(this).children(".edit_question").removeClass('hide');
-//   }
-// }
-// }, 200);
-
-//   setInterval(function(){
-// // $(document).ready(function(){
-//     var $sample = $(".show_question");
-//     if($sample.is(":hover")) {
-//      $(this).children(".edit_question").removeClass('hide');
-//     }
-//     else {
-//        $sample.css("background", "");
-//     }
-    
-// // });
-
-// }, 200);
-
-
+$(document).ready(function () {
+    $('#basic_validate').validate({ // initialize the plugin
+        rules: {
+            passing_mark: { required: true,max: "<?php echo $examQuestion['exam_details']->total_marks; ?>" },
+            time:{required:true,max:1000},
+        },
+        messages: { 
+              passing_mark: {
+              required: "Required",
+              max: "Max <?php echo $examQuestion['exam_details']->total_marks; ?>"
+              },
+              time:{required: "Required", max: " Max 1000 Minute"}
+            }
+       });
+    });
 </script>
-<style type="text/css">
+<script type="text/javascript">
+   $(".show_question").hover(function(){
+          $(this).find(".action_div").css({"display": "inline"});
+        }, function(){
+          $(this).find(".action_div").css({"display": "none"});
+    });
+</script>
 
+<style type="text/css">
+.action_div{
+  display:none;
+}
 .action_div {
     position: absolute;
     right: 0;
@@ -74,14 +60,27 @@
     bottom: 0;
 }
 .action_div a {
-  background: #dedede;
-  padding:3px;
+  width:60px;
+  padding:5px;
   margin:0px 2px 0px 2px;
 }
 .add_more_question{
   padding:4px;
   margin-right:10px;
 }
+
+.quiz{overflow-y:scroll; max-height:730px;}
+.other_info > h5 {
+  display: inline-block;
+  width: 190px;
+grid-template-columns: max-content max-content;
+grid-gap:5px;
+text-align:right;
+margin-right:10px;
+}
+
+.other_info > h3:after { content: ":"; }
+.other_info > h4{ display:inline-block;}
 </style>
 
 <script src='https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
@@ -176,8 +175,9 @@
         </div>
       </div>
 
-           <div class="span4 " >
-              <div class="widget-box collapsible other_form_info">
+
+      <div class="span4" >
+              <div class="widget-box collapsible">
           <div class="widget-title"> <a href="#collapseOne" data-toggle="collapse"> <span class="icon"><i class="icon-arrow-right"></i></span>
             <h5>Other Information</h5>
             </a>
@@ -185,78 +185,68 @@
           <div class="collapse in" id="collapseOne">
             <div class="widget-content">
                {{ Form::open(array('route' => ['save-confirm-exam', $id],'class' => '', 'id'=>'basic_validate'))}}
+
+
                <div class="row">
-
-
                 <div class="" >
-                   
                         <div class="other_info" >
-                         Total Question :
-                          {{$examQuestion['exam_details']->total_question}}
-                       
-                      </div>
-                   
-                      <div class="other_info" >
-                        Total Mark :
-                            {{$examQuestion['exam_details']->total_marks}}
-                      
+                          <h5> Total Question : </h5>
+                          <h4> <i>  {{$examQuestion['exam_details']->total_question}} </i> </h4> 
                       </div>
 
                         <div class="other_info" >
-                          Required Question :
-                            {{$examQuestion['exam_details']->required_question}}
-                      
+                        <h5>  Required Question :</h5>
+                        <h4> <i>   {{$examQuestion['exam_details']->required_question}} </i> </h4> 
+                      </div>
+
+                      <div class="other_info" >
+                      <h5>  Total Mark :</h5>
+                           <h4> <i>  {{$examQuestion['exam_details']->total_marks}}</i> </h4> 
                       </div>
 
                        <div class="other_info" >
-                        Total Negative Question :
-                            {{$examQuestion['exam_details']->negative_question}}
+                       <h5>  Total Negative Question :</h5>
+                       <h4> <i>  {{$examQuestion['exam_details']->negative_question}} </i> </h4> 
                       
                       </div>
-
-              </div> 
-
-
-
-
-              <!-- FORM -->
-                <div class="other_info form-inline" > 
-               <div class="control-group">
-               <label class="control-label"> Passing Mark Type</label>
-                
-                <div class="controls">
-                <input type = "radio" name = "passing_mark_type" id = "passing_mark_type" value="1" checked=""> Number
-                <input type = "radio" name = "passing_mark_type" id = "passing_mark_type" value="2"> Number
-                  
                 </div>
-              </div>
 
-               <div class="control-group">
-                  <label class="control-label"> Passing Mark
+
+                 <div class="other_info" >
+                       <h5> Passing Mark :: </h5> <br>
+                 <input type = "radio" name = "passing_mark_type" id = "passing_mark_type" value="1" checked=""> Number
+                <input type = "radio" name = "passing_mark_type" id = "passing_mark_type" value="2"> Percentage
+                </div>
+
+               <div class="other_info" >
+                       <h5>  Passing Mark </h5>
+                 <h4> 
                    @php
                    $passingMark = ($examQuestion['exam_details']->minimum_passing_marks) ? $examQuestion['exam_details']->minimum_passing_marks : '';
                    @endphp 
-                {!! Form::text('passing_mark', $passingMark, ['class' => 'mark', 'id' => 'passing_mark']) !!}
-                  </label>
+                 {!! Form::text('passing_mark', $passingMark, ['class' => 'mark', 'id' => 'passing_mark']) !!}
+                 </h4>
               </div>
 
-
-                <div class="controls">
-                    {{ Form::submit('Save and Continue',array('class' => 'btn btn-success')) }}
-                </div>
-
+              <div class="other_info" >
+                       <h5> Exam Time </h5>
+                 <h4> 
+                 {!! Form::text('time', '', ['class' => 'mark', 'id' => 'time']) !!}
+                 </h4>
               </div>
+
+                  <div class="controls">
+                      {{ Form::submit('Save and Continue',array('class' => 'btn btn-success')) }}
+                  </div>
               {{Form::close()}}
-              </div> 
-
+                  </div>
+                 </div> 
+                </div> 
+               </div>
              </div>
-          </div>
+           </div>
          </div>
-         </div>
-       </div>
-         </div>
-
-
+        </div>
     </div>
 
 </div>
@@ -264,19 +254,6 @@
 
 <script>
       $(document).ready(function(){
-
-        // $(".edit_question").on('click', function(){
-        //   var qId =   $(this).data('id');
-        //   $.ajax({
-        //     type : "get",
-        //     url: "/edit-exam-question/"+qId,
-        //     success:function(data){
-        //       // console.log(data);
-
-        //       $("#model_body").html(data);
-        //     }
-        //   });
-        // });
             CKEDITOR.editorConfig = function (config) {
           
       };

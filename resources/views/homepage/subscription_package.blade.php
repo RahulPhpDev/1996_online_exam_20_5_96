@@ -112,31 +112,7 @@
 });
 </script>
 <style type="text/css">
-.list-group-image {
-    height: 230px;
-}
 
-.view_all:hover .btn_blue{
-    background:#72a9d3 !important;
-    color:#fff !important; 
-}
-
-.btn{box-shadow:none;}
-.btn_blue{background:#4096DB !important}
-.view_all{float:right; }
-.view_all_btn{color:#F8FBFE;padding:7px 15px;letter-spacing:1px;font-size:17px}
-    .MultiCarousel {
-         float: left; overflow: hidden; padding: 15px; width: 100%; position:relative; 
-         }
-    .MultiCarousel .MultiCarousel-inner { transition: 1s ease all; float: left; }
-    .item_margin{        margin:0px 4px 0px 4px;border: 1px solid #ddd;    }
-        .MultiCarousel .MultiCarousel-inner .item { float: left;}
-        .MultiCarousel .MultiCarousel-inner .item > div { text-align: center; padding:10px; margin:10px;color:#666;}
-    .MultiCarousel .leftLst, .MultiCarousel .rightLst { position:absolute; border-radius:50%;top:calc(50% - 20px); }
-    .MultiCarousel .leftLst { left:0; }
-    .MultiCarousel .rightLst { right:0; }
-    .MultiCarousel .leftLst.over, .MultiCarousel .rightLst.over { pointer-events: none; background:#ccc; }
-    .caption{margin-top:4px}
 </style>
 @php
  $subscriptionCount = count($SubscriptionData->toArray());

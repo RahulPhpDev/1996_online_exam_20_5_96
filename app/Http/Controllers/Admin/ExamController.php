@@ -40,14 +40,13 @@ class ExamController extends Controller
     }
     public function addExam(){
         $title = 'Exam Step 1';
-        $allCourse = Course::where('status', 1)->get();
-        $allSubscription = Subscription::where('status', 1)->pluck('name','id')->toArray();
-        // dd($allSubscription);
+        $allCourse = Course::where('status', 1)->pluck('name','id')->toArray();
+        $allSubscription = Subscription::where('status', 1)->pluck('name','id')->toArray(); 
         return view('admin.exam.add-exam',compact('allCourse','allSubscription'))->with('title',$title);
     }
     
     public function saveAddExam(Request $request){
-           // dd($request->all());
+        //   dd($request->all());
         DB::beginTransaction();
         try{
             $exam = new Exam();
@@ -56,23 +55,33 @@ class ExamController extends Controller
                 $isPayable =1;
                 $amount = $request['amount'];
             }
-            $examData = array('exam_name' => $request['exam_name'],
+            $examData = array(
+               'exam_name' => $request['exam_name'],
                 'is_payable' => $isPayable,
                 'payable_amount' => $amount,
                 'description' => $request['description'],
                 'notes' => $request['notes'],
                 'add_date' =>   date("Y-m-d"),
-                'status' => 1,
+                'status' => 0,
                 'exam_visible_status' =>  $request['exam_type'],
             );
             $id =  $exam::create($examData)->id;
+
+            if(isset($request['course'])){
+              $examDetailsById = Exam::find($id);
+            foreach($request['course'] as $course){
+              //$food = Food::find(1);
+//$food->allergies()->sync([1 => ['severity' => 3], 4 => ['severity' => 1]]);
+                $examDetailsById->Courses()->attach(array('course_id' => $course));
+           }
+          }
             if(isset($request['subscription'])){
             foreach($request['subscription'] as $sub){
                 if($sub == "all") { $sub = 0;}
                 $subdata = array(
                         'exam_id' => $id,
                         'subscription_id' => $sub,
-                        'status' => 1,
+                        'status' => 0,
                     );
                     ExamSubscription::create($subdata);
                 }
@@ -302,13 +311,20 @@ class ExamController extends Controller
     }
 
      public function saveConfirmExam(Request $request , $id){
+      // dd($request->all());
+
          $de_id =  Crypt::decrypt($id);
+      
          $examDetails = Exam::find($de_id);
          $title = 'Confirm Exam';
          $examDetails->minimum_passing_marks = $request['passing_mark'];
          $examDetails->passing_marks_type = $request['passing_mark_type'];
+         $examDetails->time = $request['time'];
+         $examDetails->status = 1;
          $examDetails->save();
-         return view('admin.exam.confirm-exam-post',compact('title'));
+        
+        // $examData = Exam::find($)
+         return view('admin.exam.confirm-exam-post',compact('title','examDetails'));
      }
 
      public function editExam($id){

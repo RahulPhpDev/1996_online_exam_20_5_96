@@ -174,6 +174,8 @@ position: relative;
 left: -19px;
 }
 .card-details .count {
+  font-size: 15px;
+  font-weight: bold;
     float: right;
 color: #495563;
 margin-right: 31px !important;
