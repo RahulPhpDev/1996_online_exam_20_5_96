@@ -92,7 +92,7 @@ table tr th a:hover{text-decoration: none;}
     -o-box-shadow: 0 0 10px rgba(0,0,0,0.6);
 }
 .report{
-	background-color: #cce0ff;
+	background-color: #fff;
 	/*border:1px solid black;*/
 	padding:30px 20px 25px 20px;
 	box-shadow: 0 0 10px rgba(0,0,0,0.6);
@@ -114,15 +114,16 @@ table tr th a:hover{text-decoration: none;}
     font-weight: 620;
      /*background: #fff;*/
 }
+  /*
 .answered{
-    /*border: 2px solid #993300 !important;*/
+  border: 2px solid #993300 !important;
     background: #00cc00;
     color:#ffffff !important;
     border:none !important;
- /* border-bottom:5px solid #666 !important;
+  border-bottom:5px solid #666 !important;
   border-left: 2px solid transparent !important; 
  border-right: 5px solid transparent!important;
-   */
+  
   border-radius:30% !important;
 }
 .answered_escape{
@@ -130,6 +131,7 @@ table tr th a:hover{text-decoration: none;}
     color:#ffffff !important;
      border:none !important;
 }
+*/
 
 .btn-sm {
 
@@ -203,3 +205,76 @@ letter-spacing: 0.6px;
 text-transform: uppercase;
 border: none;
 }
+
+.time {
+    position: relative;
+    /*top: 36px;*/
+}
+.timer_data{
+       background: rgba(226, 226, 226, 0.21);
+   /* border-radius: 50%;
+    height: 120px;
+    width: 120px;
+   */ text-align: center;
+    /*border: 3px solid #f4a909c4;*/
+    font-weight: bold;
+    font-size: 16px;
+    color: #000;
+    }
+
+    .numberic {
+    display: inline-block;
+    width:7%;
+    height: 37px;
+    border-radius: 50%;
+    background: #ccc;
+    margin: 13px;
+}
+  .numberic span {
+       text-align: center;
+    position: relative;
+    top: 6px;
+    left: 16px;
+    font-size: 15px;
+    font-weight: bold;
+    font-family: sans-serif;
+    color: #fff !important;
+}
+.not_answered{
+  background: #ff3333 !important;
+}
+.answered{
+  background: #39ac39!important;
+ 
+}
+.not_visited{
+    background: #ddd!important;
+}
+.review{
+  background: #8d63c3 !important;
+}
+.current {
+    background: #3399ff !important;
+}
+
+.question_process_color div{
+display: inline-block;
+padding: 9px;
+}
+
+.answered_count {
+    border-radius: 50%;
+    behavior: url(PIE.htc);
+    width: 24px;
+    height: 24px;
+    padding: 8px;
+    text-align: center;
+    font: 14px Arial, sans-serif;
+    
+    color:#fff;
+}
+
+.question_process_color span{
+    font-size: 15px;
+    font-weight: 550;
+    }

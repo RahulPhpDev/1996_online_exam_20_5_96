@@ -58,9 +58,13 @@ Route::get('get-exam/{id}', 'Auth\UserController@getExam')->name('get-exam');
 
 Route::match(array('GET','POST'),'save-answer/{id?}', 'Auth\UserController@saveAnswer')->name('save-answer');
 
+Route::post('get-question', 'Auth\UserController@getQuestion')->name('get-question');
+
+
 Route::get('view-result/{id?}', 'Auth\UserController@viewResult')->name('view-result');
 
 Route::get('all-result/', 'Auth\UserController@allResult')->name('all-result');
+
 
 Route::get('exam-result/{id}', 'Auth\UserController@examResult')->name('exam-result');
 
@@ -68,8 +72,8 @@ Route::get('download-exam-pdf/{id}', 'Auth\UserController@downloadExamPdf')->nam
 
 Route::get('exam-instruction/{id}', 'Auth\UserController@examInstruction')->name('exam-instruction');
 
-
 Route::get('exams-question/{id}', 'Auth\UserExamController@viewExamQuestions')->name('exams-question');
+
 
 
 });

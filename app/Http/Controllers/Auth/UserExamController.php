@@ -23,6 +23,7 @@ use PDF;
 use Dompdf\Dompdf;
 use Mpdf;
 use stdClass;
+use App\helpers\helper;
 class UserExamController extends Controller
 {
 

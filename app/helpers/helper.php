@@ -1,10 +1,4 @@
 <?php
-if (!function_exists('rahul')) {
-    function rahul()
-    {
-     return 'rahul';
-    }
-}
 
 
 if (!function_exists('timeDifference')) {
@@ -17,4 +11,15 @@ if (!function_exists('timeDifference')) {
     $diff = $interval->h.":".$interval->i.":".$interval->s;
 	return $diff;
     }
+}
+
+if (!function_exists('DateManipulation')) {
+function DateManipulation($date,$format='d-M-Y'){
+    if($date!=""){
+        return date($format,strtotime($date));
+    }
+    else {
+        echo "";
+    }
+ }
 }

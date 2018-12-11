@@ -85,6 +85,9 @@ class GuestController extends Controller
     }
 
     public function sessionTest(){
+        $chd = '2018-12-11 16:04:22';
+     $date =    DateManipulation( $chd , 'Y-m-d H:i:s');
+     dd($date);
          session()->flush();
 ;
          die();

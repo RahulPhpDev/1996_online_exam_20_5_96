@@ -51,7 +51,7 @@
     <tr>
         <td>{{$res->Exam->exam_name}}</td>
         <td class = "report_td" > <span> <a href = "{{ route('exam-result', ['id' => Crypt::encrypt($res->Exam->id) ]) }}">{{$res->total}} View</a> </span></td>
-        <td>{{ $res->add_date}}</td>
+        <td>{{ DateManipulation($res->add_date)}}</td>
      </tr>
      @endforeach
     </table>

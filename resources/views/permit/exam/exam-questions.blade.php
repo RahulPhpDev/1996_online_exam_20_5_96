@@ -42,21 +42,62 @@ $(".seconds").text(result[2]);
 }
 
   $(document).on("click",".opt_data",function(){
+    
       $(this).find('input[type="radio"]').prop('checked', true);
     });
 
 
+    $(document).on("click",".savebtn",function(){
+      var btnVal = $(this).val();
+      $("#saveu").val(btnVal);
+    });
+
+     $(document).on("click",".numberic",function(){
+      var btnId = $(this).attr('id');
+      questionRedirect(btnId);
+    });
+    
+    function questionRedirect(questionId){
+    // alert('rahu;l');
+    $.ajax({
+      url: "/get-question",
+      type: 'POST',
+      // dataType: 'default: Intelligent Guess (Other values: xml, json, script, or html)',
+      data: {
+        _method: 'POST',
+        que_id : questionId,
+        _token:     '{{ csrf_token() }}'
+      },
+      success: function (data) {
+        console.log(data);
+                if(data === 'view-result'){
+                window.location = '/view-result' ;
+
+                }else{
+                $("#question_list").html(data);
+                }
+              },
+              error: function (data) {
+                  console.log('An error occurred.');
+                  // console.log(data);
+              },
+      })
+    }
+
 
   var frm = $('#basic_validate');
 
-$(document).keypress(function(event){
-    var keycode = (event.keyCode ? event.keyCode : event.which);
-     frm.submit();
-});
+    $(document).keypress(function(event){
+        var keycode = (event.keyCode ? event.keyCode : event.which);
+        frm.submit();
+    });
 
     frm.submit(function (e) {
-    console.log('submit');
+    console.log( frm.serialize());
         e.preventDefault();
+
+        var valf = $(this).value;
+        //alert(valf);
         $.ajax({
             type: frm.attr('method'),
             url: frm.attr('action'),
@@ -78,64 +119,9 @@ $(document).keypress(function(event){
 
 </script>
 
-
-<style type="text/css">
-  
-  .time {
-    position: relative;
-    /*top: 36px;*/
-}
-.timer_data{
-       background: rgba(226, 226, 226, 0.21);
-   /* border-radius: 50%;
-    height: 120px;
-    width: 120px;
-   */ text-align: center;
-    /*border: 3px solid #f4a909c4;*/
-    font-weight: bold;
-    font-size: 16px;
-    color: #000;
-    }
-
-    .numberic {
-        display: inline-block;
-    width: 11%;
-    /* padding: 25px; */
-    /* width: 50px; */
-    height: 35px;
-    border-radius: 50%;
-    background: #ccc;
-    margin: 20px;
-}
-  .numberic a {
-       text-align: center;
-    position: relative;
-    top: 7px;
-    left: 15px;
-    font-size: 15px;
-    font-weight: bold;
-    font-family: sans-serif;
-    color: #fff !important;
-}
-.skip{
-  background: #ff3333 !important;
-  color: #fff !important;
-}
-.answered{
-  background: #39ac39!important;
-  color: #fff !important;
-}
-.pending{
-
-}
-.review{
-  background: #3377ff !important;
-  color: #fff !important;
-}
-</style>
   <div class="maincontent">
     <section class="section">
-      <div class="container">
+      <div class="container-fluid">
 	 	<div class="col-md-12">
 
 <div class = " col-sm-2  col-sm-offset-10">
@@ -148,18 +134,16 @@ $(document).keypress(function(event){
           <span class="seconds"></span> 
           
       </div>
-      <div class="controls">
-          
-       </div>
+    
      </div>
    </div>
-    
   </div>
 
-
-           <div class = "col-md-7">
+<div class = "clear"></div>
+   <div id = "question_list">   
+      <div class = "col-md-8" >
         <div class="mycontainer question_section">
-          <div id = "question_list">   
+       
             {{ Form::open(array('route' => 'save-answer','class' => 'form-horizontal', 'id'=>'basic_validate'))}} 
             <div class = "questions">
                 <span> <?php echo htmlspecialchars_decode($questionDetails->question); ?> </span>
@@ -181,28 +165,63 @@ $(document).keypress(function(event){
                  <button name="save" type="submit" class="btn btn-success" value="skip">Skip</button>
 		           endif
                */?>
-                <!-- <input type = "submit" name = "save" value = "Save" class = "btn btn-success"> -->
-                <button name="save" type="submit" value="continue" class="btn btn-success">Save</button>
+                <!-- <input type = "submit" name = "save" value = "continue" class = "btn btn-success">
+              <input type = "submit" name = "save" value = "preview" class = "btn btn-success"> -->
+             
+                <input type = "hidden" name = "save" id = "saveu">
+
+                <button name="save" type="submit" value="continue" class="btn btn-success savebtn">Save</button>
+
+                <button name="save" type="submit" value="preview" class="btn btn-primary savebtn">Preview</button>
                  </div>
                 {{ Form::close() }}
               </div>
              </div>
-           </div>
 
               
-     <div class = "col-md-4 col-sm-offset-1 hidden-sm report">
+     <div class = "col-md-4 hidden-sm report">
+      <div class = "question_process_color">
+      <div> <a class="answered_count current"> C </a> <span> Current </span> </div>
+           <div> <a class="answered_count answered">30</a> <span> Answered </span> </div>
+           <div> <a class="answered_count review">30</a> <span> Review </span> </div>
+           <div> <a class="answered_count not_visited">30</a> <span>Not Visited </span> </div>
+
+           <div> <a class="answered_count not_answered">30</a> <span>Not Answered </span> </div>
+     </div>
+     <div class = "question_count_div panel"> <h2>  Question </h2> </div>
        <?php 
           $i = 1;
           foreach($all_questions_class as $question_id => $class) { ?>
-           <div class = "numberic">
-              <a>   {{$i}} </a>
-            </div>
+           <a href = "JavaScript:void(0);" id = "{{$question_id}}" class = "numberic {{$class}} ">
+              <span  >   {{$i}} </span>
+            </a> 
           <?php $i++; } ?>
         </div>
-
-
-
+        
+       </div>
+       
         </div>
+
+        
       </section>    
 </div>
+
+
+
+<style type="text/css">
+  
+  .question_count_div {
+    
+    margin-top: 10px;
+    box-shadow: 0px 0px 2px 0px #DDC;
+    padding: -10px 0px;
+}
+.question_count_div h2 {
+    padding: 6px 5px;
+    font-size: 25px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    font-weight: 600;
+}
+</style>
 @endsection

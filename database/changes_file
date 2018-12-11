@@ -1,25 +1,8 @@
-git add app/Http/Controllers/Auth/UserExamController.php
-git add app/Model/Result.php
-git add resources/views/permit/user-exam/result-question.blade.php
-git add resources/views/permit/userExam/exam-question.blade.php
-git add routes/web.php
-
 
 ALTER TABLE `subscriptions` ADD `image` VARCHAR(255) NULL AFTER `status`;
 ALTER TABLE `exams` ADD `image` VARCHAR(255) NULL AFTER `notes`;
 ALTER TABLE `exams` ADD `time` INT(5) NOT NULL DEFAULT '0' AFTER `payable_amount`;
 ALTER TABLE `exams` ADD `course_relate` TINYINT(1) NOT NULL DEFAULT '0' AFTER `exam_visible_status`;
-
-
-
-git add app/Http/Controllers/Admin/AdminController.php
-git add app/Http/Controllers/Admin/ExamController.php
-git add database/changes_file
-git add resources/views/admin/exam/add-exam.blade.php
-git add resources/views/admin/exam/exam-list.blade.php
-git add resources/views/admin/subscription/add-subscription.blade.php
-git add resources/views/admin/subscription/subscription-list.blade.php
-git add resources/views/auth/login.blade.php
-git add resources/views/auth/register.blade.php
-git add routes/web.php
+ALTER TABLE `results` CHANGE `right_answer` `right_answer_mark` INT(11) NOT NULL DEFAULT '0';
+ALTER TABLE `results` ADD `time_taken` VARCHAR(22) NULL AFTER `right_answer_mark`;
 
