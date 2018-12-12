@@ -1,15 +1,48 @@
           
 
  @include('layouts.partials.fetch_js')
+ <style>
+ 
+ </style>
 <script type="text/javascript">
  $(function(){ 
   $('#edit_<?php echo $id; ?>').on('click', function() {
   if (CKEDITOR.instances.txt_area) {
     CKEDITOR.instances.txt_area.destroy();
   } else {
-    CKEDITOR.replace('textarea_<?php echo $id; ?>');
-  }
+    CKEDITOR.replace( 'textarea_<?php echo $id; ?>',
+            {
+            height: '80px',
+            width: '90%',
+            } );
+          }
   });
+
+   $(".option_style").on( "click", function(){
+  var txt =     $(this).parent('.controls').find('textarea').attr('id');
+  
+  $(this).parent('.controls').css({
+      'margin-left': '230px',
+      });
+  console.log(txt);
+    $(this).hide();
+
+
+  if (CKEDITOR.instances.txt_area) {
+        CKEDITOR.instances.txt_area.destroy();
+      } else {
+        CKEDITOR.replace( txt,
+            {
+            height: '50px',
+            width: '70%',
+            } );
+      }
+    $(this).parent('.controls').find('.checkmark').css({
+      'top': '-72px',
+      'left': '-34px',
+    });
+  });
+
 });
 
 </script>
@@ -20,35 +53,49 @@
                    <label class="control-label" for = "question_<?php echo $id; ?> ">Question <?php echo $id; ?></label>
                
                 <div class="controls">                    
-                     <button type = "button" id="edit_<?php echo $id; ?>">Editor</button>
-<br/>
-<!-- <textarea id="txt_area" rows="10" style="width:100%;">
-  Click edit to editor this textarea using ckeditor
-</textarea> -->
+                    <span class = "span_style pull-right" id="edit_<?php echo $id; ?>">+STYLE+</span><br>
+                       <textarea name = "question[<?php echo $id; ?>][]" id = "textarea_<?php echo $id; ?>" class = "question editor" ,rows = 3>
+                      </textarea>
+                    </div>
+               </div>
 
-<textarea name = "question[<?php echo $id; ?>][]" id = "textarea_<?php echo $id; ?>" class = "question editor"></textarea>
-
-
-                </div>
+               <div class="controls">
+                      <span class = "span_style option_style pull-right">+STYLE+</span>
+                    <label class="option_ra">
+                    <input type="radio" checked name="answer[<?php echo $id; ?>]" value = "0" />
+                    <textarea class="option_txtarea" id="option_{{$id}}_0" cols="80%" name="option[{{$id}}][]" rows="10"> </textarea>
+                  <span class="checkmark"></span>
+                </label>
               </div>
 
-              <div class="option_div mt-10" style="text-align: center;">
-               <input checked type="radio" name="answer[<?php echo $id; ?>]" value = "0"/>
-               <input type="text" placeholder="option 1" name = "option[<?php echo $id; ?>][]" class="span5">
-              <div class = "mt-15"> 
-                <input type="radio" name="answer[<?php echo $id; ?>]" value = "1" />
-               <input type="text" placeholder="Option 2"  name = "option[<?php echo $id; ?>][]" class="span5">
-             </div>
+              <div class="controls">
+                      <span class = "span_style option_style pull-right">+STYLE+</span>
+                    <label class="option_ra">
+                    <input type="radio"  name="answer[<?php echo $id; ?>]" value = "1" />
+                    <textarea class="option_txtarea" id="option_{{$id}}_1" cols="80%" name="option[{{$id}}][]" rows="10"> </textarea>
+                  <span class="checkmark"></span>
+                </label>
+              </div>
 
-             <div class = "mt-15">
-                <input type="radio" name="answer[<?php echo $id; ?>]" value = "2" />
-               <input type="text" placeholder="Option 3" class="span5"  name = "option[<?php echo $id; ?>][]">
-              </div> 
-               <div class = "mt-15">
-                <input type="radio" name="answer[<?php echo $id; ?>]" value = "3"/>
-              <input type="text" placeholder="Option 4" class="span5"  name = "option[<?php echo $id; ?>][]">
-             </div>
-           </div>
+               <div class="controls">
+                      <span class = "span_style option_style pull-right">+STYLE+</span>
+                    <label class="option_ra">
+                    <input type="radio"  name="answer[<?php echo $id; ?>]" value = "2" />
+                    <textarea class="option_txtarea" id="option_{{$id}}_2" cols="80%" name="option[{{$id}}][]" rows="10"> </textarea>
+                  <span class="checkmark"></span>
+                </label>
+              </div>
+
+               <div class="controls">
+                      <span class = "span_style option_style pull-right">+STYLE+</span>
+                    <label class="option_ra">
+                    <input type="radio"  name="answer[<?php echo $id; ?>]" value = "3" />
+                    <textarea class="option_txtarea" id="option_{{$id}}_3" cols="80%" name="option[{{$id}}][]" rows="10"> </textarea>
+                  <span class="checkmark"></span>
+                </label>
+              </div>
+
+            
             
              <div  class="" style="display: inline-block;margin-left:20px"> 
                  <label class="control-label"  style="font-size: 16px"> Required </label>

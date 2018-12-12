@@ -46,7 +46,14 @@ class ExamController extends Controller
     }
     
     public function saveAddExam(Request $request){
-        //   dd($request->all());
+        $startDate = $endtDate = '0000-00-00 00:00:00';
+        $spacific_date = 0;
+       if(isset($request['spacific_date'])) {
+        $startDate = $request['start_date'].' '.$request['start_time'];
+        $endDate = $request['end_date'].' '.$request['end_time'];
+        $spacific_date = 1;
+       }
+       
         DB::beginTransaction();
         try{
             $exam = new Exam();
@@ -64,6 +71,9 @@ class ExamController extends Controller
                 'add_date' =>   date("Y-m-d"),
                 'status' => 0,
                 'exam_visible_status' =>  $request['exam_type'],
+                'particular_date'=> $spacific_date,
+                'start_date' =>  $startDate,
+                'end_date' =>  $endDate,
             );
             $id =  $exam::create($examData)->id;
 
@@ -381,8 +391,7 @@ class ExamController extends Controller
          $e_id = Crypt::decrypt($id);
          $questionData =  Question::find($e_id);
          $title =  'Edit Question';
-    return view('admin.exam.edit-exam-question', compact('questionData','title','e_id','id','examID'));
-
+         return view('admin.exam.edit-question', compact('questionData','title','e_id','id','examID'));
      }
 
      public function removeExamQuestion($e_question_id, $e_examID){
@@ -405,14 +414,11 @@ class ExamController extends Controller
         $examData->ExamQuestion()->detach($question_id);
         $questionData->delete();
         return redirect()->back()->with('success', 'Question Removed!');
-
-
      }
 
      
 
      public function updateExamQuestion(Request $req, $id) {  
-        
          $e_id = Crypt::decrypt($id);
         $questionData =  Question::find($e_id);
 
@@ -475,6 +481,13 @@ class ExamController extends Controller
           $examData->UserExamData()->updateExistingPivot(
             $ids, array('status' => 0), false);
         }
+    }
+
+    public function examDetails($id){
+         $e_id = Crypt::decrypt($id);
+         $examDetails = Exam::find($e_id);
+        //  dd($examDetails);
+         return view('admin.exam.exam-details',compact('examDetails'));
     }
    }
 

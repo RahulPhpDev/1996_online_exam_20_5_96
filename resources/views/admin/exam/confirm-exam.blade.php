@@ -148,8 +148,7 @@ margin-right:10px;
                       if($que['right_anser']->option_id ==  $options->id ) { ?>
                           <i class = "icon icon-ok"> </i> 
                       <?php } ?>
-
-                     <a> <?php echo   $options->question_option; ?> </a>  
+                     <a> <?php echo   htmlspecialchars_decode($options->question_option); ?> </a>  
                     </div> 
                     <?php } ?> 
             </div>

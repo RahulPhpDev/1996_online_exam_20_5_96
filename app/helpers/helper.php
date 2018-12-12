@@ -23,3 +23,10 @@ function DateManipulation($date,$format='d-M-Y'){
     }
  }
 }
+
+if (!function_exists('DateTimeConvert')) {
+    function DateTimeConvert($dates){
+        $date = new \DateTime($dates);
+        return date_format($date, 'Y-m-d H:i:s');
+        }
+}

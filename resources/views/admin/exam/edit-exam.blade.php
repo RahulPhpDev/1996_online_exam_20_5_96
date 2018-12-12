@@ -86,7 +86,9 @@ $(document).ready(function () {
             <div class="control-group">
                     {{Form::label('Description' , 'Description', array('class' => 'control-label')) }}
                     <div class="controls">
-                        {{Form::textarea('description',  $examDetails['description'],array('class' =>'description_div', 'id' => 'description'))}}
+                       
+                        {{Form::textarea('description',  $examDetails['description'],array('class' =>'description_div textarea_editor span8' ,'rows'=>'6', 'id' => 'description'))}}
+                       
                     </div>
                  </div>
 
@@ -95,7 +97,7 @@ $(document).ready(function () {
                 <div class="control-group">
                     {{Form::label('notes' , 'Notes Before Exam', array('class' => 'control-label')) }}
                     <div class="controls">
-                        {{Form::textarea('notes', $examDetails['notes'],array('class' =>'description_div', 'id' => 'notes'))}}
+                        {{Form::textarea('notes', $examDetails['notes'],array('class' =>'notes_area span8' ,'rows'=>'6', 'id' => 'notes'))}}
                     </div>
                  </div>
 
@@ -113,18 +115,9 @@ $(document).ready(function () {
 
 <script>
     $(function(){
-      $(document).ready(function(){
-            CKEDITOR.editorConfig = function (config) {
-           config.toolbar_Full.push({ name: 'wiris', items : [ 'ckeditor_wiris_formulaEditor','ckeditor_wiris_formulaEditorChemistry']});
-      
-      };
-      CKEDITOR.replace('description');
-      CKEDITOR.replace('notes');
+      $('.description_div').wysihtml5();
+      $('.notes_area').wysihtml5();
 
-       
-        });
-
-   var arr = [];
  
 // $('#payable').click(function(){
 //      if($(this).prop('checked')){

@@ -8,11 +8,7 @@
  
 
 <style type="text/css">
-  .editor{
-    width: 30x;
-    height:40px;
-  }
-
+ 
 </style>
    
 <script type="text/javascript">
@@ -23,7 +19,12 @@
       if (CKEDITOR.instances.txt_area) {
         CKEDITOR.instances.txt_area.destroy();
       } else {
-        CKEDITOR.replace('textarea_1');
+        // CKEDITOR.replace('textarea_1');
+        CKEDITOR.replace( 'textarea_1',
+            {
+            height: '80px',
+            width: '90%',
+            } );
       }
   });
 
@@ -54,6 +55,32 @@
 <script type="text/javascript">
   
 $(document).ready(function () {
+  $(".option_style").on( "click", function(){
+  var txt =     $(this).parent('.controls').find('textarea').attr('id');
+  
+  $(this).parent('.controls').css({
+      'margin-left': '230px',
+      });
+  console.log(txt);
+    $(this).hide();
+
+
+  if (CKEDITOR.instances.txt_area) {
+        CKEDITOR.instances.txt_area.destroy();
+      } else {
+        CKEDITOR.replace( txt,
+            {
+            height: '50px',
+            width: '70%',
+            } );
+      }
+
+      
+    $(this).parent('.controls').find('.checkmark').css({
+      'top': '-72px',
+      'left': '-34px',
+    });
+  });
 
     $('#basic_validate').validate({ // initialize the plugin
         ignore: [],
@@ -115,34 +142,55 @@ $(".question_textarea").each(function(){
                 {{ Form::open(array('route' => ['save-exam-question', $id],'class' => 'form-horizontal', 'id'=>'basic_validate'))}}
 
                 <div class="control-group">
-                  {{ Form::label('question','Question 1',array('class' => 'control-label'))}}
+                  {{ Form::label('question','Question 1',array('class' => 'control-label question_label'))}}
                 <div class="controls">
-                    <button type = "button" id="edit_1">Editor</button>
-<br/>
-
-                    {{ Form::textarea('question[1][]',' ', array('class' => 'question editor question_textarea', 'id'=> 'textarea_1')) }}
+                    <span class = "span_style pull-right" id="edit_1">+STYLE+</span><br>
+                    {{ Form::textarea('question[1][]',' ', array('class' => 'question editor question_textarea', 'id'=> 'textarea_1','rows' => '3')) }}
                 </div>
               </div>
 
-              
-              <div class="option_div mt-10" style="text-align: center;">
-               <input checked type="radio" name="answer[1]" value = "0"/>
-               <input type="text" placeholder="option 1" name = "option[1][]" class="span5 option_input">
-              <div class = "mt-15">
-                  <input type="radio" name="answer[1]" value = "1" />
-               <input type="text"  placeholder="Option 2"  name = "option[1][]" class="span5 option_input">
+               <div class="control-group">
+                 <div class="controls">
+                      <span class = "span_style option_style pull-right">+STYLE+</span>
+                    <label class="option_ra">
+                    <input type="radio" checked name="answer[1]" value = "0" />
+                        {{ Form::textarea('option[1][]',' ', array('class' => 'option_txtarea', 'id'=> 'option_1_0','cols' => '80%')) }}
+                  <span class="checkmark"></span>
+                </label>
               </div>
 
-               <div class = "mt-15">
-                <input type="radio" name="answer[1]" value = "2" />
-                <input type="text" placeholder="Option 3" class="span5 m-wrap option_input"  name = "option[1][]">
 
-             </div>
-                <div class = "mt-15">
-                 <input type="radio" name="answer[1]" value = "3"/>
-                 <input type="text" placeholder="Option 4" class="span5 m-wrap option_input"  name = "option[1][]">
-               </div>
-             </div>
+               <div class="controls">
+                      <span class = "span_style option_style pull-right">+STYLE+</span>
+                    <label class="option_ra">
+                    <input type="radio" name="answer[1]" value = "1" />
+                        {{ Form::textarea('option[1][]',' ', array('class' => 'option_txtarea', 'id'=> 'option_1_1','cols' => '80%')) }}
+                  <span class="checkmark"></span>
+                </label>
+              </div>
+
+               <div class="controls">
+                      <span class = "span_style option_style pull-right">+STYLE+</span>
+                    <label class="option_ra">
+                    <input type="radio" name="answer[1]" value = "2" />
+                        {{ Form::textarea('option[1][]',' ', array('class' => 'option_txtarea', 'id'=> 'option_1_2','cols' => '80%')) }}
+                  <span class="checkmark"></span>
+                </label>
+              </div>
+
+               <div class="controls">
+                      <span class = "span_style option_style pull-right">+STYLE+</span>
+                    <label class="option_ra">
+                    <input type="radio" name="answer[1]" value = "3" />
+                        {{ Form::textarea('option[1][]',' ', array('class' => 'option_txtarea', 'id'=> 'option_1_3','cols' => '80%')) }}
+                  <span class="checkmark"></span>
+                </label>
+              </div>
+        </div>
+
+
+               
+
 
 
               <div  class="" style="display: inline-block;margin-left:20px"> 

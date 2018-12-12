@@ -56,7 +56,7 @@ class UserController extends Controller
     public function  saveUser(UserRequest $request){
     	try{
 		$userData = array(
-		      	'password' => bcrypt($request['password']),
+            'password' => bcrypt($request['password']),
             'status' => 1,
             'add_date' => date("Y-m-d"),
             'username' => 'fdsf',
@@ -64,24 +64,26 @@ class UserController extends Controller
             'lname' => $request['lname'],
             'email' => $request['email'],
             'phone_no' => $request['phone_no'],
-            'user_type' => $request['user_type'],
+            'user_type' => 3,
             );
 
   // $request->request->add($newInsertArray);
   // User::create($request->all());
 
-            $user =  User::create($userData);
+         $user =  User::create($userData);
         	$lastInsertedId= $user->id;
-	        if($request['user_type'] == 2){
-	        	$stuData = array(
-	        		'user_id' => $lastInsertedId,
-	        		'course_id' =>  $request['course_id'],
-	        		//'enroll_number' => $request['enroll_number'],
-	        		'status' => 1,
-	        		'join_date' => $request['join_date'],
-	        		'end_date' => $request['end_date'],
-	        	  );
-	        $user =  Student::create($stuData);
+	        if($request['user_type'] == 3){
+           foreach( $request['course_id'] as $courseId)   {
+                  $stuData = array(
+                     'user_id' => $lastInsertedId,
+                     'course_id' =>  $courseId,
+                     //'enroll_number' => $request['enroll_number'],
+                     'status' => 1,
+                     //'join_date' => $request['join_date'],
+                    // 'end_date' => $request['end_date'],
+                  );
+               $user =  Student::create($stuData);
+              }
   				}
             return redirect()-> route('users')->with('success', 'Insert Successfully');
        }

@@ -4,7 +4,11 @@
 @extends('layouts.partials.footer')
 @section('title', $title)
 @section('content')  
+<style>
 
+.glyphicon-chevron-up:before{content:"\e113";}
+.glyphicon-chevron-down:before{content:"\e114";}
+  </style>
 <script type="text/javascript">
   
 $(document).ready(function () {
@@ -87,19 +91,44 @@ $(".multiselect-clear-filter").hide();
                 </div>
               </div>
 
-
-          <div class="control-group" id = "course_div">
-                  {{ Form::label('course','Select Course',array('class' => 'control-label'))}}
+            <div class="control-group">
+              <label class="control-label"> On Speicfic Date: </label>
+              <div class="controls">
+                <label>
+                  <input type="checkbox" name="spacific_date" id = "spacificDate" value = "1"/>
+                  Yes</label>
+            </div>
+          </div>
+        <div class = "exam_date_div" style = "display:none;">
+            
+        
+             <div class="control-group">
+                  {{ Form::label('start_date','Start Date',array('class' => 'control-label'))}}
                 <div class="controls">
-                   <select class="multiselect" name = "course[]" multiple >
-                     @foreach($allCourse as $ck => $cv) 
-                      <option value="{{$ck}}">{{$cv}}</option>
-                       @endforeach 
-                  </select>
+                    {{ Form::text('start_date', ' ',array('class' =>'datepicker', 'id' => ''))}}
+                    <div class="input-group bootstrap-timepicker timepicker" style = "display:inline">
+                      <input id="timepicker1" name = "start_time" type="text" class="form-control input-small timepicker" >
+                      <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
+                    </div>
                 </div>
-              </div> 
+              </div>   
 
-              <div class="control-group">
+
+                  <div class="control-group">
+                  {{ Form::label('end_date','End Date',array('class' => 'control-label'))}}
+                <div class="controls">
+                    {{ Form::text('end_date', ' ',array('class' =>'datepicker', 'id' => ''))}}
+                    <div class="input-group bootstrap-timepicker timepicker" style = "display:inline">
+                      <input id="timepicker1" name = "end_time" type="text" class="form-control input-small timepicker" >
+                      <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
+                    </div>
+                </div>
+              </div>   
+
+
+          </div>  
+          
+          <div class="control-group">
               <label class="control-label"> Is Payable: </label>
               <div class="controls">
                 <label>
@@ -114,6 +143,19 @@ $(".multiselect-clear-filter").hide();
                     {{ Form::text('amount', ' ',array('class' =>'mark', 'id' => 'amount'))}}
                 </div>
               </div>   
+
+          <div class="control-group" id = "course_div">
+                  {{ Form::label('course','Select Course',array('class' => 'control-label'))}}
+                <div class="controls">
+                   <select class="multiselect" name = "course[]" multiple >
+                     @foreach($allCourse as $ck => $cv) 
+                      <option value="{{$ck}}">{{$cv}}</option>
+                       @endforeach 
+                  </select>
+                </div>
+              </div> 
+
+          
 
 
             <div class="control-group exam_visibility">
@@ -232,6 +274,17 @@ $('#payable').click(function(){
      }
    });     
 
+$('#spacificDate').click(function(){
+     if($(this).prop('checked')){
+       $(".exam_date_div").show(); 
+     }else{
+      $(".exam_date_div").hide(); 
+     }
+   });     
+   $('.timepicker').timepicker();
+   $(".datepicker").datepicker({
+        format:'yyyy-mm-dd',
+        });
     });
   </script>
 @endsection
