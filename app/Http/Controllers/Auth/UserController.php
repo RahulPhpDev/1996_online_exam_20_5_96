@@ -67,6 +67,9 @@ class UserController extends Controller
     }
    
     public function examInstruction($e_id){
+      forgetSession();
+      
+
       $id = Crypt::decrypt($e_id);
       $examData = Exam::find($id);
       // dd($examData);
@@ -74,34 +77,8 @@ class UserController extends Controller
     }
 
     public function getExam($e_id){
-      // session()->flush();
-      // die();
-      // dd(session::all());
-    //   if(session()->has('exam_id')) {
-    //      session()->forget('exam_id');
-    //    }
-
-    //   if(session()->has('all_questions')) {
-    //    session()->forget('all_questions');
-    //  }
-
-    //  if(session()->has('all_questions_class')) {
-    //   session()->forget('all_questions_class');
-    // }
-
-    //   if(session()->has('exam_process')) {
-    //    session()->forget('current_question');
-    //  }
-     
-    //  if(session()->has('user_answer.question')) {
-    //   session()->forget('user_answer.question');
-    // }
-
-    
       $userData = Auth::user(); 
       $userId = $userData['id'];
-      // dd(session('start_time'));
-       // session()->forget('start_time');
       $time = date('Y-m-d H:i:s');
       $difference = 0;
         if(!session()->has('start_time')) {
@@ -114,52 +91,48 @@ class UserController extends Controller
          if(!session()->has('exam_process')) { 
          $hasUserExam = $examData->UserExamData()->where('user_id', $userId)->exists();
 
-      if($hasUserExam == false){
-        $examData->UserExamData()->attach($id, ['user_id' => $userId, 'status' => 1,
-      'start_date' => date('Y-m-d')] );
-      }
-         $questionData = $examData->ExamQuestion;
-
+        if($hasUserExam == false){
+          $examData->UserExamData()->attach($id, ['user_id' => $userId, 'status' => 1,
+          'start_date' => date('Y-m-d')] );
+          }
+       $questionData = $examData->ExamQuestion;
         $allQuestionArray = array();
+        $i = 0;
         foreach($questionData as $que){
           $allQuestionArray[] = $que['id'];
-          $all_questions_class_array[$que['id']] = 'pending'; 
+          if($i == 0){
+            $all_questions_class_array[$que['id']] = 'current';
+          }else{
+            $all_questions_class_array[$que['id']] = 'pending';
+          }
+          $i++;
         }
-
-        
-      session(['all_questions_class' => $all_questions_class_array]);
-      session(['exam_id' => $id]);
-      session(['all_questions' => $allQuestionArray]);
-      $questionKeys = session('all_questions');
-      $current_question = $questionKeys[0];
-      session(['current_question' => $current_question]);
-    }else{
-      $current_question = session('current_question');
-    }
+       session(['all_questions_class' => $all_questions_class_array]);
+       $time =  $examData->time;
+       session(['exam_id' => $id]);
+       session(['total_time' => $time]);
+       session(['all_questions' => $allQuestionArray]);
+       $questionKeys = session('all_questions');
+       $current_question = $questionKeys[0];
+       session(['current_question' => $current_question]);
+      }else{
+        $current_question = session('current_question');
+      }
     $questionDetails    = Question::find($current_question);
-         // $nextQuestionId = $examData->ExamQuestion[1]['id'];
-       
-        //  session([
-        //   'current_question' => $questionData['id'],
-        //   'next_question' => $nextQuestionId,
-        //   'exam_id' => $id
-        // ]);
+    // dd(session('total_time'));
         $passArray = array(
          'examDetails' => $examData,
          'questionDetails' => $questionDetails,
-       //  'nextQuestionId' => $questionKeys[1],
          'examId' => $e_id,
          'all_questions_class' => session('all_questions_class'),
          'difference' => $difference
         );
-
-      //  dd($passArray);
         return view('permit.exam.exam-questions',$passArray);
     }
 
    
     public function saveAnswer(Request $request){
-    
+    // dd( session::all());
     session()->put('exam_process', 1);
       $userData = Auth::user(); 
       $userId = $userData['id'];
@@ -189,6 +162,18 @@ class UserController extends Controller
         Session::put('all_questions_class.'.$nextQuestionId,'current');
         session(['current_question' => $nextQuestionId]);
       }
+
+      else if($request['save'] ==  'skip'){
+        $last_attempt_question = session('current_question');
+        session()->push('attempt_questions.queID', $last_attempt_question);
+        Session::put('all_questions_class.'.$last_attempt_question,'not_answered');
+        $allQuestion = session('all_questions');
+        $allAttemptQuestion = session('attempt_questions.queID');
+        $pending_questions = array_diff($allQuestion,$allAttemptQuestion);
+        $nextQuestionId = current($pending_questions);
+        Session::put('all_questions_class.'.$nextQuestionId,'current');
+        session(['current_question' => $nextQuestionId]);
+    }
       if(empty($pending_questions)){
         Session::save();
         die('view-result');
@@ -219,7 +204,6 @@ class UserController extends Controller
     $difference = '0';
     if(session()->has('start_time')) {
       $difference =  timeDifference(session('start_time'));
-      session()->forget('start_time');
     }
     if(!session()->has('exam_id')) {
      return redirect('/');
@@ -304,34 +288,35 @@ class UserController extends Controller
         $userAnswerDetails->save();
       }
 
-          if(session()->has('user_answer.question')) {
-            session()->forget('user_answer.question');
-          }
-          if(session()->has('attempt_questions')) {
-            session()->forget('attempt_questions');
-          }
-          if(session()->has('questions_answer')) {
-            session()->forget('questions_answer');
-          }
+      forgetSession();
+        //   if(session()->has('user_answer.question')) {
+        //     session()->forget('user_answer.question');
+        //   }
+        //   if(session()->has('attempt_questions')) {
+        //     session()->forget('attempt_questions');
+        //   }
+        //   if(session()->has('questions_answer')) {
+        //     session()->forget('questions_answer');
+        //   }
           
-         if(session()->has('exam_id')) {
-            session()->forget('exam_id');
-          }
-          if(session()->has('all_questions')) {
-            session()->forget('all_questions');
-          }
-          if(session()->has('all_questions_class')) {
-          session()->forget('all_questions_class');
-        }
+        //  if(session()->has('exam_id')) {
+        //     session()->forget('exam_id');
+        //   }
+        //   if(session()->has('all_questions')) {
+        //     session()->forget('all_questions');
+        //   }
+        //   if(session()->has('all_questions_class')) {
+        //   session()->forget('all_questions_class');
+        // }
 
-          if(session()->has('exam_process')) {
-            session()->forget('current_question');
-            session()->forget('exam_process');
-          }
+        //   if(session()->has('exam_process')) {
+        //     session()->forget('current_question');
+        //     session()->forget('exam_process');
+        //   }
       
-        if(session()->has('user_answer.question')) {
-          session()->forget('user_answer.question');
-        }
+        // if(session()->has('user_answer.question')) {
+        //   session()->forget('user_answer.question');
+        // }
 
 
         $viewData = array(

@@ -40,10 +40,13 @@
 	
 </section>
  	
-
+@if(!empty($upcomingExams->toArray()))
+   @component('homepage.upcoming_exam', compact('upcomingExams'))@endcomponent  
+@endif
 @component('homepage.exam', compact('nonSubscriptionExams','allExam'))@endcomponent  
-
-@component('homepage.course',compact('courseData'))@endcomponent  
+@if(!empty($courseData))
+ @component('homepage.course',compact('courseData'))@endcomponent  
+@endif
 
 @component('homepage.testimonial')@endcomponent  
  

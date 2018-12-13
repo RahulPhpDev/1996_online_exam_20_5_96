@@ -7,4 +7,5 @@
 <link href="{{ asset('frontend/css/validationEngine.jquery.css') }}" rel="stylesheet">
 <link href="{{ asset('frontend/css/bootstrap-multiselect.css') }}" rel="stylesheet">
 <link href="{{ asset('frontend/css/style.css') }}" rel="stylesheet">
+<link href="{{ asset('frontend/css/responsive.css') }}" rel="stylesheet">
 

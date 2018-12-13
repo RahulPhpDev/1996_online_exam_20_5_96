@@ -24,19 +24,28 @@ class GuestController extends Controller
       $courseObj = new Course;
    
 	    	$SubscriptionData  = Subscription::where('status', 1)->get();
-
+// echo date('Y-m-d H:i:s');
+            $upcomingExams =  Exam::where('status' , 1)
+                                           ->where('particular_date', 1)
+                                           ->where('end_date', '>=', date('Y-m-d H:i:s'))
+                                            ->orderBy('id', 'DESC')
+                                            ->take(6)
+                                            ->get(['id','exam_name','total_question', 'total_marks','image','time','start_date','end_date','description']);
+                                    
             $nonSubscriptionExams =  Exam::where('status' , 1)
                                             ->where('exam_visible_status', 1)
+                                            ->where('particular_date', 0)
                                             ->orderBy('id', 'DESC')
                                             ->take(8)
                                             ->get(['id','exam_name','total_question', 'total_marks','image','time']);
-             $courseData =   $courseObj->getCourseHaveExam();
-                                 
+                                        
+
+             $courseData =   $courseObj->getCourseHaveExam();         
              $examDetails = $allExam = array();                                         
                 if(Auth::user()){
                     $user = User::find(Auth::user()->id);
                     foreach($user->Exam as $exam){
-                  if($exam['exam_visible_status'] == 2){    
+                  if($exam['exam_visible_status'] == 2 && $exam['particular_date'] == 0){    
                       $examDetails[] = array(
                             'id' => $exam->id,
                             'exam_name' => $exam->exam_name,
@@ -50,7 +59,7 @@ class GuestController extends Controller
                 } 
                 $allExam = array_merge($nonSubscriptionExams->toArray(), $examDetails);
     // dd($courseData);
-	    	return view('welcome',compact('SubscriptionData','nonSubscriptionExams','userExamDetails','allExam','courseData'));
+	    	return view('welcome',compact('SubscriptionData','nonSubscriptionExams','userExamDetails','allExam','courseData','upcomingExams'));
     }
 
    

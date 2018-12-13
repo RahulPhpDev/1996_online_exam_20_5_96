@@ -26,23 +26,32 @@
 
 
   $(function () {
-
-var diff = '<?php echo $difference; ?>';
     
- if( diff != 0){
+    var diff = '<?php echo $difference; ?>';
+    if( diff != 0){
+      watchfun(diff);
+    }else{
+      watchfun(diff);
+    }
 
-var result = ('<?php echo $difference; ?>').split(':');
-// alert(res)
-$(".hours").text(result[0]);
-$(".minutes").text(result[1]);
-$(".seconds").text(result[2]);
-  watchfun();
-}else{
-  watchfun();
-}
+compareTime();
+var i = setInterval(function() { compareTime(); }, 1000*62);
+    function compareTime() {
+        var givenTime =  '<?php echo session('total_time'); ?>';
+        // console.log(givenTime);
+        var hour  =  $(".hours").text();
+        var minute = $(".minutes").text();
+        var totalMintue = parseInt(hour*60) + parseInt(minute);
+        if(givenTime != 0){
+        if(totalMintue >= givenTime){
+          alert(' times up');
+        }
+      }
+    }
+
+
 
   $(document).on("click",".opt_data",function(){
-    
       $(this).find('input[type="radio"]').prop('checked', true);
     });
 
@@ -52,13 +61,16 @@ $(".seconds").text(result[2]);
       $("#saveu").val(btnVal);
     });
 
+    $(document).on("click","#submitExam",function(){
+      window.location = '/view-result' ;
+    });
+
      $(document).on("click",".numberic",function(){
       var btnId = $(this).attr('id');
       questionRedirect(btnId);
     });
     
     function questionRedirect(questionId){
-    // alert('rahu;l');
     $.ajax({
       url: "/get-question",
       type: 'POST',
@@ -69,17 +81,14 @@ $(".seconds").text(result[2]);
         _token:     '{{ csrf_token() }}'
       },
       success: function (data) {
-        console.log(data);
                 if(data === 'view-result'){
-                window.location = '/view-result' ;
-
+                   window.location = '/view-result' ;
                 }else{
                 $("#question_list").html(data);
                 }
               },
               error: function (data) {
                   console.log('An error occurred.');
-                  // console.log(data);
               },
       })
     }
@@ -89,11 +98,16 @@ $(".seconds").text(result[2]);
 
     $(document).keypress(function(event){
         var keycode = (event.keyCode ? event.keyCode : event.which);
+        if (!$("input[name='answer']:checked").val()) {
+               $("#saveu").val('skip');
+            }
+            else {
+              $("#saveu").val('continue');
+             }
         frm.submit();
     });
 
     frm.submit(function (e) {
-    console.log( frm.serialize());
         e.preventDefault();
 
         var valf = $(this).value;
@@ -104,13 +118,16 @@ $(".seconds").text(result[2]);
             data: frm.serialize(),
             success: function (data) {
              if(data === 'view-result'){
-                     window.location = '/view-result' ;
+              //  var ch = alert(' Are YOur Sure to Submit Test');
+              //  if(ch){
+                window.location = '/view-result' ;
+              //  }
+                   
                     }
               $("#question_list").html(data);
             },
             error: function (data) {
                 console.log('An error occurred.');
-                console.log(data);
             },
         });
     });
@@ -118,25 +135,35 @@ $(".seconds").text(result[2]);
 
 
 </script>
+<style>
+.exam_details{
+ 
+}
+  </style>
 
   <div class="maincontent">
     <section class="section">
       <div class="container-fluid">
 	 	<div class="col-md-12">
+     <div class = "col-md-8">
+       <div class ="exam_details">                 
+                      <div class = "inline_block">  <div class = "detail_heading">  Time : <span> {{$examDetails->time}} </span></div> </div>
+                      <div class = "inline_block"><div class = "detail_heading">   Question : <span> {{$examDetails->total_question}}  </span> </div> </div>
+                      <div class = "inline_block">  <div class = "detail_heading">   Mark : <span> {{$examDetails->total_marks}}  </span> </div></div>
+          <div class = "inline_block"><div class = "detail_heading head_span uppercase ">  {{$examDetails->exam_name}}  </div>   </div>
+            </div>
+        </div>
 
-<div class = " col-sm-2  col-sm-offset-10">
+<div class = " col-sm-2  col-sm-offset-2">
       <div class="timer_data alert alert-danger alert-dismissible " id="myAlert">
-
-  <div class="stopwatch" data-autostart="false">
-      <div class="time">
-          <span class="hours"></span> : 
-          <span class="minutes"></span> : 
-          <span class="seconds"></span> 
-          
+          <div class="stopwatch" data-autostart="false">
+              <div class="time">
+                  <span class="hours"></span> : 
+                  <span class="minutes"></span> : 
+                  <span class="seconds"></span> 
+              </div>
+            </div>
       </div>
-    
-     </div>
-   </div>
   </div>
 
 <div class = "clear"></div>
@@ -145,15 +172,43 @@ $(".seconds").text(result[2]);
         <div class="mycontainer question_section">
        
             {{ Form::open(array('route' => 'save-answer','class' => 'form-horizontal', 'id'=>'basic_validate'))}} 
+            <div class = "question_process_color pull-right question_mark_details">
+               <?php 
+               
+               session($questionDetails['id']);?>
+                  <div class="postitive_mark"> <a > {{$questionDetails->marks}}  </a>  </div>
+                 @if($questionDetails->is_negative_marking)
+                  <div class="negative_mark"> <a > 
+                   - {{$questionDetails->negative_marks}}</a>  </div>
+                    @endif
+                </div>
             <div class = "questions">
                 <span> <?php echo htmlspecialchars_decode($questionDetails->question); ?> </span>
              </div> 
               <div class = "options">
+                @php
+                   $give_anser_id = false;
+                   $anserId = 0;
+                   if(session()->has('questions_answer')) {
+                        if(session('questions_answer.'.$questionDetails['id'])){
+                          $anserId = session('questions_answer.'.$questionDetails['id']);
+                          $give_anser_id = true;
+                        }
+                      }
+                  @endphp     
                 @foreach($questionDetails->Options as $data)
-                 <div class = "opt_data">
-                    <input type ="radio" class ="rdo_opt" name = "answer" value = "{{$data['id']}}"> 
+                 <div class = "opt_data question_count_div panel">
+                   @php
+                   $checked = '';
+                   if($give_anser_id === true) {
+                        if($anserId == $data['id']){
+                          $checked = 'checked';
+                        }
+                      }
+                   @endphp
+                    <input type ="radio" class ="rdo_opt" {{ $checked}} name = "answer" value = "{{$data['id']}}"> 
                     <span class = "options_span"> 
-                       {{$data->question_option}}
+                    <?php echo htmlspecialchars_decode($data->question_option); ?>
                       </span> 
                 </div>
                 @endforeach
@@ -170,23 +225,28 @@ $(".seconds").text(result[2]);
              
                 <input type = "hidden" name = "save" id = "saveu">
 
-                <button name="save" type="submit" value="continue" class="btn btn-success savebtn">Save</button>
+                <button name="save" type="submit" value="continue" class="btn btn-success savebtn btn-exam-custom">Save And Next</button>
 
-                <button name="save" type="submit" value="preview" class="btn btn-primary savebtn">Preview</button>
+                <button name="save" type="submit" value="preview" class="btn btn-primary savebtn btn-exam-custom">Preview  And Next</button>
+
+                <button name="save" type="submit" value="skip" class="btn btn-danger savebtn btn-exam-custom">Skip ANd Next </button>
+                <div class = "pull-right">
+                  <button type = "button"  class = "btn btn-exam-custom btn-success" id = "submitExam"> Submit Exam </button>
+                </div>
                  </div>
                 {{ Form::close() }}
               </div>
              </div>
 
-              
+             
      <div class = "col-md-4 hidden-sm report">
       <div class = "question_process_color">
-      <div> <a class="answered_count current"> C </a> <span> Current </span> </div>
-           <div> <a class="answered_count answered">30</a> <span> Answered </span> </div>
-           <div> <a class="answered_count review">30</a> <span> Review </span> </div>
-           <div> <a class="answered_count not_visited">30</a> <span>Not Visited </span> </div>
+           <div> <a class="answered_count current">C </a> <span> Current </span> </div>
+           <div> <a class="answered_count answered"> A </a> <span> Answered </span> </div>
+           <div> <a class="answered_count review">R </a> <span> Review </span> </div>
+           <div> <a class="answered_count not_visited">NV </a> <span>Not Visited </span> </div>
 
-           <div> <a class="answered_count not_answered">30</a> <span>Not Answered </span> </div>
+           <div> <a class="answered_count not_answered">NA</a> <span>Not Answered </span> </div>
      </div>
      <div class = "question_count_div panel"> <h2>  Question </h2> </div>
        <?php 
@@ -197,9 +257,8 @@ $(".seconds").text(result[2]);
             </a> 
           <?php $i++; } ?>
         </div>
-        
        </div>
-       
+
         </div>
 
         

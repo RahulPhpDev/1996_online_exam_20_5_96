@@ -51,6 +51,43 @@ $(document).ready(function () {
                 </div>
               </div>
 
+              
+            <div class="control-group">
+              <label class="control-label"> On Speicfic Date: </label>
+              <div class="controls">
+                <label>
+                @php $checked = ($examDetails['particular_date']) ? 'checked' : ''; @endphp
+                  <input type="checkbox" name="spacific_date" id = "spacificDate" value = "1" {{$checked}}/>
+                  Yes</label>
+            </div>
+          </div>
+
+
+               <div class = "exam_date_div" style = "display:none;">
+                <div class="control-group">
+                  {{ Form::label('start_date','Start Date',array('class' => 'control-label'))}}
+                <div class="controls">
+                    {{ Form::text('start_date',extractDateTime( 'Y-m-d', $examDetails['start_date']),array('class' =>'datepicker', 'id' => ''))}}
+                    <div class="input-group bootstrap-timepicker timepicker" style = "display:inline">
+                      <input id="timepicker1" name = "start_time" value = "{{extractDateTime( 'h:i a', $examDetails['start_date'] )}}" type="text" class="form-control input-small timepicker" >
+                      <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
+                    </div>
+                </div>
+              </div>   
+
+
+                  <div class="control-group">
+                  {{ Form::label('end_date','End Date',array('class' => 'control-label'))}}
+                <div class="controls">
+                    {{ Form::text('end_date',extractDateTime( 'Y-m-d', $examDetails['end_date']),array('class' =>'datepicker', 'id' => ''))}}
+                    <div class="input-group bootstrap-timepicker timepicker" style = "display:inline">
+                      <input id="timepicker1"  value = "{{extractDateTime( 'h:i a', $examDetails['end_date'] )}}" name = "end_time" type="text" class="form-control input-small timepicker" >
+                      <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
+                    </div>
+                </div>
+              </div>   
+              </div>
+
                 <div class="control-group">
                     {{Form::label('total_question' , 'Total Question', array('class' => 'control-label')) }}
                     <div class="controls">
@@ -79,6 +116,14 @@ $(document).ready(function () {
                     {{Form::label('minimum_passing_marks' , 'Passing Mark', array('class' => 'control-label')) }}
                     <div class="controls">
                         {{Form::text('minimum_passing_marks',  $examDetails['minimum_passing_marks'] ,array('class' =>'mark') )}}
+                    </div>
+                 </div>
+
+                <div class="control-group">
+                    {{Form::label('exam_time' , 'Exam Time', array('class' => 'control-label')) }}
+                    <div class="controls">
+                    {!! Form::text('time', $examDetails['time'], ['class' => 'mark', 'id' => 'time']) !!}
+                        
                     </div>
                  </div>
 
@@ -118,18 +163,21 @@ $(document).ready(function () {
       $('.description_div').wysihtml5();
       $('.notes_area').wysihtml5();
 
- 
-// $('#payable').click(function(){
-//      if($(this).prop('checked')){
-//        $("#amout_div").show(); 
-//     $(".exam_visibility").hide();
-//     $("#subscription_div").hide();
-//      }else{
-//       $("#amout_div").hide(); 
-//     $(".exam_visibility").show();
-//      }
-//    });     
+        if('<?php echo $examDetails['particular_date'] ?>'){
+            $(".exam_date_div").show(); 
+        }
+    $('#spacificDate').click(function(){
+     if($(this).prop('checked')){
+       $(".exam_date_div").show(); 
+     }else{
+      $(".exam_date_div").hide(); 
+     }
+   });  
 
-    });
+     $('.timepicker').timepicker();
+   $(".datepicker").datepicker({
+        format:'yyyy-mm-dd',
+        });
+    });;
   </script>
 @endsection
