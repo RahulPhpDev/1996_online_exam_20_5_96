@@ -158,8 +158,9 @@ Route::post('exam-post-success/{id}', 'Admin\ExamController@examPostSuccess')->n
 
 Route::get('/more-question/{id}', 'Admin\ExamController@moreQuestion')->name('more-question');
 
-
 Route::get('/exam', 'Admin\ExamController@examList')->name('exam');
+
+Route::get('/exam-details/{id}', 'Admin\ExamController@examDetails')->name('exam-details');
 
 Route::get('/exam-question/{id}', 'Admin\ExamController@examQuestion')->name('exam-question');
 

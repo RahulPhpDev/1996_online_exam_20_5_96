@@ -21,9 +21,7 @@
                 <tr>
                   <th>Name</th>
                   <th>Visible</th>
-                  <th>Total Question</th>
-                  <th>Total Mark</th>
-                  <th>Passing Mark</th>
+                 
                   <th> Other Details </th>
                   <th>Image </th>
                   <th>Update Image </th>
@@ -48,10 +46,11 @@
 
                   @endphp
                   <td class = "center"> <button data-toggle="modal" data-target="#myModal" type = "button"  class ="show_visible_to btn btn-primary" data-id = "{{ Crypt::encrypt($data['id'])  }}"> {{$examVisible}} </button> </td>
-                  <td> {{$data['total_question']}} </td>
-                  <td> {{$data['total_marks']}}</td>
-                  <td> {{$data['minimum_passing_marks']}} </td>
-                  <td class = "center"> <button type = "button" class ="btn btn-primary"> Other </button></td>
+                 
+                  <td class = "center">
+                  <button data-toggle="modal" data-target="#myModal" type = "button"  class ="exam_detail btn btn-primary" data-id = "{{ Crypt::encrypt($data['id'])  }}"> Details </button> 
+                   </td>
+
                  @php  $pic = (!is_null($data['image'])) ? '/images/exam/thumbnail/'.$data['image'] : '';  @endphp
                  <td class = "center">  <img style = "max-width:120px" src="{{ asset( $pic )}}"  class="avatarbox material_avatar package_img"/> </td>
                  <td class="center"> <a class = "btn btn-danger update_img" data-exid = "{{$data['id']}}" >Update</a></td>
@@ -148,6 +147,18 @@
       var exam_id = $(this).data("id"); 
        $.ajax({
         url:"exam-accessbility/"+exam_id,
+        method:"GET",
+      success:function(data){
+          $(".modal-body").html(data);
+          }
+       });
+    });
+
+
+    $(".exam_detail").on("click", function(){
+      var exam_id = $(this).data("id"); 
+       $.ajax({
+        url:"exam-details/"+exam_id,
         method:"GET",
       success:function(data){
           $(".modal-body").html(data);

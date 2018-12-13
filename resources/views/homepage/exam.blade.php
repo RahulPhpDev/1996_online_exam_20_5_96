@@ -30,7 +30,7 @@
 			</div>
 			</div>
 			    @endforeach			 
-            </div>
+				</div> </div>
 
       @if(count($allExam) >=7)
 		<div class = "view_all">

@@ -25,13 +25,16 @@
 letter-spacing: .8px;
 padding:2px 8px;
 margin:25px 2px ;
+/* box-shadow:2px 3px 4px #ddd; */
 }
 
 table {
   border-collapse: collapse;
   width: 50%;
 }
-
+tr{
+  border-bottom: 1px dashed #ddd;
+}
 th, td {
   padding: 3px;
   text-align: left;
@@ -78,10 +81,20 @@ th, td {
                 </div>
             </div>
             <div class = "clear"> </div>
-          
+            @php
+             $hide = 0; 
+              if($examData->particular_date){
+                  $isBetween =   isDateInBetween($examData->start_date,$examData->end_date );
+                  if($isBetween == false){
+                    $hide = 1;
+                  }
+              }
+           @endphp
+           @if($hide == 0)   
             <form action = "{{route('get-exam', ['id' => Crypt::encrypt($examData->id)])}}" method = "GET" style="padding: 1px;">
                 <input class = "btn btn-success" type = "Submit" value =  "Lets Start">
             </form>
+            @endif
           
         </div>
       </section>    

@@ -26,6 +26,8 @@ use App\Model\Question;
 use App\User;
 
 // request
+use Redirect;
+
 
 use App\Http\Requests\QuestionRequest;
 class ExamController extends Controller
@@ -46,7 +48,14 @@ class ExamController extends Controller
     }
     
     public function saveAddExam(Request $request){
-        //   dd($request->all());
+        $startDate = $endtDate = '0000-00-00 00:00:00';
+        $spacific_date = 0;
+       if(isset($request['spacific_date'])) {
+        $startDate = $request['start_date'].' '.$request['start_time'];
+        $endDate = $request['end_date'].' '.$request['end_time'];
+        $spacific_date = 1;
+       }
+       
         DB::beginTransaction();
         try{
             $exam = new Exam();
@@ -64,6 +73,9 @@ class ExamController extends Controller
                 'add_date' =>   date("Y-m-d"),
                 'status' => 0,
                 'exam_visible_status' =>  $request['exam_type'],
+                'particular_date'=> $spacific_date,
+                'start_date' =>  $startDate,
+                'end_date' =>  $endDate,
             );
             $id =  $exam::create($examData)->id;
 
@@ -187,7 +199,6 @@ class ExamController extends Controller
         // dd($request->all());
        DB::beginTransaction();
        try{
-
           $examData =   Exam::Find($id);
           $total_mark = (($examData->total_marks) > 0) ? $examData->total_marks : 0;
           $is_required = (($examData->is_required) > 0) ? $examData->is_required : 0;
@@ -337,22 +348,25 @@ class ExamController extends Controller
      }
 
      public function updateExam(Request $req, $id){
-        //  dd($req);
+        $input = Input::only('exam_name', 'passing_marks_type','minimum_passing_marks','description','notes','spacific_date','start_date','start_time','end_date','end_time' );
+        $startDate = $endtDate = '0000-00-00 00:00:00';
+        $spacific_date = 0;
+        if(isset($req['spacific_date'])) {
+            $startDate = DateTimeConvert($req['start_date'].' '.$req['start_time']);
+            $endDate = DateTimeConvert($req['end_date'].' '.$req['end_time']);
+            $spacific_date = 1;
+        }
         $de_id =  Crypt::decrypt($id);
         $examDetails = Exam::find($de_id);
-        $input = Input::only('exam_name', 'passing_marks_type','minimum_passing_marks','description','notes');
-        
-        $examObj = new Exam();
-        $examObj->exists = true;
-        $examObj->id = 3; //already exists in database.
-        $examObj->exam_name = $input['exam_name'];
-        $examObj->passing_marks_type = $input['passing_marks_type'];
-        $examObj->minimum_passing_marks = $input['minimum_passing_marks'];
-        $examObj->description = $input['description'];
-        $examObj->notes = $input['notes'];
-        $examObj->save();
+        $examDetails->exam_name = $input['exam_name'];
+        $examDetails->passing_marks_type = $input['passing_marks_type'];
+        $examDetails->minimum_passing_marks = $input['minimum_passing_marks'];
+        $examDetails->description = $input['description'];
+        $examDetails->particular_date = $spacific_date;
+        $examDetails->start_date = $startDate;
+        $examDetails->end_date =  $endDate;
+        $examDetails->save();
         return redirect()->route('exam')->with('success', 'Exam Details are updated!');
-
      }
 
      public function examPostSuccess($id){
@@ -381,8 +395,7 @@ class ExamController extends Controller
          $e_id = Crypt::decrypt($id);
          $questionData =  Question::find($e_id);
          $title =  'Edit Question';
-    return view('admin.exam.edit-exam-question', compact('questionData','title','e_id','id','examID'));
-
+         return view('admin.exam.edit-question', compact('questionData','title','e_id','id','examID'));
      }
 
      public function removeExamQuestion($e_question_id, $e_examID){
@@ -405,14 +418,11 @@ class ExamController extends Controller
         $examData->ExamQuestion()->detach($question_id);
         $questionData->delete();
         return redirect()->back()->with('success', 'Question Removed!');
-
-
      }
 
      
 
      public function updateExamQuestion(Request $req, $id) {  
-        
          $e_id = Crypt::decrypt($id);
         $questionData =  Question::find($e_id);
 
@@ -475,6 +485,13 @@ class ExamController extends Controller
           $examData->UserExamData()->updateExistingPivot(
             $ids, array('status' => 0), false);
         }
+    }
+
+    public function examDetails($id){
+         $e_id = Crypt::decrypt($id);
+         $examDetails = Exam::find($e_id);
+        //  dd($examDetails);
+         return view('admin.exam.exam-details',compact('examDetails'));
     }
    }
 

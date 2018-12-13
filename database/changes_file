@@ -5,4 +5,7 @@ ALTER TABLE `exams` ADD `time` INT(5) NOT NULL DEFAULT '0' AFTER `payable_amount
 ALTER TABLE `exams` ADD `course_relate` TINYINT(1) NOT NULL DEFAULT '0' AFTER `exam_visible_status`;
 ALTER TABLE `results` CHANGE `right_answer` `right_answer_mark` INT(11) NOT NULL DEFAULT '0';
 ALTER TABLE `results` ADD `time_taken` VARCHAR(22) NULL AFTER `right_answer_mark`;
+==== 12 Dec
+ALTER TABLE `exams` ADD `particular_date` TINYINT(1) NOT NULL DEFAULT '0' AFTER `time`, ADD `start_date` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00' AFTER `particular_date`;
+ALTER TABLE `exams` ADD `end_date` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00' AFTER `start_date`;
 

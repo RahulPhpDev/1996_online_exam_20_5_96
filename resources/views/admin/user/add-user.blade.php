@@ -10,8 +10,6 @@
 }
 </style>
 
-
-
 <script type="text/javascript">
   
 $(document).ready(function () {
@@ -19,7 +17,7 @@ $(document).ready(function () {
         ignore: [],
               debug: false,
         rules: {
-           user_type: { required: true },
+         //  user_type: { required: true },
            fname: { required: true,minlength: 3  },
            lname: { required: true,minlength: 3  },
            email: { required: true, email: true,minlength: 3  },
@@ -29,7 +27,7 @@ $(document).ready(function () {
            confirm_password:{ required: true,minlength: 3  },
         },
         messages: {
-          user_type: {required :"Select User Type",},
+        //  user_type: {required :"Select User Type",},
           fname: {required :"First Name is required",minlength : "First Name Should have 3 character"},
           lname: {required :"Last Name is required",minlength : "Last Should have 3 character"},
           email: {required :"Email is required",email :"Not a valid email", minlength : "Email should have 3 character"},
@@ -57,14 +55,14 @@ $(document).ready(function () {
             
                 {{ Form::open(array('route' => 'save-user','class' => 'form-horizontal', 'id'=>'basic_validate'))}}
 
-                <div class="control-group">
-                    {{ Form::label('usertype','Select User',array('class' => 'control-label'))}}
-                  <div class="controls">
-                    {{ Form::select('user_type', array('3' => 'Student','2' => 'Course Admin' ), 'default',array('id' => 'user_type')) }}
-                  </div>
-                </div>
-
                 
+
+                <!-- <div class="control-group">
+                    {{-- Form::label('usertype','Select User',array('class' => 'control-label'))--}}
+                  <div class="controls">
+                    {{-- Form::select('user_type', array('3' => 'Student','2' => 'Course Admin' ), 'default',array('id' => 'user_type')) --}}
+                  </div>
+                </div> -->
 
 <!--                <div class="control-group">
                   {{-- Form::label('user','User Name',array('class' => 'control-label'))--}}
@@ -104,11 +102,11 @@ $(document).ready(function () {
                   </div>
                 </div>
                 
-             <div id = "student_other_details" style="display: none">
+             <div id = "student_other_details">
                 <div class="control-group">
                   {{ Form::label('couse','Course',array('class' => 'control-label'))}}
                 <div class="controls">
-                  <select name= "course_id">
+                  <select name= "course_id[]" multiple class="multiselect">
                     <option value="0">Select Course</option>
                     @foreach($allCourse as $k => $v)
                      <option value="{{$k}}"> {{$v}}</option>
@@ -119,20 +117,21 @@ $(document).ready(function () {
               </div>
 
               
-
+<?php /*
                <div class="control-group">
-                  {{ Form::label('start_date','Join Date',array('class' => 'control-label'))}}
+                  {{-- Form::label('start_date','Join Date',array('class' => 'control-label'))--}}
                 <div class="controls">
-                    {{ Form::text('join_date',null,array('class' => 'datepicker')) }}
+                    {{-- Form::text('join_date',null,array('class' => 'datepicker')) --}}
                 </div>
               </div>
 
                <div class="control-group">
-                  {{ Form::label('end_date','End Date',array('class' => 'control-label'))}}
+                  {{-- Form::label('end_date','End Date',array('class' => 'control-label'))--}}
                 <div class="controls">
-                    {{ Form::text('end_date',null,array('class' => 'datepicker')) }}
+                    {{-- Form::text('end_date',null,array('class' => 'datepicker')) --}}
                 </div>
               </div>
+              */ ?>
                   
           </div>
 
@@ -174,15 +173,19 @@ $(document).ready(function () {
 </div>
 <script>
 		$(function(){
-      $("#user_type").on("change", function(){
-        var usertype = $("#user_type").val();
-        if(usertype == 3){
-          $("#student_other_details").show();
-        }else{
-            $("#student_other_details").hide(); 
-        }
-      });
-
+      // $("#user_type").on("change", function(){
+      //   var usertype = $("#user_type").val();
+      //   if(usertype == 3){
+      //     $("#student_other_details").show();
+      //   }else{
+      //       $("#student_other_details").hide(); 
+      //   }
+      // });
+         $('.multiselect').multiselect({
+                nonSelectedText: 'Select Option!',
+                buttonWidth: 250,
+                enableFiltering: true
+            });
       $(".datepicker").datepicker({
         format:'yyyy-mm-dd',
         });

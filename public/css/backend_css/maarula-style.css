@@ -1624,3 +1624,88 @@ input.mark {
 
 td .center {text-align:center !important;}
 .center {text-align:center !important;}
+
+.span_style{    color: blue;
+    font-size: 15px;
+    cursor: pointer;
+    position: relative;
+	left: 76%;}
+	.question_label{
+		font-size: 15px;
+		font-weight: 550;
+	}
+
+
+	.editor{
+		width: 80%;
+	  }
+	  .option_txtarea{
+		height: 31px;
+	  }
+	
+	 .option_ra {
+	  display: inline;
+	  position: relative;
+	  padding-left: 35px;
+	  margin-bottom: 12px;
+	  cursor: pointer;
+	  font-size: 22px;
+	  -webkit-user-select: none;
+	  -moz-user-select: none;
+	  -ms-user-select: none;
+	  user-select: none;
+	}
+	
+	/* Hide the browser's default radio button */
+	.option_ra input {
+	  position: absolute;
+	  opacity: 0;
+	  cursor: pointer;
+	}
+	
+	/* Create a custom radio button */
+	.checkmark {
+	  position: absolute;
+	  top: 0;
+	  left: 0;
+	  height: 25px;
+	  width: 25px;
+	  background-color: #00000063;
+	  border-radius: 50%;
+	}
+	
+	/* On mouse-over, add a grey background color */
+	.option_ra:hover input ~ .checkmark {
+	  background-color: #ccc;
+	}
+	
+	/* When the radio button is checked, add a blue background */
+	.option_ra input:checked ~ .checkmark {
+	  background-color: #2196F3;
+	}
+	
+	/* Create the indicator (the dot/circle - hidden when not checked) */
+	.checkmark:after {
+	  content: "";
+	  position: absolute;
+	  display: none;
+	}
+	
+	/* Show the indicator (dot/circle) when checked */
+	.option_ra input:checked ~ .checkmark:after {
+	  display: block;
+	}
+	
+	/* Style the indicator (dot/circle) */
+	.option_ra .checkmark:after {
+		 top: 9px;
+		left: 9px;
+		width: 8px;
+		height: 8px;
+		border-radius: 50%;
+		background: white;
+	}
+	.option_style{
+	left: 66% !important;
+	top: 9px !important;
+}
