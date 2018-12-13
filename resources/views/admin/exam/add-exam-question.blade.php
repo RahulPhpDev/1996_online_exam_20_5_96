@@ -8,9 +8,8 @@
  
 
 <style type="text/css">
-  .editor{
-    width: 30x;
-    height:40px;
+  .question_textarea{
+    margin-left:10px;
   }
 
 </style>
@@ -23,7 +22,21 @@
       if (CKEDITOR.instances.txt_area) {
         CKEDITOR.instances.txt_area.destroy();
       } else {
-        CKEDITOR.replace('textarea_1');
+        CKEDITOR.replace('textarea_1',{
+          height: '60px'  
+        });
+        $('.cke_top').css({'height':'10px'});
+      }
+  });
+
+    $('#edit_1').on('click', function() {
+      if (CKEDITOR.instances.txt_area) {
+        CKEDITOR.instances.txt_area.destroy();
+      } else {
+        CKEDITOR.replace('textarea_1',{
+          height: '60px'  
+        });
+        $('.cke_top').css({'height':'10px'});
       }
   });
 
@@ -54,7 +67,10 @@
 <script type="text/javascript">
   
 $(document).ready(function () {
-
+  $(".option_style").on('click',function(){
+   var tid = $(this).closest('textarea').attr('id');
+  alert(tid);
+  });
     $('#basic_validate').validate({ // initialize the plugin
         ignore: [],
               debug: false,
@@ -116,21 +132,23 @@ $(".question_textarea").each(function(){
 
                 <div class="control-group">
                   {{ Form::label('question','Question 1',array('class' => 'control-label'))}}
-                <div class="controls">
-                    <button type = "button" id="edit_1">Editor</button>
+                  </div>
+                <div class="">
+                    <span class="pull-right"  id="edit_1" style="color:blue;cursor: pointer;">+ Style +</span>
 <br/>
-
-                    {{ Form::textarea('question[1][]',' ', array('class' => 'question editor question_textarea', 'id'=> 'textarea_1')) }}
-                </div>
+                    {{ Form::textarea('question[1][]',' ', array('class' => 'question editor question_textarea', 'id'=> 'textarea_1','rows' => '3', 'cols' => '90')) }}
+                
               </div>
 
               
               <div class="option_div mt-10" style="text-align: center;">
                <input checked type="radio" name="answer[1]" value = "0"/>
                <input type="text" placeholder="option 1" name = "option[1][]" class="span5 option_input">
+
               <div class = "mt-15">
                   <input type="radio" name="answer[1]" value = "1" />
-               <input type="text"  placeholder="Option 2"  name = "option[1][]" class="span5 option_input">
+                   <span class="pull-right option_style"   style="color:blue;cursor: pointer;">+ Style +</span>
+                   {{ Form::textarea('option[1][]',' ', array('class' => 'option_input', 'id'=> 'option_2','rows' => '3', 'cols' => '90')) }}
               </div>
 
                <div class = "mt-15">
