@@ -67,12 +67,13 @@ class UserController extends Controller
     }
    
     public function examInstruction($e_id){
-      forgetSession();
-      
-
       $id = Crypt::decrypt($e_id);
       $examData = Exam::find($id);
-      // dd($examData);
+      echo $id;
+      $topTen =   Result::where('exam_id', '=',$id)->take(10)->get();
+      //  foreach($topTen as $ten){
+      //    dd($ten);
+      //  }
       return view('permit.exam.exam-instruction',compact('examData'));
     }
 
@@ -134,12 +135,13 @@ class UserController extends Controller
     public function saveAnswer(Request $request){
     // dd( session::all());
     session()->put('exam_process', 1);
-      $userData = Auth::user(); 
-      $userId = $userData['id'];
-     $examId = session('exam_id');
-     $examDetails = Exam::find($examId);
-     $allQuestion = session('all_questions');
-     
+    $userData = Auth::user(); 
+    $userId = $userData['id'];
+    $examId = session('exam_id');
+    $examDetails = Exam::find($examId);
+    $allQuestion = session('all_questions');
+    // dd(session::all());
+    //  dd($request->all());
      if($request['save'] ==  'continue'){
         $last_attempt_question = session('current_question');
         $answerID = $request['answer'];
@@ -147,10 +149,12 @@ class UserController extends Controller
         $allAttemptQuestion = session('attempt_questions.queID');
         Session::put('questions_answer.'.$last_attempt_question,$answerID);
         $pending_questions = array_diff($allQuestion,$allAttemptQuestion);
-        $nextQuestionId = current($pending_questions);
-        session(['current_question' => $nextQuestionId]);
-        Session::put('all_questions_class.'.$nextQuestionId,'current');
         Session::put('all_questions_class.'.$last_attempt_question,'answered');
+        if(!empty($pending_questions)){ 
+          $nextQuestionId = current($pending_questions);
+          session(['current_question' => $nextQuestionId]);
+          Session::put('all_questions_class.'.$nextQuestionId,'current');
+        }
       }
       else if($request['save'] ==  'preview'){
         $last_attempt_question = session('current_question');
@@ -166,7 +170,20 @@ class UserController extends Controller
       else if($request['save'] ==  'skip'){
         $last_attempt_question = session('current_question');
         session()->push('attempt_questions.queID', $last_attempt_question);
-        Session::put('all_questions_class.'.$last_attempt_question,'not_answered');
+        $class = 'not_answered';
+        // $class = session('all_questions_class.'.$last_attempt_question);
+        // if(session()->has($last_attempt_question.'_lastanswer')) { #check  Last Answer of Question
+        //   $lastQuestionClass = session($last_attempt_question.'_lastanswer');
+        //   session([$request['que_id'].'_lastanswer' =>  $currentQuestionClass]);#get Last Answer of Question And Set Session
+        //   if(($lastQuestionClass == 'review') || ($class == 'pending')){
+        //     $class = 'not_answered';
+        //   }else{
+        //     $class =  $lastQuestionClass;
+        //   }
+        // }
+        // if($class == 'pending'){$class = 'not_answered'; }
+        // // $class = ($class == 'pending') ? 'not_answered' : $class;
+        Session::put('all_questions_class.'.$last_attempt_question,$class);
         $allQuestion = session('all_questions');
         $allAttemptQuestion = session('attempt_questions.queID');
         $pending_questions = array_diff($allQuestion,$allAttemptQuestion);
@@ -176,7 +193,8 @@ class UserController extends Controller
     }
       if(empty($pending_questions)){
         Session::save();
-        die('view-result');
+        $nextQuestionId = current($allQuestion);
+        session(['submit'=> 1]);
       }
     $questionDetails    = Question::find($nextQuestionId);
      $passArray = array(
@@ -188,11 +206,27 @@ class UserController extends Controller
   }
 
   public function getQuestion(Request $request){
-    session(['current_question' => $request['que_id']]);
+    // echo 'hii';die();
+    // echo '<pre>';print_r(session()->all());echo '</pre>';die();
+    $last_attempt_question = session('current_question');
+    $class = 'review';
+    if(session()->has($last_attempt_question.'_lastanswer')) { #check  Last Answer of Question
+      $class = session($last_attempt_question.'_lastanswer');  
+      if(($class == 'current') || ($class == 'pending')){
+        $class = 'review';
+      }
+      session()->forget($last_attempt_question.'_lastanswer');
+    }
+    Session::put('all_questions_class.'.$last_attempt_question,$class);
+    session(['current_question' => $request['que_id']]);  
+    $currentQuestionClass = session('all_questions_class.'. $request['que_id']);
+
+    session([$request['que_id'].'_lastanswer' =>  $currentQuestionClass]);#get Last Answer of Question And Set Session
+    
     $id = $request['que_id'];
     Session::put('all_questions_class.'.$id,'current');
     $questionDetails    = Question::find($id);
-     $passArray = array(
+    $passArray = array(
       'questionDetails' => $questionDetails,
       'all_questions_class' =>  session('all_questions_class'),
     );
@@ -200,7 +234,6 @@ class UserController extends Controller
   }
 
   public function viewResult($exam_id  = ''){
-    // dd(session()->all());
     $difference = '0';
     if(session()->has('start_time')) {
       $difference =  timeDifference(session('start_time'));

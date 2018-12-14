@@ -23,10 +23,11 @@
   });
 </script>
 <script type="text/javascript">
-
+ 
 
   $(function () {
-    
+    console.log(' check');
+    // $('#myModal').modal('show');
     var diff = '<?php echo $difference; ?>';
     if( diff != 0){
       watchfun(diff);
@@ -44,7 +45,7 @@ var i = setInterval(function() { compareTime(); }, 1000*62);
         var totalMintue = parseInt(hour*60) + parseInt(minute);
         if(givenTime != 0){
         if(totalMintue >= givenTime){
-          alert(' times up');
+          window.location = '/view-result' ;
         }
       }
     }
@@ -82,7 +83,7 @@ var i = setInterval(function() { compareTime(); }, 1000*62);
       },
       success: function (data) {
                 if(data === 'view-result'){
-                   window.location = '/view-result' ;
+                  alert(' You Have Taken All The Test Please Now Click and Review Your Answer Or You Can Submit Exam.. ');
                 }else{
                 $("#question_list").html(data);
                 }
@@ -135,11 +136,7 @@ var i = setInterval(function() { compareTime(); }, 1000*62);
 
 
 </script>
-<style>
-.exam_details{
- 
-}
-  </style>
+
 
   <div class="maincontent">
     <section class="section">
@@ -170,7 +167,6 @@ var i = setInterval(function() { compareTime(); }, 1000*62);
    <div id = "question_list">   
       <div class = "col-md-8" >
         <div class="mycontainer question_section">
-       
             {{ Form::open(array('route' => 'save-answer','class' => 'form-horizontal', 'id'=>'basic_validate'))}} 
             <div class = "question_process_color pull-right question_mark_details">
                <?php 
@@ -241,21 +237,23 @@ var i = setInterval(function() { compareTime(); }, 1000*62);
              
      <div class = "col-md-4 hidden-sm report">
       <div class = "question_process_color">
-           <div> <a class="answered_count current">C </a> <span> Current </span> </div>
-           <div> <a class="answered_count answered"> A </a> <span> Answered </span> </div>
-           <div> <a class="answered_count review">R </a> <span> Review </span> </div>
-           <div> <a class="answered_count not_visited">NV </a> <span>Not Visited </span> </div>
+           <div> <a class="answered_count current">C</a> <span>  Current </span> </div>
+           <div> <a class="answered_count answered"> A</a> <span>  Answered </span> </div>
+           <div> <a class="answered_count review">R</a> <span>  Review </span> </div>
+           <div> <a class="answered_count not_visited">NV</a> <span> Not Visited </span> </div>
 
            <div> <a class="answered_count not_answered">NA</a> <span>Not Answered </span> </div>
      </div>
      <div class = "question_count_div panel"> <h2>  Question </h2> </div>
        <?php 
           $i = 1;
-          foreach($all_questions_class as $question_id => $class) { ?>
+          foreach($all_questions_class as $question_id => $class) { 
+            if($question_id){
+              ?>
            <a href = "JavaScript:void(0);" id = "{{$question_id}}" class = "numberic {{$class}} ">
               <span  >   {{$i}} </span>
             </a> 
-          <?php $i++; } ?>
+          <?php $i++; } } ?>
         </div>
        </div>
 

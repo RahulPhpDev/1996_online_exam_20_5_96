@@ -11,19 +11,21 @@
 
 <script type="text/javascript">
 $(function(){
-
-
-function compareTime() {
-  console.log(' hello 2');
-        var givenTime = 11; 
-        var hour = 0;
-        var minute = 11;
-        
+compareTime();
+var i = setInterval(function() { compareTime(); }, 1000*62);
+    function compareTime() {
+        var givenTime =  '<?php echo session('total_time'); ?>';
+        // console.log(givenTime);
+        var hour  =  $(".hours").text();
+        var minute = $(".minutes").text();
         var totalMintue = parseInt(hour*60) + parseInt(minute);
+        if(givenTime != 0){
         if(totalMintue >= givenTime){
           alert(' times up');
         }
+      }
     }
+
 
 var i = setInterval(function() { compareTime(); }, 1000*62);
 
@@ -66,15 +68,15 @@ $(document).on("click",".opt_data",function(){
                   data: frm.serialize(),
                   success: function (data) {
                     if(data === 'view-result'){
-                      // var ch = alert(' Are YOur Sure to Submit Test');
-                      // // alert(ch);
-                      // if(ch){
-                        window.location = '/view-result' ;
-                      // }
-                    // window.location = '/view-result' ;
+                  
 
                     }else{
-                    $("#question_list").html(data);
+                      var res = '<?php echo session('submit') ?>';
+                      console.log(res);
+                      if('<?php echo session('submit') ?>') {
+                        alert(' You Have Taken All The Question Please Now Click and Review Your Answer Or You Can Submit Exam.. ');
+                      }
+                        $("#question_list").html(data);
                     }
                   },
                   error: function (data) {
@@ -134,7 +136,7 @@ $(document).on("click",".opt_data",function(){
                
                 <input type = "hidden" name = "save" id = "saveu">
 
-                <button name="save" type="submit" value="continue" class="btn btn-success savebtn btn-exam-custom">Save And Next</button>
+                <button name="save" type="submit" value="continue" class="btn btn-success savebtn btn-exam-custom">Savef And Next</button>
 
                 <button name="save" type="submit" value="preview" class="btn btn-primary savebtn btn-exam-custom">Preview  And Next</button>
 
@@ -160,9 +162,12 @@ $(document).on("click",".opt_data",function(){
      <div class = "question_count_div panel"> <h2>  Question </h2> </div>
        <?php 
           $i = 1;
-          foreach($all_questions_class as $question_id => $class) { ?>
+          foreach($all_questions_class as $question_id => $class) { 
+            if($question_id){
+            ?>
+
            <a href = "JavaScript:void(0);" id = "{{$question_id}}" class = "numberic {{$class}} ">
               <span  >   {{$i}} </span>
             </a> 
-          <?php $i++; } ?>
+          <?php $i++;}  } ?>
         </div>

@@ -56,6 +56,7 @@ if (!function_exists('isDateInBetween')) {
 
 if (!function_exists('forgetSession')) {
     function forgetSession(){
+        // session()->flush();
         if(session()->has('user_answer.question')) {
             session()->forget('user_answer.question');
         }

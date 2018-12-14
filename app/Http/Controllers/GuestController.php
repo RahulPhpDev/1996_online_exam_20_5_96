@@ -96,14 +96,18 @@ class GuestController extends Controller
     public function sessionTest(){
         $chd = '2018-12-11 16:04:22';
      $date =    DateManipulation( $chd , 'Y-m-d H:i:s');
-     dd($date);
+    //  dd($date);
          session()->flush();
-;
-         die();
+
+        //  die();
        // $data = session()->all();
        // session()->flush();
         // session('exam_id', '2');
+        $last_attempt_question = 2;
           session(['exam_id' => '2']);
+          Session()->push('all_questions_class.'.$last_attempt_question,'not_answered');
+          $last_attempt_question = 4;
+          Session()->push('all_questions_class.'.$last_attempt_question,'review');
         session()->push('ids', '1');
         session()->push('ids', '2');
         session()->push('ids', '3');
@@ -119,7 +123,7 @@ class GuestController extends Controller
 
         // session()->push('current_question.new[]', 'developers ');
         //echo __LINE__.session('exam_id');
-        Session::save();
+        // Session::save();
 
         dd(session()->all());
     }
