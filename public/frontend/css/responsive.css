@@ -4,7 +4,17 @@
 */
 
 @media (min-width: 1281px) {
-  
+   .numberic {
+      display: inline-block;
+      width: 8% !important;
+      height: 31px;
+    }
+    .numberic span {
+      text-align: center;
+      position: relative;
+      top: 3px !important;
+      left: 11px;
+   }
     
   }
   
@@ -14,16 +24,35 @@
   */
   
   @media (min-width: 1025px) and (max-width: 1280px) {
-    
+    .numberic {
+      display: inline-block;
+      width: 8% !important;
+      height: 31px;
+    }
+    .numberic span {
+      text-align: center;
+      position: relative;
+      top: 3px !important;
+      left: 11px;
+   }
   }
-  
   /* 
     ##Device = Tablets, Ipads (portrait)
     ##Screen = B/w 768px to 1024px
   */
   
   @media (min-width: 768px) and (max-width: 1024px) {
-    
+    .numberic {
+    display: inline-block;
+    width: 8%;
+    height: 31px;
+    }
+    .numberic span {
+    text-align: center;
+    position: relative;
+    top: 3px;
+    left: 11px;
+   }
     
   }
   
@@ -33,7 +62,17 @@
   */
   
   @media (min-width: 768px) and (max-width: 1024px) and (orientation: landscape) {
-    
+     .numberic {
+      display: inline-block;
+      width: 8% !important;
+      height: 31px;
+    }
+    .numberic span {
+      text-align: center;
+      position: relative;
+      top: 3px !important;
+      left: 11px;
+   }
     
   }
   
@@ -46,7 +85,17 @@
     .hidden-sm{
         display:none !important;
     }
- 
+  .numberic {
+      display: inline-block;
+      width: 8% !important;
+      height: 31px;
+    }
+    .numberic span {
+      text-align: center;
+      position: relative;
+      top: 3px !important;
+      left: 11px;
+   }
     
   }
   

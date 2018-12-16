@@ -71,54 +71,6 @@ function myFunction() {
         
         @else
 
-<style>
-div.avatarbox {
-    background: #106eca;
-    border: none;
-    border-radius: 40px;
-    color: #fff;
-    float: left;
-    font-size: 10px;
-    font-weight: 700;
-    line-height: 25px;
-    overflow: hidden;
-    position: relative;
-    text-align: center;
-    width: 32px;
-    height: 32px;
-}
-div.material_avatar {
-  
-    cursor: pointer;
-    border-radius: 40px;
-    width: 30px;
-    height: 30px;
-    font-size: 12px;
-    padding: 3px;
-    margin-top: 2px;
-    position: relative;
-    float: left;
-    margin: 0;
-    border: none;
-    background: none;
-    color: #fff;
-    font-weight: bold;
-    text-align: center;
-    line-height: 25px;
-    overflow: hidden;
-    -moz-border-radius: 40px;
-    -webkit-border-radius: 40px;
-}
-.profile_img{
-    border-radius: 40px;
-  
-    overflow: hidden;
-    position: relative;
-    text-align: center;
-    width: 32px;
-    height: 32px;
-}
-</style>
 
         <li  class="dropdown" id="profile-messages" ><a title="" href="#" data-toggle="dropdown" data-target="#profile-messages" class="dropdown-toggle">
                 <?php

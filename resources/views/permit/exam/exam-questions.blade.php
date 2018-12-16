@@ -83,12 +83,13 @@ var i = setInterval(function() { compareTime(); }, 1000*62);
       },
       success: function (data) {
                 if(data === 'view-result'){
-                  alert(' You Have Taken All The Test Please Now Click and Review Your Answer Or You Can Submit Exam.. ');
                 }else{
-                $("#question_list").html(data);
+                   
+                   $("#question_list").html(data);
                 }
               },
-              error: function (data) {
+               error: function (data) {
+                  console.log(data);
                   console.log('An error occurred.');
               },
       })
@@ -119,15 +120,13 @@ var i = setInterval(function() { compareTime(); }, 1000*62);
             data: frm.serialize(),
             success: function (data) {
              if(data === 'view-result'){
-              //  var ch = alert(' Are YOur Sure to Submit Test');
-              //  if(ch){
-                window.location = '/view-result' ;
-              //  }
+               // window.location = '/view-result' ;
                    
                     }
               $("#question_list").html(data);
             },
             error: function (data) {
+              console.log(data);
                 console.log('An error occurred.');
             },
         });
@@ -139,7 +138,7 @@ var i = setInterval(function() { compareTime(); }, 1000*62);
 
 
   <div class="maincontent">
-    <section class="section">
+    <section class="section_instruct">
       <div class="container-fluid">
 	 	<div class="col-md-12">
      <div class = "col-md-8">
@@ -220,8 +219,13 @@ var i = setInterval(function() { compareTime(); }, 1000*62);
               <input type = "submit" name = "save" value = "preview" class = "btn btn-success"> -->
              
                 <input type = "hidden" name = "save" id = "saveu">
+                @php
+                  $saveToolTip = 'This will save your answer and move to next question ';
+                  $saveToolTip = 'This will save your answer and move to next question ';
 
-                <button name="save" type="submit" value="continue" class="btn btn-success savebtn btn-exam-custom">Save And Next</button>
+                @endphp
+
+                <button name="save" type="submit" value="continue" class="btn btn-success savebtn btn-exam-custom"  data-toggle="tooltip" data-placement="top" title="Hooray!" >Save And Next</button>
 
                 <button name="save" type="submit" value="preview" class="btn btn-primary savebtn btn-exam-custom">Preview  And Next</button>
 
@@ -263,10 +267,59 @@ var i = setInterval(function() { compareTime(); }, 1000*62);
       </section>    
 </div>
 
+<div id="snackbar">You Have Taken all The Questions. Now You Can Review Your Answer Or Submit Exam By Clicking Button....</div>
 
+<script>
+function myFunction() {
+  var x = document.getElementById("snackbar");
+  x.className = "show";
+  setTimeout(function(){ x.className = x.className.replace("show", ""); }, 7000);
+}
+</script>
 
 <style type="text/css">
-  
+  #snackbar {
+  visibility: hidden;
+  min-width: 250px;
+  margin-left: -125px;
+  background-color: #333;
+  color: #fff;
+  text-align: center;
+  border-radius: 2px;
+  padding: 16px;
+  position: fixed;
+  z-index: 1;
+  left: 50%;
+  bottom: 30px;
+  font-size: 17px;
+}
+
+#snackbar.show {
+  visibility: visible;
+  -webkit-animation: fadein 1s, fadeout 4s 6s;
+  animation: fadein 1s, fadeout 4s 6s;
+}
+
+@-webkit-keyframes fadein {
+  from {bottom: 0; opacity: 0;} 
+  to {bottom: 30px; opacity: 1;}
+}
+
+@keyframes fadein {
+  from {bottom: 0; opacity: 0;}
+  to {bottom: 30px; opacity: 1;}
+}
+
+@-webkit-keyframes fadeout {
+  from {bottom: 30px; opacity: 1;} 
+  to {bottom: 0; opacity: 0;}
+}
+
+@keyframes fadeout {
+  from {bottom: 30px; opacity: 1;}
+  to {bottom: 0; opacity: 0;}
+}
+
   .question_count_div {
     
     margin-top: 10px;

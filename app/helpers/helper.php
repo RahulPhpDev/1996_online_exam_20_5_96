@@ -41,17 +41,32 @@ if (!function_exists('extractDateTime')) {
 
 if (!function_exists('isDateInBetween')) {
     function isDateInBetween($start , $end, $current = 'Y-m-d H:i:s'){
-      
-            $currentDate = date($current);            
-            $startDate=date('Y-m-d H:i:s', strtotime($start));
-            $endDate = date('Y-m-d H:i:s', strtotime($end));
-            $returnval = 0;
-            if (($currentDate >= $startDate) && ($currentDate <= $endDate)){
-                $returnval = 1;
-            }
-            
-            return $returnval;
+        $currentDate = date($current);            
+        $startDate=date('Y-m-d H:i:s', strtotime($start));
+        $endDate = date('Y-m-d H:i:s', strtotime($end));
+        $returnval = 0;
+        if (($currentDate >= $startDate) && ($currentDate <= $endDate)){
+            $returnval = 1;
         }
+        return $returnval;
+    }
+}
+
+if (!function_exists('get_next')) {
+    function get_next($array , $c_val){
+      $i = 0;
+      $nextVal = current($array);
+      foreach($array as $vl){
+        if($i == 1){
+          $nextVal = $vl;
+          break;
+        }
+          else if($c_val == $vl){
+            $i = 1;
+          }
+        }
+      return $nextVal;
+    }
 }
 
 if (!function_exists('forgetSession')) {
@@ -59,6 +74,9 @@ if (!function_exists('forgetSession')) {
         // session()->flush();
         if(session()->has('user_answer.question')) {
             session()->forget('user_answer.question');
+        }
+        if(session()->has('all_question_checked')) {
+            session()->forget('all_question_checked');
         }
         if(session()->has('attempt_questions')) {
             session()->forget('attempt_questions');
@@ -87,6 +105,10 @@ if (!function_exists('forgetSession')) {
         }
         if(session()->has('start_time')) {
          session()->forget('start_time');
+        }
+
+        if(session()->has('lastanswer')) {
+         session()->forget('lastanswer');
         }
       }
 }

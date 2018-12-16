@@ -95,10 +95,21 @@ class GuestController extends Controller
 
     public function sessionTest(){
         $chd = '2018-12-11 16:04:22';
-     $date =    DateManipulation( $chd , 'Y-m-d H:i:s');
+       $date =    DateManipulation( $chd , 'Y-m-d H:i:s');
     //  dd($date);
          session()->flush();
-
+         $request['que_id']  = 12;
+         $currentQuestionClass = 'answerdfsa';
+         Session::put('lastanswer.'.$request['que_id'],$currentQuestionClass);
+         if(session()->has('lastanswer')) {
+             $class = session('lastanswer.'.$request['que_id']);
+            echo ($class);  
+         }
+         session()->forget('lastanswer.'.$request['que_id']);
+          if(session()->has('lastanswer')) {
+             $class = session('lastanswer.'.$request['que_id']);
+            echo __LINE__.($class);  
+         }
         //  die();
        // $data = session()->all();
        // session()->flush();

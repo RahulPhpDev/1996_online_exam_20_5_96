@@ -8,7 +8,11 @@
  
 
 <style type="text/css">
- 
+ .option_ra textarea{
+  margin: 0px;
+   width: 381px;
+    height: 26px;
+ }
 </style>
    
 <script type="text/javascript">
@@ -71,7 +75,7 @@ $(document).ready(function () {
         CKEDITOR.replace( txt,
             {
             height: '50px',
-            width: '70%',
+            width: '80%',
             } );
       }
 
@@ -148,7 +152,7 @@ $(".question_textarea").each(function(){
                     {{ Form::textarea('question[1][]',' ', array('class' => 'question editor question_textarea', 'id'=> 'textarea_1','rows' => '3')) }}
                 </div>
               </div>
-
+              <div class ="options_group">
                <div class="control-group">
                  <div class="controls">
                       <span class = "span_style option_style pull-right">+STYLE+</span>
@@ -157,7 +161,8 @@ $(".question_textarea").each(function(){
                         {{ Form::textarea('option[1][]',' ', array('class' => 'option_txtarea', 'id'=> 'option_1_0','cols' => '80%')) }}
                   <span class="checkmark"></span>
                 </label>
-              </div>
+              </div>              
+            </div>
 
 
                <div class="controls">

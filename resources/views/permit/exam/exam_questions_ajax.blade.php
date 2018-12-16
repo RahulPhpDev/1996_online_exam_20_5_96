@@ -60,24 +60,18 @@ $(document).on("click",".opt_data",function(){
     });
 
     frm.submit(function (e) {
-      console.log('submit');
               e.preventDefault();
               $.ajax({
                   type: frm.attr('method'),
                   url: frm.attr('action'),
                   data: frm.serialize(),
-                  success: function (data) {
-                    if(data === 'view-result'){
-                  
-
-                    }else{
-                      var res = '<?php echo session('submit') ?>';
-                      console.log(res);
-                      if('<?php echo session('submit') ?>') {
-                        alert(' You Have Taken All The Question Please Now Click and Review Your Answer Or You Can Submit Exam.. ');
-                      }
-                        $("#question_list").html(data);
-                    }
+                  success: function (data) {  
+                  var chkToast = '<?php echo $showToast ?>';                  
+                      if(chkToast == 1) {
+                         myFunction();
+                        }
+                      $("#question_list").html(data);
+                    
                   },
                   error: function (data) {
                       console.log('An error occurred.');

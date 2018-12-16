@@ -329,3 +329,109 @@ padding: 9px;
     font-size:150%;
 }
    
+
+div.avatarbox {
+    background: #106eca;
+    border: none;
+    border-radius: 40px;
+    color: #fff;
+    float: left;
+    font-size: 10px;
+    font-weight: 700;
+    line-height: 25px;
+    overflow: hidden;
+    position: relative;
+    text-align: center;
+    width: 32px;
+    height: 32px;
+}
+div.material_avatar {
+  
+    cursor: pointer;
+    border-radius: 40px;
+    width: 30px;
+    height: 30px;
+    font-size: 12px;
+    padding: 3px;
+    margin-top: 2px;
+    position: relative;
+    float: left;
+    margin: 0;
+    border: none;
+    background: none;
+    color: #fff;
+    font-weight: bold;
+    text-align: center;
+    line-height: 25px;
+    overflow: hidden;
+    -moz-border-radius: 40px;
+    -webkit-border-radius: 40px;
+}
+.profile_img{
+    border-radius: 40px;
+  
+    overflow: hidden;
+    position: relative;
+    text-align: center;
+    width: 32px;
+    height: 32px;
+}
+
+.topper_div{
+    padding: 5px;
+    border-bottom: 1px dashed #fff;
+    border-radius: 5px;
+
+}
+.user_pic {
+    position: relative;
+    left: 20px;
+    top:9px;
+    height: 93px;
+
+}
+.topper_div_img {
+    left: 63px;
+    }
+.user_pic h4{
+  position: absolute;
+  top: 35px;
+  left: 20px;
+  font-weight: 500;
+  font-style: initial;
+  letter-spacing: 0.8px;
+  font-size: 148%;
+}
+.mark_data{
+float: right;
+right: 63px;
+top: -78px;
+position: relative;
+bottom: 0;
+
+}
+.mark_data > span{
+display: block;
+margin-bottom: 0px !important;
+font-size: 19px;
+font-family: initial;
+color: #362c2c;
+text-align: center;
+}
+.obtain_mark{
+ border-bottom:1px solid black;
+ padding-bottom:2px;
+ font-weight: bold;
+}
+.topper_section{
+  box-shadow: 3px -1px 0px -1px #a6a7aa;
+background: #777d7833;
+min-height: 400px;
+padding-top: 12px;
+}
+.exam_inspect{
+  padding-top: 38px;
+}
+.section_instruct{
+  padding-top:10px !important;
+}
