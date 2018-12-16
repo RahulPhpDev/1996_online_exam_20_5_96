@@ -21,7 +21,7 @@ var i = setInterval(function() { compareTime(); }, 1000*62);
         var totalMintue = parseInt(hour*60) + parseInt(minute);
         if(givenTime != 0){
         if(totalMintue >= givenTime){
-          alert(' times up');
+          window.location = '/view-result' ;
         }
       }
     }
@@ -130,7 +130,7 @@ $(document).on("click",".opt_data",function(){
                
                 <input type = "hidden" name = "save" id = "saveu">
 
-                <button name="save" type="submit" value="continue" class="btn btn-success savebtn btn-exam-custom">Savef And Next</button>
+                <button name="save" type="submit" value="continue" class="btn btn-success savebtn btn-exam-custom">Save And Next</button>
 
                 <button name="save" type="submit" value="preview" class="btn btn-primary savebtn btn-exam-custom">Preview  And Next</button>
 

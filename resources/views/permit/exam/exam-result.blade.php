@@ -35,7 +35,7 @@ tr:nth-child(even) {background-color: #f2f2f2;}
         <th ><span class = "center"> Total Mark </span></th>
         <th ><span class = "center"> Obtain Mark </span></th>
         <th ><span class = "center">Status </span></th>
-        <th ><span class = "center">View Details </span></th>
+        <th ><span class = "center">Answer Sheet </span></th>
         <th ><span class = "center">Download Pdf </span></th>
        
     </tr>
@@ -49,7 +49,7 @@ tr:nth-child(even) {background-color: #f2f2f2;}
         $passingStatus = ($res->result_status == 2) ? 'Fail' : 'Pass'; 
         @endphp
         <td > <span class = "center"> {{$passingStatus}}</span></td>
-        <td class = "center"> <a > Details</a></td>
+        <td class = "center"> <a href = "{{route('answer-sheet',['id'=>Crypt::encrypt($res->id)])}}" > Details</a></td>
         <td ><span class = "center"><a href = "{{ route('download-exam-pdf', ['id' => Crypt::encrypt($res->id) ]) }}" class ="button btn btn-success"> Download </a> </span></td>
      </tr>
      @endforeach

@@ -74,6 +74,7 @@ font-family: initial;
       <div class="container">
 	 	<div class="row justify-content-start">
       <div class = "row">
+       @if(!empty($topTen->toArray())) 
         <h3 class ="top_rank_head hidden-sm"> Top Rank </h2>
         <div class = "col-sm-4 hidden-sm topper_section">
           @foreach($topTen as $top ) 
@@ -103,6 +104,7 @@ font-family: initial;
             </div> 
             @endforeach  
         </div>
+        @endif
         <div class = "col-sm-7 col-sm-offset-1 exam_inspect" >
            <div class = "col align-self-center ">
               <div class = "exam_notes">

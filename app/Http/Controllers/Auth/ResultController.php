@@ -24,7 +24,7 @@ use Dompdf\Dompdf;
 use Mpdf;
 use stdClass;
 use App\helpers\helper;
-class UserExamController extends Controller
+class ResultController extends Controller
 {
 
 	public function viewExamQuestions($resultId){
@@ -38,6 +38,17 @@ class UserExamController extends Controller
        $resultData =  $resultObj->getResultByUserId($r_id);
        // dd($resultData);
    		 //return view('permit.userExam.result-question',compact('resultData'));
-  	    return view('permit/userExam.exam-question',compact('resultData'));
+  	    return view('permit/result.exam-question',compact('resultData'));
 	}
+
+  public function answerSheet($resultId){
+       // $r_id = 30;
+      $r_id = Crypt::decrypt($resultId);
+        //$userDetails =  User::find($userId);
+      
+        $resultObj = new Result;
+        $resultData = $resultObj->getResultDetailsById($r_id);
+        // dd($resultData[0]->exam_name);
+        return view('permit/result.answer-sheet',compact('resultData'));
+  }
 }

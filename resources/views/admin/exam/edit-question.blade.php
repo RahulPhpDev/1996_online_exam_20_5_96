@@ -109,7 +109,7 @@
               <style>
                 .inline_div label{
                   display: inline-block;
-  width: 152px;
+                  width: 152px;
                   text-align:right;
                 }
 

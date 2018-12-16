@@ -37,7 +37,7 @@ class ExamController extends Controller
 
     public function examList(){
         $title = 'Exam';
-        $examDetails = Exam::where('status', 1)->paginate(10);
+        $examDetails = Exam::where('status', 1)->orderBy('id','DESC')->paginate(10);
         return view('admin.exam.exam-list', compact('examDetails','title'));
     }
     public function addExam(){
@@ -48,7 +48,7 @@ class ExamController extends Controller
     }
     
     public function saveAddExam(Request $request){
-        $startDate = $endtDate = '0000-00-00 00:00:00';
+        $startDate = $endDate = '0000-00-00 00:00:00';
         $spacific_date = 0;
        if(isset($request['spacific_date'])) {
         $startDate = $request['start_date'].' '.$request['start_time'];

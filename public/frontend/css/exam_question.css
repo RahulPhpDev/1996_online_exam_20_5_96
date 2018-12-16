@@ -30,11 +30,16 @@
 
           font-size:17px;
            letter-spacing: 0.5px;
+           padding:0px 8px;
         }
         .options_rel_div{
          position: relative;
           padding:2px 0px 2px 40px;
         }
+        .options_rel_div p{
+          display: inline-block;
+        }
+
         .options{
           border-top:1px dotted #dddddd;
           padding:top:4px;
@@ -108,3 +113,7 @@
           border-top:1px dotted #dddddd;
           padding:top:4px;
         } 
+
+.question p{
+display: inline !important;
+}
