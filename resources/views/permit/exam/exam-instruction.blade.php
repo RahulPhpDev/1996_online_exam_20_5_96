@@ -68,6 +68,13 @@ font-family: initial;
     font-weight: 500;
 
 }
+.form_absolute{
+  position: absolute;
+    padding: 1px;
+    top: 99px;
+    /* left: 0px; */
+    right: 107px;
+}
 </style>
   <div class="maincontent">
     <section class="section_instruct">
@@ -105,6 +112,23 @@ font-family: initial;
             @endforeach  
         </div>
         @endif
+
+        @php
+             $hide = 0; 
+              if($examData->particular_date){
+                  $isBetween =   isDateInBetween($examData->start_date,$examData->end_date );
+                  if($isBetween == false){
+                    $hide = 1;
+                  }
+              }
+           @endphp
+           @if($hide == 0)   
+            <form action = "{{route('get-exam', ['id' => Crypt::encrypt($examData->id)])}}" method = "GET"  class = "pull-right form_absolute" >
+                <input class = "btn btn-success btn-custom let_start_btn" type = "Submit" value =  "Lets Start">
+            </form>
+            @endif
+
+
         <div class = "col-sm-7 col-sm-offset-1 exam_inspect" >
            <div class = "col align-self-center ">
               <div class = "exam_notes">
@@ -170,20 +194,7 @@ font-family: initial;
 
 
             <div class = "clear"> </div>
-            @php
-             $hide = 0; 
-              if($examData->particular_date){
-                  $isBetween =   isDateInBetween($examData->start_date,$examData->end_date );
-                  if($isBetween == false){
-                    $hide = 1;
-                  }
-              }
-           @endphp
-           @if($hide == 0)   
-            <form action = "{{route('get-exam', ['id' => Crypt::encrypt($examData->id)])}}" method = "GET" style="padding: 1px;">
-                <input class = "btn btn-success btn-custom let_start_btn" type = "Submit" value =  "Lets Start">
-            </form>
-            @endif
+           
           
             </div>
           </div>

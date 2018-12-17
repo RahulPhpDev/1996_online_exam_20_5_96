@@ -7,11 +7,7 @@
 @section('content') 
 
 <link href="{{ asset('frontend/css/exam_question.css') }}" rel="stylesheet"> 
-<style type="text/css">
-  
 
-
-</style>
 <script src='https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
   <script type="text/x-mathjax-config">
   MathJax.Hub.Config({

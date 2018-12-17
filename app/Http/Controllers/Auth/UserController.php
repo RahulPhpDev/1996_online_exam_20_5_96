@@ -82,6 +82,9 @@ class UserController extends Controller
     }
 
     public function getExam($e_id){
+      if(!session()->has('exam_id')) {
+        return redirect('/');
+       }
       $showToast = 0;
       $userData = Auth::user(); 
       $userId = $userData['id'];
@@ -138,6 +141,9 @@ class UserController extends Controller
 
    
   public function saveAnswer(Request $request){
+    if(!session()->has('exam_id')) {
+      return redirect('/');
+     }
     $showToast = 0;
     session()->put('exam_process', 1);
     $userData = Auth::user(); 
@@ -176,7 +182,7 @@ class UserController extends Controller
         }       
         //session(['current_question' => $nextQuestionId]);
         if(session()->has('questions_answer.'.$last_attempt_question) && (session('questions_answer.'.$last_attempt_question ) > 0) ) {
-             Session::put('questions_answer.'.$last_attempt_question,0);
+             Session::put('questions_answer.'.$last_attempt_question,-1);
         }
       //  echo '<pre>';print_r(session()->all()); echo '</pre>';
       }
@@ -215,20 +221,23 @@ class UserController extends Controller
 
   public function getQuestion(Request $request){
     $last_attempt_question = session('current_question');
-    $class = 'review';
-    if(session()->has('lastanswer')) {
-      $class = session('lastanswer.'.$request['que_id']);  
-      if(($class == 'current') || ($class == 'pending')){
-        $class = 'review';
-      }
-      session()->forget('lastanswer.'.$request['que_id']);
-    }
+    // $class = 'review';
+    // if(session()->has('lastanswer')) {
+    //   $class = session('lastanswer.'.$request['que_id']);  
+    //   if(($class == 'current') || ($class == 'pending')){
+    //     $class = 'review';
+    //   }
+    //   session()->forget('lastanswer.'.$request['que_id']);
+    // }
     $showToast = 0;
-    Session::put('all_questions_class.'.$last_attempt_question,$class);
+    // Session::put('all_questions_class.'.$last_attempt_question,$class);
     session(['current_question' => $request['que_id']]);  
     $currentQuestionClass = session('all_questions_class.'. $request['que_id']);
-    Session::put('lastanswer.'.$request['que_id'],$currentQuestionClass);
+    // Session::put('lastanswer.'.$request['que_id'],$currentQuestionClass);
 
+    if(!session()->has('questions_answer.'.$last_attempt_question) ) {
+      Session::put('questions_answer.'.$last_attempt_question,-1);
+    }
     $id = $request['que_id'];
     Session::put('all_questions_class.'.$id,'current');
     $questionDetails    = Question::find($id);
@@ -305,8 +314,8 @@ class UserController extends Controller
 // here is ending of answer to show 
       if($false == 0){  
         $examUserObj = new UserAnswer();
-       $examDetails =  Exam::find($examId);
-       $userExamData  = $examDetails->UserExam()
+        $examDetails =  Exam::find($examId);
+        $userExamData  = $examDetails->UserExam()
                         ->where('user_exam.user_id','=',$userId)
                         ->get()->toArray();                
       }
@@ -322,6 +331,8 @@ class UserController extends Controller
       if($passingNumber <= $totalMark ){
         $passingStatus = 1; #pass
       }
+      
+       $notAttempt =  ($correctAnswerCount + $wrongAnswerCount) -$examDetails['total_question'];
         $resultObj = new Result();
         $resultData = array(
           'exam_id' => $sessionExamId,
@@ -331,8 +342,8 @@ class UserController extends Controller
           'right_answer_mark' => $correctAnswerMark ,
           'negative_marks' =>  $wrongAnswerMark,
           'correct_answer' => $correctAnswerCount,
-          'wrong_answer' =>  $wrongAnswerMark,
-          'not_attempt' => 1,
+          'wrong_answer' =>  $wrongAnswerCount,
+          'not_attempt' =>  $notAttempt,
           'time_taken' => $difference 
        );
       $id =  $resultObj::create($resultData)->id;  

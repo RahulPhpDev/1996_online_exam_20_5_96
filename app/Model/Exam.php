@@ -9,6 +9,7 @@ use  App\Model\QuestionOption;
 use  App\Model\Subscription;
 use App\User;
 use App\Model\Course;
+use App\Model\Result;
 use DB;
 
 class Exam extends Model
@@ -110,5 +111,10 @@ class Exam extends Model
     public function AllCourses(){
       $res = $this->belongsToMany(Course::class)->withPivot(['status']);
       return $res;
+    }
+
+    public function Results(){
+        $res = $this->hasMany(Result::class);
+        return $res;
     }
 }

@@ -21,10 +21,10 @@
                 <tr>
                   <th>Name</th>
                   <th>Visible</th>
-                 
                   <th> Other Details </th>
                   <th>Image </th>
                   <th>Update Image </th>
+                  <th> Result </th>
                   <th> View/Edit Question </th>
                   <th> Edit </th>
                   <th> Disable </th>
@@ -54,6 +54,10 @@
                  @php  $pic = (!is_null($data['image'])) ? '/images/exam/thumbnail/'.$data['image'] : '';  @endphp
                  <td class = "center">  <img style = "max-width:120px" src="{{ asset( $pic )}}"  class="avatarbox material_avatar package_img"/> </td>
                  <td class="center"> <a class = "btn btn-danger update_img" data-exid = "{{$data['id']}}" >Update</a></td>
+
+                 <td class = "center"> <a class ="text-blue" href="{{ route('examresult', ['id' => Crypt::encrypt($data['id']) ]) }}">{{count($data->Results)}}  View
+                   </td> 
+
                   <td class = "center"> <a class ="btn btn-success" href="{{ route('exam-question', ['id' => Crypt::encrypt($data['id']) ]) }}">Questions <i class="fa fa-fw fa-arrow-circle-right"></i></a>&nbsp&nbsp
                    </td> 
                   <td class = "center"> <a type = "button" class ="btn btn-sm btn-success" href="{{ route('edit-exam', ['id' => Crypt::encrypt($data['id']) ]) }}"> Edit </a> </td>
@@ -66,9 +70,9 @@
            <?php } ?>
               </tbody>
             </table>
-            {{$examDetails->render()}}
           </div>
         </div>
+            {{$examDetails->render()}}
        </div>
     </div>
  </div>

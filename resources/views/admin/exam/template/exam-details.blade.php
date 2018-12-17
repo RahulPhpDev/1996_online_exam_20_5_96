@@ -33,8 +33,8 @@
               </div>
               <div class="update-date"><span class="update-day"><strong>
 
-          <?php  if($getExamData['exam_visible_status'] == 3){
-            foreach($getExamData->Subscriptions as $name){
+           <?php  if($getExamData['exam_visible_status'] == 3){
+             foreach($getExamData->Subscriptions as $name){
                 echo $name->name;
               }
 

@@ -1709,3 +1709,26 @@ td .center {text-align:center !important;}
 	left: 66% !important;
 	top: 9px !important;
 }
+.table > thead > tr > th{
+font-size: 115%;
+padding: 7px 2px 7px 14px;
+/* padding-left: 14px; */
+}
+
+.table th, .table td {
+    padding: 10px 11px 7px 14px;
+    line-height: 20px;
+    text-align: left;
+    vertical-align: top;
+    border-top: 1px solid #ddd;
+    font-size: 15px;
+}
+
+
+.text-blue{  color: blue;  font-size: 105%;}
+
+.options_div > .answer {
+    font-size: 17px;
+    padding: 0px 0px 0px 38px;
+    line-height: 3;
+}

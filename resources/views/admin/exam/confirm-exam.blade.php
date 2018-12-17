@@ -193,10 +193,10 @@ margin-right:10px;
                           <h4> <i>  {{$examQuestion['exam_details']->total_question}} </i> </h4> 
                       </div>
 
-                        <div class="other_info" >
+                        <!-- <div class="other_info" >
                         <h5>  Required Question :</h5>
-                        <h4> <i>   {{$examQuestion['exam_details']->required_question}} </i> </h4> 
-                      </div>
+                        <h4> <i>   {{--$examQuestion['exam_details']->required_question--}} </i> </h4> 
+                      </div> -->
 
                       <div class="other_info" >
                       <h5>  Total Mark :</h5>
@@ -230,11 +230,11 @@ margin-right:10px;
               <div class="other_info" >
                        <h5> Exam Time </h5>
                  <h4> 
-                 {!! Form::text('time', '', ['class' => 'mark', 'id' => 'time']) !!}
+                 {!! Form::text('time', $examQuestion['exam_details']->time, ['class' => 'mark', 'id' => 'time']) !!}
                  </h4>
               </div>
 
-                  <div class="controls">
+                  <div class="controls" style = "margin-left: 27px;">
                       {{ Form::submit('Save and Continue',array('class' => 'btn btn-success')) }}
                   </div>
               {{Form::close()}}

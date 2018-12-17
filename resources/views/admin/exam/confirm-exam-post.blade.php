@@ -80,8 +80,12 @@ margin-right:10px;
                   
                       <div class="other_info" >
                       <h5>  Total Mark :</h5>
-                           <h4> <i>  {{$examDetails->total_marks}}</i> </h4> 
+                           <h4> <i>  {{$examDetails->total_marks}}</i> </h4>
+                      </div>
                       
+                      <div class="other_info" >
+                      <h5> Time :</h5>
+                           <h4> <i>  {{$examDetails->time}}</i> </h4>
                       </div>
 
                        <div class="other_info" >
@@ -94,11 +98,11 @@ margin-right:10px;
                       
                       </div>
 
-                        <div class="other_info" >
+                        <!-- <div class="other_info" >
                         <h5>  Required Question :</h5>
-                        <h4> <i>   {{$examDetails->required_question}} </i> </h4> 
+                        <h4> <i>   {{--$examDetails->required_question--}} </i> </h4> 
                       
-                      </div>
+                      </div> -->
 
                        <div class="other_info" >
                        <h5>  Total Negative Question :</h5>

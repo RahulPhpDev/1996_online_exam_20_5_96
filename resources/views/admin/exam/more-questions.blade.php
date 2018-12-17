@@ -49,7 +49,7 @@
 
 <div class = "mt-15"></div>
 <div class = "mt-15"></div>
-            <div class="control-group">
+            <div class="control-group" sytle = "border-top: 2px dashed #dedede;">
                    <label class="control-label" for = "question_<?php echo $id; ?> ">Question <?php echo $id; ?></label>
                
                 <div class="controls">                    
@@ -97,12 +97,12 @@
 
             
             
-             <div  class="" style="display: inline-block;margin-left:20px"> 
+             <!-- <div  class="" style="display: inline-block;margin-left:20px"> 
                  <label class="control-label"  style="font-size: 16px"> Required </label>
                <div class="controls">
                     <input type="checkbox" name="is_required[<?php echo $id; ?>]" value="1" />
                </div>
-             </div>
+             </div> -->
 
              <div  class="" style="display: inline-block"> 
               <label class="control-label">Marks :</label>

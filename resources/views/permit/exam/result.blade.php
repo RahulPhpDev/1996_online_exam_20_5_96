@@ -10,8 +10,8 @@
     .btn_class{ margin: 12px 4px;}
 
 </style>
-<div class="pull-right btn_class" > 
-      <a href = "{{route('answer-sheet',['id'=>Crypt::encrypt($viewData['r_id'])])}}" class="btn btn-og btn-exam-custom pull-right">Check AnserSheet</a> </div>
+<div class="pull-right btn_class" style = "margin-bottom:10px" > 
+      <a href = "{{route('answer-sheet',['id'=>Crypt::encrypt($r_id)])}}" class="btn btn-og btn-exam-custom pull-right">Check AnserSheet</a> </div>
 <div style="width:800px; height:570px;margin:auto; padding:20px; text-align:center; border: 10px solid #787878;margin-top:20px;margin-bottom: 20px ">
 <div style="width:750px; height:520px; padding:20px; text-align:center; border: 5px solid #787878">
        <span style="font-size:50px; font-weight:bold">Certificate of Completion</span>

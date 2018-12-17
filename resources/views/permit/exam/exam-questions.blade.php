@@ -249,15 +249,30 @@ var i = setInterval(function() { compareTime(); }, 1000*62);
            <div> <a class="answered_count not_answered">NA</a> <span>Not Answered </span> </div>
      </div>
      <div class = "question_count_div panel"> <h2>  Question </h2> </div>
-       <?php 
+     <?php 
           $i = 1;
           foreach($all_questions_class as $question_id => $class) { 
             if($question_id){
-              ?>
+              if(session('current_question') == $question_id){
+                $class = 'current';
+              }else{
+              if(session()->has('questions_answer.'.$question_id)){
+                if(session('questions_answer.'.$question_id) > 0){
+                  $class = 'answered';
+                } else if(session('questions_answer.'.$question_id) == 0){
+                  $class = 'not_answered';
+                } 
+                else if(session('questions_answer.'.$question_id) == -1){
+                  $class = 'review';
+                }
+              }
+             }
+            ?>
+
            <a href = "JavaScript:void(0);" id = "{{$question_id}}" class = "numberic {{$class}} ">
               <span  >   {{$i}} </span>
             </a> 
-          <?php $i++; } } ?>
+          <?php $i++;}  } ?>
         </div>
        </div>
 

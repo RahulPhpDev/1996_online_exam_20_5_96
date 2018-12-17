@@ -201,7 +201,8 @@ class ExamController extends Controller
        try{
           $examData =   Exam::Find($id);
           $total_mark = (($examData->total_marks) > 0) ? $examData->total_marks : 0;
-          $is_required = (($examData->is_required) > 0) ? $examData->is_required : 0;
+          $is_required = 0;
+        //   (($examData->is_required) > 0) ? $examData->is_required : 0;
           $totalQuestion = (($examData->total_question) >0 ) ? $examData->total_question  :  0;
 
           $negative_question = (($examData->negative_question) >0 ) ? $examData->negative_question :  0;
@@ -214,9 +215,9 @@ class ExamController extends Controller
           }
 
 
-           if(isset($request['is_required'])){ 
-           $is_required =   $examData->required_question +  array_sum($request['is_required']);
-          }
+        //    if(isset($request['is_required'])){ 
+        //    $is_required =   $examData->required_question +  array_sum($request['is_required']);
+        //   }
            if(isset($request['question'])){ 
             $totalQuestion = $examData->total_question   + count($request['question']);
           }
@@ -245,14 +246,15 @@ class ExamController extends Controller
                 if(isset($request['total_mark'][$qk])){
                   $total_per_question = $request['total_mark'][$qk];
                 }
-               $isRequired = (isset($request['is_required'][$qk])) ? 1 : 0;
+            //    $isRequired = (isset($request['is_required'][$qk])) ? 1 : 0;
                $is_negative = (isset($request['is_negative'][$qk])) ? 1 : 0;
                $negative_marks = ($is_negative == 1) ? $request['negative_mark'][$qk] : 0;
                $questionData = array(
                     'question' => htmlentities($qv[0]),
                     'type' => 1,
                     'marks' => $total_per_question,
-                    'is_required' => $isRequired,
+                    'is_required' => 0,
+                    // $isRequired,
                     'is_negative_marking' => $is_negative,
                     'negative_marks' => $negative_marks,
                     'status' => 1,
@@ -322,10 +324,9 @@ class ExamController extends Controller
     }
 
      public function saveConfirmExam(Request $request , $id){
-      // dd($request->all());
+    //   dd($request->all());
 
          $de_id =  Crypt::decrypt($id);
-      
          $examDetails = Exam::find($de_id);
          $title = 'Confirm Exam';
          $examDetails->minimum_passing_marks = $request['passing_mark'];
@@ -334,6 +335,8 @@ class ExamController extends Controller
          $examDetails->status = 1;
          $examDetails->save();
         
+         $examDetails = Exam::find($de_id);
+        //  dd($examDetails);
         // $examData = Exam::find($)
          return view('admin.exam.confirm-exam-post',compact('title','examDetails'));
      }
@@ -382,11 +385,9 @@ class ExamController extends Controller
      
 
      public function examQuestion($id){
-        // $e_id =  1;
         $e_id = Crypt::decrypt($id);
         $exam = new Exam();
         $examQuestion =  $exam->getExamDetailsById($e_id);
-      //dd($examQuestion);
         $title = $examQuestion['exam_details']->exam_name;
         return view('admin.exam.exam-question',compact('examQuestion', 'id'))->with('title',$title);
      }
@@ -399,7 +400,6 @@ class ExamController extends Controller
      }
 
      public function removeExamQuestion($e_question_id, $e_examID){
-
          $question_id = Crypt::decrypt($e_question_id);
          $examID = Crypt::decrypt($e_examID);         
         $examData = Exam::findOrFail($examID);
@@ -425,11 +425,11 @@ class ExamController extends Controller
      public function updateExamQuestion(Request $req, $id) {  
          $e_id = Crypt::decrypt($id);
         $questionData =  Question::find($e_id);
-
         $questionData->rightAnswer['option_id'] = $req['answer'];
         $questionData->rightAnswer->save();
 
-        $req['is_required'] = ($req['is_required']) ? $req['is_required'] : 0;
+        $req['is_required'] = 0;
+        // ($req['is_required']) ? $req['is_required'] : 0;
         $questionData->question = htmlentities($req['question']);
         $questionData->is_required = $req['is_required'];
         $questionData->marks = $req['total_mark'];

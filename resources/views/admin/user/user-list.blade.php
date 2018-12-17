@@ -54,6 +54,7 @@
                   <th>User Type </th>
                   <th>Description </th>
                   <th>Status </th>
+                  <th>Exam Taken</th>
                   <th>Edit</th>
                   <th>Delete</th>
                 </tr>
@@ -64,7 +65,9 @@
             ?>     
 
 
-
+              <?php
+         // dd(count($data->Results));
+              ?>
 
                 <tr class="odd gradeX" id = "user_{{$data['id']}}">
                   <td>{{$i}}</td>
@@ -89,6 +92,9 @@
                     </button>
                      @endif
                  </td>
+                 <td>
+                  <a class = "text-blue" href="{{ route('user-result', ['id' => Crypt::encrypt($data['id']) ]) }}">{{count($data->Results)}} View 
+                  </td>
                   <td>
                   <a href="{{ route('edit-user', ['id' => Crypt::encrypt($data['id']) ]) }}">Edit <i class="fa fa-fw fa-arrow-circle-right"></i></a>&nbsp&nbsp
                   </td>

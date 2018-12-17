@@ -74,11 +74,7 @@ Route::get('exam-instruction/{id}', 'Auth\UserController@examInstruction')->name
 
 Route::get('exams-question/{id}', 'Auth\ResultController@viewExamQuestions')->name('exams-question');
 
-
 Route::get('answer-sheet/{id?}', 'Auth\ResultController@answerSheet')->name('answer-sheet');
-
-
-
 });
 
 
@@ -191,7 +187,11 @@ Route::get('/profile', 'Admin\UserController@profile')->name('profile');
 
 Route::post('/update-profile', 'Admin\UserController@updateProfile')->name('update-profile');
 Route::get('/result', 'Admin\ResultController@view')->name('result');
+Route::get('/examresult/{id}', 'Admin\ResultController@examResult')->name('examresult');
+Route::get('/user-result/{id}', 'Admin\ResultController@userResult')->name('user-result');
 
 Route::Post("delete-exam/{id}",  'Admin\ExamController@deleteExam')->name('delete-exam');
  
+Route::get('inspection-sheet/{id?}', 'Admin\ResultController@inspectionSheet')->name('inspection-sheet');
+
 }) ; 

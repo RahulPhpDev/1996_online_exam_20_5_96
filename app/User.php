@@ -8,6 +8,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use App\Model\Subscription;
 use App\Model\Exam;
 use App\Model\Student;
+use App\Model\Result;
 use App\User;
 class User extends Authenticatable
 {
@@ -61,6 +62,15 @@ protected $guarded = array();
     public function UsersExam(){
         $res = $this->belongsToMany(User::class,'user_exam')->wherePivot('status' , "=", 1);
         return $res;
+    }
+    
+    public function Results(){
+        $res = $this->hasMany(Result::class);
+        return $res;
+    }
+
+    public function getFullName(){
+          return "{$this->fname} {$this->lname}";
     }
 
     

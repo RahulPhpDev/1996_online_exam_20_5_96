@@ -26,12 +26,6 @@ class UserController extends Controller
     public function userList(){
        $title = 'Users';
        $allData = User::paginate(10);
-      //  dd($allData);
-    	// $allData = DB::table('users as u')
-      //       ->leftJoin('students as s', 'u.id', '=', 's.user_id')
-      //       ->select('s.id as stu_id','s.status as stu_status','u.id as id','fname','lname','username','email','user_type','u.status as status')
-      //       // ->where('u.status',1)
-      //       ->get()->toArray();
       return view('admin.user.user-list',compact('title'))->with('allData' ,$allData);  
     }
 
@@ -41,17 +35,17 @@ class UserController extends Controller
 		return view('admin.user.add-user',compact('title','allCourse'));
     }
 
- // protected function validator(array $data)
- //    {
+ protected function validator(array $data)
+    {
        
- //        return Validator::make($data, [
- //            'fname' => 'required|string|max:255',
- //            'lname' => 'required|string|max:255',
- //            'email' => 'required|string|email|max:255|unique:users',
- //        //    'enrollment' => 'required|regex:/(^[A-Za-z0-9 ]+$)+/|max:255|unique:students,enroll_number',
- //            'password' => 'required|string|min:6|confirmed',
- //        ]);
- //    }
+        return Validator::make($data, [
+            'fname' => 'required|string|max:255',
+            'lname' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users',
+        //    'enrollment' => 'required|regex:/(^[A-Za-z0-9 ]+$)+/|max:255|unique:students,enroll_number',
+            'password' => 'required|string|min:6|confirmed',
+        ]);
+    }
 
     public function  saveUser(UserRequest $request){
     	try{

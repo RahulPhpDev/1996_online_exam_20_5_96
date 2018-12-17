@@ -15,12 +15,17 @@
             <h5>Exam</h5>
           </div>
           <div class="widget-content nopadding">
-            <table class="table table-bordered table-striped">
+            <table class="table table-bordered table-striped ">
               <thead>
                 <tr>
                   <th>Name</th>
                   <th>Exam</th>
-                  <th>Obtain Mark</th>
+                  <th>Result</th>
+                  <th>Mark</th>
+                  <th>Other Details</th>
+                  <th>Report</th>
+                  <th>Date</th>
+                  <th>Delete</th>
                 </tr>
               </thead>
               <tbody>
@@ -28,15 +33,23 @@
 
            <?php foreach($allData as $data) { ?>     
                 <tr class="odd">
-                  <td>{{$data->User['fname']}}</td>
-                
-                  <td> {{$data->Exam['exam_name']}} </td>
-                  <td> {{$data['obtain_mark']}}</td>
+                  <td>{{$data->User['fname'].' '.$data->User['lname']}}</td>                
+                  <td class = "center"> {{$data->Exam['exam_name']}} </td> 
+                  @php
+                  $passingStatus = ($data->result_status == 2) ? 'Fail' : 'Pass'; 
+                @endphp
+                  <td>{{ $passingStatus}}</td>
+                  <td>{{ $data->obtain_mark }} </td>
+                  <td class = "center">  <a class = "text-center btn btn-primary" href="" > Detail</a></td>
+                  <td class = "report_td center" > <span> <a class = "btn btn-primary" href = "{{ route('exam-result', ['id' => Crypt::encrypt($data['id']) ]) }}">{{$data['total']}} View</a> </span></td>
+                  <td> {{ DateManipulation($data['add_date'])}}</td>
+                  <td class = "center">  <a class = "text-center btn btn-og" href="" > Delete</a></td>
                 </tr>
                 
            <?php } ?>
               </tbody>
             </table>
+            {{$allData->render()}}
           </div>
         </div>
         </div>

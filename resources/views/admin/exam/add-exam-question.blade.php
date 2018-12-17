@@ -198,12 +198,12 @@ $(".question_textarea").each(function(){
 
 
 
-              <div  class="" style="display: inline-block;margin-left:20px"> 
+              <!-- <div  class="" style="display: inline-block;margin-left:20px"> 
                  <label class="control-label"  style="font-size: 16px"> Required </label>
                <div class="controls">
                   <input type="checkbox" name="is_required[1]" value="1" />
                </div>
-             </div>
+             </div> -->
 
             <div  class="" style="display: inline-block"> 
               <label class="control-label">Marks :</label>

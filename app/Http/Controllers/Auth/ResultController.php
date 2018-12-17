@@ -42,10 +42,7 @@ class ResultController extends Controller
 	}
 
   public function answerSheet($resultId){
-       // $r_id = 30;
-      $r_id = Crypt::decrypt($resultId);
-        //$userDetails =  User::find($userId);
-      
+       $r_id = Crypt::decrypt($resultId);
         $resultObj = new Result;
         $resultData = $resultObj->getResultDetailsById($r_id);
         // dd($resultData[0]->exam_name);
