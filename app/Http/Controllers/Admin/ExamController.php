@@ -63,6 +63,7 @@ class ExamController extends Controller
             if(isset($request['payable'])){
                 $isPayable =1;
                 $amount = $request['amount'];
+                $request['exam_type'] = 4;
             }
             $examData = array(
                'exam_name' => $request['exam_name'],
@@ -72,7 +73,7 @@ class ExamController extends Controller
                 'notes' => $request['notes'],
                 'add_date' =>   date("Y-m-d"),
                 'status' => 0,
-                'exam_visible_status' =>  $request['exam_type'],
+                'exam_visible_status' => $request['exam_type'] ,
                 'particular_date'=> $spacific_date,
                 'start_date' =>  $startDate,
                 'end_date' =>  $endDate,
@@ -265,6 +266,7 @@ class ExamController extends Controller
               
               $getQuestionOptions = $request['option'][$qk];
                 foreach($getQuestionOptions as $opK => $opV){
+                  if(!is_null( $opV)){
                     $optionData = array(
                         'question_id' => $questionId ,
                         'question_option' => $opV,
@@ -283,6 +285,7 @@ class ExamController extends Controller
                         QuestionRightAnswer::create($answerData); 
                     }
                  }
+                }
                }
                $examQuestionData  = array(
                       'exam_id' => $id,

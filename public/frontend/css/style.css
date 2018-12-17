@@ -476,3 +476,7 @@ padding-top: 12px;
   .btn-og:active, .btn-og.active {
     background-color: #ff0000 \9;
   }
+  .options_span p {
+    display: inline;
+    padding: 2px 3px;
+}

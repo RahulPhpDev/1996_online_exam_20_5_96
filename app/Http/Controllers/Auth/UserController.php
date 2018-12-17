@@ -82,9 +82,6 @@ class UserController extends Controller
     }
 
     public function getExam($e_id){
-      if(!session()->has('exam_id')) {
-        return redirect('/');
-       }
       $showToast = 0;
       $userData = Auth::user(); 
       $userId = $userData['id'];

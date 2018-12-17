@@ -6,3 +6,9 @@ status ==>
 1 => right answer
 2 => wrong answer
 3 => skip
+
+exam_visible_status
+1==all
+2== regisger
+3==package
+4=== payable

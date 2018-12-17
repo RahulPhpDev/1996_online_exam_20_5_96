@@ -40,7 +40,7 @@
           padding:10px;
         }
         .question{
-
+          display: inline;
           font-size:17px;
            letter-spacing: 0.5px;
            padding:0px 8px;

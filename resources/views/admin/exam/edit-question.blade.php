@@ -100,6 +100,11 @@ $(".option_style").on( "click", function(){
 
 </script>
 <style type="text/css">
+ .option_ra textarea{
+  margin: 0px;
+   width: 381px;
+    height: 26px;
+ }
   .option_div{
     /*position: relative;*/
   }
@@ -133,6 +138,7 @@ $(".option_style").on( "click", function(){
 <div id="content">
      <div class="container-fluid">
     <hr>
+    dfsdafa
      <!-- <h5> {{$title}}</h5> -->
      <div class="row-fluid">
       <div class="span8">
@@ -149,6 +155,7 @@ $(".option_style").on( "click", function(){
                 <span class = "span_style pull-right" id="edit_1">+STYLE+</span><br>
                 {{-- Form::textarea('question[1][]',' ', array('class' => 'question editor question_textarea', 'id'=> 'textarea_1','rows' => '3')) --}}
                     {{-- Form::textarea('question',($test), array('id' => 'textarea','class' => 'question editor')) --}}
+
                     <textarea name = "question" rows = '3' id = "textarea" class = "question editor question_textarea"> <?php echo htmlspecialchars_decode($questionData->question); ?></textarea>
                 </div>
               </div>
@@ -165,7 +172,7 @@ $(".option_style").on( "click", function(){
                     ?> 
                      <label class="option_ra">
                     <input type="radio" name = "answer" {{$check}} value = "{{$options->id}}" />
-                        <textarea class="option_txtarea" id="option_{{$options->id}}" cols="80%" name="option[{{$options->id}}]" rows="10">  <?php echo htmlspecialchars_decode($options->question_option); ?></textarea>
+                        <textarea class="option_txtarea" id="option_{{$options->id}}" cols="80%" name="option[{{$options->id}}]" rows="10">  <?php echo htmlspecialchars($options->question_option); ?></textarea>
                      <span class="checkmark"></span>
                 </label>
 
@@ -184,7 +191,7 @@ $(".option_style").on( "click", function(){
                   <input type="checkbox"  style = "" name="is_required" value="1" {{--$checked--}} />
                  <label class="" style="font-size: 16px;text-align:center"> Is Required </label>               
               </div> -->
-<div class = "border_top">
+      <div class = "border_top">
                 <div  class="controls  inline_div inline" style = "width:30%">                  
                <?php $negativeChecked = $questionData->is_negative_marking == 1 ? 'checked' :''; 
                $negativeVal = $questionData->is_negative_marking == 1 ? 1 :0; 
