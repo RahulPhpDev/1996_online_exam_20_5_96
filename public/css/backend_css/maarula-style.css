@@ -931,9 +931,9 @@ hr{ border-top-color:#dadada;}
 .new-update .update-date {
     color: #191919;
     float: right;
-    margin: 4px 4px 0 0px;
+    /*margin: 4px 4px 0 0px;*/
     /*text-align: center;*/
-    width: 126px;
+    /*width: 126px;*/
 }
 .new-update .update-date .update-day {
 	display: block;
@@ -1137,7 +1137,7 @@ form {
 	width: 180px;
 }
 .form-horizontal .controls {
-	margin-left: 200px;
+	margin-left: 140px;
 	padding: 10px 0;
 }
 .form-horizontal input[type=text], .form-horizontal input[type=password], .form-horizontal textarea {
@@ -1732,3 +1732,4 @@ padding: 7px 2px 7px 14px;
     padding: 0px 0px 0px 38px;
     line-height: 3;
 }
+.text-danger{color: red;}

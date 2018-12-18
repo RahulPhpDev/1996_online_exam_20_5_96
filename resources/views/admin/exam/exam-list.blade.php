@@ -45,7 +45,7 @@
                 }
 
                   @endphp
-                  <td class = "center"> <button data-toggle="modal" data-target="#myModal" type = "button"  class ="show_visible_to btn btn-primary" data-id = "{{ Crypt::encrypt($data['id'])  }}"> {{$examVisible}} </button> </td>
+                  <td class = "center">@if( $examVisible != '') <button data-toggle="modal" data-target="#myModal" type = "button"  class ="show_visible_to btn btn-primary" data-id = "{{ Crypt::encrypt($data['id'])  }}"> {{$examVisible}} </button>@endif </td>
                  
                   <td class = "center">
                   <button data-toggle="modal" data-target="#myModal" type = "button"  class ="exam_detail btn btn-primary" data-id = "{{ Crypt::encrypt($data['id'])  }}"> Details </button> 

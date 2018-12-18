@@ -91,7 +91,9 @@ function myFunction() {
 
         <b class="caret"></b></a>
       <ul class="dropdown-menu">
+        @if(Auth::user()['user_type'] !=1)
         <li><a href="{{route('all-result')}}"><i class="icon-user"></i> Show Result</a></li>
+        @endif
         <li class="divider"></li>
        <!--  
         <li><a href="#"><i class="icon-check"></i> My Tasks</a></li>

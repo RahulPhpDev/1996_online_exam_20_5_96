@@ -1,20 +1,3 @@
 
-ALTER TABLE `subscriptions` ADD `image` VARCHAR(255) NULL AFTER `status`;
-ALTER TABLE `exams` ADD `image` VARCHAR(255) NULL AFTER `notes`;
-ALTER TABLE `exams` ADD `time` INT(5) NOT NULL DEFAULT '0' AFTER `payable_amount`;
-ALTER TABLE `exams` ADD `course_relate` TINYINT(1) NOT NULL DEFAULT '0' AFTER `exam_visible_status`;
-ALTER TABLE `results` CHANGE `right_answer` `right_answer_mark` INT(11) NOT NULL DEFAULT '0';
-ALTER TABLE `results` ADD `time_taken` VARCHAR(22) NULL AFTER `right_answer_mark`;
-==== 12 Dec
-ALTER TABLE `exams` ADD `particular_date` TINYINT(1) NOT NULL DEFAULT '0' AFTER `time`, ADD `start_date` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00' AFTER `particular_date`;
-ALTER TABLE `exams` ADD `end_date` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00' AFTER `start_date`;
 
-17==Dec
-
-CREATE TABLE `password_resets` (
-  `email` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `token` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
-ALTER TABLE `results` ADD `status` TINYINT NOT NULL DEFAULT '1' AFTER `feedback`;
+ALTER TABLE `question_options` CHANGE `question_option` `question_option` LONGTEXT CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL;
