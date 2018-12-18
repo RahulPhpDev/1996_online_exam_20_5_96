@@ -1137,7 +1137,7 @@ form {
 	width: 180px;
 }
 .form-horizontal .controls {
-	margin-left: 140px;
+	margin-left: 230px;
 	padding: 10px 0;
 }
 .form-horizontal input[type=text], .form-horizontal input[type=password], .form-horizontal textarea {
@@ -1727,11 +1727,6 @@ padding: 7px 2px 7px 14px;
 
 .text-blue{  color: blue;  font-size: 105%;}
 
-.options_div > .answer {
-    font-size: 17px;
-    padding: 0px 0px 0px 38px;
-    line-height: 3;
-}
 .text-danger{color: red;}
 .bg-danger{
 	background: #eca2a2;

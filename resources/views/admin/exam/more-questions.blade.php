@@ -12,8 +12,8 @@
   } else {
     CKEDITOR.replace( 'textarea_<?php echo $id; ?>',
             {
-            height: '80px',
-            width: '90%',
+              height: '110px',
+            width: '80%',
             } );
           }
   });
@@ -33,7 +33,7 @@
       } else {
         CKEDITOR.replace( txt,
             {
-            height: '50px',
+              height: '90px',
             width: '70%',
             } );
       }
@@ -54,8 +54,7 @@
                
                 <div class="controls">                    
                     <span class = "span_style pull-right" id="edit_<?php echo $id; ?>">+STYLE+</span><br>
-                       <textarea name = "question[<?php echo $id; ?>][]" id = "textarea_<?php echo $id; ?>" class = "question editor" ,rows = 3>
-                      </textarea>
+                       <textarea name = "question[<?php echo $id; ?>][]" id = "textarea_<?php echo $id; ?>" class = "question editor" ,rows = 3></textarea>
                     </div>
                </div>
 

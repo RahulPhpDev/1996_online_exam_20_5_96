@@ -162,8 +162,8 @@ $(document).ready(function () {
     $(function(){
       $('.description_div').wysihtml5();
       $('.notes_area').wysihtml5();
-
-        if('<?php echo $examDetails['particular_date'] ?>'){
+      var parD = "<?php echo $examDetails['particular_date'];?>";
+        if(parD == 1){
             $(".exam_date_div").show(); 
         }
     $('#spacificDate').click(function(){
@@ -175,8 +175,8 @@ $(document).ready(function () {
    });  
 
      $('.timepicker').timepicker();
-   $(".datepicker").datepicker({
-        format:'yyyy-mm-dd',
+         $(".datepicker").datepicker({
+           format:'yyyy-mm-dd',
         });
     });;
   </script>

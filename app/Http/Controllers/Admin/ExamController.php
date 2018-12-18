@@ -345,7 +345,7 @@ class ExamController extends Controller
 
      public function updateExam(Request $req, $id){
         $input = Input::only('exam_name', 'passing_marks_type','minimum_passing_marks','description','notes','spacific_date','start_date','start_time','end_date','end_time' );
-        $startDate = $endtDate = '0000-00-00 00:00:00';
+        $startDate = $endDate = '0000-00-00 00:00:00';
         $spacific_date = 0;
         if(isset($req['spacific_date'])) {
             $startDate = DateTimeConvert($req['start_date'].' '.$req['start_time']);
