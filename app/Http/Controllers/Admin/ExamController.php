@@ -214,11 +214,6 @@ class ExamController extends Controller
            if(isset($request['total_mark'])){ 
             $total_mark = $examData->total_marks + array_sum($request['total_mark']);
           }
-
-
-        //    if(isset($request['is_required'])){ 
-        //    $is_required =   $examData->required_question +  array_sum($request['is_required']);
-        //   }
            if(isset($request['question'])){ 
             $totalQuestion = $examData->total_question   + count($request['question']);
           }
@@ -230,10 +225,6 @@ class ExamController extends Controller
           if(isset($request['negative_mark'])){ 
             $negative_marks = $examData->negative_marks   + array_sum($request['negative_mark']);
           }
-
-           
-            // dd($examData->minimum_passing_marks);
-// echo $totalQuestion;die();
             $examData->total_marks = $total_mark;
             $examData->required_question =   $is_required ;
             $examData->total_question = $totalQuestion;
@@ -328,7 +319,6 @@ class ExamController extends Controller
 
      public function saveConfirmExam(Request $request , $id){
     //   dd($request->all());
-
          $de_id =  Crypt::decrypt($id);
          $examDetails = Exam::find($de_id);
          $title = 'Confirm Exam';
@@ -383,9 +373,6 @@ class ExamController extends Controller
      public function moreQuestion($id){
         return view('admin.exam.more-questions',compact('id'));
      }
-
-
-     
 
      public function examQuestion($id){
         $e_id = Crypt::decrypt($id);

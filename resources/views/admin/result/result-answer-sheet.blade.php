@@ -6,7 +6,13 @@
 @section('title', $title)
 
 @section('content') 
-
+<style>
+.options_div {
+    border-top: 1px dashed #fff;
+    margin-top: 31px;
+    padding-left: 21px;
+}
+</style>
 <link href="{{ asset('frontend/css/exam_question.css') }}" rel="stylesheet"> 
 
 <script src='https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
@@ -21,20 +27,14 @@
    }
   });
 </script>
-<style>
-.options_div {
-    border-top: 1px dashed #fff;
-    margin-top: 31px;
-    padding-left: 21px;
-}
-</style>
+
 <div id="content">
      <div class="container-fluid">
     <hr>
     <div class="row-fluid">
       <div class = "span8">
            <div class="mycontainer">
-            <h2> {{$resultData[0]->exam_name}} </h2>
+            <h3> {{$resultData[0]->exam_name}} </h3>
             @foreach($resultData as $key => $result )
 
       <div class="show_question">  
@@ -55,6 +55,7 @@
             <div class="pull-right" style = "">
                 <button class="btn {{ $btnclass }} btn-custom">{{ $markSymbol}} {{$result->mark }} </button>
             </div>
+           
 
             <div class="options_div">
                 <span class="answer">
@@ -110,7 +111,6 @@
               </div>
               <div class="update-date"><span class="update-day">{{$resultData[0]->obtain_mark}}</span></div>
             </div>
-
           
           </div>
               </div>

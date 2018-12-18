@@ -31,8 +31,12 @@
                 </tr>
               </thead>
               <tbody>
-           <?php foreach($examDetails as $data) { ?>     
-                <tr class="odd">
+           <?php foreach($examDetails as $data) { ?>
+           @php
+           $bgclass = '';
+           if($data['status'] == 0){$bgclass = "bg-danger"; }
+          @endphp
+                <tr class="odd {{$bgclass}}">
                   <td>{{$data['exam_name']}}</td>
                   @php
                    $examVisible  = '';
@@ -43,7 +47,6 @@
                 }else if($data['exam_visible_status']== 3){
                   $examVisible = 'Package';
                 }
-
                   @endphp
                   <td class = "center">@if( $examVisible != '') <button data-toggle="modal" data-target="#myModal" type = "button"  class ="show_visible_to btn btn-primary" data-id = "{{ Crypt::encrypt($data['id'])  }}"> {{$examVisible}} </button>@endif </td>
                  

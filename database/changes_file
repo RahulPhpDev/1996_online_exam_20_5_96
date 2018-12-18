@@ -1,3 +1,5 @@
 
 
-ALTER TABLE `question_options` CHANGE `question_option` `question_option` LONGTEXT CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL;
+ALTER TABLE `results` ADD `edit_date` DATETIME NULL AFTER `add_date`; 
+
+ALTER TABLE `users` ADD `last_login_ip` VARCHAR(50) NULL AFTER `last_login`; 

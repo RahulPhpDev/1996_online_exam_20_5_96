@@ -1733,3 +1733,11 @@ padding: 7px 2px 7px 14px;
     line-height: 3;
 }
 .text-danger{color: red;}
+.bg-danger{
+	background: #eca2a2;
+	color: white;
+}
+.bg-danger:hover{
+	background: #eca2a2;
+	/* color: white; */
+}

@@ -27,6 +27,28 @@ use Response;
 
 class UserController extends Controller
 {
+
+  public function profile(){
+    $user = Auth::user();
+    // dd($user->toArray());
+    $title  = 'My Profile';
+    return view('auth.profile',compact('title', 'user'));
+ }
+
+ public function updateProfile(Request $request){
+        $user = Auth::user();
+        $userDetails = User::FindorFail($user['id']);
+        $userDetails->fname = $request['fname'];
+        $userDetails->lname = $request['lname'];
+        $userDetails->phone_no = $request['phone_no'];
+         if($request['password']){
+          $userDetails->password = bcrypt($request['password']);
+         }
+        $userDetails->save();
+        return redirect()-> route('profile')->with('success', 'Update Successfully');
+ }
+
+
     public function savePackageExam($c_id){
        $id =  Crypt::decrypt($c_id);
        $userData = Auth::user();
@@ -367,9 +389,9 @@ class UserController extends Controller
      public function allResult(){
       $userData = Auth::user();
       $userId = $userData['id'];
-      $examCount =   Result::where('user_id', '=',$userId) ->groupBy('exam_id')->count();
+      $examCount =   Result::where(['user_id' =>$userId,'status' => 1])->groupBy('exam_id')->count();
 
-      $resultData = Result::where('user_id', '=',$userId)
+      $resultData = Result::where(['user_id' =>$userId,'status' => 1])
                            ->groupBy('exam_id')->select('*', DB::raw('count(*) as total'), DB::raw('max(add_date) as add_date')) ->paginate(10);
                            // dd($resultData);
       return view('permit.exam.all-result', compact('resultData','examCount'));
@@ -379,7 +401,7 @@ class UserController extends Controller
         $examId = Crypt::decrypt($id);
         $userData = Auth::user();
         $userId = $userData['id'];
-        $resultData =   Result::where(['user_id' => $userId, 'exam_id' => $examId]) 
+        $resultData =   Result::where(['user_id' => $userId, 'exam_id' => $examId,'status' => 1]) 
                               ->orderBy('id','DESC')
                               ->paginate(10); 
       

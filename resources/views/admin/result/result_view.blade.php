@@ -8,6 +8,7 @@
 <div id="content">
      <div class="container-fluid">
     <hr>
+    @include('admin.messages.return-messages')
     <div class="row-fluid">
       <div class="span12">
         <div class="widget-box">
@@ -41,9 +42,10 @@
                   <td>{{ $passingStatus}}</td>
                   <td>{{ $data->obtain_mark }} </td>
                   <td class = "center">  <a class = "text-center btn btn-primary" href="" > Detail</a></td>
-                  <td class = "report_td center" > <span> <a class = "btn btn-primary" href = "{{ route('exam-result', ['id' => Crypt::encrypt($data['id']) ]) }}">{{$data['total']}} View</a> </span></td>
+                  <td class = "report_td center" > <span> <a class = "btn btn-primary" href = "{{ route('result-answersheet', ['id' => Crypt::encrypt($data['id']) ]) }}">{{$data['total']}} View</a> </span></td>
                   <td> {{ DateManipulation($data['add_date'])}}</td>
-                  <td class = "center">  <a class = "text-center btn btn-og" href="" > Delete</a></td>
+
+                  <td class = "center">  <a  href="{{ route('delete-result', ['id' => Crypt::encrypt($data->id) ]) }}" class = "text-center btn btn-og" href="" > Delete</a></td>
                 </tr>
                 
            <?php } ?>

@@ -82,22 +82,21 @@ class Result extends Model
                 ->rightJoin('questions as q','q.id','=','ua.question_id')
                 ->leftJoin('question_options as qo','ua.answer_id','=','qo.id')
                 ->leftJoin('users as u','r.user_id','=','u.id')
-                
-                ->leftJoin('question_right_answer as ra','ra.question_id','=','q.id')
-                ->leftJoin('question_options as rqo','ra.option_id','=','qo.id')
+                //->leftJoin('question_right_answer as ra','ra.question_id','=','q.id')
+              //  ->leftJoin('question_options as rqo','ra.option_id','=','qo.id')
 
 
                 ->select('r.exam_id','r.user_id','r.id','r.obtain_mark','r.result_status','r.time_taken','qo.question_option','e.exam_name')
                 ->addselect('ua.question_id','ua.answer_id','ua.mark','ua.status')
                 ->addselect('q.question','q.id','q.marks')
                 ->addselect('u.fname','u.lname')
-                ->addselect('ra.question_id','ra.option_id')
-                ->addselect('rqo.question_option as right_option')
+              //  ->addselect('ra.question_id','ra.option_id')
+              //  ->addselect('rqo.question_option as right_option')
 
                 ->where(array(['r.id', '=', $rid]));
                  $result = $query->get()->toArray();
                  $sql = $query->toSql();
-                 dd(DB::getQueryLog());
+                //  dd(DB::getQueryLog());
                  return $result;
            }
 }
