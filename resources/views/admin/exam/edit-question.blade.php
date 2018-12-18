@@ -42,14 +42,25 @@ $(".option_style").on( "click", function(){
       } else {
         CKEDITOR.replace( txt,
             {
-            height: '50px',
+            height: '90px',
             width: '70%',
             } );
       }
-    $(this).parent('.controls').find('.checkmark').css({
-      'top': '-72px',
-      'left': '-34px',
-    });
+      $.browser.chrome = /chrom(e|ium)/.test(navigator.userAgent.toLowerCase()); 
+      if($.browser.chrome){
+        $(this).parent('.controls').find('.checkmark').css({
+          'top': '-72px',
+          'left': '-34px',
+          });
+    } else if ($.browser.mozilla) {
+      $(this).parent('.controls').find('.checkmark').css({
+          'top': '39px',
+          'left': '-34px',
+        });
+    } else if ($.browser.msie) {
+      alert(3);
+    }
+   
   });
 
 
@@ -62,7 +73,7 @@ $(".option_style").on( "click", function(){
     //CKEDITOR.replace('textarea');
     CKEDITOR.replace('textarea',
             {
-            height: '70px',
+            height: '110px',
             width: '80%',
             } );
   }
