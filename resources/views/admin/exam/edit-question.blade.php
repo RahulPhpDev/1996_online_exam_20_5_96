@@ -65,6 +65,12 @@ $(".option_style").on( "click", function(){
   if (CKEDITOR.instances.txt_area) {
     CKEDITOR.instances.txt_area.destroy();
   } else {
+
+    CKEDITOR.replace( 'textarea', {
+    // filebrowserUploadUrl: "pl/upload.php" 
+} );
+
+
     CKEDITOR.replace('textarea',
             {
             height: '110px',

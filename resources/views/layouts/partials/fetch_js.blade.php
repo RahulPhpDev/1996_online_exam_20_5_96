@@ -20,7 +20,8 @@
 
 <script src="{{ asset('js/backend_js/bootstrap-datepicker.min.js') }}"></script>
 <script src="{{ asset('js/backend_js/bootstrap-timepicker.min.js') }}"></script>
-<script src="{{ asset('js/backend_js/math_ckeditor/ckeditor/ckeditor.js') }}"></script>
+<!-- <script src="{{ asset('js/backend_js/math_ckeditor/ckeditor/ckeditor.js') }}"></script> -->
+<script src="{{ asset('js/backend_js/ckeditor/ckeditor.js') }}"></script>
 <script src="{{ asset('js/jquery.validate.min.js') }}"></script>
 
 <script>
