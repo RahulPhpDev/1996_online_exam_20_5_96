@@ -1,0 +1,1 @@
+{"result":{"text":"racine carrée de 16 espace égal à espace ?"},"status":"ok"}

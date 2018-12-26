@@ -1,0 +1,1 @@
+{"result":{"text":"au carré racine de 64"},"status":"ok"}

@@ -1,0 +1,1 @@
+{"result":{"text":"2 divisé par 5 espace égal à espace ?"},"status":"ok"}

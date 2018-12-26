@@ -1,0 +1,1 @@
+{"result":{"text":"tan puissance moins 1 fin de l'exposant ouvrir la parenthèse plus ou moins numérateur de la fraction a e au-dessus du dénominateur b fin de la fraction fermer la parenthèse\n"},"status":"ok"}

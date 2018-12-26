@@ -1,0 +1,1 @@
+{"result":{"text":"begin mathsize 20px style square root of 16 space plus space open curly brackets table attributes columnalign left end attributes row cell d space end cell row cell d x end cell end table close equals space sin open parentheses empty set close parentheses end style"},"status":"ok"}

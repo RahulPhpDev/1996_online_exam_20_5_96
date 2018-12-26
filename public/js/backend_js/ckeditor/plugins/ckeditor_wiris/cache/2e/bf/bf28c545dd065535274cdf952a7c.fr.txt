@@ -1,0 +1,1 @@
+{"result":{"text":"x au carré sur a au carré espace plus espace y au carré sur b au carré espace égal à espace 1"},"status":"ok"}

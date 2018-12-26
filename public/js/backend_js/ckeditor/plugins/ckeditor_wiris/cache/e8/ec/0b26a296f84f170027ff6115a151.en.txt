@@ -1,0 +1,1 @@
+{"result":{"text":"sin open parentheses fraction numerator d theta over denominator d x end fraction close parentheses"},"status":"ok"}
