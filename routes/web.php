@@ -18,6 +18,9 @@
 
 
 //================ Guest ====================
+Route::get('test', function(){
+dd(url('/')."/images/equation_icon/");
+});
 Route::get('send','MailController@send');
 
 Route::get('/downloadPDF/{id?}','GuestController@downloadPDF');
@@ -79,9 +82,6 @@ Route::get('answer-sheet/{id?}', 'Auth\ResultController@answerSheet')->name('ans
 Route::get('/myprofile', 'Auth\UserController@profile')->name('myprofile');
 });
 
-
-
-
 Route::get('/db' ,function(){
 	$msg = 'rahul';
 	echo "'$msg'";
@@ -141,7 +141,6 @@ Route::post('/update-subscription-img','Admin\AdminController@updateSubscription
 Route::post('/save-subscription', 'Admin\AdminController@saveSubscription')->name('save-subscription');
 
 Route::any('add-exam', 'Admin\ExamController@addExam')->name('add-exam');
-Route::any('upload', 'Admin\ExamController@upload')->name('upload');
 
 
 Route::post('save-add-exam', 'Admin\ExamController@saveAddExam')->name('save-add-exam');
@@ -202,4 +201,14 @@ Route::get('delete-result/{id?}', 'Admin\ResultController@deleteResult')->name('
 }) ; 
 
 
-Route::any('upload_image', 'Admin\ExamController@upload_image')->name('upload_image');
+
+Route::any('/importQuestion/{id?}', 'Auth\FileController@importQuestion')->name('importQuestion');
+
+Route::any('/download-file', 'Auth\FileController@downloadDemoFile')->name('download-file');
+
+Route::any('/browserfile', 'Auth\FileController@browserfile')->name('browserfile');
+
+// browserfile
+Route::any('upload', 'Auth\FileController@upload')->name('upload');
+
+Route::any('upload_image', 'Auth\FileController@upload_image')->name('upload_image');

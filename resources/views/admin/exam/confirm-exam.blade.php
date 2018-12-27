@@ -212,9 +212,9 @@ margin-right:10px;
 
 
                  <div class="other_info" >
-                       <h5> Passing Mark :: </h5> <br>
+                       <h5> Passing Mark : </h5> <br>
                  <input type = "radio" name = "passing_mark_type" id = "passing_mark_type" value="1" checked=""> Number
-                <input type = "radio" name = "passing_mark_type" id = "passing_mark_type" value="2"> Percentage
+                <!-- <input type = "radio" name = "passing_mark_type" id = "passing_mark_type" value="2"> Percentage -->
                 </div>
 
                <div class="other_info" >

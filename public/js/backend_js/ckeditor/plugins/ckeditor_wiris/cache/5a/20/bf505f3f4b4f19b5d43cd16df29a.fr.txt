@@ -1,1 +1,0 @@
-{"result":{"text":"index de racine 232 de 4343"},"status":"ok"}

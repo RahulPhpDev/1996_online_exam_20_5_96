@@ -4,11 +4,7 @@
  */
 
 CKEDITOR.editorConfig = function( config ) {
-	// Define changes to default configuration here.
-	// For complete reference see:
-	// https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_config.html
 
-	// The toolbar groups arrangement, optimized for a single toolbar row.
 	config.toolbarGroups = [
 		{ name: 'document',	   groups: [ 'mode', 'document', 'doctools' ] },
 		{ name: 'clipboard',   groups: [ 'clipboard', 'undo' ] },
@@ -26,31 +22,17 @@ CKEDITOR.editorConfig = function( config ) {
 		// { name: 'wiris',  groups : [ 'ckeditor_wiris_formulaEditor','ckeditor_wiris_formulaEditorChemistry'] } 
 	];
 
-	// config.toolbar_Full.push({ name: 'wiris', items : [ 'ckeditor_wiris_formulaEditor','ckeditor_wiris_formulaEditorChemistry']});
 
-	// The default plugins included in the basic setup define some buttons that
-	// are not needed in a basic editor. They are removed here.
-	// config.removeButtons = 'Cut,Copy,Paste,Undo,Redo,Anchor,Strike,Subscript,Superscript';
+config.removePlugins = 'Copy,Quote,Remove,elementspath,save,flash,iframe,link,smiley,tabletools,find,pagebreak,templates,about,maximize,showblocks,newpage,language';
 
-	// Dialog windows are also simplified.
-	// config.removeDialogTabs = 'link:advanced';
-// config.removeButtons = 'Source,Cut,Copy,Paste,Undo,Redo,Anchor,Strike,Subscript,Superscript,Save,Flash';
+config.removeButtons = 'Quote,Copy,Remove,Block,Radio,Preview,Outdent,Indent,HorizontalRule,SpecialChar,BidiLtr,BidiRtl,JustifyLeft,JustifyCenter,JustifyRight,JustifyBlock,Copy,Cut,Paste,Undo,Redo,Print,Form,TextField,Textarea,Button,SelectAll,NumberedList,BulletedList,CreateDiv,Table,PasteText,PasteFromWord,Select,HiddenField,Strike,Subscript,Superscript,Save,Flash,Checkbox,New Page, Preview,Templates,Find,Replace,Checkbox,Radio Button,Align,Align Left,Align Right,Center,Justify,Increase Indent,Link,Anchor,Flash';
+
+config.resize_maxWidth = 780;
+config.resize_maxHeight = 350;
 
 
-config.removePlugins = 'elementspath,save,flash,iframe,link,smiley,tabletools,find,pagebreak,templates,about,maximize,showblocks,newpage,language';
-// Checkbox,
-// config.filebrowserBrowseUrl = '/browser/browse.php';
-// config.filebrowserFlashBrowseUrl = '/browser/browse.php?type=Flash';
-// config.filebrowserBrowseUrl = '/browser/browse.php';
-// config.filebrowserUploadUrl = '/upload?type=Files';
-
-config.removeButtons = 'Radio,Preview,Outdent,Indent,HorizontalRule,SpecialChar,BidiLtr,BidiRtl,JustifyLeft,JustifyCenter,JustifyRight,JustifyBlock,Copy,Cut,Paste,Undo,Redo,Print,Form,TextField,Textarea,Button,SelectAll,NumberedList,BulletedList,CreateDiv,Table,PasteText,PasteFromWord,Select,HiddenField,Strike,Subscript,Superscript,Save,Flash,Checkbox,New Page, Preview,Templates,Find,Replace,Checkbox,Radio Button,Align,Align Left,Align Right,Center,Justify,Increase Indent,Link,Anchor,Flash';
-
-// var path = CKEDITOR.basePath.split('/');
-// path[ path.length-2 ] = 'upload_image';
 config.filebrowserUploadUrl = '/upload_image';
 
-// config.extraPlugins = 'filebrowser';
 
 	config.extraPlugins += (config.extraPlugins.length == 0 ? '' : ',') + 'ckeditor_wiris';
 	config.extraPlugins += (config.extraPlugins.length == 0 ? '' : ',') + 'filebrowser';

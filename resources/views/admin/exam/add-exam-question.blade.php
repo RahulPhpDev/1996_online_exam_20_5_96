@@ -12,17 +12,21 @@
    width: 381px;
     height: 26px;
  }
+.text_alert a{
+    font-weight: 700;
+    color: blue;
+    font-style: italic;
+    font-size: 19px;
+  }
 </style>
    
 <script type="text/javascript">
  
   $(document).ready(function(){
-
      $('#edit_1').on('click', function() {
       if (CKEDITOR.instances.txt_area) {
         CKEDITOR.instances.txt_area.destroy();
       } else {
-        // CKEDITOR.replace('textarea_1');
         CKEDITOR.replace( 'textarea_1',
             {
             height: '110px',
@@ -34,7 +38,6 @@
 
     var i = 1;
     $(".btn_add_more_cls").on("click", function(){
-      
       var thisId = $(this).attr("id");
       i++;
       if(i < 6){
@@ -49,34 +52,47 @@
         alert('can not add more than 5 question At One Time Please Click Save and Continue Button');
       }
     });
-
-
-
-
   });
-
-
-
-
-
-
 </script>
 
 
 
 <script type="text/javascript">
-  
 $(document).ready(function () {
+  $("#excel_file_download").on("click",function(){
+    window.location.href = '/download-file'; //Will take you to Google.
+
+    // $.ajax({
+
+    //   cache: false,
+    //         type: 'GET',
+    //         url: "/download-file",
+    //         contentType: false,
+    //         processData: false,
+    //          //xhrFields is what did the trick to read the blob to pdf
+    //         xhrFields: {
+    //             responseType: 'blob'
+    //         },
+    //   //  url:"/download-file",
+    //   //  type:'GET',
+    //   //  success:function(data){
+    //   //     $("#more_question").append(data);
+    //   //     }
+    //    success:function(data){
+    //     //  console.log(data);
+    //    }
+
+    // });
+  });
+
+
   $(".option_style").on( "click", function(){
   var txt =     $(this).parent('.controls').find('textarea').attr('id');
   
   $(this).parent('.controls').css({
       'margin-left': '230px',
       });
-  console.log(txt);
     $(this).hide();
-
-
   if (CKEDITOR.instances.txt_area) {
         CKEDITOR.instances.txt_area.destroy();
       } else {
@@ -87,7 +103,6 @@ $(document).ready(function () {
             } );
       }
 
-      
     $(this).parent('.controls').find('.checkmark').css({
       'top': '-72px',
       'left': '-34px',
@@ -131,9 +146,7 @@ $(".question_textarea").each(function(){
       }
   });
 });
-
 });
-
 
 </script>
 
@@ -141,7 +154,6 @@ $(".question_textarea").each(function(){
      <div class="container-fluid">
     <hr>
       @include('admin.messages.return-messages')
-    
     <div class="row-fluid">
       <div class="span8">
         <div class="widget-box">
@@ -150,8 +162,6 @@ $(".question_textarea").each(function(){
           </div>
           
           <div class="widget-content nopadding">
-
-              
        <div class = "form-horizontal">
                 <div class="control-group">
                        <label class="control-label">  <strong> Import File ? </strong></label>
@@ -161,19 +171,24 @@ $(".question_textarea").each(function(){
                   </div>
 
                 <div class="hide file_sec"  style="display: inline-block;margin-left:20px"> 
-                  {{ Form::open(array('route' => ['importQuestion'],'class' => '', 'id'=>'basic_validate','enctype'=>'multipart/form-data'))}}
+                  {{ Form::open(array('route' => ['importQuestion', Crypt::encrypt($id)],'class' => '', 'id'=>'basic_validate','enctype'=>'multipart/form-data'))}}
+                  <div class = "text_alert" style ="padding: 16px 0px;  font-size: 14px;" >
+                    <span class = "text-danger pull-right"> Please Uplode File in proper Format.You can check format and upload this file 
+                    <a href = "javascript:void(0);" id = "excel_file_download" > Download File Format </a>
+                  </span>
+                 
+                  </div>
+                  <div class="control-group">
                   <label class="control-label">  <strong> File </strong></label>
                      <div class="controls">
                        <input type = "file" id = "sample_files" name = "sample_file">
                      </div>
-
-                     <div class="controls" style="margin-top:20px ">
-                      <button name="save_file" class = "save_file" type="submit" class="btn btn-success">Save</button>
                   </div>
-
+                     <div class="controls" style="margin-top:20px ">
+                      <button name="save_file"  type="submit" class="save_file btn btn-success">Save</button>
+                  </div>
               {{ Form::close() }}
                 </div>  
-
                 </div>
 
 

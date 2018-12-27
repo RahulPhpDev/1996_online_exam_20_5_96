@@ -1,1 +1,0 @@
-{"result":{"text":"x au carré divisé par a au carré plus y au carré divisé par b au carré égal à 1"},"status":"ok"}

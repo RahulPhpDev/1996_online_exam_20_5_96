@@ -40,6 +40,11 @@
 
       <li><a href="{{route('result')}}"><i class="icon  icon-hdd"></i> <span>Result</span></a></li>
 
+      <li class="submenu"><a href="#"><i class="icon  icon-book"></i> <span>Question File</span></a>
+    <ul>
+        <li><a  href="{{route('download-file')}}">Download</a></li>
+      </ul>
+  </li>
    
    <!--  
     <li><a href="grid.html"><i class="icon icon-fullscreen"></i> <span>Full width</span></a></li>

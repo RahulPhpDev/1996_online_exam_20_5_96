@@ -1,1 +1,0 @@
-{"result":{"text":"simple pi sur 2 espace puissance r au carré fin de l'exposant"},"status":"ok"}

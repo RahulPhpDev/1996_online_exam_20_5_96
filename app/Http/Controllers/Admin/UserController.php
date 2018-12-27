@@ -25,7 +25,7 @@ class UserController extends Controller
 
     public function userList(){
        $title = 'Users';
-       $allData = User::paginate(10);
+       $allData = User::orderBy('fname')->paginate(10);
       return view('admin.user.user-list',compact('title'))->with('allData' ,$allData);  
     }
 

@@ -1,1 +1,0 @@
-{"result":{"text":"r au carré"},"status":"ok"}

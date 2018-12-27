@@ -1,1 +1,0 @@
-{"result":{"text":"integral subscript y superscript d d x space equals space ?"},"status":"ok"}

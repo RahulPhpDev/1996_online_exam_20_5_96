@@ -1,1 +1,0 @@
-{"result":{"text":"there exists"},"status":"ok"}
