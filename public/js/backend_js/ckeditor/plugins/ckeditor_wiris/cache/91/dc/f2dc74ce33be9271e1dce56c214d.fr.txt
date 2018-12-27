@@ -1,0 +1,1 @@
+{"result":{"text":"πr au carré"},"status":"ok"}

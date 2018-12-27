@@ -44,7 +44,14 @@ class LoginController extends Controller
         $ip = \Request::ip();
         $data = ['last_login_ip' => $ip,'last_login' => date('Y-m-d H:i:s')];
         User::where('id',$userId)->update($data);
-        Session::flush(); 
+
+    //      $rememberMeCookie = Auth::getRecallerName();
+    // // Tell Laravel to forget this cookie
+    // $cookie = Cookie::forget($rememberMeCookie);
+
+
+    //     Session::flush(); 
+         Auth::logout();
         return redirect('/');
     }
 

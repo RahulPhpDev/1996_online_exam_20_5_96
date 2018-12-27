@@ -157,6 +157,72 @@ class ExamController extends Controller
         }
        }
 
+       public function upload(Request $request){
+// dd($request['upload']);
+//          if(isset($request['upload'])){
+//             // $detailsByID = Exam::find($id);
+//             $image = $request['upload'];
+//             $imageName = 'exam_18'.'.'.$image->getClientOriginalExtension();
+            
+//             $imagesPath =  public_path().'/images';
+//             $imgPath =  $imagesPath.'/exam';
+//             if(!File::exists($imgPath)) {
+//                 File::makeDirectory($imgPath, 0777, true, true);
+//            }
+//            $destinationPath =$imgPath.'/thumbnail';
+//            if(!File::exists($destinationPath)) {
+//               File::makeDirectory($destinationPath, 0777, true, true);
+//              }
+//            $thumb_img = Image::make($image->getRealPath())->resize(250, 200);
+//            $thumb_img->save($destinationPath.'/'. $imageName,80);
+    
+//             // first load profile page in original
+//             $originalPath =  $imgPath.'/original';
+//             if(!File::exists($originalPath)) {
+//                     File::makeDirectory($originalPath, 0777, true, true);
+//             }
+//             $image->move($originalPath, $imageName);
+//             // $detailsByID->image = $imageName;
+//             // $detailsByID->save();
+//         }
+//         $imgUrl = ""
+
+//         $arr = array('fileName' => $image->originalName, 'uploaded' => 1, "url" => "'");
+
+// echo json_encode($arr);
+
+//         $message = 'fileupload';
+//         $funcNum = "QuickUpload" ;
+//          $url ="http://127.0.0.1:2000/images/exam/thumbnail/exam_10.jpg";
+//        echo $url;
+//        die();
+// http://127.0.0.1:2000/images/exam/thumbnail/exam_10.jpg
+//           echo "<script type='text/javascript'>alert($url);</script>";
+
+//         echo
+       }
+public function upload_image(Request $request){
+  $CKEditor = Input::get('CKEditor');
+    $funcNum = Input::get('CKEditorFuncNum');
+    $message = $url = '';
+    if (Input::hasFile('upload')) {
+        $file = Input::file('upload');
+        if ($file->isValid()) {
+            $filename = $file->getClientOriginalName();
+             $file->move(public_path().'/images/equation_icon/', $filename);
+            $url = "http://127.0.0.1:2000/images/equation_icon/". $filename;
+        } else {
+            $message = 'An error occured while uploading the file.';
+        }
+    } else {
+        $message = 'No file uploaded.';
+    }
+    // echo $url;
+$arr = array('fileName' =>  $filename, 'uploaded' => 1, "url" => "$url");
+
+echo json_encode($arr);
+  
+  }
        public function updateExamImg(Request $request){
         $message = 'No Image Found';
         if(isset($request['image'])){

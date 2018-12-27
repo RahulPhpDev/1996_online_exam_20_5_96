@@ -1,0 +1,1 @@
+{"result":{"text":"simple pi sur 4 r au carré"},"status":"ok"}

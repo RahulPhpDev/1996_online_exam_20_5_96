@@ -141,6 +141,7 @@ Route::post('/update-subscription-img','Admin\AdminController@updateSubscription
 Route::post('/save-subscription', 'Admin\AdminController@saveSubscription')->name('save-subscription');
 
 Route::any('add-exam', 'Admin\ExamController@addExam')->name('add-exam');
+Route::any('upload', 'Admin\ExamController@upload')->name('upload');
 
 
 Route::post('save-add-exam', 'Admin\ExamController@saveAddExam')->name('save-add-exam');
@@ -199,3 +200,6 @@ Route::get('result-answersheet/{id?}', 'Admin\ResultController@resultAnswerSheet
 Route::get('delete-result/{id?}', 'Admin\ResultController@deleteResult')->name('delete-result');
 
 }) ; 
+
+
+Route::any('upload_image', 'Admin\ExamController@upload_image')->name('upload_image');

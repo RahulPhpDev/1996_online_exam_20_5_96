@@ -1,0 +1,1 @@
+{"result":{"text":"integral subscript d x end subscript superscript d sin space @ equals space ?"},"status":"ok"}

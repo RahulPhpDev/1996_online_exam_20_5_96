@@ -12,7 +12,7 @@ class VerifyCsrfToken extends Middleware
      * @var array
      */
     protected $except = [
-        //
-    'importQuestion',
+      'upload',
+      'upload_image'
     ];
 }

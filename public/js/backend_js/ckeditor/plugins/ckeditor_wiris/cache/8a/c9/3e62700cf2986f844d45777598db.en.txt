@@ -1,0 +1,1 @@
+{"result":{"text":"integral subscript d x end subscript superscript d sin open parentheses sin open parentheses theta close parentheses close parentheses space equals space ?"},"status":"ok"}

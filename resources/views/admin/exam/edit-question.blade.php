@@ -29,7 +29,7 @@ $(".option_style").on( "click", function(){
   var txt =     $(this).parent('.controls').find('textarea').attr('id');
   
   $(this).parent('.controls').css({
-      'margin-left': '230px',
+      'margin-left': '150px',
       });
     $(this).hide();
   if (CKEDITOR.instances.txt_area) {
@@ -65,6 +65,12 @@ $(".option_style").on( "click", function(){
   if (CKEDITOR.instances.txt_area) {
     CKEDITOR.instances.txt_area.destroy();
   } else {
+
+    CKEDITOR.replace( 'textarea', {
+    // filebrowserUploadUrl: "pl/upload.php" 
+} );
+
+
     CKEDITOR.replace('textarea',
             {
             height: '110px',
@@ -76,12 +82,7 @@ $(".option_style").on( "click", function(){
 
 </script>
 <style type="text/css">
- .option_div input[type="radio"]{float: left;margin:9px 19px 2px 8px}
- .inline_div label{display: inline-block;width: 152px;text-align:right}
- .inline_div input{display:inline !important;margin-right:20px;padding-bottom:-2px}
- .border_top{border-top:1px dotted #dfdfdf}
- input.mark{padding: 6px;width: 42px;text-align: center}
- .inline{display:inline !important}
+
 </style>
 <div id="content">
      <div class="container-fluid">
@@ -107,6 +108,7 @@ $(".option_style").on( "click", function(){
                 <div style = "margin-left:40px"  ><textarea name = "question" rows = '3' id = "textarea" class = "question editor question_textarea"> <?php echo htmlspecialchars_decode($questionData->question); ?></textarea>
                 </div>
               </div>
+            </div>
                 @foreach($questionData->Options as $key => $options)
                    <?php
                      $incrementKey = ++$key;
