@@ -11,7 +11,7 @@
 <link href="{{ asset('css/backend_css/bootstrap-multiselect.css') }}" rel="stylesheet">
 <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700,800' rel='stylesheet' type='text/css'>
 
-<link href="{{ asset('css/backend_css/bootstrap-datepicker.min.css') }}" rel="stylesheet">
+<!-- <link href="{{ asset('css/backend_css/bootstrap-datepicker.min.css') }}" rel="stylesheet"> -->
 <link href="{{ asset('css/backend_css/bootstrap-timepicker.min.css') }}" rel="stylesheet">
 <link href="{{ asset('css/validation.css') }}" rel="stylesheet">
 <link href="{{ asset('css/backend_css/pagination.css') }}" rel="stylesheet">
