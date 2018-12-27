@@ -16,11 +16,20 @@
   });
 </script>
 
-<style type="text/css">
-  
 
+<style type="text/css">
+ /*.option_ra textarea{
+  margin: 0px;
+   width: 381px;
+    height: 26px;
+ }
+.text_alert a{
+    font-weight: 700;
+    color: blue;
+    font-style: italic;
+    font-size: 19px;
+  }*/
 </style>
-   
 <script type="text/javascript">
 
 
@@ -66,16 +75,8 @@ $(".option_style").on( "click", function(){
     CKEDITOR.instances.txt_area.destroy();
   } else {
 
-    CKEDITOR.replace( 'textarea', {
-    // filebrowserUploadUrl: "pl/upload.php" 
-} );
+    CKEDITOR.replace( 'textarea' );
 
-
-    CKEDITOR.replace('textarea',
-            {
-            height: '110px',
-            width: '80%',
-            } );
   }
   });
   });
@@ -87,18 +88,18 @@ $(".option_style").on( "click", function(){
 <div id="content">
      <div class="container-fluid">
     <hr>
-     <!-- <h5> {{$title}}</h5> -->
-     <div class="row-fluid">
-      <div class="span8">
+    <div class="row-fluid">
+      <div class="span12">
         <div class="widget-box">
           <div class="widget-title"> <span class="icon"> <i class="icon-th"></i> </span>
            
           </div>
-          <div class="widget-content nopadding">
-          {{ Form::open(array('route' => ['updateExamQuestion', $id],'class' => 'form-horizontal', 'id'=>'basic_validate'))}} 
+          <div class="widget-content">
+          <div class = "form-horizontal">   
+          {{ Form::open(array('route' => ['updateExamQuestion', $id], 'id'=>'basic_validate'))}} 
           <input type = "hidden" name = "exam_id" value  = "{{$examID}}">
                 <div class="control-group">
-                  {{ Form::label('question','Question 1',array('class' => 'control-label'))}}
+                  {{ Form::label('question','Question',array('class' => 'control-label'))}}
                
                 <div class="controls">
                 <span class = "span_style pull-right" id="edit_1">+STYLE+</span>
@@ -160,12 +161,12 @@ $(".option_style").on( "click", function(){
                   <input type="submit" name="save" id = "update" class="btn btn-success btn-custom" value="Update">
                 </div>
               {{ Form::close() }}
+            </div>
                   </div>
               </div> 
             </div>
           </div>
     </div>
-</div>
 
 <script>
       $(document).ready(function(){
