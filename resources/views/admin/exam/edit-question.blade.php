@@ -96,7 +96,8 @@ $(".option_style").on( "click", function(){
           </div>
           <div class="widget-content">
           <div class = "form-horizontal">   
-          {{ Form::open(array('route' => ['updateExamQuestion', $id], 'id'=>'basic_validate'))}} 
+          {{ Form::open(array('route' => ['updateExamQuestion', $id], 'id'=>'basic_validate'))}}
+            <div class="control-group"> 
           <input type = "hidden" name = "exam_id" value  = "{{$examID}}">
                 <div class="control-group">
                   {{ Form::label('question','Question',array('class' => 'control-label'))}}
@@ -160,6 +161,7 @@ $(".option_style").on( "click", function(){
            <div class="controls">
                   <input type="submit" name="save" id = "update" class="btn btn-success btn-custom" value="Update">
                 </div>
+              </div>
               {{ Form::close() }}
             </div>
                   </div>
