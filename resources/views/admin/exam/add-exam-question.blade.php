@@ -5,7 +5,6 @@
 @section('title', $title)
 @section('content') 
 
- 
 
 <style type="text/css">
  .option_ra textarea{
@@ -26,8 +25,8 @@
         // CKEDITOR.replace('textarea_1');
         CKEDITOR.replace( 'textarea_1',
             {
-            height: '80px',
-            width: '90%',
+            height: '110px',
+            width: '80%',
             } );
       }
   });
@@ -50,7 +49,16 @@
         alert('can not add more than 5 question At One Time Please Click Save and Continue Button');
       }
     });
+
+
+
+
   });
+
+
+
+
+
 
 </script>
 
@@ -74,8 +82,8 @@ $(document).ready(function () {
       } else {
         CKEDITOR.replace( txt,
             {
-            height: '50px',
-            width: '80%',
+              height: '90px',
+            width: '70%',
             } );
       }
 
@@ -86,7 +94,7 @@ $(document).ready(function () {
     });
   });
 
-    $('#basic_validate').validate({ // initialize the plugin
+    $('#basic_validate2').validate({ // initialize the plugin
         ignore: [],
               debug: false,
         rules: {
@@ -142,8 +150,35 @@ $(".question_textarea").each(function(){
           </div>
           
           <div class="widget-content nopadding">
-            
-                {{ Form::open(array('route' => ['save-exam-question', $id],'class' => 'form-horizontal', 'id'=>'basic_validate'))}}
+
+              
+       <div class = "form-horizontal">
+                <div class="control-group">
+                       <label class="control-label">  <strong> Import File ? </strong></label>
+                     <div class="controls">
+                        <input type="checkbox" name="is_file" class = "is_file" />
+                     </div>
+                  </div>
+
+                <div class="hide file_sec"  style="display: inline-block;margin-left:20px"> 
+                  {{ Form::open(array('route' => ['importQuestion'],'class' => '', 'id'=>'basic_validate','enctype'=>'multipart/form-data'))}}
+                  <label class="control-label">  <strong> File </strong></label>
+                     <div class="controls">
+                       <input type = "file" id = "sample_files" name = "sample_file">
+                     </div>
+
+                     <div class="controls" style="margin-top:20px ">
+                      <button name="save_file" class = "save_file" type="submit" class="btn btn-success">Save</button>
+                  </div>
+
+              {{ Form::close() }}
+                </div>  
+
+                </div>
+
+
+              <div class = "question_hardcoded">
+                {{ Form::open(array('route' => ['save-exam-question', $id],'class' => 'form-horizontal', 'id'=>'basic_validate2','enctype'=>'multipart/form-data'))}}
 
                 <div class="control-group">
                   {{ Form::label('question','Question 1',array('class' => 'control-label question_label'))}}
@@ -233,17 +268,12 @@ $(".question_textarea").each(function(){
 
            <div id = "more_question"> </div>
 
-
-
-           <div class="controls" style="margin-top:20px ">
-                  
-
-        <button name="save" type="submit" class="btn btn-success" value="save">Save</button>
-        <button name="save" type="submit" value="continue" class="btn btn-success">Save And Continue</button>
-
+             <div class="controls" style="margin-top:20px ">
+                    <button name="save" type="submit" class="btn btn-success" value="save">Save</button>
+                    <button name="save" type="submit" value="continue" class="btn btn-success">Save And Continue</button>
                 </div>
-
               {{ Form::close() }}
+               </div> 
             </div>
           </div>
          </div>
@@ -267,6 +297,16 @@ $(".question_textarea").each(function(){
         var id = $(this).parent().parent().next('div').css("display", "inline-block");
        }else{
         var id = $(this).parent().parent().next('div').css("display", "none");
+       }
+      });
+
+      $(".is_file").click(function(){
+       if ($(this).is(':checked')) {
+        var id = $(".question_hardcoded").css("display", "none");
+         $('.file_sec').removeClass('hide');
+       }else{
+        var id = $(".question_hardcoded").css("display", "inline-block");
+         $('.file_sec').addClass('hide');
        }
       });
         

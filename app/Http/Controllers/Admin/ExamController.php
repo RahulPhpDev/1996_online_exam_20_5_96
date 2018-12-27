@@ -260,7 +260,7 @@ class ExamController extends Controller
                   if(!is_null( $opV)){
                     $optionData = array(
                         'question_id' => $questionId ,
-                        'question_option' => $opV,
+                        'question_option' => htmlentities($opV),
                         'option_type' =>  1,
                         'add_date' =>  date("Y-m-d"),
                     );

@@ -100,8 +100,6 @@ $(".multiselect-clear-filter").hide();
             </div>
           </div>
         <div class = "exam_date_div" style = "display:none;">
-            
-        
              <div class="control-group">
                   {{ Form::label('start_date','Start Date',array('class' => 'control-label'))}}
                 <div class="controls">

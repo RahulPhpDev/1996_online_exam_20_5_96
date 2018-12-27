@@ -12,3 +12,12 @@ exam_visible_status
 2== regisger
 3==package
 4=== payable
+
+in composer add => "maatwebsite/excel":"~2.1.0"
+
+composer update
+
+
+"maatwebsite/excel": "~2.1.0"
+
+php artisan vendor:publish --provider="Maatwebsite\Excel\ExcelServiceProvider"
