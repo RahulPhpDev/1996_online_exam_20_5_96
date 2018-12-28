@@ -1,42 +1,34 @@
-<style>
-.control-label{
-    font-weight:600;
-}
-.profile_details  span{
-    font-size:19px;
-}
-.details span{
-    line-height: 2.2;
-}
-</style>
+
  <h2 class="title-border"> My Profile </h2>
 <div class = "profile_details"> 
  <div  class="form-horizontal" >
                 <div class="form-group">
-                        <span for="group_name" class="col-sm-4 control-label">Email :</span>
+                        <label for="group_name" class="col-sm-4 control-label">Email :</label>
                         <div class="col-sm-4 details">
-                                      <span > {{Auth::User()->email}} </span>
+                                     {{Auth::User()->email}} 
 
                            </div>
                         </div>
             </div>
             <div  class="form-horizontal" >
                 <div class="form-group">
-                        <span for="group_name" class="col-sm-4 control-label">Name :</span>
+                        <label for="group_name" class="col-sm-4 control-label">Name :</label>
                         <div class="col-sm-4 details">
-                                      <span > {{Auth::User()->fname.' '.Auth::User()->lname}} </span>
+                                     {{Auth::User()->fname.' '.Auth::User()->lname}} 
                            </div>
                         </div>
             </div>
-
+            <?php
+            if(!is_null(Auth::user()->profile_image)){
+               $profilePic = '/images/profile/thumbnail/'.Auth::user()->profile_image;
+           ?>
             <div  class="form-horizontal" >
                 <div class="form-group">
-                        <span for="group_name" class="col-sm-4 control-label">Profile Picture :</span>
+                        <label for="group_name" class="col-sm-4 control-label">Profile Picture :</label>
                         <div class="col-sm-4 details">
-                                
-                                <img src = "">
-
+                                <img src = "{{$profilePic }}" class = "img_style">
                            </div>
                         </div>
             </div>
+        <?php } ?>
             </div>

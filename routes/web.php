@@ -80,6 +80,12 @@ Route::get('exams-question/{id}', 'Auth\ResultController@viewExamQuestions')->na
 Route::get('answer-sheet/{id?}', 'Auth\ResultController@answerSheet')->name('answer-sheet');
 
 Route::get('/myprofile', 'Auth\UserController@profile')->name('myprofile');
+
+Route::post('/update-user-profile', 'Auth\UserController@updateProfile')->name('update-user-profile');
+
+Route::post('/update-profile-image', 'Auth\UserController@updateProfileImage')->name('update-profile-image');
+
+Route::post('/update-user-password', 'Auth\UserController@updateUserPassword')->name('update-user-password');
 });
 
 Route::get('/db' ,function(){

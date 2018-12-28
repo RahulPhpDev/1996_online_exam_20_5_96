@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Crypt;
 use Auth;
 
@@ -12,6 +13,7 @@ use App\User;
 use App\Model\Subscription;
 use App\Model\Question;
 use App\Model\Exam;
+use App\Model\Student;
 use App\Model\UserAnswer;
 use App\Model\Result;
 use Session;
@@ -24,6 +26,10 @@ use PDF;
 use Dompdf\Dompdf;
 use Mpdf;
 use Response;
+
+use File;
+use stdClass;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -41,11 +47,12 @@ class UserController extends Controller
         $userDetails->fname = $request['fname'];
         $userDetails->lname = $request['lname'];
         $userDetails->phone_no = $request['phone_no'];
-         if($request['password']){
-          $userDetails->password = bcrypt($request['password']);
-         }
         $userDetails->save();
-        return redirect()-> route('profile')->with('success', 'Update Successfully');
+        if(isset($request['address'])) {
+          $data = ['address' => $request['address'] ];
+          Student::where('user_id', $user['id'])->update($data);
+        }
+        return redirect()-> route('myprofile')->with('success', 'Update Successfully');
  }
 
 
@@ -418,6 +425,72 @@ class UserController extends Controller
         return $pdf->download('MaaRula_'.$examName.'_'.($resultId+15).'.pdf');
      }
    
-     
-    
+     function updateProfileImage(Request $data){
+          if(isset($data['profile'])){
+              $image = $data['profile'];
+              $user = Auth::user();
+              $id = $user['id'];
+              $userDetailsByID = User::FindorFail($id);
+              $input['imagename'] = 'profile_'.$id.'.'.$image->getClientOriginalExtension();
+              $imagesPath =  public_path().'/images';
+              $profilePath =  $imagesPath.'/profile';
+              if(!File::exists($profilePath)) {
+                  File::makeDirectory($profilePath, 0777, true, true);
+            }
+            $destinationPath =$profilePath.'/thumbnail';
+            if(!File::exists($destinationPath)) {
+                File::makeDirectory($destinationPath, 0777, true, true);
+              }
+            $thumb_img = Image::make($image->getRealPath())->resize(250, 200);
+            $thumb_img->save($destinationPath.'/'. $input['imagename'],80);
+
+              // first load profile page in original
+              $originalPath =  $profilePath.'/original';
+              if(!File::exists($originalPath)) {
+                      File::makeDirectory($originalPath, 0777, true, true);
+              }
+              $image->move($originalPath, $input['imagename']);
+              $userDetailsByID->profile_image = $input['imagename'];
+              $userDetailsByID->save();
+            }
+            return redirect()->back();
+          }
+
+          public function updateUserPassword(Request $request){
+            // dd($request);
+            $userData = Auth::user();
+            $id =$userData['id'];
+            $user = User::findOrFail($id);
+            $validateFields = array(  'password' => 'required|string|min:6|confirmed',);
+
+            $validatedData =  $this->validate($request, $validateFields);
+            if($validatedData){
+                $user->fill([
+                  'password' =>  bcrypt($request['password'])
+                  ])->save();
+                 $request->session()->flash('success', 'Password changed');
+            } else{
+              $request->session()->flash('error', 'Password does not match');
+            }
+            
+            return redirect()->back();
+
+
+            // $oldPassword  =   bcrypt($request['old_password']);
+            // $validator = Validator::make($request, [
+            //   'old_password' =>  $oldPassword ,
+            //   'password' => 'required|string|min:6|confirmed',
+            //  ]);
+
+            //  dd('this');
+  
+            // if ($validator->fails()){
+            //     return redirect()->back();
+            // }
+            // $user = Auth::user();
+            // $userDetails = User::FindorFail($user['id']);
+            // $userDetails->password = $request['password'];
+            // $userDetails->save();
+            // return redirect()->back();
+          }
 }

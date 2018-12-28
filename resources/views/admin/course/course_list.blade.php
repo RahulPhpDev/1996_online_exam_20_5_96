@@ -8,12 +8,7 @@
 <div id="content">
      <div class="container-fluid">
     <hr>
-   @if(\Session::has('success'))
-    <div class="alert alert-success"> 
-      <a class="close" data-dismiss="alert" >×</a>
-      {{\Session::get('success')}}
-    </div>
-@endif
+    @include('admin.messages.return-messages')
      <a class ="btn btn-success pull-right" href="{{ route('add-course') }}">Add Course </a>
     <div class="row-fluid">
       <div class="span12">

@@ -4,7 +4,6 @@
 @extends('layouts.partials.footer')
 @section('title', $title)
 @section('content')   
-<!-- <script src="{{ asset('js/mathJx.js') }}"> -->
 
    <script src='https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
   <script type="text/x-mathjax-config">
@@ -16,20 +15,6 @@
   });
 </script>
 
-
-<style type="text/css">
- /*.option_ra textarea{
-  margin: 0px;
-   width: 381px;
-    height: 26px;
- }
-.text_alert a{
-    font-weight: 700;
-    color: blue;
-    font-style: italic;
-    font-size: 19px;
-  }*/
-</style>
 <script type="text/javascript">
 
 

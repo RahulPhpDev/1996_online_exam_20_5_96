@@ -40,7 +40,6 @@ class FileController extends Controller
             $counter = $negativeCounter =  0;
             $negative_mark_array =   $total_mark_array = array();
             if($data->count()){
-                // dd($data);
              foreach ($data as $key => $value) { #check if  excel has data
                if(!is_null($value->question)){ 
                 $counter++;

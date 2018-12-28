@@ -6,6 +6,7 @@
 @section('content') 
 
 
+<script src="{{ asset('/js/common/extra_validate.js') }}"></script>
 <style type="text/css">
  .option_ra textarea{
   margin: 0px;
@@ -22,7 +23,23 @@
    
 <script type="text/javascript">
  
-  $(document).ready(function(){
+$(document).ready(function(){
+$('#basic_validate').validate({
+  ignore: [], 
+    rules: {
+        sample_file: {
+            required: true,
+            checkExcel: true
+        },messages: {
+                     required: "File is Required ",
+                     checkExcel: "Only Excel File "
+                  }
+    },
+    submitHandler: function(form) {
+                document.basic_validate.submit();
+            },
+});   
+
      $('#edit_1').on('click', function() {
       if (CKEDITOR.instances.txt_area) {
         CKEDITOR.instances.txt_area.destroy();
@@ -62,63 +79,29 @@ $(document).ready(function () {
   $("#excel_file_download").on("click",function(){
     window.location.href = '/download-file'; //Will take you to Google.
 
-    // $.ajax({
-
-    //   cache: false,
-    //         type: 'GET',
-    //         url: "/download-file",
-    //         contentType: false,
-    //         processData: false,
-    //          //xhrFields is what did the trick to read the blob to pdf
-    //         xhrFields: {
-    //             responseType: 'blob'
-    //         },
-    //   //  url:"/download-file",
-    //   //  type:'GET',
-    //   //  success:function(data){
-    //   //     $("#more_question").append(data);
-    //   //     }
-    //    success:function(data){
-    //     //  console.log(data);
-    //    }
-
-    // });
   });
 
 
   $(".option_style").on( "click", function(){
   var txt =     $(this).parent('.controls').find('textarea').attr('id');
   
-  $(this).parent('.controls').css({
-      'margin-left': '230px',
-      });
+  $(this).parent('.controls').css({'margin-left': '230px',});
     $(this).hide();
   if (CKEDITOR.instances.txt_area) {
         CKEDITOR.instances.txt_area.destroy();
       } else {
-        CKEDITOR.replace( txt,
-            {
-              height: '90px',
-            width: '70%',
-            } );
+        CKEDITOR.replace( txt,{height: '90px', width: '70%', } );
       }
 
-    $(this).parent('.controls').find('.checkmark').css({
-      'top': '-72px',
-      'left': '-34px',
-    });
+    $(this).parent('.controls').find('.checkmark').css({'top': '-72px','left': '-34px', });
   });
 
     $('#basic_validate2').validate({ // initialize the plugin
         ignore: [],
               debug: false,
-        rules: {
-          "option[]": { required: true,minlength: 3 },
+        rules: { "option[]": { required: true,minlength: 3 },
         },
-        messages: {
-                      "option[]": {
-                        required :"Select Package"
-                      },
+        messages: {"option[]": { required :"Select Package"  },
                   }
     });
 
@@ -185,7 +168,7 @@ $(".question_textarea").each(function(){
                      </div>
                   </div>
                      <div class="controls" style="margin-top:20px ">
-                      <button name="save_file"  type="submit" class="save_file btn btn-success">Save</button>
+                      <input name="save_file" type = "submit" value = "Save" class="save_file btn btn-success">
                   </div>
               {{ Form::close() }}
                 </div>  

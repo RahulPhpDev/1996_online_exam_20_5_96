@@ -242,7 +242,6 @@ class UserController extends Controller
              $userDetails->password = bcrypt($request['password']);
             }
            $userDetails->save();
-           return redirect()-> route('profile')->with('success', 'Update Successfully');
-          
+           return redirect()-> route('profile')->with('success', 'Update Successfully');  
     }
 }
