@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 
+use Illuminate\Support\Facades\Input;
+use Session;
 
 use Illuminate\Database\QueryException;
 use App\Service\PayUService\Exception;
@@ -25,7 +27,7 @@ class UserController extends Controller
 
     public function userList(){
        $title = 'Users';
-       $allData = User::orderBy('fname')->paginate(10);
+       $allData = User::orderBy('fname')->get();
       return view('admin.user.user-list',compact('title'))->with('allData' ,$allData);  
     }
 
@@ -219,15 +221,13 @@ class UserController extends Controller
     }
 
     public function getRegisterStudent(){
-      // die('this');
-      $userData = User::where('user_type',3)->get()->toArray();
+      $userData = User::where('user_type',3)->orderBy('fname')->get();
       return view('admin.user.register-student',compact('userData'));
     
     }
 
     public function profile(){
        $user = Auth::user();
-    //    dd($user->toArray());
        $title  = 'My Profile';
        return view('admin.user.profile',compact('title', 'user'));
     }

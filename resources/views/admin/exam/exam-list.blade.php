@@ -16,7 +16,7 @@
             <h5>Exam</h5>
           </div>
           <div class=" nopadding">
-            <table class="table table-bordered table-striped">
+            <table id = "data_table"  class="table table-bordered table-striped">
               <thead>
                 <tr>
                   <th>Name</th>
@@ -75,7 +75,7 @@
             </table>
           </div>
         </div>
-            {{$examDetails->render()}}
+           
        </div>
     </div>
  </div>

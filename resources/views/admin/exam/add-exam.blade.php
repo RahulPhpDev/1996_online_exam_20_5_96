@@ -12,6 +12,9 @@
 <script type="text/javascript">
   
 $(document).ready(function () {
+
+
+
 $(".multiselect-clear-filter").hide();
     $('#basic_validate').validate({ // initialize the plugin
         rules: {
@@ -283,6 +286,10 @@ $('#spacificDate').click(function(){
    $(".datepicker").datepicker({
         format:'yyyy-mm-dd',
         });
+
+   
+
+
     });
   </script>
 @endsection

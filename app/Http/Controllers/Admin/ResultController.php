@@ -25,7 +25,7 @@ class ResultController extends Controller
     public function view(){
        $title = 'Result';
        $resultObj  = new Result();
-       $allData =  Result::where('status', '1')->orderBy('add_date', 'desc')->paginate(10);
+       $allData =  Result::where('status', '1')->orderBy('add_date', 'desc')->get();
        $witharray = array('allData' => $allData, 'title' =>$title);
        return view('admin.result.result_view')->with($witharray);
     }

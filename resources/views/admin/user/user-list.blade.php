@@ -4,6 +4,7 @@
 @extends('layouts.partials.footer')
 @section('title', $title)
 @section('content')
+
 <style>
 .select2-container{
   width: 30%;
@@ -12,6 +13,7 @@
 </style>  
 <script>
  $(function(){ 
+
     $(".approve").on("click", function(){
         if(confirm("Are you sure to Approved?")){
           var user_id = $(this).data('id');
@@ -30,6 +32,7 @@
         }
     });
   });
+
 </script>
 <div id="content">
      <div class="container-fluid">
@@ -44,7 +47,7 @@
             <h5>User</h5>
           </div>
           <div class="">
-            <table class="table table-bordered table-striped">
+            <table id = "data_table" class="table table-bordered table-striped">
               <thead>
                 <tr>
                     <th> Id </th>
@@ -93,7 +96,7 @@
                      @endif
                  </td>
                  <td>
-                  <a class = "text-blue" href="{{ route('user-result', ['id' => Crypt::encrypt($data['id']) ]) }}">{{count($data->Results)}} View 
+                  <a class = "text-blue" href="{{ route('user-result', ['id' => Crypt::encrypt($data['id']) ]) }}">{{count($data->Results)}} View </a>
                   </td>
                   <td>
                   <a href="{{ route('edit-user', ['id' => Crypt::encrypt($data['id']) ]) }}">Edit <i class="fa fa-fw fa-arrow-circle-right"></i></a>&nbsp&nbsp
@@ -112,7 +115,7 @@
             </table>
         
           </div>
-          <?php echo $allData->render(); ?>
+         
         </div>
     
         </div>

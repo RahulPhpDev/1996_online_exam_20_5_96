@@ -16,7 +16,7 @@
             <h5>Exam</h5>
           </div>
           <div class="widget-content nopadding">
-            <table class="table table-bordered table-striped ">
+            <table id = "data_table" class="table table-bordered table-striped ">
               <thead>
                 <tr>
                   <th>Name</th>
@@ -51,7 +51,7 @@
            <?php } ?>
               </tbody>
             </table>
-            {{$allData->render()}}
+           
           </div>
         </div>
         </div>

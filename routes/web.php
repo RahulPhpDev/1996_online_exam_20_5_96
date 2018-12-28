@@ -184,6 +184,7 @@ Route::get('/get-register-student', 'Admin\UserController@getRegisterStudent')->
 
 Route::get('/exam-accessbility/{id}', 'Admin\ExamController@examAccessbility')->name('exam-accessbility');
 
+Route::get('/assignExam/{id?}', 'Admin\ExamController@assignExam')->name('assignExam');
 
 Route::any('/remove-exam-user/{id}', 'Admin\ExamController@removeExamUser')->name('remove-exam-user');
 

@@ -15,3 +15,7 @@
 <link href="{{ asset('css/backend_css/bootstrap-timepicker.min.css') }}" rel="stylesheet">
 <link href="{{ asset('css/validation.css') }}" rel="stylesheet">
 <link href="{{ asset('css/backend_css/pagination.css') }}" rel="stylesheet">
+
+
+
+<link href="{{ asset('css/common/jquery.dataTables.min.css') }}" rel="stylesheet">

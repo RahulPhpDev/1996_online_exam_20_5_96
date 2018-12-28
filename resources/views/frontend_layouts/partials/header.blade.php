@@ -93,9 +93,10 @@ function myFunction() {
       <ul class="dropdown-menu">
         @if(Auth::user()['user_type'] !=1)
         <li><a href="{{route('all-result')}}"><i class="icon-user"></i> Show Result</a></li>
-        @endif
+       
         <li class="divider"></li>
         <li><a href="{{route('myprofile')}}"><i class="icon-check"></i> My Profile</a></li>
+        @endif
        <!--  
         <li class="divider"></li> -->
         <li><a href="{{ route('logout') }}" onclick="event.preventDefault();document.getElementById('logout-form').submit();"><i class="fa fa-lock"></i> 
