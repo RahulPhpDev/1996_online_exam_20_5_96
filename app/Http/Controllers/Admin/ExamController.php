@@ -37,7 +37,7 @@ class ExamController extends Controller
 
     public function examList(){
         $title = 'Exam';
-        $examDetails = Exam::where('status', 1)->orderBy('id','DESC')->paginate(10);
+        $examDetails = Exam::where('status', 1)->orderBy('id','DESC')->get();
         return view('admin.exam.exam-list', compact('examDetails','title'));
     }
     public function addExam(){
@@ -55,7 +55,6 @@ class ExamController extends Controller
         $endDate = $request['end_date'].' '.$request['end_time'];
         $spacific_date = 1;
        }
-       
         DB::beginTransaction();
         try{
             $exam = new Exam();
@@ -157,7 +156,21 @@ class ExamController extends Controller
         }
        }
 
-      
+       public function assignExam(){
+           $id = 15;
+        $e_id = 15;
+        $examDetails =  Exam::findOrFail($e_id);
+        $userData = User::where('user_type',3)->orderBy('fname')->get(['fname','id','lname','email']);
+        $allSelectedUser = array();
+        foreach($examDetails->UserExamData as $data) { 
+         $allSelectedUser[] = $data->id;
+       }
+    //    dd($allSelectedUser);
+     $title = 'Assign Exam';
+        return view('admin.exam.assign-exam',compact('examDetails', 'allSelectedUser','userData','title'));
+    }
+
+    
        public function updateExamImg(Request $request){
         $message = 'No Image Found';
         if(isset($request['image'])){
