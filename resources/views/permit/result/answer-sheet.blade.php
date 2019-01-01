@@ -28,11 +28,12 @@
     <div class="row">
            <div class = "col-md-10">
            <div class="mycontainer">
+            @if(!empty($resultData))
             <h2> {{$resultData[0]->exam_name}} </h2>
 
             @foreach($resultData as $key => $result )
 
-      <div class="show_question">  
+           <div class="show_question">  
             <div class="question_data">
               <span class="question_number"> Q {{++$key }}: </span>
               <span class="inline question">
@@ -52,7 +53,13 @@
             </div>
             </div>
             @endforeach
+            @else
+
+            <h3 class="text-danger"> No Data to Show </h3>
+            @endif
              </div>
+
+
            </div>
         </div>
       </section>    
