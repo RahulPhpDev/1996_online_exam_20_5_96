@@ -405,10 +405,11 @@ class ExamController extends Controller
 
      public function removeExamQuestion($e_question_id, $e_examID){
          $question_id = Crypt::decrypt($e_question_id);
+        //  echo $question_id;
          $examID = Crypt::decrypt($e_examID);         
         $examData = Exam::findOrFail($examID);
         $questionData = Question::findOrFail($question_id);
-        //dd($questionData);
+        // dd($questionData);
         $examData->total_marks = $examData['total_marks'] - $questionData['marks'];
         $examData->total_question = $examData['total_question'] - 1;
         $examData->required_question = $examData['required_question'] - ($questionData['is_required'] == 1) ? 1 : 0;

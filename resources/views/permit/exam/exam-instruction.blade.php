@@ -69,11 +69,11 @@ font-family: initial;
 
 }
 .form_absolute{
-  position: absolute;
+  /* position: absolute;
     padding: 1px;
     top: 99px;
     /* left: 0px; */
-    right: 107px;
+    /* right: 107px; */ */
 }
 </style>
   <div class="maincontent">
@@ -113,23 +113,10 @@ font-family: initial;
         </div>
         @endif
 
-        @php
-             $hide = 0; 
-              if($examData->particular_date){
-                  $isBetween =   isDateInBetween($examData->start_date,$examData->end_date );
-                  if($isBetween == false){
-                    $hide = 1;
-                  }
-              }
-           @endphp
-           @if($hide == 0)   
-            <form action = "{{route('get-exam', ['id' => Crypt::encrypt($examData->id)])}}" method = "GET"  class = "pull-right form_absolute" >
-                <input class = "btn btn-success btn-custom let_start_btn" type = "Submit" value =  "Lets Start">
-            </form>
-            @endif
+      
 
 
-        <div class = "col-sm-7 col-sm-offset-1 exam_inspect" >
+        <div class = "col-sm-6 col-sm-offset-1 exam_inspect" >
            <div class = "col align-self-center ">
               <div class = "exam_notes">
               <div class = "info">
@@ -168,8 +155,22 @@ font-family: initial;
 
 
 
-  <div class="btndiv">    
-     
+<!-- Buuton Know -->
+          @php
+             $hide = 0; 
+              if($examData->particular_date){
+                  $isBetween =   isDateInBetween($examData->start_date,$examData->end_date );
+                  if($isBetween == false){
+                    $hide = 1;
+                  }
+              }
+           @endphp
+           @if($hide == 0)   
+            <form action = "{{route('get-exam', ['id' => Crypt::encrypt($examData->id)])}}" method = "GET"  class = " form_absolute" >
+                <input class = "btn btn-success btn-custom let_start_btn" type = "Submit" value =  "Lets Start">
+            </form>
+            @endif
+  <!-- <div class="btndiv hidden-sm" >    
     <ul class="buttonDetailsLeft">
       <span> You can Hit enter after select answer </span>
       <h2 style="    font-weight: 600;"> Know Your Buttons </h2>
@@ -180,24 +181,40 @@ font-family: initial;
         <li> <button name="save"  class="btn btn-danger savebtn btn-exam-custom">Skip ANd Next </button><span> This will Erase/Skip Question</span>
        </li>
          <li> <button name="save"  class="btn btn-primary savebtn btn-exam-custom">Preview  And Next</button> <span>Answered Not Given</span>
-        
       </li>
     </ul>
+  </div> -->
 
-  </div>
-  <div>
+  <!-- End Btn Div -->
+      <div>
    
-  </div> <div>
+      </div>
+   <div>
     
   </div>
-  
-
-
             <div class = "clear"> </div>
            
-          
             </div>
           </div>
+
+           <!-- <div class = "col-sm-4 col-lg-4">
+              <div class="btndiv hidden-sm" >    
+                <ul class="buttonDetailsLeft">
+                  <span> You can Hit enter after select answer </span>
+                  <h2 style="    font-weight: 600;"> Know Your Buttons </h2>
+                    <li>
+                         <button type = "button"  class = "btn btn-exam-custom btn-success" > Submit Exam  </button><span>Submit your exam</span>
+                       </li>
+                   <li><button name="save" class="btn btn-success savebtn btn-exam-custom" >Save And Next</button> Save Your Answer </li>
+                    <li> <button name="save"  class="btn btn-danger savebtn btn-exam-custom">Skip ANd Next </button><span> This will Erase/Skip Question</span>
+                   </li>
+                     <li> <button name="save"  class="btn btn-primary savebtn btn-exam-custom">Preview  And Next</button> <span>Answered Not Given</span>
+                  </li>
+                </ul>
+               </div>
+            </div> -->
+
+
         </div>
       </section>    
 </div>

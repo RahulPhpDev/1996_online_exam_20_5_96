@@ -59,7 +59,7 @@
              <div class = "action_div"> 
               <a  href="{{ route('edit-exam-question', ['id' =>  Crypt::encrypt($que['question']->question_id),'exam_id' => $id ]) }}" class = "edit_question btn  btn-og pull-right"> Edit  </a>
 
-              <a  href="{{ route('remove-exam-question', ['id' =>  Crypt::encrypt($que['question']->id),'exam_id' => $id ]) }}" class = "remove_question  btn btn-danger pull-right"> Remove  </a>
+              <a  href="{{ route('remove-exam-question', ['id' =>  Crypt::encrypt($que['question']->question_id),'exam_id' => $id ]) }}" class = "remove_question  btn btn-danger pull-right"> Remove  </a>
             </div>
               @if($que['question']->is_required == 1)  
               <i class="icon-star text-error required_question" style="display: inline"></i>

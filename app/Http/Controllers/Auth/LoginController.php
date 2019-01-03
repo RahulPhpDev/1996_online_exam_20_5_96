@@ -7,6 +7,9 @@ use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Session;
 use Auth;
 use App\User;
+use Illuminate\Http\Request;
+
+
 class LoginController extends Controller
 {
     /*
@@ -21,6 +24,11 @@ class LoginController extends Controller
     */
 
     use AuthenticatesUsers;
+
+    public $maxAttempts = 5;
+
+
+    public $decayMinutes = 3; #mintues
 
     /**
      * Where to redirect users after login.
@@ -96,4 +104,14 @@ class LoginController extends Controller
 
     return $this->sendFailedLoginResponse($request);
 }
+
+// protected function hasTooManyLoginAttempts(Request $request)
+//         {
+//          return $this->limiter()->tooManyAttempts(
+//                 $this->throttleKey($request), 2, 50
+//             );
+
+//         }
+
+
 }

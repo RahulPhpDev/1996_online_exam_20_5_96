@@ -5,8 +5,8 @@
 @extends('frontend_layouts.partials.footer')
 @section('content')
 <style>
-.navigation li:hover {background: #428BCA}
-.navigation li:hover a{color:#fff}
+.navigation li:hover {background: #fff}
+.navigation li:hover a{color:#428BCA}
 .navigation li {float: left; margin: 0; padding: 0;}
 .navigation li a {padding: 20px 30px; float: left;}
 .navigation li.active a {background: #428BCA; color: #fff;border-top: 2px solid #428BCA;}

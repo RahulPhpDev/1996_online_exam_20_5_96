@@ -1,6 +1,7 @@
 
+ <div class="col-md-1"></div>
+<div class = "col-md-10 profile_details"> 
  <h2 class="title-border"> My Profile </h2>
-<div class = "profile_details"> 
  <div  class="form-horizontal" >
                 <div class="form-group">
                         <label for="group_name" class="col-sm-4 control-label">Email :</label>

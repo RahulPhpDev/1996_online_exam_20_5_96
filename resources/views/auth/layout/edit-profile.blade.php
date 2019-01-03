@@ -82,7 +82,13 @@
                     <div class="form-group">
                         <label for="group_name" class="col-sm-2 control-label">{{ __('Address') }}</label>
                         <div class="col-sm-4">
-                            <input id="address" type="text" class="form-control" value ="{{Auth::User()->Student->address}}" name="address" required> 
+                        @php
+                            $address = '';
+                            if(!empty(Auth::User()->Student->address)){
+                                $address = Auth::User()->Student->address;
+                            }
+                        @endphp
+                            <input id="address" type="text" class="form-control" value ="{{$address}}" name="address" required> 
                        </div>
                     </div>
                   

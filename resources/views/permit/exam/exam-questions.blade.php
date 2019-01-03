@@ -6,9 +6,6 @@
 
 @section('content') 
 
-
-
-
 <script src='https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
   <script type="text/x-mathjax-config">
   MathJax.Hub.Config({
@@ -23,10 +20,39 @@
   });
 </script>
 <script type="text/javascript">
- 
+ function mobileView(){
+  $(".controls").find(".btn").removeClass('btn-exam-custom');
+    $(".controls").find(".btn").each(function(){
+      var text = $(this).text();
+      var newstr=text.replace('And Next', '');
+      $(this).text(newstr);
+     });
+ }
+ function laptopView(){
+  $(".controls").find(".btn").addClass('btn-exam-custom');
+   $(".controls").find(".btn").each(function(){
+        var text = $(this).text();
+        var newstr=text + ' And Next';
+        if(!$(this).hasClass('submitexam'))
+            {
+              $(this).text(newstr);
+            }
+     });
+ }
+ $(window).resize(function() {
+  var width = $(window).width();
+   if(width <= 767){
+    mobileView();
+   } else {
+    laptopView();
+   }
+});
 
-  $(function () {
-    console.log(' check');
+  $(function () {   
+    var width = $(window).width();
+    if(width <= 767){
+        mobileView();
+      }
     // $('#myModal').modal('show');
     var diff = '<?php echo $difference; ?>';
     if( diff != 0){
@@ -49,8 +75,6 @@ var i = setInterval(function() { compareTime(); }, 1000*62);
         }
       }
     }
-
-
 
   $(document).on("click",".opt_data",function(){
       $(this).find('input[type="radio"]').prop('checked', true);
@@ -141,16 +165,17 @@ var i = setInterval(function() { compareTime(); }, 1000*62);
     <section class="section_instruct">
       <div class="container-fluid">
 	 	<div class="col-md-12">
-     <div class = "col-md-8">
+     <div class = "col-md-8 hidden-sm">
        <div class ="exam_details">                 
-                      <div class = "inline_block">  <div class = "detail_heading">  Time : <span> {{$examDetails->time}} </span></div> </div>
-                      <div class = "inline_block"><div class = "detail_heading">   Question : <span> {{$examDetails->total_question}}  </span> </div> </div>
-                      <div class = "inline_block">  <div class = "detail_heading">   Mark : <span> {{$examDetails->total_marks}}  </span> </div></div>
+                <div class = "inline_block">  <div class = "detail_heading">  Time : <span> {{$examDetails->time}} </span></div> </div>
+                <div class = "inline_block"><div class = "detail_heading">   Question : <span> {{$examDetails->total_question}}  </span> </div> </div>
+                <div class = "inline_block">  <div class = "detail_heading">   Mark : <span> {{$examDetails->total_marks}}  </span> </div>
+          </div>
           <div class = "inline_block"><div class = "detail_heading head_span uppercase ">  {{$examDetails->exam_name}}  </div>   </div>
             </div>
         </div>
 
-<div class = " col-sm-2  col-sm-offset-2">
+<div class = " col-sm-1 col-md-2 col-sm-offset-2 ">
       <div class="timer_data alert alert-danger alert-dismissible " id="myAlert">
           <div class="stopwatch" data-autostart="false">
               <div class="time">
@@ -229,9 +254,9 @@ var i = setInterval(function() { compareTime(); }, 1000*62);
 
                 <button name="save" type="submit" value="preview" class="btn btn-primary savebtn btn-exam-custom">Preview  And Next</button>
 
-                <button name="save" type="submit" value="skip" class="btn btn-danger savebtn btn-exam-custom">Skip ANd Next </button>
+                <button name="save" type="submit" value="skip" class="btn btn-danger savebtn btn-exam-custom">Skip And Next </button>
                 <div class = "pull-right">
-                  <button type = "button"  class = "btn btn-exam-custom btn-success" id = "submitExam"> Submit Exam </button>
+                  <button type = "button"  class = "btn btn-exam-custom btn-success submitexam" id = "submitExam"> Submit Exam </button>
                 </div>
                  </div>
                 {{ Form::close() }}

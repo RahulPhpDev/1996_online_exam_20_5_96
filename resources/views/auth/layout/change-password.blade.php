@@ -19,6 +19,9 @@
         });
     });
 </script>
+
+<div class="col-md-1"></div>
+<div class = "col-md-10"> 
 <h2 class="title-border"> Change Password </h2>
 <form id="post_password" class="form-horizontal" role="form" enctype="multipart/form-data" method="post" accept-charset="utf-8" action="{{ route('update-user-password') }}">
                     @csrf    
@@ -57,3 +60,4 @@
                 </div>
              </div>
       </form>
+      </div>
