@@ -108,7 +108,7 @@
                      $examVisible = 'All';
                 }else if($data['exam_visible_status']== 2){
                    $btnAction = 'exam-accessbility';
-                   $examVisible = 'Register Student';
+                   $examVisible = 'Student';
                 }else if($data['exam_visible_status']== 3){
                   $btnAction = 'exam-package-accessbility';
                   $examVisible = 'Package';
