@@ -1,0 +1,13 @@
+git add app/Http/Controllers/Admin/ExamController.php
+git add app/Model/Exam.php
+git add app/helpers/helper.php
+git add database/changes_file
+git add database/status_meaning
+git add resources/views/admin/exam/add-exam-question.blade.php
+git add resources/views/admin/exam/confirm-exam.blade.php
+git add resources/views/admin/exam/edit-question.blade.php
+git add resources/views/admin/exam/exam-accessbility.blade.php
+git add resources/views/admin/exam/exam-list.blade.php
+git add resources/views/admin/exam/exam-question.blade.php
+git add routes/web.php
+  resources/views/admin/exam/exam-package-accessbility.blade.php
