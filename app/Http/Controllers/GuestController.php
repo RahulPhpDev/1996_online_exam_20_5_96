@@ -65,6 +65,9 @@ class GuestController extends Controller
    
      public function aboutUs()
     {
+        // echo asset('test');die(); #http://127.0.0.1:2000/test 
+       // echo  url('/public')."/images/equation_icon/";die();
+ //     echo public_path();die(); //C:\xampp\htdocs\1996_online_exam_20_5_96\public
         return view('guest.about-us');
     }
 
