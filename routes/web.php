@@ -145,9 +145,8 @@ Route::post('/update-subscription-img','Admin\AdminController@updateSubscription
 
 
 Route::post('/save-subscription', 'Admin\AdminController@saveSubscription')->name('save-subscription');
-
+/****** ================= EXAMS ==========================******/
 Route::any('add-exam', 'Admin\ExamController@addExam')->name('add-exam');
-
 
 Route::post('save-add-exam', 'Admin\ExamController@saveAddExam')->name('save-add-exam');
 
@@ -157,7 +156,7 @@ Route::post('/save-exam-question/{id}', 'Admin\ExamController@saveExamQuestion')
 
 Route::post('/update-exam-img','Admin\ExamController@updateExamImg')->name('update-exam-img');
 
-Route::get('confirm-exam/{id}', 'Admin\ExamController@confirmExam')->name('confirm-exam');
+Route::any('confirm-exam/{id}', 'Admin\ExamController@confirmExam')->name('confirm-exam');
 
 Route::post('save-confirm-exam/{id}', 'Admin\ExamController@saveConfirmExam')->name('save-confirm-exam');
 
@@ -177,12 +176,19 @@ Route::get('/remove-exam-question/{id}/{exam_id?}', 'Admin\ExamController@remove
 
 Route::post('/updateExamQuestion/{id?}','Admin\ExamController@updateExamQuestion')->name('updateExamQuestion');
 
+Route::post('assignUsersExam/{id?}', 'Admin\ExamController@assignUsersExam')->name('assignUsersExam');
+
+Route::post('assignPackageExam/{id?}', 'Admin\ExamController@assignPackageExam')->name('assignPackageExam');
+
+/* =========================== END =====================*/
 Route::post('/approve-user','Admin\UserController@approveUser')->name('approve-user');
 
 
 Route::get('/get-register-student', 'Admin\UserController@getRegisterStudent')->name('get-register-student');
 
 Route::get('/exam-accessbility/{id}', 'Admin\ExamController@examAccessbility')->name('exam-accessbility');
+
+Route::get('/exam-package-accessbility/{id}', 'Admin\ExamController@examPackageAccessbility')->name('exam-package-accessbility');
 
 Route::get('/assignExam/{id?}', 'Admin\ExamController@assignExam')->name('assignExam');
 

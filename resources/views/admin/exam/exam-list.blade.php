@@ -5,6 +5,38 @@
 @extends('layouts.partials.footer')
 @section('title', $title)
 @section('content')
+<style>
+.select_opt{
+  margin:5px 11px 0px 0px;
+}
+.filter-label{
+  font-size:16px;
+  color: #333;
+    position: relative;
+    top: 0;
+}
+.round_num{
+    width: 10%;
+    padding: 4px 10px 5px 9px;
+    background: #ff000082;
+    border-radius: 46%;
+    color: #fff;
+    margin-left: 4px;
+}
+  </style>
+  <script>
+  $(function(){
+    
+    $('#filter_status').on('change', function (e) {
+        var optionSelected = $("option:selected", this);
+        var valueSelected = this.value;
+        // console.log(valueSelected);
+        window.location.href = '/exam?filter='+valueSelected;
+       
+  });
+
+});
+  </script>
 <div id="content">
     <div class="container-fluid">
     <hr>
@@ -16,7 +48,24 @@
             <h5>Exam</h5>
           </div>
           <div class=" nopadding">
+          <div class = "col-sm-3 pull-right select_opt">
+         <?php
+          $filter = '';
+            if(isset($_GET['filter'])){
+                $filter = $_GET['filter'];
+            }
+        ?>
+          <span class = "filter-label"> Filter :</span>
+                <select name = "filter" id = "filter_status">
+                  <option value = 'active' <?php if($filter == 'active') { echo 'Selected'; }?>> Active </option>
+                  <option value = 'all' <?php if($filter == 'all') { echo 'Selected'; }?>> All </option>
+                  <option value = 'in_complete' <?php if($filter == 'in_complete') { echo 'Selected'; }?>> In Complete </option>
+                  <option value = 'disable' <?php if($filter == 'disable') { echo 'Selected'; }?>> Disable </option>
+                  <option value = 'passed_date' <?php if($filter == 'passed_date') { echo 'Selected'; }?>> Passed Date </option>
+                </select>
+            </div>
             <table id = "data_table"  class="table table-bordered table-striped">
+            
               <thead>
                 <tr>
                   <th>Name</th>
@@ -27,29 +76,50 @@
                   <th> Result </th>
                   <th> View/Edit Question </th>
                   <th> Edit </th>
-                  <th> Disable </th>
+                  <th> Action </th>
                 </tr>
               </thead>
               <tbody>
            <?php foreach($examDetails as $data) { ?>
            @php
            $bgclass = '';
-           if($data['status'] == 0){$bgclass = "bg-danger"; }
+           if($data['status'] == 0){
+            $actionText = 'Complete';
+            $btnClass = 'btn-primary';
+            $formAction = 'confirm-exam';
+           }
+
+           else if($data['status'] == 1){
+            $actionText = 'Disable';
+            $btnClass = 'btn-danger';
+            $formAction = 'delete-exam';
+           }
+           else{
+            $actionText = 'Active';
+            $btnClass = 'btn-og';
+            $formAction = 'confirm-exam';
+           }
           @endphp
-                <tr class="odd {{$bgclass}}">
+                <tr class="odd">
                   <td>{{$data['exam_name']}}</td>
                   @php
-                   $examVisible  = '';
+                   $examVisible  = $btnAction = '';
                   if($data['exam_visible_status']== 1){
-                  $examVisible = 'All';
+                     $examVisible = 'All';
                 }else if($data['exam_visible_status']== 2){
+                   $btnAction = 'exam-accessbility';
                    $examVisible = 'Register Student';
                 }else if($data['exam_visible_status']== 3){
+                  $btnAction = 'exam-package-accessbility';
                   $examVisible = 'Package';
                 }
                   @endphp
-                  <td class = "center">@if( $examVisible != '') <button data-toggle="modal" data-target="#myModal" type = "button"  class ="show_visible_to btn btn-primary" data-id = "{{ Crypt::encrypt($data['id'])  }}"> {{$examVisible}} </button>@endif </td>
-                 
+                 @if($data['exam_visible_status']== 2 || $data['exam_visible_status']== 3) 
+                 <!-- href="{{route('profile', ['id' => 1])}}" -->
+                  <td class = "center">@if( $examVisible != '') <a href = "{{route($btnAction, ['id' => Crypt::encrypt($data['id'])])}}" type = "button"  class ="show_visible_to btn btn-primary"> {{$examVisible}} </a>@endif </td>
+                 @else
+                  <td class = "center">@if( $examVisible != '') <button  type = "button"  class ="show_visible_to btn btn-primary"> {{$examVisible}} </button>@endif </td>
+                 @endif
                   <td class = "center">
                   <button data-toggle="modal" data-target="#myModal" type = "button"  class ="exam_detail btn btn-primary" data-id = "{{ Crypt::encrypt($data['id'])  }}"> Details </button> 
                    </td>
@@ -61,12 +131,12 @@
                  <td class = "center"> <a class ="text-blue" href="{{ route('examresult', ['id' => Crypt::encrypt($data['id']) ]) }}">{{count($data->Results)}}  View
                    </td> 
 
-                  <td class = "center"> <a class ="btn btn-success" href="{{ route('exam-question', ['id' => Crypt::encrypt($data['id']) ]) }}">Questions <i class="fa fa-fw fa-arrow-circle-right"></i></a>&nbsp&nbsp
+                  <td class = "center"> <a class ="btn btn-success" href="{{ route('exam-question', ['id' => Crypt::encrypt($data['id']) ]) }}">Questions <i class="fa fa-fw fa-arrow-circle-right"></i></a> <span class = "round_num"> {{count($data->ExamQuestion)}} </span>
                    </td> 
                   <td class = "center"> <a type = "button" class ="btn btn-sm btn-success" href="{{ route('edit-exam', ['id' => Crypt::encrypt($data['id']) ]) }}"> Edit </a> </td>
-                 <form method = "post" action = "{{ route('delete-exam',['id'=> Crypt::encrypt($data['id'])]) }}"> 
-                 {{ Form::open(array('route' => ['delete-exam', Crypt::encrypt($data['id']) ] ) )}}
-                  <td  class = "center">  <button type = "submit" class ="btn btn-danger" >Disable  </button> </td>
+                  
+                 {{ Form::open(array('route' => [$formAction, Crypt::encrypt($data['id']) ] ) )}}
+                  <td  class = "center">  <button type = "submit" class ="btn {{$btnClass}}" >{{ $actionText }}</button> </td>
                   {{ Form::close() }}
                 </tr>
                 

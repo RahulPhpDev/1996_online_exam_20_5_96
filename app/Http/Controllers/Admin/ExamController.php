@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Crypt;
 use App\Service\PayUService\Exception;
 use Illuminate\Database\QueryException;
 use DB;
+use Auth;
 // MODEL 
 
 use Image;
@@ -36,8 +37,14 @@ class ExamController extends Controller
 //    var  $date =  date("Y-m-d");
 
     public function examList(){
+        if(isset($_GET['filter'])){
+            $filter = $_GET['filter'];
+            $whereData =  getExamStatusMeaning($filter);
+        }else{
+            $whereData = array('status', '=',  '1');
+        }
         $title = 'Exam';
-        $examDetails = Exam::where('status', 1)->orderBy('id','DESC')->get();
+        $examDetails = Exam::where([$whereData])->orderBy('id','DESC')->get();
         return view('admin.exam.exam-list', compact('examDetails','title'));
     }
     public function addExam(){
@@ -80,9 +87,9 @@ class ExamController extends Controller
             $id =  $exam::create($examData)->id;
 
             if(isset($request['course'])){
-              $examDetailsById = Exam::find($id);
+              $examDetailsById = Exam::findorfail($id);
             foreach($request['course'] as $course){
-              //$food = Food::find(1);
+              //$food = Food::findorfail(1);
 //$food->allergies()->sync([1 => ['severity' => 3], 4 => ['severity' => 1]]);
                 $examDetailsById->Courses()->attach(array('course_id' => $course));
            }
@@ -107,7 +114,7 @@ class ExamController extends Controller
                     'start_date' => date('Y-m-d')
                   );
 
-                 $userDetails =  User::find($userId);
+                 $userDetails =  User::findorfail($userId);
                  $userDetails->Exam()->attach($id,$extraFieldInUserExam);
                }
              }
@@ -115,7 +122,7 @@ class ExamController extends Controller
           $msg = 'Inserted Successfully';
 
           if(isset($request['image'])){
-            $detailsByID = Exam::find($id);
+            $detailsByID = Exam::findorfail($id);
             $image = $request['image'];
             $imageName = 'exam_'.$id.'.'.$image->getClientOriginalExtension();
             
@@ -214,7 +221,7 @@ class ExamController extends Controller
         // dd($request->all());
        DB::beginTransaction();
        try{
-          $examData =   Exam::Find($id);
+          $examData =   Exam::findorfail($id);
           $total_mark = (($examData->total_marks) > 0) ? $examData->total_marks : 0;
           $is_required = 0;
         //   (($examData->is_required) > 0) ? $examData->is_required : 0;
@@ -334,7 +341,7 @@ class ExamController extends Controller
      public function saveConfirmExam(Request $request , $id){
     //   dd($request->all());
          $de_id =  Crypt::decrypt($id);
-         $examDetails = Exam::find($de_id);
+         $examDetails = Exam::findorfail($de_id);
          $title = 'Confirm Exam';
          $examDetails->minimum_passing_marks = $request['passing_mark'];
          $examDetails->passing_marks_type = $request['passing_mark_type'];
@@ -342,15 +349,15 @@ class ExamController extends Controller
          $examDetails->status = 1;
          $examDetails->save();
         
-         $examDetails = Exam::find($de_id);
+         $examDetails = Exam::findorfail($de_id);
         //  dd($examDetails);
-        // $examData = Exam::find($)
+        // $examData = Exam::findorfail($)
          return view('admin.exam.confirm-exam-post',compact('title','examDetails'));
      }
 
      public function editExam($id){
          $de_id =  Crypt::decrypt($id);
-         $examDetails = Exam::find($de_id);
+         $examDetails = Exam::findorfail($de_id);
         //  dd($examDetails->toArray());
          $title = 'Edit '.$examDetails['exam_name']. ' Exam';
          // dd( $title );
@@ -367,7 +374,7 @@ class ExamController extends Controller
             $spacific_date = 1;
         }
         $de_id =  Crypt::decrypt($id);
-        $examDetails = Exam::find($de_id);
+        $examDetails = Exam::findorfail($de_id);
         $examDetails->exam_name = $input['exam_name'];
         $examDetails->passing_marks_type = $input['passing_marks_type'];
         $examDetails->minimum_passing_marks = $input['minimum_passing_marks'];
@@ -381,7 +388,7 @@ class ExamController extends Controller
 
      public function examPostSuccess($id){
         $de_id =  Crypt::decrypt($id);
-        $examDetails = Exam::find($de_id);
+        $examDetails = Exam::findorfail($de_id);
      }
 
      public function moreQuestion($id){
@@ -398,7 +405,7 @@ class ExamController extends Controller
 
      public function editExamQuestion($id, $examID){
          $e_id = Crypt::decrypt($id);
-         $questionData =  Question::find($e_id);
+         $questionData =  Question::findorfail($e_id);
          $title =  'Edit Question';
          return view('admin.exam.edit-question', compact('questionData','title','e_id','id','examID'));
      }
@@ -428,10 +435,9 @@ class ExamController extends Controller
      
 
      public function updateExamQuestion(Request $req, $id) {  
+         // dd($req->all());
          $e_id = Crypt::decrypt($id);
-        $questionData =  Question::find($e_id);
-        $questionData->rightAnswer['option_id'] = $req['answer'];
-        $questionData->rightAnswer->save();
+         $questionData =  Question::findorfail($e_id);
 
         $req['is_required'] = 0;
         // ($req['is_required']) ? $req['is_required'] : 0;
@@ -449,15 +455,44 @@ class ExamController extends Controller
             $opData->question_option =  $req['option'][$opData->id];
             $opData->save();
         }
-        // return redirect()->route('profile', ['id' => 1]);
+      
+         $rightAnswerTaken = false;
+         if(isset($req['option_new'])) {
+          $getQuestionOptions = $req['option_new'];
+          foreach($getQuestionOptions as $opK => $opV){
+              if(!is_null( $opV)){
+                      $optionData = array(
+                          'question_id' => $e_id ,
+                          'question_option' => htmlentities($opV),
+                          'option_type' =>  1,
+                          'add_date' =>  date("Y-m-d"),
+                      );
+                    $optId =  QuestionOption::create($optionData)->id;
+
+                    if(isset($req['answer']) && ($rightAnswerTaken != true)){
+                     if (strpos($req['answer'], 'new_') !== false) { 
+                      $answerArr =  explode('_' ,$req['answer']);
+                      if($opK  == $answerArr[1]){
+                          $questionData->rightAnswer['option_id'] = $optId;
+                          $questionData->rightAnswer->save();
+                          $rightAnswerTaken = true;
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+             if(isset($req['answer']) && ($rightAnswerTaken != true)){
+                $questionData->rightAnswer['option_id'] = $req['answer'];
+                $questionData->rightAnswer->save();
+            }
         $exam_id = $req['exam_id'];
         return redirect()->route('confirm-exam',  ['id' => $exam_id]);
-        // confirmExam
     }
 
     public function deleteExam($id){
         $examId = Crypt::decrypt($id);
-        $examDetails = Exam::find($examId);
+        $examDetails = Exam::findorfail($examId);
         $examSubscriptionID = $examDetails->Subscriptions()->allRelatedIds()->toArray();
         foreach($examSubscriptionID as $eSi){
           $examDetails->Subscriptions()->sync( array( 
@@ -471,7 +506,7 @@ class ExamController extends Controller
            $eUi => array( 'status' => 0 ),
           ), false);
         }
-        $examDetails->status = 0;
+        $examDetails->status = 2;
         $examDetails->save();
         return Redirect::back()->withErrors(['success', 'Exam Is Disable']);
       }
@@ -479,13 +514,33 @@ class ExamController extends Controller
     public function examAccessbility($id){
        $e_id = Crypt::decrypt($id);
        $examDetails =  Exam::findOrFail($e_id);
+       $selectUsers =  $examDetails->UserExamData;
+       $userData = Auth::user();
+       $userId = $userData['id'];
+       $selectUsersArray = [$userId];
+       foreach($selectUsers as $seUs){
+          $selectUsersArray[] = $seUs['id'];
+       }
+       $allUser =  User::whereNotIn('id', $selectUsersArray)->where(['status' => 1])->orderBy('fname')->get();
+       return view('admin.exam.exam-accessbility',compact('examDetails', 'id','examAccessbilityData','allUser','selectUsersArray'));
+    }
 
-       return view('admin.exam.exam-accessbility',compact('examDetails', 'id','examAccessbilityData'));
+    public function examPackageAccessbility($id){
+       $e_id = Crypt::decrypt($id);
+       $examDetails =  Exam::findOrFail($e_id);
+       $subscriptionsData =  $examDetails->Subscriptions;
+       $selectSubscriptionArray = [];
+       foreach($subscriptionsData as $subId){
+          $selectSubscriptionArray[] = $subId['id'];
+       }
+       $allSubscription =  Subscription::whereNotIn('id', $selectSubscriptionArray)->where(['status' => 1])->orderBy('name')->get();
+       // dd( $allSubscription);
+       return view('admin.exam.exam-package-accessbility',compact('examDetails', 'id','allSubscription','subscriptionsData','selectSubscriptionArray'));
     }
 
     public function removeExamUser( Request $req, $id){
        $e_id = Crypt::decrypt($id);
-        $examData = Exam::find($e_id);
+        $examData = Exam::findorfail($e_id);
         foreach($req['all_ids'] as $ids){ 
           $examData->UserExamData()->updateExistingPivot(
             $ids, array('status' => 0), false);
@@ -494,9 +549,34 @@ class ExamController extends Controller
 
     public function examDetails($id){
          $e_id = Crypt::decrypt($id);
-         $examDetails = Exam::find($e_id);
-        //  dd($examDetails);
+         $examDetails = Exam::findorfail($e_id);
          return view('admin.exam.exam-details',compact('examDetails'));
     }
-   }
+
+    public function assignUsersExam( Request $req, $id){
+       $e_id =  Crypt::decrypt($id);
+       $examData = Exam::findorfail($e_id);
+       $status = array('status' => 1);
+       $syncData = array();
+       foreach($req['add'] as $user_id){
+            $syncData[$user_id] = $status;
+      }
+      $examData->UserExamData()->sync($syncData);
+      $msg = 'Update';
+      return redirect()->back()->with('success',$msg);
+    }
+
+    public function assignPackageExam(Request $req, $id){
+       $e_id =  Crypt::decrypt($id);
+       $examData = Exam::findorfail($e_id);
+       $status = array('status' => 1);
+       $syncData = array();
+       foreach($req['add'] as $sub_id){
+            $syncData[$sub_id] = $status;
+      }
+      $examData->Subscriptions()->sync($syncData);
+      $msg = 'Update';
+      return redirect()->back()->with('success',$msg);
+    }
+  }
 

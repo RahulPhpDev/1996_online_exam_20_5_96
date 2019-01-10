@@ -2,7 +2,7 @@
 @extends('layouts.partials.header')
 @extends('layouts.partials.sidebar')
 @extends('layouts.partials.footer')
-@section('title', $title = 'Student')
+@section('title', $title = 'Package')
 @section('content') 
 <style type="text/css">
 	
@@ -16,47 +16,45 @@
     <div class="row-fluid">
       <div class="span12">
         <div class="widget-box">
-        <div class="widget-title"> <span class="icon"> <i class="icon-th"></i> </span><h3>Student</h3>
+        <div class="widget-title"> <span class="icon"> <i class="icon-th"></i> </span> <h3>Package</h3>
            </div>
-           @if($examDetails->exam_visible_status == 2)
-           {{ Form::open(array('route' => ['assignUsersExam', $id], 'id'=>'basic_validate'))}}
+           {{ Form::open(array('route' => ['assignPackageExam', $id], 'id'=>'basic_validate'))}}
               <div class="widget-content nopadding">
                           <table id="data_table" class="table table-bordered table-striped">
                             <thead>
                               <tr>
-                                <th>Add</th>
-                                <th>Exam</th>
-                                <th>Users</th>
-                                <th>Email</th>
+                               <th>Add</th>
+                               <th>Exam</th>
+                                <th>Package</th>
+                                <th>Price</th>
                               </tr>
                             </thead>
                             <tbody>
                            <?php 
                            // for($i = 0;$i <20; $i++){
-                              foreach($examDetails->UserExamData as $data) { ?>     
+                              foreach($subscriptionsData as $data) { ?>     
                                  <tr class="odd">
                                   <td class="center"> <input class ="chk_user" type = "checkbox" checked value = "{{$data->id}}" name = "add[]"></td>
                                     <td>{{$examDetails->exam_name}}</td>
-                                    <td>{{$data->fname. ' '.$data->lname}}</td>
-                                    <td>{{$data->email}}</td>      
+                                    <td>{{$data->name}}</td>
+                                    <td>{{$data->price}}</td>      
                                   </tr>
                                <?php } 
-                                foreach($allUser as $user) { ?>     
+                                foreach($allSubscription as $data) { ?>     
                                  <tr class="odd">
-                                  <td  class="center"> <input class ="chk_user" type = "checkbox" value = "{{$user->id}}" name = "add[]"></td>
+                                  <td  class="center"> <input class ="chk_user" type = "checkbox" value = "{{$data->id}}" name = "add[]"></td>
                                     <td>{{$examDetails->exam_name}}</td>
-                                    <td>{{$user->getFullName()}}</td>
-                                    <td>{{$user->email}}</td>      
+                                    <td>{{$data->name}}</td>
+                                    <td>{{$data->price}}</td>      
                                   </tr>
                                <?php } ?>
                             </tbody>
                           </table>
                       <div class = "save_btn_form sm-offset-2">
-                        <input class = "save btn btn-success" type = "submit" value = "Add" name = "save">
+                        <input class = "save btn btn-success btn-custom" type = "submit" value = "Add" name = "save">
                     </div>
                   </div>
                {{ Form::close() }}
-             @endif
           </div>
         </div> 
       </div>

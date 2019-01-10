@@ -1,15 +1,49 @@
 <?php
 
+if(!function_exists('getExamStatusMeaning')){
+    function getExamStatusMeaning($status){
+        $statusArr = array('status', '>=',  1);
+        switch($status){
+            case 'active':
+               $statusArr = array('status', '=', 1);
+               return $statusArr;
+            break;
 
+            case 'disable':
+                $statusArr = array('status', '=',  2);
+                return $statusArr;
+            break;
+
+            case 'all':
+                $statusArr = array('status', '>=',  0);
+                return $statusArr;
+              break;
+
+            case 'in_complete':
+              $statusArr = array('status', '=',  0);
+              return $statusArr;
+            break;
+
+            case 'passed_date':
+                $statusArr = array('end_date', '>=', date('Y-m-d H:i:s'));
+                return $statusArr;
+            break;
+
+            default:
+                return  $statusArr;
+            break;
+        }
+    }
+}
 if (!function_exists('timeDifference')) {
     function timeDifference($date)
     {
-    $time = date('Y-m-d H:i:s');
-	$start_date = new DateTime($date);
-    $end_date = new DateTime($time);
-    $interval = $start_date->diff($end_date);
-    $diff = $interval->h.":".$interval->i.":".$interval->s;
-	return $diff;
+        $time = date('Y-m-d H:i:s');
+        $start_date = new DateTime($date);
+        $end_date = new DateTime($time);
+        $interval = $start_date->diff($end_date);
+        $diff = $interval->h.":".$interval->i.":".$interval->s;
+        return $diff;
     }
 }
 
