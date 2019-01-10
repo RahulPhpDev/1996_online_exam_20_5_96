@@ -96,38 +96,51 @@ $(".option_style").on( "click", function(){
                 </div>
               </div>
             </div>
+                <?php $remainingOption = 4; ?>
                 @foreach($questionData->Options as $key => $options)
                    <?php
+                     $remainingOption--;
                      $incrementKey = ++$key;
                   ?>
                      
                   <div class="controls controls-row option_div">
                   <span class = "span_style option_style pull-right">+STYLE+</span>
                     <?php
-                   $check =  ($questionData->rightAnswer['option_id'] == $options->id) ? 'checked' :'';
+                       $check =  ($questionData->rightAnswer['option_id'] == $options->id) ? 'checked' :'';
                     ?> 
                      <label class="option_ra">
-                    <input type="radio" name = "answer" {{$check}} value = "{{$options->id}}" />
-                        <textarea class="option_txtarea" id="option_{{$options->id}}" cols="80%" name="option[{{$options->id}}]" rows="10">  <?php echo htmlspecialchars_decode($options->question_option); ?></textarea>
-                     <span class="checkmark"></span>
-                </label>
-
-                 
+                        <input type="radio" name = "answer" {{$check}} value = "{{$options->id}}" />
+                            <textarea class="option_txtarea" id="option_{{$options->id}}" cols="80%" name="option[{{$options->id}}]" rows="10">  <?php echo htmlspecialchars_decode($options->question_option); ?></textarea>
+                         <span class="checkmark"></span>
+                   </label>                 
                 </div>
               @endforeach
+
+              @if($remainingOption > 0)
+                @for($i = 1; $i <= $remainingOption; $i++)
+                    <div class="controls controls-row option_div">
+                      <span class = "span_style option_style pull-right">+STYLE+</span>
+                         <label class="option_ra">
+                            <input type="radio" name = "answer" value = "new_{{$i}}" />
+                                <textarea class="option_txtarea" id="option_new{{$i}}" cols="80%" name="option_new[{{$i}}]" rows="10"></textarea>
+                             <span class="checkmark"></span>
+                       </label>                 
+                    </div>
+                @endfor
+              @endif
              
             <div class = "inline_div">
              <div class="">
-             <div  class="controls border_top"> 
-              <label class="">Marks :</label>
-                <input type="text" class = "mark"  name="total_mark" value="{{$questionData->marks}}" />
-             </div>
+               <div  class="controls border_top"> 
+                <label class="">Marks :</label>
+                  <input type="text" class = "mark"  name="total_mark" value="{{$questionData->marks}}" />
+               </div>
              <!-- <div  class="controls border_top" > 
                 <?php //$checked = $questionData->is_required == 1 ? 'checked' :''; ?>
                   <input type="checkbox"  style = "" name="is_required" value="1" {{--$checked--}} />
                  <label class="" style="font-size: 16px;text-align:center"> Is Required </label>               
               </div> -->
-<div class = "border_top">
+          <div class = "border_top">
                 <div  class="controls  inline_div inline" style = "width:30%">                  
                <?php $negativeChecked = $questionData->is_negative_marking == 1 ? 'checked' :''; 
                $negativeVal = $questionData->is_negative_marking == 1 ? 1 :0; 

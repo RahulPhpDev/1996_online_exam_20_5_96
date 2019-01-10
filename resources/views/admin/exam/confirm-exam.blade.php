@@ -42,28 +42,18 @@ $(document).ready(function () {
     });
 </script>
 <script type="text/javascript">
+ $(function(){
+   
    $(".show_question").hover(function(){
           $(this).find(".action_div").css({"display": "inline"});
         }, function(){
           $(this).find(".action_div").css({"display": "none"});
     });
+ });
 </script>
 
 <style type="text/css">
-.action_div{
-  display:none;
-}
-.action_div {
-    position: absolute;
-    right: 0;
-    top: 0;
-    bottom: 0;
-}
-.action_div a {
-  width:60px;
-  padding:5px;
-  margin:0px 2px 0px 2px;
-}
+
 .add_more_question{
   padding:4px;
   margin-right:10px;
@@ -130,9 +120,9 @@ margin-right:10px;
               </span>
 
              <div class = "action_div"> 
-              <a  href="{{ route('edit-exam-question', ['id' =>  Crypt::encrypt($que['question']->id),'exam_id' => $id ]) }}" class = "edit_question btn  btn-error pull-right"> Edit  </a>
+              <a  href="{{ route('edit-exam-question', ['id' =>  Crypt::encrypt($que['question']->question_id),'exam_id' => $id ]) }}" class = "edit_question btn btn-og pull-right"> Edit  </a>
 
-              <a  href="{{ route('remove-exam-question', ['id' =>  Crypt::encrypt($que['question']->id),'exam_id' => $id ]) }}" class = "remove_question  btn btn-error pull-right"> Remove  </a>
+              <a  href="{{ route('remove-exam-question', ['id' =>  Crypt::encrypt($que['question']->question_id),'exam_id' => $id ]) }}" class = "remove_question  btn btn-danger pull-right"> Remove  </a>
             </div>
               @if($que['question']->is_required == 1)  
               <i class="icon-star text-error required_question" style="display: inline"></i>

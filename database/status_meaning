@@ -13,6 +13,12 @@ exam_visible_status
 3==package
 4=== payable
 
+
+exam_table_status
+0 => In Complete
+1 => Active
+2 => Delete
+
 in composer add => "maatwebsite/excel":"~2.1.0"
 
 composer update

@@ -223,13 +223,8 @@ $(".question_textarea").each(function(){
                         {{ Form::textarea('option[1][]',' ', array('class' => 'option_txtarea', 'id'=> 'option_1_3','cols' => '80%')) }}
                   <span class="checkmark"></span>
                 </label>
-              </div>
-        </div>
-
-
-               
-
-
+               </div>
+            </div>
 
               <!-- <div  class="" style="display: inline-block;margin-left:20px"> 
                  <label class="control-label"  style="font-size: 16px"> Required </label>

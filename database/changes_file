@@ -1,19 +1,13 @@
-git add   app/Http/Controllers/Admin/UserController.php
-git add   app/Http/Controllers/Auth/FileController.php
-git add   app/Http/Controllers/Auth/UserController.php
-git add   resources/views/admin/course/course_list.blade.php
-git add   resources/views/admin/exam/add-exam-question.blade.php
-git add   resources/views/admin/exam/edit-question.blade.php
-git add   resources/views/auth/layout/change-password.blade.php
-git add   resources/views/auth/layout/edit-profile.blade.php
-git add   resources/views/auth/layout/my-profile.blade.php
-git add   resources/views/auth/profile.blade.php
-git add   resources/views/frontend_layouts/partials/header.blade.php
-git add   routes/web.php
-git add  public/js/common/extra_validate.js
-git add  resources/views/auth/layout/profile-image.blade.php
-
-
-git rm   public/js/backend_js/matrix.dashboard.js
-git rm   public/js/backend_js/matrix.tables.js
-git rm   public/js/backend_js/matrix.wizard.js
+git add app/Http/Controllers/Admin/ExamController.php
+git add app/Model/Exam.php
+git add app/helpers/helper.php
+git add database/changes_file
+git add database/status_meaning
+git add resources/views/admin/exam/add-exam-question.blade.php
+git add resources/views/admin/exam/confirm-exam.blade.php
+git add resources/views/admin/exam/edit-question.blade.php
+git add resources/views/admin/exam/exam-accessbility.blade.php
+git add resources/views/admin/exam/exam-list.blade.php
+git add resources/views/admin/exam/exam-question.blade.php
+git add routes/web.php
+  resources/views/admin/exam/exam-package-accessbility.blade.php

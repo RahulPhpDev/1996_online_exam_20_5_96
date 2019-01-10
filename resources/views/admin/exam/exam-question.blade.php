@@ -39,12 +39,13 @@
  <a  href="{{ route('add-exam-question', ['exam_id' => $id ]) }}" class = "add_more_question  btn btn-success pull-right"> Add More Question </a>
         </h5>
       </div>
+        @if(!empty($examQuestion['question'])) 
           <?php 
                $totalQuestion = $totalMark = $totalRequiredQuestion = $totalNegativeQuestion =$questionNumber =  0; 
                 foreach($examQuestion['question'] as $que) { 
-                $questionNumber++;
-                $totalQuestion++;
-                $totalMark = $totalMark + $que['question']->marks;
+                  $questionNumber++;
+                  $totalQuestion++;
+                  $totalMark = $totalMark + $que['question']->marks;
                   ?>
          <div class="show_question">  
             <div class="question_data">
@@ -101,12 +102,12 @@
         </div>
       </div>
 
-           <div class="span4" >
-              <div class="widget-box collapsible">
-          <div class="widget-title"> <a href="#collapseOne" data-toggle="collapse"> <span class="icon"><i class="icon-arrow-right"></i></span>
-            <h5>Other Information</h5>
-            </a>
-          </div>
+       <div class="span4" >
+          <div class="widget-box collapsible">
+            <div class="widget-title"> <a href="#collapseOne" data-toggle="collapse"> <span class="icon"><i class="icon-arrow-right"></i></span>
+              <h5>Other Information</h5>
+              </a>
+            </div>
           <div class="collapse in" id="collapseOne">
             <div class="widget-content">
                {{ Form::open(array('route' => ['save-confirm-exam', $id],'class' => '', 'id'=>'basic_validate'))}}
@@ -143,27 +144,27 @@
                         <h4> <i>   {{--$examQuestion['exam_details']->required_question--}} </i> </h4> 
                       
                       </div> -->
-
                        <div class="other_info" >
                        <h5>  Total Negative Question :</h5>
                        <h4> <i>  {{$examQuestion['exam_details']->negative_question}} </i> </h4> 
                       
-                      </div>
-        			  </div>
-              </div> 
+                           </div>
+          			         </div>
+                       </div> 
+                     </div> 
+                   </div>
+              </div>
+           </div>
 
-              </div> 
-
-             </div>
-          </div>
-         </div>
+           @else
+           <div class="">
+              <h2> No Question In {{$title}} Exam </h2>
+              </div>
+           @endif
          </div>
        </div>
-         </div>
-
-
+     </div>
     </div>
-
 </div>
 <script src="{{ asset('js/backend_js/math_ckeditor/ckeditor/ckeditor.js') }}"></script>
 <script>
