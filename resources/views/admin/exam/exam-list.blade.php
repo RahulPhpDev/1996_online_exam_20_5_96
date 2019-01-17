@@ -30,7 +30,6 @@
     $('#filter_status').on('change', function (e) {
         var optionSelected = $("option:selected", this);
         var valueSelected = this.value;
-        // console.log(valueSelected);
         window.location.href = '/exam?filter='+valueSelected;
        
   });
@@ -40,6 +39,8 @@
 <div id="content">
     <div class="container-fluid">
     <hr>
+    
+      @include('admin.messages.return-messages')
     <div class="row-fluid">
       <div class="span12">
           <a href = "{{route('add-exam')}}" class = "pull-right btn btn-og">
@@ -113,13 +114,11 @@
                   $btnAction = 'exam-package-accessbility';
                   $examVisible = 'Package';
                 }
+                  $btnAction = 'edit-exam-accessbility';
                   @endphp
-                 @if($data['exam_visible_status']== 2 || $data['exam_visible_status']== 3) 
                  <!-- href="{{route('profile', ['id' => 1])}}" -->
-                  <td class = "center">@if( $examVisible != '') <a href = "{{route($btnAction, ['id' => Crypt::encrypt($data['id'])])}}" type = "button"  class ="show_visible_to btn btn-primary"> {{$examVisible}} </a>@endif </td>
-                 @else
-                  <td class = "center">@if( $examVisible != '') <button  type = "button"  class ="show_visible_to btn btn-primary"> {{$examVisible}} </button>@endif </td>
-                 @endif
+                  <td class = "center"><a href = "{{route($btnAction, ['id' => Crypt::encrypt($data['id'])])}}" type = "button"  class ="show_visible_to btn btn-primary"> {{$examVisible}} </a></td>
+                
                   <td class = "center">
                   <button data-toggle="modal" data-target="#myModal" type = "button"  class ="exam_detail btn btn-primary" data-id = "{{ Crypt::encrypt($data['id'])  }}"> Details </button> 
                    </td>

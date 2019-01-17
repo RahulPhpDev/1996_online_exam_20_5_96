@@ -21,53 +21,47 @@ use Session;
 class GuestController extends Controller
 {
     public function index(){
-      $courseObj = new Course;
-   
-	    	$SubscriptionData  = Subscription::where('status', 1)->get();
-// echo date('Y-m-d H:i:s');
-            $upcomingExams =  Exam::where('status' , 1)
-                                           ->where('particular_date', 1)
-                                           ->where('end_date', '>=', date('Y-m-d H:i:s'))
-                                            ->orderBy('id', 'DESC')
-                                            ->take(6)
-                                            ->get(['id','exam_name','total_question', 'total_marks','image','time','start_date','end_date','description']);
+        $courseObj = new Course;
+        $SubscriptionData  = Subscription::where('status', 1)->get();
+        $upcomingExams =  Exam::where('particular_date', 1)
+                                        ->where('end_date', '>=', date('Y-m-d H:i:s'))
+                                        ->orderBy('id', 'DESC')
+                                        ->take(6)
+                                        ->get(['id','exam_name','total_question', 'total_marks','image','time','start_date','end_date','description']);
+                                        // ::
+        $nonSubscriptionExams =  Exam::where('status' , 1)
+                                        ->where('exam_visible_status', 1)
+                                        ->where('particular_date', 0)
+                                        ->orderBy('id', 'DESC')
+                                        ->take(8)
+                                        ->get(['id','exam_name','total_question', 'total_marks','image','time']);
                                     
-            $nonSubscriptionExams =  Exam::where('status' , 1)
-                                            ->where('exam_visible_status', 1)
-                                            ->where('particular_date', 0)
-                                            ->orderBy('id', 'DESC')
-                                            ->take(8)
-                                            ->get(['id','exam_name','total_question', 'total_marks','image','time']);
-                                        
 
-             $courseData =   $courseObj->getCourseHaveExam();         
-             $examDetails = $allExam = array();                                         
-                if(Auth::user()){
-                    $user = User::find(Auth::user()->id);
-                    foreach($user->Exam as $exam){
-                  if($exam['exam_visible_status'] == 2 && $exam['particular_date'] == 0){    
-                      $examDetails[] = array(
-                            'id' => $exam->id,
-                            'exam_name' => $exam->exam_name,
-                            'total_question' => $exam->total_question,
-                            'total_marks' => $exam->total_marks,
-                            'image' => $exam->image,
-                            'time' => $exam->time,
-                        );  
-                      }
+            $courseData =   $courseObj->getCourseHaveExam();         
+            $examDetails = $allExam = array();                                         
+            if(Auth::user()){
+                $user = User::find(Auth::user()->id);
+                foreach($user->Exam as $exam){
+                if($exam['exam_visible_status'] == 2 && $exam['particular_date'] == 0){    
+                    $examDetails[] = array(
+                        'id' => $exam->id,
+                        'exam_name' => $exam->exam_name,
+                        'total_question' => $exam->total_question,
+                        'total_marks' => $exam->total_marks,
+                        'image' => $exam->image,
+                        'time' => $exam->time,
+                    );  
                     }
-                } 
-                $allExam = array_merge($nonSubscriptionExams->toArray(), $examDetails);
-    // dd($courseData);
-	    	return view('welcome',compact('SubscriptionData','nonSubscriptionExams','userExamDetails','allExam','courseData','upcomingExams'));
+                }
+            } 
+            $allExam = array_merge($nonSubscriptionExams->toArray(), $examDetails);
+// dd($courseData);
+        return view('welcome',compact('SubscriptionData','nonSubscriptionExams','userExamDetails','allExam','courseData','upcomingExams'));
     }
 
    
      public function aboutUs()
     {
-        // echo asset('test');die(); #http://127.0.0.1:2000/test 
-       // echo  url('/public')."/images/equation_icon/";die();
- //     echo public_path();die(); //C:\xampp\htdocs\1996_online_exam_20_5_96\public
         return view('guest.about-us');
     }
 
@@ -86,6 +80,61 @@ class GuestController extends Controller
     	return view('guest.package',compact('package','otherPackage'));
     }
 
+    public function allExam(){
+        $courseObj = new Course;
+        $upcomingExams =  Exam::where('particular_date', 1)
+                                        ->where('end_date', '>=', date('Y-m-d H:i:s'))
+                                        ->orderBy('id', 'DESC')
+                                        ->get(['id','exam_name','total_question', 'total_marks','image','time','start_date','end_date','description']);
+                                        // ::
+        $nonSubscriptionExams =  Exam::where('status' , 1)
+                                        ->where('exam_visible_status', 1)
+                                        ->where('particular_date', 0)
+                                        ->orderBy('id', 'DESC')
+                                        ->get(['id','exam_name','total_question', 'total_marks','image','time']);
+                                    
+
+            $courseData =   $courseObj->getCourseHaveExam();         
+            $examDetails = $allExam = array();                                         
+            if(Auth::user()){
+                $user = User::find(Auth::user()->id);
+                foreach($user->Exam as $exam){
+                if($exam['exam_visible_status'] == 2 && $exam['particular_date'] == 0){    
+                    $examDetails[] = array(
+                        'id' => $exam->id,
+                        'exam_name' => $exam->exam_name,
+                        'total_question' => $exam->total_question,
+                        'total_marks' => $exam->total_marks,
+                        'image' => $exam->image,
+                        'time' => $exam->time,
+                    );  
+                    }
+                }
+            } 
+        $allExam = array_merge($nonSubscriptionExams->toArray(), $examDetails);
+        $limit = 8;
+        $totalPage = 0;
+        $paginate = false;
+            if(count($allExam) > $limit){
+                $countArr = count($allExam) - 1;
+                $paginate = true;
+                $totalPage =   $countArr/$limit ;
+
+            }
+            if( isset($_GET['page'])){
+                // echo ('data here');
+            }
+
+            $pageId = isset($_GET['page']) ? $_GET['page']-1 : 0;
+            $offset = 0;
+            if($pageId > 0){
+                $offset =  $pageId * $limit;
+            }
+        $allExam = array_slice($allExam , $offset, $limit);
+        // // $allExam = Exam::get();
+         return view('guest.allexam',compact('allExam','totalPage','paginate'));
+     }
+
     public function allpackage(){
        $allPackage = Subscription::get()->where('status', 1);
     	return view('guest.allpackage',compact('allPackage'));
@@ -97,6 +146,17 @@ class GuestController extends Controller
     }
 
     public function sessionTest(){
+        $pic = "/images/exam/thumbnail/exam_14.png";
+        // echo 'http://127.0.0.1:8000'.$pic;
+        echo public_path();
+        if(file_exists(public_path().$pic)){
+            echo 'exist';
+        }else{
+            echo 'why';
+        }
+        // $file =  $finalPic = (!is_file('http://127.0.0.1:8000/'.$pic)) ? '/images/exam/exam_icon_2.png' : $pic;
+
+        die('');
         $chd = '2018-12-11 16:04:22';
        $date =    DateManipulation( $chd , 'Y-m-d H:i:s');
     //  dd($date);

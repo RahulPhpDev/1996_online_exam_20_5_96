@@ -246,9 +246,9 @@ $(".multiselect-clear-filter").hide();
    var arr = [];
    $("input[type=radio]").click(function () { 
    if($('#exam_type_3').is(':checked')){ 
-    $("#subscription_div").show();
-    $("#register_student").hide();
-    $("#register_student").html('');
+      $("#subscription_div").show();
+      $("#register_student").hide();
+      $("#register_student").html('');
    }else if($('#exam_type_2').is(':checked')){ 
     $.ajax({
         type : "get",
