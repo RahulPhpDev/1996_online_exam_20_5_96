@@ -344,7 +344,8 @@ class ExamController extends Controller
          $examDetails = Exam::findorfail($de_id);
          $title = 'Confirm Exam';
          $examDetails->minimum_passing_marks = $request['passing_mark'];
-         $examDetails->passing_marks_type = $request['passing_mark_type'];
+         $examDetails->passing_marks_type = 1;
+         // $request['passing_mark_type'];
          $examDetails->time = $request['time'];
          $examDetails->status = 1;
          $examDetails->save();
@@ -376,7 +377,8 @@ class ExamController extends Controller
         $de_id =  Crypt::decrypt($id);
         $examDetails = Exam::findorfail($de_id);
         $examDetails->exam_name = $input['exam_name'];
-        $examDetails->passing_marks_type = $input['passing_marks_type'];
+        $examDetails->passing_marks_type = 1;
+        // $input['passing_marks_type'];
         $examDetails->minimum_passing_marks = $input['minimum_passing_marks'];
         $examDetails->description = $input['description'];
         $examDetails->particular_date = $spacific_date;
