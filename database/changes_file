@@ -1,0 +1,28 @@
+git add  app/Http/Controllers/Admin/ExamController.php
+git add  app/Http/Controllers/GuestController.php
+git add  app/helpers/helper.php
+git add  public/frontend/css/package_style.css
+git add  public/frontend/design300/css/style.css
+git add  resources/views/admin/exam/add-exam.blade.php
+git add  resources/views/admin/exam/exam-accessbility.blade.php
+git add  resources/views/admin/exam/exam-list.blade.php
+git add  resources/views/admin/exam/exam-package-accessbility.blade.php
+git add  resources/views/admin/user/register-student.blade.php
+git add  resources/views/frontend_layouts/partials/fetch_css.blade.php
+git add  resources/views/homepage/exam.blade.php
+git add  routes/web.php
+
+
+
+git add app/paginate/
+git add resources/views/admin/exam/edit-exam-accessbility.blade.php
+git add   resources/views/guest/allexam.blade.php
+ 
+ git add app/Exceptions/Handler.php
+git add app/Http/Controllers/Admin/ExamController.php
+git add app/Http/Controllers/HomeController.php
+git add resources/views/admin/exam/edit-exam.blade.php
+git add resources/views/auth/login.blade.php
+git add resources/views/auth/passwords/email.blade.php
+git add resources/views/auth/passwords/reset.blade.php
+git add resources/views/not-found.blade.php

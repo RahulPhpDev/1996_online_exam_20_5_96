@@ -145,4 +145,13 @@ if (!function_exists('forgetSession')) {
          session()->forget('lastanswer');
         }
       }
+
+      if(!function_exists('trim_words')){
+          function trim_words(string $str,$limit = '15'){
+                $output = strlen($str) > $limit ? substr($str,0,$limit).'...':$str ;
+                return $output;
+          }
+      }
+
+
 }

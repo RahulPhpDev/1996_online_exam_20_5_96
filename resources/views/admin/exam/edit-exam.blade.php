@@ -12,13 +12,15 @@ $(document).ready(function () {
     $('#basic_validate').validate({ // initialize the plugin
         rules: {
             exam_name: { required: true,minlength: 3 },
-            description:{required:true},
+            total_marks:{required:true},
+            minimum_passing_marks:{required:true},
         },
         messages: {
                   
                     exam_name: {
                         required: "Exam Name Should Not be blank",
-                        minlength: "Exam Name must be at least 3 characters long"
+                        minlength: "Exam Name must be at least 3 characters long",
+                        minimum_passing_marks: "Field Can\'t be blank"
                     },
                   
                   }
@@ -102,14 +104,14 @@ $(document).ready(function () {
                     </div>
                  </div>
 
-                    <div class="control-group">
-                    {{Form::label('passing_marks_type' , 'Passing Mark Type', array('class' => 'control-label')) }}
+                <!--     <div class="control-group">
+                    {{--Form::label('passing_marks_type' , 'Passing Mark Type', array('class' => 'control-label')) --}}
                     <div class="controls">
-                    <input type = "radio" name = "passing_marks_type" value = "1" <?php $r = ( $examDetails['passing_marks_type'] == 1) ? 'checked' : ''; echo $r; ?>> Number
-                    <input type = "radio" name = "passing_marks_type" value = "2" <?php $r = ( $examDetails['passing_marks_type'] == 2) ? 'checked' : ''; echo $r; ?>> Percentage
+                    <input type = "radio" name = "passing_marks_type" value = "1" <?php// $r = ( $examDetails['passing_marks_type'] == 1) ? 'checked' : ''; echo $r; ?>> Number
+                    <input type = "radio" name = "passing_marks_type" value = "2" <?php //$r = ( $examDetails['passing_marks_type'] == 2) ? 'checked' : ''; echo $r; ?>> Percentage
                  
                     </div>
-                 </div>
+                 </div> -->
 
 
                    <div class="control-group">

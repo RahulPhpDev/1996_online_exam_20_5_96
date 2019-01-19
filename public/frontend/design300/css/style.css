@@ -3883,9 +3883,15 @@
 	.pagination { margin: 20px 0 5px; }
 
 	.pagination > li > a {
-		border: none;
+		/* border: none;
 		margin-right:7px;
 		padding:5px 12px;
+		color: rgb(181,67,33);
+		background-color: #f5f5f5;
+		border-radius: 3px; */
+
+		border: none;
+		margin-right: 3px;
 		color: rgb(181,67,33);
 		background-color: #f5f5f5;
 		border-radius: 3px;
@@ -3906,6 +3912,7 @@
 	.pagination > li a:hover {
 		background-color: rgb(181,67,33);
 		color:#fff;
+		position: relative;
 	}
 	.pagination .active a:hover { background-color: #556; }
 
@@ -5129,8 +5136,10 @@
     }
 
     .product_animation_img{padding: 3px;}
-
-
-
-
-    
+    .activeli{
+		z-index: 2;
+		color: #fff !important;
+		cursor: default;
+		background-color: #337ab7!important;
+		border-color: #337ab7!important;
+	}

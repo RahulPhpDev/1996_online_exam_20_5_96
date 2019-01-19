@@ -1,14 +1,16 @@
-@extends('layouts.app')
-
+ @extends('frontend_layouts.partials.inner_layout')
+@extends('frontend_layouts.partials.header')
+@extends('frontend_layouts.partials.sidebar')
+@extends('frontend_layouts.partials.footer')
 @section('content')
-<div class="container">
+<div class="container" style = "margin-top:30px">
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">{{ __('Reset Password') }}</div>
+                <div class="card-header"></div>
 
                 <div class="card-body">
-                    <form method="POST" action="{{ route('password.request') }}" aria-label="{{ __('Reset Password') }}">
+                    <form method="POST"  class="form-horizontal" action="{{ route('password.request') }}" aria-label="{{ __('Reset Password') }}">
                         @csrf
 
                         <input type="hidden" name="token" value="{{ $token }}">

@@ -1,19 +1,19 @@
 
-<!-- <script src="{{ asset('js/common/datatables.min.js') }}"></script>
+<script src="{{ asset('js/common/datatables.min.js') }}"></script>
 <link href="{{ asset('css/common/jquery.dataTables.min.css') }}" rel="stylesheet">
-<script src="{{ asset('js/backend_js/custom.js') }}"></script> -->
+<script src="{{ asset('js/backend_js/custom.js') }}"></script>
 <script>
-     
-  //    $('.page-link').on('click', function(e){
-  
-  //   e.preventDefault();
-  //   var url = $(this).attr('href');
-  //   $.get(url, $('#form-horizontal').serialize(), function(data){
-  //       $('#register_student').html(data);
-  //     });
-  // });
+     $('.page-link').on('click', function(e){
+        e.preventDefault();
+        var url = $(this).attr('href');
+        $.get(url, $('#form-horizontal').serialize(), function(data){
+            $('#register_student').html(data);
+          });
+  });
   </script>
-<div class="widget-content nopadding" >
+
+
+<div class="widget-content nopadding"  style = "width:80%;margin:auto">
             <table id = "data_table" class="table table-bordered table-striped">
               <thead>
                 <tr>

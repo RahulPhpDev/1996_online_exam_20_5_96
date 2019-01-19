@@ -48,6 +48,8 @@ Route::get('package/{id}', 'GuestController@package')->name('package');
 
 Route::get('allpackage', 'GuestController@allpackage')->name('allpackage');
 
+Route::get('allExam', 'GuestController@allExam')->name('allExam');
+
 Route::get('payment/{id?}', 'GuestController@payment')->name('payment');
 
 
@@ -187,6 +189,10 @@ Route::post('/approve-user','Admin\UserController@approveUser')->name('approve-u
 Route::get('/get-register-student', 'Admin\UserController@getRegisterStudent')->name('get-register-student');
 
 Route::get('/exam-accessbility/{id}', 'Admin\ExamController@examAccessbility')->name('exam-accessbility');
+
+Route::get('/edit-exam-accessbility/{id}', 'Admin\ExamController@editExamAccessbility')->name('edit-exam-accessbility');
+
+Route::post('/update-exam-accessbility/{id}', 'Admin\ExamController@updateExamAccessbility')->name('update-exam-accessbility');
 
 Route::get('/exam-package-accessbility/{id}', 'Admin\ExamController@examPackageAccessbility')->name('exam-package-accessbility');
 

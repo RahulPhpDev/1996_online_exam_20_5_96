@@ -344,7 +344,8 @@ class ExamController extends Controller
          $examDetails = Exam::findorfail($de_id);
          $title = 'Confirm Exam';
          $examDetails->minimum_passing_marks = $request['passing_mark'];
-         $examDetails->passing_marks_type = $request['passing_mark_type'];
+         $examDetails->passing_marks_type = 1;
+         // $request['passing_mark_type'];
          $examDetails->time = $request['time'];
          $examDetails->status = 1;
          $examDetails->save();
@@ -376,7 +377,8 @@ class ExamController extends Controller
         $de_id =  Crypt::decrypt($id);
         $examDetails = Exam::findorfail($de_id);
         $examDetails->exam_name = $input['exam_name'];
-        $examDetails->passing_marks_type = $input['passing_marks_type'];
+        $examDetails->passing_marks_type = 1;
+        // $input['passing_marks_type'];
         $examDetails->minimum_passing_marks = $input['minimum_passing_marks'];
         $examDetails->description = $input['description'];
         $examDetails->particular_date = $spacific_date;
@@ -399,6 +401,9 @@ class ExamController extends Controller
         $e_id = Crypt::decrypt($id);
         $exam = new Exam();
         $examQuestion =  $exam->getExamDetailsById($e_id);
+        if(count($examQuestion['question']) == 0 ){
+            return redirect()->route('add-exam-question',$id )->with('error','Add Few Question ');
+        }
         $title = $examQuestion['exam_details']->exam_name;
         return view('admin.exam.exam-question',compact('examQuestion', 'id'))->with('title',$title);
      }
@@ -515,6 +520,7 @@ class ExamController extends Controller
        $e_id = Crypt::decrypt($id);
        $examDetails =  Exam::findOrFail($e_id);
        $selectUsers =  $examDetails->UserExamData;
+    //    dd($selectUsers);
        $userData = Auth::user();
        $userId = $userData['id'];
        $selectUsersArray = [$userId];
@@ -553,19 +559,23 @@ class ExamController extends Controller
          return view('admin.exam.exam-details',compact('examDetails'));
     }
 
-    public function assignUsersExam( Request $req, $id){
+    public function assignUsersExam( $req, $id){
        $e_id =  Crypt::decrypt($id);
        $examData = Exam::findorfail($e_id);
        $status = array('status' => 1);
        $syncData = array();
-       foreach($req['add'] as $user_id){
-            $syncData[$user_id] = $status;
+      if($req['exam_type'] == 2) { 
+         foreach($req['add'] as $user_id){
+              $syncData[$user_id] = $status;
+        }
       }
       if(!empty($syncData)) {
         $examData->UserExamData()->sync($syncData);
       }
       $msg = 'Update';
       return redirect()->back()->with('success',$msg);
+      $examData->UserExamData()->sync($syncData);
+    
     }
 
     public function assignPackageExam(Request $req, $id){
@@ -579,8 +589,54 @@ class ExamController extends Controller
       if(!empty($syncData)) {
          $examData->Subscriptions()->sync($syncData);
       }
+       if($req['exam_type'] == 3) {
+           foreach($req['add'] as $sub_id){
+                $syncData[$sub_id] = $status;
+          }
+        }
+      $examData->Subscriptions()->sync($syncData);
+    
+    }
+
+    public function editExamAccessbility($id){
+       $e_id = Crypt::decrypt($id);
+       $examDetails =  Exam::findOrFail($e_id);
+       // dd($examDetails);
+       return view('admin.exam.edit-exam-accessbility',compact('examDetails', 'id'));
+    }
+    public function updateExamAccessbility(Request $req,$id){
+       $e_id =  Crypt::decrypt($id);
+       $examData = Exam::findorfail($e_id);
+       $requestedExamVisibleTo = $req['exam_type'];
+       $perviousExamVisibleTo = $examData['exam_visible_status'];
+       if($requestedExamVisibleTo == $perviousExamVisibleTo){
+
+       }else{
+        switch ($perviousExamVisibleTo) {
+            case '2':
+            #Remove For Student
+             $this->assignUsersExam($req,$id);
+            break;
+          
+           case '3':
+              $this->assignPackageExam($req,$id);
+            break;
+        }
+        switch ($requestedExamVisibleTo) {
+            case '2':
+                $this->assignUsersExam($req,$id);
+            break;
+          
+           case '3':
+               $this->assignPackageExam($req,$id);
+            break;
+        }
+       }
+      
+      $data = ['exam_visible_status' => $requestedExamVisibleTo];
+      Exam::where('id',$e_id)->update($data);
       $msg = 'Update';
-      return redirect()->back()->with('success',$msg);
+      return redirect()->route('exam')->with('success',$msg);
     }
   }
 
