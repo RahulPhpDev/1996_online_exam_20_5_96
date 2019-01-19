@@ -561,7 +561,9 @@ class ExamController extends Controller
        foreach($req['add'] as $user_id){
             $syncData[$user_id] = $status;
       }
-      $examData->UserExamData()->sync($syncData);
+      if(!empty($syncData)) {
+        $examData->UserExamData()->sync($syncData);
+      }
       $msg = 'Update';
       return redirect()->back()->with('success',$msg);
     }
@@ -574,7 +576,9 @@ class ExamController extends Controller
        foreach($req['add'] as $sub_id){
             $syncData[$sub_id] = $status;
       }
-      $examData->Subscriptions()->sync($syncData);
+      if(!empty($syncData)) {
+         $examData->Subscriptions()->sync($syncData);
+      }
       $msg = 'Update';
       return redirect()->back()->with('success',$msg);
     }
