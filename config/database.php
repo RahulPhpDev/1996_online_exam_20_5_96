@@ -42,8 +42,8 @@ return [
         'mysql' => [
             'driver' => 'mysql',
             'host' =>  'localhost',
-            'port' => '3306',
-            'database' => 'online_exam',
+            'port' => '',
+            'database' => 'online_maarula_exam',
             'username' => 'root',
             'password' => '',
             'unix_socket' => env('DB_SOCKET', ''),
@@ -57,8 +57,8 @@ return [
         'pgsql' => [
             'driver' => 'pgsql',
             'host' => env('DB_HOST', 'localhost'),
-            'port' => env('DB_PORT', '5432'),
-            'database' => env('DB_DATABASE', 'testing_db'),
+            'port' => env('DB_PORT', ''),
+            'database' => env('DB_DATABASE', 'online_maarula_exam'),
             'username' => env('DB_USERNAME', 'root'),
             'password' => env('DB_PASSWORD', ''),
             'charset' => 'utf8',

@@ -56,7 +56,7 @@ class GuestController extends Controller
             } 
             $allExam = array_merge($nonSubscriptionExams->toArray(), $examDetails);
 // dd($courseData);
-        return view('welcome',compact('SubscriptionData','nonSubscriptionExams','userExamDetails','allExam','courseData','upcomingExams'));
+        return view('welcome',compact('SubscriptionData','nonSubscriptionExams','allExam','courseData','upcomingExams'));
     }
 
    
@@ -146,17 +146,10 @@ class GuestController extends Controller
     }
 
     public function sessionTest(){
-        $pic = "/images/exam/thumbnail/exam_14.png";
-        // echo 'http://127.0.0.1:8000'.$pic;
-        echo public_path();
-        if(file_exists(public_path().$pic)){
-            echo 'exist';
-        }else{
-            echo 'why';
-        }
-        // $file =  $finalPic = (!is_file('http://127.0.0.1:8000/'.$pic)) ? '/images/exam/exam_icon_2.png' : $pic;
+        echo base_path();
 
-        die('');
+
+        die();
         $chd = '2018-12-11 16:04:22';
        $date =    DateManipulation( $chd , 'Y-m-d H:i:s');
     //  dd($date);
