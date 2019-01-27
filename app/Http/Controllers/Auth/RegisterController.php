@@ -59,6 +59,7 @@ class RegisterController extends Controller
             'email' => 'required|string|email|max:255|unique:users',
         //    'enrollment' => 'required|regex:/(^[A-Za-z0-9 ]+$)+/|max:255|unique:students,enroll_number',
             'password' => 'required|string|min:6|confirmed',
+            'phone_no' => 'regex:/^([0-9\s\-\+\(\)]*)$/|digits_between:10,12|unique:users,phone_no',
         ]);
     }
 
@@ -70,12 +71,11 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-
-
          $user = User::create([
             'fname' => $data['fname'],
             'lname' => $data['lname'],
             'email' => $data['email'],
+            'phone_no' => $data['phone_no'],
             'password' => bcrypt($data['password']),
             'user_type' => 3,
             'status' => 1,
@@ -113,8 +113,6 @@ class RegisterController extends Controller
         $userDetailsByID->profile_image = $input['imagename'];
         $userDetailsByID->save();
        }
-
-/*
        
         $emailParams = new stdClass;
         $emailParams->user_id = $id;
@@ -123,7 +121,7 @@ class RegisterController extends Controller
         $emailParams->msg_params = [  $data['fname'].' '.$data['lname'] , $data['email'],$data['password'] ];
        $alertObj = new Alert();
        $outputData =  $alertObj->sendEmail($emailParams);
-*/
+
         return $user;
     }
 }

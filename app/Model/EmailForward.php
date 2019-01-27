@@ -24,7 +24,7 @@ class EmailForward extends Model
 	                'sujbect'   =>  $params->subject,
 	                'message'   =>  $params->message,
 	                'send_date' =>  date('Y-m-d : H:mm:s'),
-                    'status'    => 1,
+                  'status'    => 1,
                  );
       DB::table('email_forward')->insertGetId($data);
 

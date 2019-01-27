@@ -27,6 +27,9 @@ use Dompdf\Dompdf;
 use Mpdf;
 use Response;
 
+
+
+use App\Http\Requests\updateProfileRequest; #form-validation
 use File;
 use stdClass;
 use Illuminate\Support\Facades\Hash;
@@ -41,7 +44,7 @@ class UserController extends Controller
     return view('auth.profile',compact('title', 'user'));
  }
 
- public function updateProfile(Request $request){
+ public function updateProfile(updateProfileRequest $request){
         $user = Auth::user();
         $userDetails = User::FindorFail($user['id']);
         $userDetails->fname = $request['fname'];
@@ -427,6 +430,18 @@ class UserController extends Controller
    
      function updateProfileImage(Request $data){
           if(isset($data['profile'])){
+              $fileArray = array('image' => $data['profile']);
+               $rules = array(
+                  'image' => 'mimes:jpeg,jpg,png,gif|required|max:20000' // max 10000kb
+                );
+               $validator = Validator::make($fileArray, $rules);
+
+                if ($validator->fails())
+                {
+                  // dd($validator->errors()->getMessages());
+                     return redirect()->back()->withErrors(['error' => $validator->errors()->getMessages()['image'][0]]);
+             }
+
               $image = $data['profile'];
               $user = Auth::user();
               $id = $user['id'];

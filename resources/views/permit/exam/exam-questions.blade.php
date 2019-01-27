@@ -32,10 +32,14 @@
   $(".controls").find(".btn").addClass('btn-exam-custom');
    $(".controls").find(".btn").each(function(){
         var text = $(this).text();
-        var newstr=text + ' And Next';
+        var findText = 'And Next';
+        if(text.indexOf(findText) == -1){
+          var text= text + ' And Next';
+        }
+        
         if(!$(this).hasClass('submitexam'))
             {
-              $(this).text(newstr);
+              $(this).text(text);
             }
      });
  }
@@ -201,6 +205,7 @@ var i = setInterval(function() { compareTime(); }, 1000*62);
                   <div class="negative_mark"> <a > 
                    - {{$questionDetails->negative_marks}}</a>  </div>
                     @endif
+                     <button type="button" style="position: relative;top: -5px;" class="btn btn-exam-custom btn-success submitexam" id="submitExam"> Submit Exam </button>
                 </div>
             <div class = "questions">
                 <span> <?php echo htmlspecialchars_decode($questionDetails->question); ?> </span>
@@ -252,11 +257,10 @@ var i = setInterval(function() { compareTime(); }, 1000*62);
 
                 <button name="save" type="submit" value="continue" class="btn btn-success savebtn btn-exam-custom"  data-toggle="tooltip" data-placement="top" title="Hooray!" >Save And Next</button>
 
-                <button name="save" type="submit" value="preview" class="btn btn-primary savebtn btn-exam-custom">Preview  And Next</button>
+                <button name="save" type="submit" value="preview" class="btn hidden-sm btn-primary savebtn btn-exam-custom">Preview  And Next</button>
 
                 <button name="save" type="submit" value="skip" class="btn btn-danger savebtn btn-exam-custom">Skip And Next </button>
                 <div class = "pull-right">
-                  <button type = "button"  class = "btn btn-exam-custom btn-success submitexam" id = "submitExam"> Submit Exam </button>
                 </div>
                  </div>
                 {{ Form::close() }}

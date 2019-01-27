@@ -10,7 +10,46 @@
 </script>
 
 <script type="text/javascript">
+function mobileView(){
+  $(".controls").find(".btn").removeClass('btn-exam-custom');
+    $(".controls").find(".btn").each(function(){
+      var text = $(this).text();
+      var newstr=text.replace('And Next', '');
+      $(this).text(newstr);
+     });
+ }
+ function laptopView(){
+  $(".controls").find(".btn").addClass('btn-exam-custom');
+   $(".controls").find(".btn").each(function(){
+    var idName  = $(this).attr('id');
+        var text = $(this).text();
+        var findText = 'And Next';
+        $("div:not(#sale_wrap)")
+        if(text.indexOf(findText) == -1 && !$(this).hasClass('submitexam')){
+          var text= text + ' And Next';
+        }
+        $(this).text(text);
+         
+     });
+ }
+
+  $(window).resize(function() {
+  var width = $(window).width();
+   if(width <= 767){
+    mobileView();
+   } else {
+    laptopView();
+   }
+});
+
 $(function(){
+
+  var width = $(window).width();
+    if(width <= 767){
+        mobileView();
+      }
+
+
 compareTime();
 var i = setInterval(function() { compareTime(); }, 1000*62);
     function compareTime() {
@@ -91,6 +130,9 @@ $(document).on("click",".opt_data",function(){
                   
                   <div class="postitive_mark"> <a > {{$questionDetails->marks}}  </a>  </div>
                  @if($questionDetails->is_negative_marking) <div class="negative_mark"> <a > - {{$questionDetails->negative_marks}}</a>  </div>@endif
+
+
+    <button type="button" style="position: relative;top: -5px;" class="btn btn-exam-custom btn-success submitexam" id="submitExam"> Submit Exam </button>
                 </div>
 
             <div class = "questions">
@@ -132,11 +174,10 @@ $(document).on("click",".opt_data",function(){
 
                 <button name="save" type="submit" value="continue" class="btn btn-success savebtn btn-exam-custom">Save And Next</button>
 
-                <button name="save" type="submit" value="preview" class="btn btn-primary savebtn btn-exam-custom">Preview  And Next</button>
+                <button name="save" type="submit" value="preview" class="btn hidden-sm btn-primary savebtn btn-exam-custom">Preview  And Next</button>
 
-                <button name="save" type="submit" value="skip" class="btn btn-danger savebtn btn-exam-custom">Skip ANd Next </button>
+                <button name="save" type="submit" value="skip" class="btn btn-danger savebtn btn-exam-custom">Skip And Next </button>
                 <div class = "pull-right">
-                  <button type = "button"  class = "btn btn-exam-custom btn-success" id = "submitExam"> Submit Exam </button>
                 </div>
                  </div>
                 {{ Form::close() }}

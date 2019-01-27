@@ -7,6 +7,7 @@
 
 <link href="{{ asset('css/validation.css') }}" rel="stylesheet">
 <script src="{{ asset('js/jquery.validate.min.js') }}"></script>
+<script src="{{ asset('js/additional-methods.min.js') }}"></script>
 <script type="text/javascript">
   $(document).ready(function () {
   $("#post_req").validate({
@@ -18,6 +19,8 @@
                address:{required:true},
                 password: { required: true,minlength: 5  },
                 password_confirmation:{ required: true,equalTo:"#password" },
+               phone_no:{ digits: true,minlength: 10,maxlength: 11},
+               profile: {required: true, extension: "png|jpg|jpeg" },
             },
             messages: {
                fname:{required:" First Name is required!",minlength:" First Name require minimum 3 characters!",maxlength:" First Name require max 60 characters!"},
@@ -25,8 +28,10 @@
                email: {required:" Email is required!",email:" Wrong Email!", },
                
                address: {required:" Address is required!" },
-                 password: {required :"Password is required",minlength : "password Should have 5 character"},
-          password_confirmation: {required :"Confirm Password is required",equalTo: "Password is not matching "}
+               password: {required :"Password is required",minlength : "password Should have 5 character"},
+               password_confirmation: {required :"Confirm Password is required",equalTo: "Password is not matching "},
+              phone_no:{minlength:" Not valid",maxlength:" Not valid"},
+               profile:{required:" Image Is Required",extension:" Not valid"}
             },
             submitHandler: function(form) {
                $('#disable-button').show();
@@ -124,11 +129,27 @@
                     <div class="form-group">
                         <label for="group_name" class="col-sm-2 control-label"><small>{{ __('Address') }}<span class="text-danger"> *</span></small></label>
                         <div class="col-sm-4">
-                        <input id="address" type="text" class="form-control" name="address" required>                
+                        <input id="address" type="text" class="form-control" value="{{ old('address') }}" name="address" required>                
                        </div>
-
-                       
                     </div>
+
+                    <div class="form-group">
+                        <label for="group_name" class="col-sm-2 control-label">
+                            <small>{{ __('Mobile') }}</small>
+                            </label>
+
+                        <div class="col-sm-4">
+
+                         <input id="phone_no" type="text" class=" form-control{{ $errors->has('phone_no') ? ' is-invalid' : '' }}" value="{{ old('phone_no') }}" name="phone_no"   >
+
+                                @if ($errors->has('phone_no'))
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $errors->first('phone_no') }}</strong>
+                                    </span>
+                                     @endif
+                         </div>
+                    </div>
+
                     <!-- <div class="form-group">
                         
                         <label for="group_name" class="col-sm-2 control-label"><small>Enrolment Number</small></label>
@@ -145,7 +166,12 @@
                     <div class="form-group">
                         <label for="group_name" class="col-sm-2 control-label"><small>Upload Photo</small></label>
                         <div class="col-sm-4">
-                        <input type="file" name="profile"  class="" id="profile"/>       
+                        <input type="file" name="profile"  class="" id="profile"/>  
+                         @if ($errors->has('profile'))
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $errors->first('profile') }}</strong>
+                                    </span>
+                                     @endif     
                         </div>
                     </div>
                     

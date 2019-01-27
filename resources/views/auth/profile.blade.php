@@ -13,7 +13,7 @@
 .navigation > li.active > a:focus {    background-color: #428BCA; border-top:2px solid #428BCA;}
 .tab-content{height:450px;}
 .nav-tabs > li > a {    border-top: 2px solid #428BCA;}
-.img_style {height: auto; max-width: 22%;}
+.img_style {height: auto; max-width: 50%;}
    </style>
 <link href="{{ asset('css/validation.css') }}" rel="stylesheet">
 <script src="{{ asset('js/jquery.validate.min.js') }}"></script>
