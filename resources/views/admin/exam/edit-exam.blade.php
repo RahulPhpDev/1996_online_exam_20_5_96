@@ -49,7 +49,7 @@ $(document).ready(function () {
                 <div class="control-group">
                   {{ Form::label('name','Exam Name',array('class' => 'control-label'))}}
                 <div class="controls">
-                    {{ Form::text('exam_name', $examDetails['exam_name']) }}
+                     {{ Form::text('exam_name', $examDetails['exam_name'],array('class' => 'span4')) }}
                 </div>
               </div>
 

@@ -46,7 +46,7 @@
           <div class="widget-title"> <span class="icon"> <i class="icon-th"></i> </span>
             <h5>User</h5>
           </div>
-          <div class="">
+          <div class="nopadding">
             <table id = "data_table" class="table table-bordered table-striped">
               <thead>
                 <tr>
