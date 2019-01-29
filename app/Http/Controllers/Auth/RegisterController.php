@@ -113,7 +113,7 @@ class RegisterController extends Controller
         $userDetailsByID->profile_image = $input['imagename'];
         $userDetailsByID->save();
        }
-       
+       /*
         $emailParams = new stdClass;
         $emailParams->user_id = $id;
         $emailParams->user_email =  $data['email'];
@@ -121,7 +121,7 @@ class RegisterController extends Controller
         $emailParams->msg_params = [  $data['fname'].' '.$data['lname'] , $data['email'],$data['password'] ];
        $alertObj = new Alert();
        $outputData =  $alertObj->sendEmail($emailParams);
-
+    */
         return $user;
     }
 }
