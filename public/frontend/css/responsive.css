@@ -116,8 +116,25 @@
         display:none !important;
     }
  
-.btn{
-  padding: 6px 12px;
-}
+  .btn{
+    padding: 6px 12px;
+  }
+
+  .questions span {
+        padding: 10px 0px 8px 13px;
+    }
     
+    .question__data{
+      padding-right:1px !important;
+      padding-left:1px !important;
+    }
+.question_section {
+        box-shadow: 0 0 1px rgba(0,0,0,0.6);
+      -moz-box-shadow: 0 0 1px rgba(0,0,0,0.6);
+      -webkit-box-shadow: 0 0 1px rgba(0,0,0,0.6);
+      -o-box-shadow: 0 0 1px rgba(0,0,0,0.6);
+      border-radius : 3px;
+  }
+
+  
   }

@@ -146,6 +146,15 @@ class GuestController extends Controller
     }
 
     public function sessionTest(){
+        $passArray = array(
+          
+           'difference' => '0'
+          );
+      return view('permit.exam.exam-questions_test',$passArray);
+    }
+
+
+    public function sessionTestold(){
         echo base_path();
 
 

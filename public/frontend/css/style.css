@@ -72,12 +72,12 @@ table tr th a:hover{text-decoration: none;}
 .img-package{max-width:inherit;}
 
 
-.questions{
-    display:flex;
-}
-.questions span{
-    font-size:22px;
-    padding:10px 0px 8px 27px; 
+.questions span {
+    display: inline-block;
+    font-size: 22px;
+    padding: 10px 0px 8px 27px;
+    text-align: justify;
+    line-height: 1.6;
 }
 
 .options{

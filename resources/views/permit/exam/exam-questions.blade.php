@@ -2,7 +2,7 @@
 @extends('frontend_layouts.partials.inner_layout')
 @extends('frontend_layouts.partials.header')
 @extends('frontend_layouts.partials.sidebar')
-@extends('frontend_layouts.partials.footer')
+
 
 @section('content') 
 
