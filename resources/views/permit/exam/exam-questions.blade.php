@@ -5,7 +5,6 @@
 @section('content') 
 
 <link href="{{ asset('css/backend_css/exam_question.css') }}" rel="stylesheet">
-<script src="{{ asset('js/backend_js/exam_question.js') }}"></script>
 
 
 <script src='https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>

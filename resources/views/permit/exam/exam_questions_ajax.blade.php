@@ -8,8 +8,17 @@
 <script src='https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
   
 
-<script type="">
-  MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
+ <script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+   
+     showMathMenu: false,
+  extensions: ["tex2jax.js"],
+  jax: ["input/TeX", "output/HTML-CSS"],
+  tex2jax: {
+      skipTags: ["body"],
+      processClass: "equation"
+  }
+  });
 </script>
 
 <script type="text/javascript">
