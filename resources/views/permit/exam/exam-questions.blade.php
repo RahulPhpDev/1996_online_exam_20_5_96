@@ -2,9 +2,11 @@
 @extends('frontend_layouts.partials.inner_layout')
 @extends('frontend_layouts.partials.header')
 @extends('frontend_layouts.partials.sidebar')
-
-
 @section('content') 
+
+<link href="{{ asset('css/backend_css/exam_question.css') }}" rel="stylesheet">
+<script src="{{ asset('js/backend_js/exam_question.js') }}"></script>
+
 
 <script src='https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
   <script type="text/x-mathjax-config">
@@ -53,6 +55,25 @@
 });
 
   $(function () {   
+     var navDum =$('.navbardum-fixed-top');
+    // navDum.hide();
+    var open = $('.open-nav'),
+        close = $('.close'),
+        overlay = $('.overlay');
+
+    open.click(function() {
+        overlay.show();
+          navDum.show();
+        $('#wrapper').addClass('toggled');
+    });
+
+    close.click(function() {
+        navDum.hide();
+        overlay.hide();
+        $('#wrapper').removeClass('toggled');
+    });
+
+
     var width = $(window).width();
     if(width <= 767){
         mobileView();
@@ -94,7 +115,7 @@ var i = setInterval(function() { compareTime(); }, 1000*62);
       window.location = '/view-result' ;
     });
 
-     $(document).on("click",".numberic",function(){
+     $(document).on("click",".numberic-custom",function(){
       var btnId = $(this).attr('id');
       questionRedirect(btnId);
     });
@@ -112,7 +133,8 @@ var i = setInterval(function() { compareTime(); }, 1000*62);
       success: function (data) {
                 if(data === 'view-result'){
                 }else{
-                   
+                  console.log(' herer is is');
+                   $('.overlay').hide();
                    $("#question_list").html(data);
                 }
               },
@@ -165,7 +187,8 @@ var i = setInterval(function() { compareTime(); }, 1000*62);
 </script>
 
 
-  <div class="maincontent">
+  <div class="maincontent" id="wrapper">
+  <div class="overlay"></div>
     <section class="section_instruct">
       <div class="container-fluid">
 	 	<div class="col-md-12">
@@ -252,7 +275,6 @@ var i = setInterval(function() { compareTime(); }, 1000*62);
                 @php
                   $saveToolTip = 'This will save your answer and move to next question ';
                   $saveToolTip = 'This will save your answer and move to next question ';
-
                 @endphp
 
                 <button name="save" type="submit" value="continue" class="btn btn-success savebtn btn-exam-custom"  data-toggle="tooltip" data-placement="top" title="Hooray!" >Save And Next</button>
@@ -268,14 +290,17 @@ var i = setInterval(function() { compareTime(); }, 1000*62);
              </div>
 
              
-     <div class = "col-md-4 hidden-sm report">
-      <div class = "question_process_color">
-           <div> <a class="answered_count current">C</a> <span>  Current </span> </div>
-           <div> <a class="answered_count answered"> A</a> <span>  Answered </span> </div>
-           <div> <a class="answered_count review">R</a> <span>  Review </span> </div>
-           <div> <a class="answered_count not_visited">NV</a> <span> Not Visited </span> </div>
-
-           <div> <a class="answered_count not_answered">NA</a> <span>Not Answered </span> </div>
+     <div class = "col-md-4  report navbar navbar-inverse navbardum-fixed-top show__mob" id ="sidebar-wrapper"  role="navigation">
+      <div class = "ans_mode">
+       <div class ="sec_1">
+          <a class="circle current">C</a> <span>  Current </span>
+            <a class="circle answered"> A</a> <span>  Answered </span> 
+           <a class="circle review hidden">R</a> <span>  Review </span> 
+         </div>
+          <div class ="sec_2">  
+           <a class="circle not_visited">NV</a> <span> Not Visited </span> 
+           <a class="circle not_answered">NA</a> <span>Not Answered </span> 
+           </div>
      </div>
      <div class = "question_count_div panel"> <h2>  Question </h2> </div>
      <?php 
@@ -298,16 +323,18 @@ var i = setInterval(function() { compareTime(); }, 1000*62);
              }
             ?>
 
-           <a href = "JavaScript:void(0);" id = "{{$question_id}}" class = "numberic {{$class}} ">
+           <a href = "JavaScript:void(0);" id = "{{$question_id}}" class = "circle numberic-custom {{$class}} ">
               <span  >   {{$i}} </span>
             </a> 
-          <?php $i++;}  } ?>
+          <?php $i++;}  }  ?>
+          <a href="JavaScript:void(0);" class="close circle hide_in_lap"><i class="fa fa-close" style="color:red  ;  font-size: 25px;" ></i></a>
         </div>
        </div>
-
-        </div>
-
-        
+           <button type="button" class="hamburger open-nav is-closed animated fadeInLeft hide_in_lap">
+            <span class="hamb-top"></span>
+            <span class="hamb-bottom"></span>
+          </button>
+        </div>        
       </section>    
 </div>
 
@@ -322,7 +349,7 @@ function myFunction() {
 </script>
 
 <style type="text/css">
-  #snackbar {
+/*  #snackbar {
   visibility: hidden;
   min-width: 250px;
   margin-left: -125px;
@@ -376,6 +403,6 @@ function myFunction() {
     letter-spacing: 1px;
     text-transform: uppercase;
     font-weight: 600;
-}
+}*/
 </style>
 @endsection

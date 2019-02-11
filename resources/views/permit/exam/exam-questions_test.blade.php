@@ -30,6 +30,7 @@
  }
  function laptopView(){
   $(".controls").find(".btn").addClass('btn-exam-custom');
+  $(".show__mob").show();
    $(".controls").find(".btn").each(function(){
         var text = $(this).text();
         var findText = 'And Next';
@@ -46,8 +47,10 @@
  $(window).resize(function() {
   var width = $(window).width();
    if(width <= 767){
+
     mobileView();
    } else {
+
     laptopView();
    }
 });
@@ -94,7 +97,7 @@ var i = setInterval(function() { compareTime(); }, 1000*62);
       window.location = '/view-result' ;
     });
 
-     $(document).on("click",".numberic",function(){
+     $(document).on("click",".circle",function(){
       var btnId = $(this).attr('id');
       questionRedirect(btnId);
     });
@@ -161,16 +164,20 @@ var i = setInterval(function() { compareTime(); }, 1000*62);
     });
   });
    $(document).ready(function() {
+    var navDum =$('.navbardum-fixed-top');
+    // navDum.hide();
     var open = $('.open-nav'),
         close = $('.close'),
         overlay = $('.overlay');
 
     open.click(function() {
         overlay.show();
+          navDum.show();
         $('#wrapper').addClass('toggled');
     });
 
     close.click(function() {
+        navDum.hide();
         overlay.hide();
         $('#wrapper').removeClass('toggled');
     });
@@ -181,7 +188,6 @@ var i = setInterval(function() { compareTime(); }, 1000*62);
   <div class="maincontent"  id="wrapper">
 
    <div class="overlay"></div>
-          <div  class="navbar navbar-inverse navbar-fixed-top" id="sidebar-wrapper" role="navigation"> dfasdfas</div>
 
     <section class="section_instruct">
       <div class="container-fluid">
@@ -219,7 +225,12 @@ var i = setInterval(function() { compareTime(); }, 1000*62);
                                       <button type="button" style="position: relative;top: -5px;" class="btn btn-exam-custom btn-success submitexam" id="submitExam"> Submit Exam </button>
                 </div>
             <div class = "questions">
-                <span> <p><img alt="" src="http://www.maarulaonlinetest.com/public/images/equation_icon/200.png" style="height:39px; width:387px" /></p> </span>
+                <span> Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+                tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+                quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+                consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+                cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+                proident, sunt in culpa qui officia deserunt mollit anim id est laborum. </span>
              </div> 
               <div class = "options">
                      
@@ -266,147 +277,60 @@ var i = setInterval(function() { compareTime(); }, 1000*62);
 
              
      
-             <div class = "col-md-4 hidden-sm report">
-      <div class = "question_process_color">
-           <div> <a class="answered_count current">C</a> <span>  Current </span> </div>
-           <div> <a class="answered_count answered"> A</a> <span>  Answered </span> </div>
-           <div> <a class="answered_count review">R</a> <span>  Review </span> </div>
-           <div> <a class="answered_count not_visited">NV</a> <span> Not Visited </span> </div>
-
-           <div> <a class="answered_count not_answered">NA</a> <span>Not Answered </span> </div>
-     </div>
+     <div class = "col-md-4  report navbar navbar-inverse navbardum-fixed-top show__mob" id ="sidebar-wrapper"  role="navigation">
+        <div class = "ans_mode">
+          <div class ="sec_1">
+              <a class=" circle current">C</a> <span>  Current </span>
+              <a class=" circle answered"> A</a> <span>  Answered </span> 
+              <a class="circle review hidden-sm">R</a> <span>  Review </span> 
+             </div>
+             <div class="sec_2"> 
+              <a class=" circle not_visited">NV</a> <span> Not Visited </span> 
+             <a class=" circle not_answered">NA</a> <span>Not Answered </span> 
+             </div>
+       </div>
      <div class = "question_count_div panel"> <h2>  Question </h2> </div>
-     
-           <a href = "JavaScript:void(0);" id = "104" class = "numberic current ">
+           <a href = "JavaScript:void(0);" id = "104" class = "circle current ">
               <span  >   1 </span>
             </a> 
           
-           <a href = "JavaScript:void(0);" id = "105" class = "numberic pending ">
+           <a href = "JavaScript:void(0);" id = "105" class = "circle pending ">
               <span  >   2 </span>
             </a> 
           
-           <a href = "JavaScript:void(0);" id = "106" class = "numberic pending ">
+           <a href = "JavaScript:void(0);" id = "106" class = "circle pending ">
               <span  >   3 </span>
             </a> 
           
-           <a href = "JavaScript:void(0);" id = "107" class = "numberic pending ">
+           <a href = "JavaScript:void(0);" id = "107" class = "circle pending ">
               <span  >   4 </span>
             </a> 
           
-           <a href = "JavaScript:void(0);" id = "108" class = "numberic pending ">
+           <a href = "JavaScript:void(0);" id = "108" class = "circle pending ">
               <span  >   5 </span>
             </a> 
           
-           <a href = "JavaScript:void(0);" id = "109" class = "numberic pending ">
+           <a href = "JavaScript:void(0);" id = "109" class = "circle pending ">
               <span  >   6 </span>
             </a> 
           
-           <a href = "JavaScript:void(0);" id = "110" class = "numberic pending ">
+           <a href = "JavaScript:void(0);" id = "110" class = "circle pending ">
               <span  >   7 </span>
             </a> 
           
-           <a href = "JavaScript:void(0);" id = "111" class = "numberic pending ">
+           <a href = "JavaScript:void(0);" id = "111" class = "circle pending ">
               <span  >   8 </span>
             </a> 
           
-           <a href = "JavaScript:void(0);" id = "112" class = "numberic pending ">
-              <span  >   9 </span>
-            </a> 
-          
-           <a href = "JavaScript:void(0);" id = "113" class = "numberic pending ">
-              <span  >   10 </span>
-            </a> 
-          
-           <a href = "JavaScript:void(0);" id = "114" class = "numberic pending ">
-              <span  >   11 </span>
-            </a> 
-          
-           <a href = "JavaScript:void(0);" id = "115" class = "numberic pending ">
-              <span  >   12 </span>
-            </a> 
-          
-           <a href = "JavaScript:void(0);" id = "116" class = "numberic pending ">
-              <span  >   13 </span>
-            </a> 
-          
-           <a href = "JavaScript:void(0);" id = "117" class = "numberic pending ">
-              <span  >   14 </span>
-            </a> 
-          
-           <a href = "JavaScript:void(0);" id = "118" class = "numberic pending ">
-              <span  >   15 </span>
-            </a> 
-          
-           <a href = "JavaScript:void(0);" id = "119" class = "numberic pending ">
-              <span  >   16 </span>
-            </a> 
-          
-           <a href = "JavaScript:void(0);" id = "120" class = "numberic pending ">
-              <span  >   17 </span>
-            </a> 
-          
-           <a href = "JavaScript:void(0);" id = "121" class = "numberic pending ">
-              <span  >   18 </span>
-            </a> 
-          
-           <a href = "JavaScript:void(0);" id = "122" class = "numberic pending ">
-              <span  >   19 </span>
-            </a> 
-          
-           <a href = "JavaScript:void(0);" id = "123" class = "numberic pending ">
-              <span  >   20 </span>
-            </a> 
-          
-           <a href = "JavaScript:void(0);" id = "124" class = "numberic pending ">
-              <span  >   21 </span>
-            </a> 
-          
-           <a href = "JavaScript:void(0);" id = "125" class = "numberic pending ">
-              <span  >   22 </span>
-            </a> 
-          
-           <a href = "JavaScript:void(0);" id = "126" class = "numberic pending ">
-              <span  >   23 </span>
-            </a> 
-          
-           <a href = "JavaScript:void(0);" id = "127" class = "numberic pending ">
-              <span  >   24 </span>
-            </a> 
-          
-           <a href = "JavaScript:void(0);" id = "128" class = "numberic pending ">
-              <span  >   25 </span>
-            </a> 
-          
-           <a href = "JavaScript:void(0);" id = "129" class = "numberic pending ">
-              <span  >   26 </span>
-            </a> 
-          
-           <a href = "JavaScript:void(0);" id = "130" class = "numberic pending ">
-              <span  >   27 </span>
-            </a> 
-          
-           <a href = "JavaScript:void(0);" id = "131" class = "numberic pending ">
-              <span  >   28 </span>
-            </a> 
-          
-           <a href = "JavaScript:void(0);" id = "132" class = "numberic pending ">
-              <span  >   29 </span>
-            </a> 
-          
-           <a href = "JavaScript:void(0);" id = "133" class = "numberic pending ">
-              <span  >   30 </span>
-            </a> 
+           
+            <a href="JavaScript:void(0);" class="close circle hide_in_lap"><i class="fa fa-close" style="color:red  ;  font-size: 25px;" ></i></a>
                   </div>
-   
-
 
        </div>
-
         </div>
 
-<button type="button" class="hamburger open-nav is-closed animated fadeInLeft">
+      <button type="button" class="hamburger open-nav is-closed animated fadeInLeft hide_in_lap">
         <span class="hamb-top"></span>
-        <span class="hamb-middle"></span>
         <span class="hamb-bottom"></span>
       </button>
         
@@ -479,112 +403,20 @@ function myFunction() {
     text-transform: uppercase;
     font-weight: 600;
 }
-
-  @media (min-width: 320px) and (max-width: 480px) {
-.col-xs-1, .col-sm-1, .col-md-1, .col-lg-1, .col-xs-2, .col-sm-2, .col-md-2, .col-lg-2, .col-xs-3, .col-sm-3, .col-md-3, .col-lg-3, .col-xs-4, .col-sm-4, .col-md-4, .col-lg-4, .col-xs-5, .col-sm-5, .col-md-5, .col-lg-5, .col-xs-6, .col-sm-6, .col-md-6, .col-lg-6, .col-xs-7, .col-sm-7, .col-md-7, .col-lg-7, .col-xs-8, .col-sm-8, .col-md-8, .col-lg-8, .col-xs-9, .col-sm-9, .col-md-9, .col-lg-9, .col-xs-10, .col-sm-10, .col-md-10, .col-lg-10, .col-xs-11, .col-sm-11, .col-md-11, .col-lg-11, .col-xs-12, .col-sm-12, .col-md-12, .col-lg-12 {
-   
-     padding-right:1px !important;
-      padding-left:1px !important;
-      }
-
-      }
-
-
-
-#wrapper {
-    -moz-transition: all 0.5s ease;
-    -o-transition: all 0.5s ease;
-    -webkit-transition: all 0.5s ease;
-    padding-right: 0;
-    transition: all 0.5s ease;
-}
-
-#wrapper.toggled #sidebar-wrapper {
-    width: 300px;                       /* SZEROKOŚĆ SIDEBARA */
-}
-
-#sidebar-wrapper {
-    -moz-transition: all 0.5s ease;
-    -o-transition: all 0.5s ease;
-    -webkit-transition: all 0.5s ease;
-    background: #1a1a1a;                /* KOLOR SIDEBARA */
-    height: 100%;
-    overflow-x: hidden;
-    overflow-y: auto;
-    transition: all 0.5s ease;
-    width: 0;
-    z-index: 1000;
-}
-
-#sidebar-wrapper::-webkit-scrollbar {
-    display: none;
-}
-
-.sidebar-nav {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    position: absolute;
-    top: 0;
-    width: 300px;     
-  right: 0;/* SZEROKOŚĆ ZAWARTOŚCI SIDEBARA */
-}
-
-.sidebar-nav li {
-    display: inline-block;
-    line-height: 20px;
-    position: relative;
-    width: 100%;
-}
-
-.sidebar-nav li a {
-    color: #dddddd;
-    display: block;
-    padding: 10px 15px 10px 30px;
-    text-decoration: none;
-}
-
-.sidebar-nav .dropdown-menu {
-    background-color: grey;             /* KOLOR BG DROPDOWNA */
-    border-radius: 0;
-    border: none;
-    box-shadow: none;
-    margin: 0;
-    padding: 0;
-    position: relative;
-    width: 100%;
-}
-
-.sidebar-nav li a:hover,
-.sidebar-nav li a:active,
-.sidebar-nav li a:focus,
-.sidebar-nav li.active a,
-.sidebar-nav li.active a:hover,
-.sidebar-nav li.active a:active,
-.sidebar-nav li.active a:focus {
-    background-color: transparent;
-    color: red;
-    text-decoration: none;
-}
-
-.sidebar-nav > .sidebar-brand {
-    font-size: 20px;
-    height: 65px;
-    line-height: 44px;
-}
-
-
 .hamburger {
-   background: red;
+    background: #2d2626;
     border: none;
     display: block;
-    height: 32px;
+    height: 24px;
     margin-right: 15px;
-    position: fixed;
-    /*top: 20px;
-    width: 32px;*/
+    position: relative;
+    /* top: 20px; */
+    width: 32px;
+    margin-top: 10px;
     right: 0;
     z-index: 999;
+    /* bottom: 8px; */
+    float: right;
 }
 
 .hamburger:hover,
@@ -650,22 +482,27 @@ function myFunction() {
     width: 100%;
 }
 
-.overlay {
-    position: fixed;
-    display: none;
-    width: 100%;
-    height: 100%;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: rgba(0, 0, 0, 0.4);
-    z-index: 1;
+
+.report a {
+    display: inline-block;
 }
 
-/* FOR left side */
-.navbar-fixed-top {
-    left: auto;
+.circle {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    font-size: 16px;
+    color: #fff;
+    line-height: 30px;
+    text-align: center;
+    background: #000;
+    /* padding: 2px; */
+    margin: 13px;
+}
+
+.navbardum-fixed-top {
+    height: 700px;
+    overflow: scroll;
 }
 </style>
 @endsection

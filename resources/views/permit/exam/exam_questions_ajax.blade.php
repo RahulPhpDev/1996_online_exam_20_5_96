@@ -2,6 +2,9 @@
 
 <script src="{{ asset('js/backend_js/jquery.min.js') }}"></script>
 
+<link href="{{ asset('css/backend_css/exam_question.css') }}" rel="stylesheet">
+
+
 <script src='https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
   
 
@@ -32,7 +35,6 @@ function mobileView(){
          
      });
  }
-
   $(window).resize(function() {
   var width = $(window).width();
    if(width <= 767){
@@ -41,15 +43,31 @@ function mobileView(){
     laptopView();
    }
 });
-
 $(function(){
+
+   var navDum =$('.navbardum-fixed-top');
+    // navDum.hide();
+    var open = $('.open-nav'),
+        close = $('.close'),
+        overlay = $('.overlay');
+
+    open.click(function() {
+        overlay.show();
+          navDum.show();
+        $('#wrapper').addClass('toggled');
+    });
+
+    close.click(function() {
+        navDum.hide();
+        overlay.hide();
+        $('#wrapper').removeClass('toggled');
+    });
+
 
   var width = $(window).width();
     if(width <= 767){
         mobileView();
       }
-
-
 compareTime();
 var i = setInterval(function() { compareTime(); }, 1000*62);
     function compareTime() {
@@ -64,29 +82,18 @@ var i = setInterval(function() { compareTime(); }, 1000*62);
         }
       }
     }
-
-
 var i = setInterval(function() { compareTime(); }, 1000*62);
-
-
-
 $(document).on("click",".opt_data",function(){
     $(this).find('input[type="radio"]').prop('checked', true);
   });
-
   $(document).on("click","#submitExam",function(){
       window.location = '/view-result' ;
     });
-
   $(document).on("click",".savebtn",function(){
     var btnVal = $(this).val();
     $("#saveu").val(btnVal);
   });
-
-
-
   var frm = $('#basic_validate');
-
  $(document).keypress(function(event){
         var keycode = (event.keyCode ? event.keyCode : event.which);
         if (!$("input[name='answer']:checked").val()) {
@@ -97,7 +104,6 @@ $(document).on("click",".opt_data",function(){
              }
         frm.submit();
     });
-
     frm.submit(function (e) {
               e.preventDefault();
               $.ajax({
@@ -119,7 +125,6 @@ $(document).on("click",".opt_data",function(){
           });
         });
 </script>
-         
 
          <div class = "col-md-8" >
         <div class="mycontainer question_section">
@@ -129,10 +134,8 @@ $(document).on("click",".opt_data",function(){
             <div class = "question_process_color pull-right question_mark_details">
                   
                   <div class="postitive_mark"> <a > {{$questionDetails->marks}}  </a>  </div>
-                 @if($questionDetails->is_negative_marking) <div class="negative_mark"> <a > - {{$questionDetails->negative_marks}}</a>  </div>@endif
-
-
-    <button type="button" style="position: relative;top: -5px;" class="btn btn-exam-custom btn-success submitexam" id="submitExam"> Submit Exam </button>
+                     @if($questionDetails->is_negative_marking) <div class="negative_mark"> <a > - {{$questionDetails->negative_marks}}</a>  </div>@endif
+                   <button type="button" style="position: relative;top: -5px;" class="btn btn-exam-custom btn-success submitexam" id="submitExam"> Submit Exam </button>
                 </div>
 
             <div class = "questions">
@@ -185,14 +188,17 @@ $(document).on("click",".opt_data",function(){
              </div>
 
               
-     <div class = "col-md-4 hidden-sm report">     
-      <div class = "question_process_color">
-           <div> <a class="answered_count current">C </a> <span> Current </span> </div>
-           <div> <a class="answered_count answered"> A </a> <span> Answered </span> </div>
-           <div> <a class="answered_count review">R </a> <span> Review </span> </div>
-           <div> <a class="answered_count not_visited">NV </a> <span>Not Visited </span> </div>
-
-           <div> <a class="answered_count not_answered">NA</a> <span>Not Answered </span> </div>
+     <div class = "col-md-4  report navbar navbar-inverse navbardum-fixed-top show__mob" id ="sidebar-wrapper"  role="navigation">
+          <div class = "ans_mode">
+         <div class ="sec_1">
+              <a class="circle current">C</a> <span>  Current </span> 
+              <a class="circle answered"> A</a> <span>  Answered </span> 
+             <a class="circle review hidden">R</a> <span>  Review </span> 
+           </div>
+          <div class ="sec_2">  
+             <a class="circle not_visited">NV</a> <span> Not Visited </span> 
+              <a class="circle not_answered">NA</a> <span>Not Answered </span>
+           </div>
      </div>
      <div class = "question_count_div panel"> <h2>  Question </h2> </div>
        <?php 
@@ -215,8 +221,9 @@ $(document).on("click",".opt_data",function(){
              }
             ?>
 
-           <a href = "JavaScript:void(0);" id = "{{$question_id}}" class = "numberic {{$class}} ">
+           <a href = "JavaScript:void(0);" id = "{{$question_id}}" class = "circle numberic-custom {{$class}} ">
               <span  >   {{$i}} </span>
             </a> 
           <?php $i++;}  } ?>
+           <a href="JavaScript:void(0);" class="close circle hide_in_lap"><i class="fa fa-close" style="color:red  ;  font-size: 25px;" ></i></a>
         </div>

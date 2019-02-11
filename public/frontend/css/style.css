@@ -259,7 +259,7 @@ border: none;
  
 }
 .not_visited{
-    background: #ddd!important;
+    background: #000!important;
 }
 .review{
   background: #8d63c3 !important;
@@ -480,4 +480,12 @@ padding-top: 12px;
   .options_span p {
     display: inline;
     padding: 2px 3px;
+}
+
+.show__mob{
+    display: show;
+}
+
+.hide_in_lap{
+    display: none !important;
 }
