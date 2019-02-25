@@ -141,11 +141,11 @@ $(".option_style").on( "click", function(){
                  <label class="" style="font-size: 16px;text-align:center"> Is Required </label>               
               </div> -->
           <div class = "border_top">
-                <div  class="controls  inline_div inline" style = "width:30%">                  
+                <div  class="controls  inline_div inline" style = "width:30%;display: inline-block;">                  
                <?php $negativeChecked = $questionData->is_negative_marking == 1 ? 'checked' :''; 
                $negativeVal = $questionData->is_negative_marking == 1 ? 1 :0; 
                ?>
-                  <input type="checkbox" name="is_negative" value = "{{$negativeVal}}" class = "is_negative" {{$negativeChecked}} />
+                  <input type="checkbox" name="is_negative" value = "1" class = "is_negative" {{$negativeChecked}} />
                   <label class=""  style="font-size: 16px"> Is Negative Marking </label>
             </div>
               
@@ -173,7 +173,7 @@ $(".option_style").on( "click", function(){
            
       // $(".is_negative").click(function(){
        if ( $(".is_negative").is(':checked')) {
-         $('.negative_mark_div').css("display", "inline");
+         $('.negative_mark_div').css("display", "inline-block");
         
        }else{
         $('.negative_mark_div').css("visibility",  "hidden");
@@ -184,7 +184,7 @@ $(".option_style").on( "click", function(){
 
     $(".is_negative").click(function(){
        if ( $(".is_negative").is(':checked')) {
-         $('.negative_mark_div').css("display", "inline");
+         $('.negative_mark_div').css("display", "inline-block");
          $('.negative_mark_div').css("visibility", "visible");
         
        }else{

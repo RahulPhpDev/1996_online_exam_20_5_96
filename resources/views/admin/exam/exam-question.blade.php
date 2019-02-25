@@ -72,10 +72,10 @@
               <?php foreach($que['options'] as $options) { ?>
                     <div class = "options options_rel_div" id = "option_question_id">
                       <?php 
-                   
+                   if(isset($que['right_anser']->option_id)){
                       if($que['right_anser']->option_id ==  $options->id ) { ?>
                           <i class = "icon icon-ok"> </i> 
-                      <?php } ?>
+                      <?php } } ?>
 
                      <a> <?php echo htmlspecialchars_decode($options->question_option); ?> </a>  
                     </div> 

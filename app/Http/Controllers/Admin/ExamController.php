@@ -439,11 +439,13 @@ class ExamController extends Controller
 
      
 
-     public function updateExamQuestion(Request $req, $id) {  
-         // dd($req->all());
+     public function updateExamQuestion(Request $req, $id) { 
+         $exam_id = $req['exam_id'];
+         $examDataByID = Exam::find(Crypt::decrypt($exam_id));
          $e_id = Crypt::decrypt($id);
          $questionData =  Question::findorfail($e_id);
-
+         $updateMarkForExam = $examDataByID['total_marks'] + ($req['total_mark'] - $questionData['marks']);
+// dd($examDataByID);
         $req['is_required'] = 0;
         // ($req['is_required']) ? $req['is_required'] : 0;
         $questionData->question = htmlentities($req['question']);
@@ -451,11 +453,34 @@ class ExamController extends Controller
         $questionData->marks = $req['total_mark'];
 
         $negativeMarks = ($req['is_negative'] == 1) ? $req['negative_mark'] : '0';
-        $questionData->is_negative_marking = ($req['is_negative']) ? 1 : 0;
-
+        $isNegative = ($req['is_negative']) ? 1 : 0;
+        $previousNegativeMarking = $questionData['is_negative_marking'];
+        $questionData->is_negative_marking =  $isNegative;
         $questionData->negative_marks =  $negativeMarks;
         $questionData->save();
+
+        $updateNegativeMark  = $examDataByID['negative_marks'] ;
+        $updateIsNeagativeMarking = $previousNegativeMarking;
+        if($previousNegativeMarking != $isNegative){
+         if( $isNegative == 1){
+          $updateIsNeagativeMarking =  $previousNegativeMarking + 1;
+          $updateNegativeMark = $examDataByID['negative_marks'] + $negativeMarks;
+
+         }else if($questionData->is_negative_marking == 0){
+            $updateIsNeagativeMarking =  $previousNegativeMarking - 1;
+            $updateNegativeMark = $examDataByID['negative_marks'] - $negativeMarks;
+         }
+        }
+
+
+        $examDataByID->negative_marks = $updateNegativeMark;
+        $examDataByID->negative_question = $updateIsNeagativeMarking;
+        $examDataByID->total_marks = $updateMarkForExam;
+        $examDataByID->save();  
+
         
+        
+
         foreach($questionData->Options as $key => $opData){
             $opData->question_option =  $req['option'][$opData->id];
             $opData->save();
@@ -491,7 +516,7 @@ class ExamController extends Controller
                 $questionData->rightAnswer['option_id'] = $req['answer'];
                 $questionData->rightAnswer->save();
             }
-        $exam_id = $req['exam_id'];
+
         return redirect()->route('confirm-exam',  ['id' => $exam_id]);
     }
 
