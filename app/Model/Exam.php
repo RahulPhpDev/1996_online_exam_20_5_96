@@ -105,4 +105,14 @@ class Exam extends Model
         $res = $this->hasMany(Result::class);
         return $res;
     }
+
+    public function getExamQuestionForMarkUpdation($id){
+      DB::enableQueryLog();
+      $query = DB::table('exam_question as eq')
+          ->leftJoin('questions as q', 'q.id', '=', 'eq.question_id')
+          ->select('q.id as question_id','marks','q.negative_marks','q.is_negative_marking')
+          ->where(array(['exam_id', "=",$id], ['eq.status' , "=", 1]));
+      $result = $query->get()->toArray();
+      return $result;
+    }
 }

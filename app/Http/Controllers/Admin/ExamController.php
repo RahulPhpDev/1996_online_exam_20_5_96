@@ -340,19 +340,39 @@ class ExamController extends Controller
 
      public function saveConfirmExam(Request $request , $id){
     //   dd($request->all());
+         $examObj = new Exam;
          $de_id =  Crypt::decrypt($id);
          $examDetails = Exam::findorfail($de_id);
+         $examQuestionMarkResult =  $examObj->getExamQuestionForMarkUpdation($de_id);
+         // dd($examQuestionMarkResult);
+         $total_mark = $totalNegativeQuestion = $negativeMarks = 0;
+
+         foreach($examQuestionMarkResult as $eq){
+          $total_mark  = $total_mark + $eq->marks;
+          $totalNegativeQuestion  = $totalNegativeQuestion + $eq->is_negative_marking;
+          $negativeMarks  = $negativeMarks + $eq->negative_marks;
+         }
          $title = 'Confirm Exam';
+         $examDetails->total_marks = $total_mark;
+         $examDetails->negative_question = $totalNegativeQuestion;
+         $examDetails->negative_marks = $negativeMarks;
+
+
          $examDetails->minimum_passing_marks = $request['passing_mark'];
          $examDetails->passing_marks_type = 1;
          // $request['passing_mark_type'];
          $examDetails->time = $request['time'];
          $examDetails->status = 1;
          $examDetails->save();
-        
+          // here update all the exam question with updations
+
+
+         // end of exam question updatation
+
+
+
          $examDetails = Exam::findorfail($de_id);
-        //  dd($examDetails);
-        // $examData = Exam::findorfail($)
+        
          return view('admin.exam.confirm-exam-post',compact('title','examDetails'));
      }
 
@@ -445,41 +465,59 @@ class ExamController extends Controller
          $e_id = Crypt::decrypt($id);
          $questionData =  Question::findorfail($e_id);
          $updateMarkForExam = $examDataByID['total_marks'] + ($req['total_mark'] - $questionData['marks']);
-// dd($examDataByID);
+      // dd($examDataByID);
+        $negativeMarks = ($req['is_negative'] == 1) ? $req['negative_mark'] : '0';
+        $isNegative = ($req['is_negative']) ? 1 : 0;
+
+        // here update exam question 
+        $negativeMarksInExam = $examDataByID['negative_marks'];
+        $countOfNegativeQuestionInExam = $examDataByID['negative_question'];
+
+        $wasQuestionNegative =  $questionData['is_negative_marking'];
+        $negativeMarkedInQuestion =  $questionData['negative_marks'];
+        $changeForNegativeStatus = false;
+        if($isNegative == $wasQuestionNegative ){ #agar situation pahle jaisi hi hai to 
+          if($isNegative == 1){ #agar ab negative hai to
+            $updateNegativeMarks = $negativeMarksInExam +($negativeMarks -  $negativeMarkedInQuestion);
+            $changeForNegativeStatus = true;
+          }
+
+        }else{ #agar change ho gaya to 
+          if($isNegative == 1){ #agar ab negative hai to aur pahle nahi tha
+            $changeForNegativeStatus = true;
+            $updateNegativeMarks =    $negativeMarksInExam + $negativeMarks;
+            $countOfNegativeQuestionInExam++;
+            // echo '<br>'.$updateNegativeMarks;
+            # update negative count
+          }
+
+         if($isNegative == 0){ #agar ab negative nahi hai to aur pahle tha
+            $updateNegativeMarks =    $negativeMarksInExam - $negativeMarkedInQuestion ;
+            $countOfNegativeQuestionInExam--;
+          }
+          $changeForNegativeStatus = true;
+        }
+        if($changeForNegativeStatus == true){
+          // die(' isme');
+           $examDataByID->negative_marks = $updateNegativeMarks;
+           $examDataByID->negative_question =  $countOfNegativeQuestionInExam;
+        }
+        // end here update exam thing
+// die(' jisme');
+        $examDataByID->total_marks = $updateMarkForExam;
+        $examDataByID->save();  
+
+
+
         $req['is_required'] = 0;
         // ($req['is_required']) ? $req['is_required'] : 0;
         $questionData->question = htmlentities($req['question']);
         $questionData->is_required = $req['is_required'];
         $questionData->marks = $req['total_mark'];
-
-        $negativeMarks = ($req['is_negative'] == 1) ? $req['negative_mark'] : '0';
-        $isNegative = ($req['is_negative']) ? 1 : 0;
-        $previousNegativeMarking = $questionData['is_negative_marking'];
+        $previousIsNegativeMarking = $questionData['is_negative_marking'];
         $questionData->is_negative_marking =  $isNegative;
         $questionData->negative_marks =  $negativeMarks;
         $questionData->save();
-
-        $updateNegativeMark  = $examDataByID['negative_marks'] ;
-        $updateIsNeagativeMarking = $previousNegativeMarking;
-        if($previousNegativeMarking != $isNegative){
-         if( $isNegative == 1){
-          $updateIsNeagativeMarking =  $previousNegativeMarking + 1;
-          $updateNegativeMark = $examDataByID['negative_marks'] + $negativeMarks;
-
-         }else if($questionData->is_negative_marking == 0){
-            $updateIsNeagativeMarking =  $previousNegativeMarking - 1;
-            $updateNegativeMark = $examDataByID['negative_marks'] - $negativeMarks;
-         }
-        }
-
-
-        $examDataByID->negative_marks = $updateNegativeMark;
-        $examDataByID->negative_question = $updateIsNeagativeMarking;
-        $examDataByID->total_marks = $updateMarkForExam;
-        $examDataByID->save();  
-
-        
-        
 
         foreach($questionData->Options as $key => $opData){
             $opData->question_option =  $req['option'][$opData->id];

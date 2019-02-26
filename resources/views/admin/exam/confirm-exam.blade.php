@@ -188,30 +188,31 @@ margin-right:10px;
                         <h4> <i>   {{--$examQuestion['exam_details']->required_question--}} </i> </h4> 
                       </div> -->
 
+                    
+
                       <div class="other_info" >
                       <h5>  Total Mark :</h5>
                            <h4> <i>  {{$examQuestion['exam_details']->total_marks}}</i> </h4> 
                       </div>
 
                        <div class="other_info" >
-                       <h5>  Total Negative Question :</h5>
-                       <h4> <i>  {{$examQuestion['exam_details']->negative_question}} </i> </h4> 
-                      
+                           <h5>  Total Negative Question :</h5>
+                           <h4> <i>  {{$examQuestion['exam_details']->negative_question}} </i> </h4> 
+                      </div>
+
+                    <div class="other_info" >
+                            <h5>  Negative Marks :</h5>
+                           <h4> <i>  {{$examQuestion['exam_details']->negative_marks}}</i> </h4> 
                       </div>
                 </div>
 
 
-                 <div class="other_info" >
-                       <h5> Passing Mark : </h5> <br>
-                 <input type = "radio" name = "passing_mark_type" id = "passing_mark_type" value="1" checked=""> Number
-                <!-- <input type = "radio" name = "passing_mark_type" id = "passing_mark_type" value="2"> Percentage -->
-                </div>
-
+           
                <div class="other_info" >
                        <h5>  Passing Mark </h5>
                  <h4> 
                    @php
-                   $passingMark = ($examQuestion['exam_details']->minimum_passing_marks) ? $examQuestion['exam_details']->minimum_passing_marks : '';
+                     $passingMark = ($examQuestion['exam_details']->minimum_passing_marks) ? $examQuestion['exam_details']->minimum_passing_marks : '';
                    @endphp 
                  {!! Form::text('passing_mark', $passingMark, ['class' => 'mark', 'id' => 'passing_mark']) !!}
                  </h4>
