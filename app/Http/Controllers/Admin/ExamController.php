@@ -460,6 +460,7 @@ class ExamController extends Controller
      
 
      public function updateExamQuestion(Request $req, $id) { 
+      // dd($req->all());
          $exam_id = $req['exam_id'];
          $examDataByID = Exam::find(Crypt::decrypt($exam_id));
          $e_id = Crypt::decrypt($id);
@@ -537,7 +538,7 @@ class ExamController extends Controller
                       );
                     $optId =  QuestionOption::create($optionData)->id;
 
-                    if(isset($req['answer']) && ($rightAnswerTaken != true)){
+                    if((isset($req['answer'])) && ($rightAnswerTaken == false)){
                      if (strpos($req['answer'], 'new_') !== false) { 
                       $answerArr =  explode('_' ,$req['answer']);
                       if($opK  == $answerArr[1]){
@@ -550,9 +551,21 @@ class ExamController extends Controller
                   }
                 }
               }
-             if(isset($req['answer']) && ($rightAnswerTaken != true)){
-                $questionData->rightAnswer['option_id'] = $req['answer'];
-                $questionData->rightAnswer->save();
+              // dd($rightAnswerTaken);
+             if(isset($req['answer'])){
+              if(!$rightAnswerTaken){
+                if(!isset($questionData->rightAnswer)){
+                  $questionData->rightAnswer()->create([
+                    'option_id' =>$req['answer'],
+                    'status' => 1,
+                  ]);
+
+                }else{
+                  $questionData->rightAnswer['option_id'] = $req['answer'];
+                  $questionData->rightAnswer->save();
+
+                }
+              }
             }
 
         return redirect()->route('confirm-exam',  ['id' => $exam_id]);
