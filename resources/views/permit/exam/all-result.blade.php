@@ -11,7 +11,7 @@
                 <style type="text/css">
 
 .res_table{margin:20px 0px 10px 10px;font-size:18px;}
-.report_th, .report_td{ width:70%;text-align:right;  }
+.report_th, .report_td{ width:43%;text-align:right;  }
 .report_th >span ,.report_td >span{margin-right:18%}
 </style>
 
@@ -43,10 +43,14 @@
         <th class = "report_th"><span> Reports </span></th>
         <th>Last Date</th>
     </tr>
+
     @foreach($resultData as $res)
     <tr>
-        <td>{{$res->Exam->exam_name}}</td>
-        <td class = "report_td" > <span> <a href = "{{ route('exam-result', ['id' => Crypt::encrypt($res->Exam->id) ]) }}">{{$res->total}} View</a> </span></td>
+       <?php
+    // dd($res->Exam);
+    ?>
+        <td>{{$res->Exam['exam_name']}}</td>
+        <td class = "report_td" > <span> <a href = "{{ route('exam-result', ['id' => Crypt::encrypt($res->Exam['id']) ]) }}">{{$res->total}} View</a> </span></td>
         <td>{{ DateManipulation($res->add_date)}}</td>
      </tr>
      @endforeach

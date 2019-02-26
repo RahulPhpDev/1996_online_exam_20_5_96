@@ -604,7 +604,7 @@ class ExamController extends Controller
           $selectUsersArray[] = $seUs['id'];
        }
        $allUser =  User::whereNotIn('id', $selectUsersArray)->where(['status' => 1])->orderBy('fname')->get();
-       return view('admin.exam.exam-accessbility',compact('examDetails', 'id','examAccessbilityData','allUser','selectUsersArray'));
+       return view('admin.exam.exam-accessbility',compact('examDetails', 'id','allUser','selectUsersArray'));
     }
 
     public function examPackageAccessbility($id){

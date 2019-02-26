@@ -294,7 +294,7 @@ var i = setInterval(function() { compareTime(); }, 1000*62);
        <div class ="sec_1">
           <a class="circle current">C</a> <span>  Current </span>
             <a class="circle answered"> A</a> <span>  Answered </span> 
-           <a class="circle review hidden">R</a> <span>  Review </span> 
+           <a class="circle review hidden-sm">R</a> <span>  Review </span> 
          </div>
           <div class ="sec_2">  
            <a class="circle not_visited">NV</a> <span> Not Visited </span> 
