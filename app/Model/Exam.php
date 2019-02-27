@@ -81,6 +81,13 @@ class Exam extends Model
         return $res;
     }
 
+    public function userAnswer($userId = 11){
+      // dd($userId);
+        $res = $this->belongsToMany(Exam::class,'user_answer')->withPivot(['question_id','answer_id'])->wherePivot('user_id' , "=", $userId);
+        // dd($res);
+        return $res;
+    }
+
      public function UserExamData(){
         $res = $this->belongsToMany(User::class,'user_exam')->wherePivot('status' , "=", 1);
         return $res;

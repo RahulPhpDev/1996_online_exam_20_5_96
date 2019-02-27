@@ -74,7 +74,7 @@
                   <th> Other Details </th>
                   <th>Image </th>
                   <th>Update Image </th>
-                  <th> Results </th>
+                  <th> Attempts </th>
                   <th> View/Edit Question </th>
                   <th> Edit </th>
                   <th> Action </th>

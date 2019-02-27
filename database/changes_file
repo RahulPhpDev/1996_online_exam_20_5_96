@@ -21,3 +21,4 @@ public function upload_image(Request $request){
   }
 
   ALTER TABLE `exams` ADD `max_attempt` TINYINT NOT NULL DEFAULT '1' COMMENT '0->forever' AFTER `exam_visible_status`;
+ALTER TABLE `exams` ADD `show_answer` TINYINT NOT NULL DEFAULT '1' AFTER `max_attempt`;

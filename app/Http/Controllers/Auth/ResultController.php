@@ -41,12 +41,35 @@ class ResultController extends Controller
   	    return view('permit/result.exam-question',compact('resultData'));
 	}
 
-  public function answerSheet($resultId){
+  public function answerSheet2($resultId){
         $r_id = Crypt::decrypt($resultId);
         $resultObj = new Result;
         $resultData = $resultObj->getResultDetailsById($r_id);
-        // dd($resultData);s
+        dd($resultData);
         // dd($resultData[0]->exam_name);
+        return view('permit/result.answer-sheet',compact('resultData'));
+  }
+
+  public function answerSheet($resultId){
+        $r_id = Crypt::decrypt($resultId);
+        $resultObj = new Result;
+        $resultData = Result::findorFail($r_id);
+    //      "pivot_exam_id" => 24
+    // "pivot_question_id" => 358
+    // "pivot_answer_id" => 1416
+echo '<pre>';
+      foreach($resultData->Exam->userAnswer as $ans){
+       
+         foreach($ans->ExamQuestion as $question){
+        dd( $question->toArray());
+        echo ' Quetestion:'.'<=====>'.$question['question'].'<========>'.'<br>';;
+          foreach($question->Options as $options){
+            echo $options['question_option'].'<br>';
+          }
+         }
+      }
+      
+      dd('a age');
         return view('permit/result.answer-sheet',compact('resultData'));
   }
 }
