@@ -126,13 +126,14 @@ class UserController extends Controller
         }
          $id =  Crypt::decrypt($e_id);
          $examData = Exam::find($id);
-         if(!session()->has('exam_process')) { 
-         $hasUserExam = $examData->UserExamData()->where('user_id', $userId)->exists();
 
-        if($hasUserExam == false){
+         if(!session()->has('exam_process')) { 
+        //  $hasUserExam = $examData->UserExamData()->where('user_id', $userId)->exists();
+
+        // if($hasUserExam == false){
            $examData->UserExamData()->attach($id, ['user_id' => $userId, 'status' => 1,
           'start_date' => date('Y-m-d')] );
-          }
+          // }
         $questionData = $examData->ExamQuestion;
         $allQuestionArray = array();
         $i = 0;
@@ -147,6 +148,8 @@ class UserController extends Controller
         }
        session(['all_questions_class' => $all_questions_class_array]);
        $time =  $examData->time;
+
+       session()->put('exam_process', 1);
        session(['exam_id' => $id]);
        session(['total_time' => $time]);
        session(['all_questions' => $allQuestionArray]);
@@ -170,11 +173,11 @@ class UserController extends Controller
 
    
   public function saveAnswer(Request $request){
+       // $this->middleware('maxAttemptOnExam', ['only' => ['save-answer']]);
     if(!session()->has('exam_id')) {
       return redirect('/');
      }
     $showToast = 0;
-    session()->put('exam_process', 1);
     $userData = Auth::user(); 
     $userId = $userData['id'];
     $examId = session('exam_id');
@@ -414,8 +417,7 @@ class UserController extends Controller
         $resultData =   Result::where(['user_id' => $userId, 'exam_id' => $examId,'status' => 1]) 
                               ->orderBy('id','DESC')
                               ->paginate(10); 
-      
-        return view('permit.exam.exam-result', compact('resultData'));                       
+        return view('permit.exam.exam-result', compact('resultData','title'));                       
      }
 
      public function downloadExamPdf($id){
@@ -507,5 +509,11 @@ class UserController extends Controller
             // $userDetails->password = $request['password'];
             // $userDetails->save();
             // return redirect()->back();
+          }
+
+          public function notPermitExam($id){
+             $exam_data = Exam::find(Crypt::decrypt($id));
+             // dd($exam_data);
+             return view('permit.exam.not-permit-exam', compact('exam_data'));
           }
 }

@@ -74,7 +74,7 @@
                   <th> Other Details </th>
                   <th>Image </th>
                   <th>Update Image </th>
-                  <th> Result </th>
+                  <th> Results </th>
                   <th> View/Edit Question </th>
                   <th> Edit </th>
                   <th> Action </th>
@@ -127,7 +127,7 @@
                  <td class = "center">  <img style = "max-width:120px" src="{{ asset( $pic )}}"  class="avatarbox material_avatar package_img"/> </td>
                  <td class="center"> <a class = "btn btn-danger update_img" data-exid = "{{$data['id']}}" >Update</a></td>
 
-                 <td class = "center"> <a class ="text-blue" href="{{ route('examresult', ['id' => Crypt::encrypt($data['id']) ]) }}">{{count($data->Results)}}  View
+                 <td class = "center"> <a class ="text-blue" href="{{ route('examresult', ['id' => Crypt::encrypt($data['id']) ]) }}">{{count($data->Results)}}
                    </td> 
 
                   <td class = "center"> <a class ="btn btn-success" href="{{ route('exam-question', ['id' => Crypt::encrypt($data['id']) ]) }}">Questions <i class="fa fa-fw fa-arrow-circle-right"></i></a> <span class = "round_num"> {{count($data->ExamQuestion)}} </span>

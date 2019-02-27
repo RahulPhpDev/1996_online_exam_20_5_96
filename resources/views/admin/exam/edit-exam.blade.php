@@ -125,21 +125,24 @@ $(document).ready(function () {
                     {{Form::label('exam_time' , 'Exam Time', array('class' => 'control-label')) }}
                     <div class="controls">
                     {!! Form::text('time', $examDetails['time'], ['class' => 'mark', 'id' => 'time']) !!}
-                        
                     </div>
                  </div>
 
+                 <div class="control-group">
+                    {{Form::label('max_attempt' , 'Max Attempt', array('class' => 'control-label')) }}
+                    <div class="controls">
+                      {!! Form::select('max_attempt', $max_attempt, $examDetails['max_attempt']); !!}
+                    </div>
+                 </div>
+                 <!-- {!! Form::select('size', array('L' => 'Large', 'S' => 'Small'), 'S'); !!} -->
 
-            <div class="control-group">
+              <div class="control-group">
                     {{Form::label('Description' , 'Description', array('class' => 'control-label')) }}
                     <div class="controls">
                        
                         {{Form::textarea('description',  $examDetails['description'],array('class' =>'description_div textarea_editor span8' ,'rows'=>'6', 'id' => 'description'))}}
-                       
                     </div>
                  </div>
-
-
 
                 <div class="control-group">
                     {{Form::label('notes' , 'Notes Before Exam', array('class' => 'control-label')) }}

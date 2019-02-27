@@ -59,7 +59,9 @@ Route::get('save-package-exam/{id?}', 'Auth\UserController@savePackageExam')->na
 
 Route::get('subscrption-exam/{id?}', 'Auth\UserController@subscrptionExam')->name('subscrption-exam');
 
-Route::get('get-exam/{id}', 'Auth\UserController@getExam')->name('get-exam');
+Route::get('get-exam/{id}', 'Auth\UserController@getExam')->middleware('maxAttemptOnExam')->name('get-exam');
+
+Route::get('not-permit-exam/{id}', 'Auth\UserController@notPermitExam')->name('not-permit-exam');
 
 Route::match(array('GET','POST'),'save-answer/{id?}', 'Auth\UserController@saveAnswer')->name('save-answer');
 

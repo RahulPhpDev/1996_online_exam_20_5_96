@@ -5,7 +5,7 @@
 @include('frontend_layouts.partials.fetch_css')  
  @include('frontend_layouts.partials.fetch_js')
 <head>
-        <title>MaaRula Online Exam</title><meta charset="UTF-8" />
+        <title>MaaRula Online Exam:  @yield('title')</title><meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />   
     </head>
     <body class="">

@@ -16,6 +16,15 @@
 .res_table{margin:20px 0px 10px 10px;font-size:18px;}
 .report_th, .report_td{ width:70%;text-align:right;  }
 .report_th >span ,.report_td >span{margin-right:18%}
+.sub_heading{
+    /*font-size: 22px;*/
+    /*text-align: right;*/
+    font-family: monospace;
+    padding:20px 0 0;
+}
+.heading{
+  /*font-size:22px;*/
+}
 
 tr:nth-child(even) {background-color: #f2f2f2;}
 
@@ -29,7 +38,9 @@ tr:nth-child(even) {background-color: #f2f2f2;}
       <div class="col-md-12">
     
 
+<h2 class = "sub_heading"><span class="heading"> Exam: </span>{{ucwords($resultData[0]->Exam->exam_name)}} </h2>
 <table class = "table res_table">
+
     <tr>
          <th> Date</th>
         <th ><span class = "center"> Total Mark </span></th>

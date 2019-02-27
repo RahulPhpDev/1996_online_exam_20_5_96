@@ -15,9 +15,13 @@ exam_visible_status
 
 
 exam_table_status
-0 => In Complete
-1 => Active
-2 => Delete
+		0 => In Complete
+		1 => Active
+		2 => Delete
+
+		attempt 
+			0=>forever
+
 
 in composer add => "maatwebsite/excel":"~2.1.0"
 

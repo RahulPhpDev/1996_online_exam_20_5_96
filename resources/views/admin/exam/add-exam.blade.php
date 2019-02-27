@@ -156,9 +156,6 @@ $(".multiselect-clear-filter").hide();
                 </div>
               </div> 
 
-          
-
-
             <div class="control-group exam_visibility">
               <label class="control-label">Exam Visible TO: </label>
               <div class="controls" style="display: inline-block;">
@@ -166,19 +163,21 @@ $(".multiselect-clear-filter").hide();
                   <input type="radio" name="exam_type" id = "exam_type_1" value = "1"/>
                   All</label>
                
-                <label>
-                  <input type="radio" name="exam_type" id = "exam_type_2" value = "2"/>
-                  Register Student</label>
-
-                   <label>
-                  <input type="radio" name="exam_type" id = "exam_type_3" value = "3" />
+                   <label> <input type="radio" name="exam_type" id = "exam_type_2" value = "2"/>
+                       Register Student </label>
+                   <label><input type="radio" name="exam_type" id = "exam_type_3" value = "3" />
                    Subscription Package </label>
+                 </div>
+                <div class="control-group" id = "register_student" style = "width:93%;'margin:auto;display:none;">
               </div>
-
-               <div class="control-group" id = "register_student" style = "width:93%;'margin:auto;display:none;">
-
-          </div>
             </div>
+
+            <div class="control-group" id = "course_div">
+                  {{ Form::label('max_attempt','Max Attempt',array('class' => 'control-label'))}}
+                <div class="controls">
+                  {!! Form::select('max_attempt', $max_attempt); !!}
+                </div>
+              </div> 
 
               
          

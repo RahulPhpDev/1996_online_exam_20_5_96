@@ -33,7 +33,10 @@ use Redirect;
 use App\Http\Requests\QuestionRequest;
 class ExamController extends Controller
 {
-   
+   protected $max_attempt;
+   public function __construct(){
+    $this->max_attempt = array('1' => '1', '2' => '2', '3' => '3', '0'=> 'Forever');
+   }
 //    var  $date =  date("Y-m-d");
 
     public function examList(){
@@ -51,7 +54,8 @@ class ExamController extends Controller
         $title = 'Exam Step 1';
         $allCourse = Course::where('status', 1)->pluck('name','id')->toArray();
         $allSubscription = Subscription::where('status', 1)->pluck('name','id')->toArray(); 
-        return view('admin.exam.add-exam',compact('allCourse','allSubscription'))->with('title',$title);
+        $max_attempt = $this->max_attempt;
+        return view('admin.exam.add-exam',compact('allCourse','allSubscription','max_attempt'))->with('title',$title);
     }
     
     public function saveAddExam(Request $request){
@@ -72,11 +76,12 @@ class ExamController extends Controller
                 $request['exam_type'] = 4;
             }
             $examData = array(
-               'exam_name' => $request['exam_name'],
+                'exam_name' => $request['exam_name'],
                 'is_payable' => $isPayable,
                 'payable_amount' => $amount,
                 'description' => $request['description'],
                 'notes' => $request['notes'],
+                'max_attempt' => $request['max_attempt'],
                 'add_date' =>   date("Y-m-d"),
                 'status' => 0,
                 'exam_visible_status' => $request['exam_type'] ,
@@ -218,7 +223,6 @@ class ExamController extends Controller
        }
 
       public function saveExamQuestion(Request $request , $id){
-        // dd($request->all());
        DB::beginTransaction();
        try{
           $examData =   Exam::findorfail($id);
@@ -226,11 +230,8 @@ class ExamController extends Controller
           $is_required = 0;
         //   (($examData->is_required) > 0) ? $examData->is_required : 0;
           $totalQuestion = (($examData->total_question) >0 ) ? $examData->total_question  :  0;
-
           $negative_question = (($examData->negative_question) >0 ) ? $examData->negative_question :  0;
           $negative_marks  =  (($examData->negative_marks) >0 ) ? $examData->negative_marks  :  0;
-
-         
           // $totalQuestion =  $request['total_mark'];$is_required = $totalQuestion = 0;
            if(isset($request['total_mark'])){ 
             $total_mark = $examData->total_marks + array_sum($request['total_mark']);
@@ -238,11 +239,9 @@ class ExamController extends Controller
            if(isset($request['question'])){ 
             $totalQuestion = $examData->total_question   + count($request['question']);
           }
-
           if(isset($request['is_negative'])){ 
             $negative_question = $examData->negative_question   + count($request['is_negative']);
           }
-
           if(isset($request['negative_mark'])){ 
             $negative_marks = $examData->negative_marks   + array_sum($request['negative_mark']);
           }
@@ -312,8 +311,7 @@ class ExamController extends Controller
           return redirect()->route('add-exam-question',Crypt::encrypt($id))->with('success',$msg);
          }else{ 
           return redirect()->route('confirm-exam',Crypt::encrypt($id))->with('success',$msg);
-               
-          }
+         }
        }
        catch (QueryException $e) {
            $msg =  $e->getMessage();
@@ -339,12 +337,10 @@ class ExamController extends Controller
     }
 
      public function saveConfirmExam(Request $request , $id){
-    //   dd($request->all());
          $examObj = new Exam;
          $de_id =  Crypt::decrypt($id);
          $examDetails = Exam::findorfail($de_id);
          $examQuestionMarkResult =  $examObj->getExamQuestionForMarkUpdation($de_id);
-         // dd($examQuestionMarkResult);
          $total_mark = $totalNegativeQuestion = $negativeMarks = 0;
 
          foreach($examQuestionMarkResult as $eq){
@@ -356,37 +352,26 @@ class ExamController extends Controller
          $examDetails->total_marks = $total_mark;
          $examDetails->negative_question = $totalNegativeQuestion;
          $examDetails->negative_marks = $negativeMarks;
-
-
          $examDetails->minimum_passing_marks = $request['passing_mark'];
          $examDetails->passing_marks_type = 1;
          // $request['passing_mark_type'];
          $examDetails->time = $request['time'];
          $examDetails->status = 1;
          $examDetails->save();
-          // here update all the exam question with updations
-
-
-         // end of exam question updatation
-
-
-
          $examDetails = Exam::findorfail($de_id);
-        
          return view('admin.exam.confirm-exam-post',compact('title','examDetails'));
      }
 
      public function editExam($id){
          $de_id =  Crypt::decrypt($id);
          $examDetails = Exam::findorfail($de_id);
-        //  dd($examDetails->toArray());
          $title = 'Edit '.$examDetails['exam_name']. ' Exam';
-         // dd( $title );
-         return view('admin.exam.edit-exam',compact('examDetails','id', 'title'));
+         $max_attempt =  $this->max_attempt; 
+         return view('admin.exam.edit-exam',compact('examDetails','id', 'title','max_attempt'));
      }
 
      public function updateExam(Request $req, $id){
-        $input = Input::only('exam_name', 'passing_marks_type','minimum_passing_marks','description','notes','spacific_date','start_date','start_time','end_date','end_time' );
+        $input = Input::only('exam_name', 'passing_marks_type','minimum_passing_marks','description','notes','spacific_date','start_date','start_time','end_date','end_time','max_attempt');
         $startDate = $endDate = '0000-00-00 00:00:00';
         $spacific_date = 0;
         if(isset($req['spacific_date'])) {
@@ -396,9 +381,9 @@ class ExamController extends Controller
         }
         $de_id =  Crypt::decrypt($id);
         $examDetails = Exam::findorfail($de_id);
+        $examDetails->max_attempt = $input['max_attempt'];
         $examDetails->exam_name = $input['exam_name'];
         $examDetails->passing_marks_type = 1;
-        // $input['passing_marks_type'];
         $examDetails->minimum_passing_marks = $input['minimum_passing_marks'];
         $examDetails->description = $input['description'];
         $examDetails->particular_date = $spacific_date;

@@ -19,3 +19,5 @@ public function upload_image(Request $request){
 
     echo json_encode($arr);
   }
+
+  ALTER TABLE `exams` ADD `max_attempt` TINYINT NOT NULL DEFAULT '1' COMMENT '0->forever' AFTER `exam_visible_status`;
