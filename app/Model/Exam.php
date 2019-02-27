@@ -11,6 +11,7 @@ use App\User;
 use App\Model\Course;
 use App\Model\Result;
 use DB;
+use Auth;
 
 class Exam extends Model
 {
@@ -81,9 +82,10 @@ class Exam extends Model
         return $res;
     }
 
-    public function userAnswer($userId = 11){
+    public function userAnswer(){
       // dd($userId);
-        $res = $this->belongsToMany(Exam::class,'user_answer')->withPivot(['question_id','answer_id'])->wherePivot('user_id' , "=", $userId);
+       $userDetails =  Auth::user();
+        $res = $this->belongsToMany(Exam::class,'user_answer')->withPivot(['question_id','answer_id'])->wherePivot('user_id' , "=", $userDetails['id']);
         // dd($res);
         return $res;
     }
