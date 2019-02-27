@@ -21,6 +21,21 @@
   }
   });
 </script>
+<style type="text/css">
+  .glyphicon{
+    display: block;
+    top: 20px;
+    height: 0px;
+    left: 11px;
+    font-weight: 700;
+  }
+  .glyphicon-ok{
+    color:green;
+  }
+  .glyphicon-remove{
+    color:red;
+  }
+</style>
 
   <div class="maincontent">
     <section class="section">
@@ -29,33 +44,60 @@
            <div class = "col-md-10">
            <div class="mycontainer">
             @if(!empty($resultData))
-            <h2> {{$resultData[0]->exam_name}} </h2>
+            <h2> {{--$resultData[0]->exam_name--}} </h2>
 
-            @foreach($resultData as $key => $result )
+          @foreach($resultData->Exam->userAnswer[0]->ExamQuestion as $key => $question )
 
            <div class="show_question">  
             <div class="question_data">
               <span class="question_number"> Q {{++$key }}: </span>
               <span class="inline question">
-                  <?php echo  htmlspecialchars_decode($result->question); ?>
+                  <?php echo  htmlspecialchars_decode($question['question']); ?>
                
               </span>
             </div>
-         
+         <?php
+         $userAnswerStatus = $resultData->rightAnswerByResultId($userId, $question->id);
+          foreach($question->Options as $options){
+            ?>
 
             <div class="options_div">
+          <?php
+           $checkForOk = true;
+            
+            $wrongIcon = '<i class = "glyphicon glyphicon-remove"> </i>';
+            $rightAnswerIcon = '<i class = "glyphicon glyphicon-ok"> </i>';
+            if((isset($userAnswerStatus->answer_id)) && $userAnswerStatus->answer_id == $options['id'] ){
+                if($question->rightAnswer['option_id'] == $options['id']){
+                    $wrongIcon = $rightAnswerIcon ;
+                    $checkForOk = false;
+                }
+                echo $wrongIcon;
+              }
+             if($checkForOk === true){ 
+              if($question->rightAnswer['option_id'] ==$options['id'] ){
+                echo $rightAnswerIcon;
+               }
+              }
+          ?>
+
                 <span class="answer">
-                 @if($result->question_option === NULL) 
-                    <span class="text-danger">  Not Ansered </span>
-                 @else
-                    <?php echo  htmlspecialchars_decode($result->question_option); ?> </span>
-                 @endif
+                    <?php echo  htmlspecialchars_decode($options['question_option']); ?> </span>               
             </div>
+            <?php
+               }
+            ?>
+            @if($userAnswerStatus->status  > 0)
+            <div class="option_footer"> 
+             <span class="pull-right"> Score: 4</span>
+           </div>
+           <div class="clearfix"></div>
+           @endif
+
             </div>
             @endforeach
             @else
-
-            <h3 class="text-danger"> No Data to Show </h3>
+              <h3 class="text-danger"> No Data to Show </h3>
             @endif
              </div>
 

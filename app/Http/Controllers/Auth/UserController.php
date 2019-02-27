@@ -417,7 +417,7 @@ class UserController extends Controller
         $resultData =   Result::where(['user_id' => $userId, 'exam_id' => $examId,'status' => 1]) 
                               ->orderBy('id','DESC')
                               ->paginate(10); 
-        return view('permit.exam.exam-result', compact('resultData','title'));                       
+        return view('permit.exam.exam-result', compact('resultData'));                       
      }
 
      public function downloadExamPdf($id){

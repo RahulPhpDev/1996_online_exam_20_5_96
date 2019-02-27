@@ -14,6 +14,7 @@ use App\Model\Question;
 use App\Model\Exam;
 use App\Model\UserAnswer;
 use App\Model\Result;
+use App\Model\QuestionOption;
 use Session;
 
 use Redirect;
@@ -54,22 +55,44 @@ class ResultController extends Controller
         $r_id = Crypt::decrypt($resultId);
         $resultObj = new Result;
         $resultData = Result::findorFail($r_id);
+        $userData = Auth::user();
+        $userId = $userData['id'];
+        // dd($resultData);
     //      "pivot_exam_id" => 24
     // "pivot_question_id" => 358
     // "pivot_answer_id" => 1416
-echo '<pre>';
-      foreach($resultData->Exam->userAnswer as $ans){
-       
-         foreach($ans->ExamQuestion as $question){
-        dd( $question->toArray());
-        echo ' Quetestion:'.'<=====>'.$question['question'].'<========>'.'<br>';;
-          foreach($question->Options as $options){
-            echo $options['question_option'].'<br>';
-          }
-         }
-      }
+// echo '<pre>';print_r($resultData->Exam->userAnswer );
+       // echo '<pre>';
+      //   $i = 0;
+      //   // dd($resultData->Exam->userAnswer[0]->toArray());
+      // // foreach($resultData->Exam->userAnswer as $ans){
+      //   echo ' ye foreach hai';
+      //    foreach($resultData->Exam->userAnswer[0]->ExamQuestion as $question){
+      //   // print($ans).'<br>';
+      //   //    echo ++$i.'<br>';
+      //   // dd( $question->toArray());
+      //     echo '<span style = "background:yellow;"> Quetestion:'.'<=====>'.$question['question'].'<========></span>'.'<br>';
+      //     foreach($question->Options as $options){
+
+      //     // echo 'question_id'.$question->id.'<br>'; 
+      //       // dd($question);
+      //       $userAnswerStatus = $resultObj->rightAnswerByResultId($r_id, $userId, $question->id);
+      //       // dd($userAnswerStatus->answer_id);
+
+      //       if((isset($userAnswerStatus->answer_id)) &&$userAnswerStatus->answer_id == $options['id'] ){
+      //           echo ' Ye User Ka Right Answer==>';
+      //         }
+      //         if($question->rightAnswer['option_id'] ==$options['id'] ){
+      //           echo ' Ye Right Answer==>';
+      //         }
+      //       echo $options['question_option'].'<br>';
+      //     }
+
+      //    }
+      //    break;
+      // }
       
-      dd('a age');
-        return view('permit/result.answer-sheet',compact('resultData'));
+      // dd('a age');
+        return view('permit/result.answer-sheet',compact('resultData','userId'));
   }
 }

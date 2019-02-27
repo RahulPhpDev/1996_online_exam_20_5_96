@@ -99,6 +99,20 @@ class Result extends Model
                 //  dd(DB::getQueryLog());
                  return $result;
            }
+
+         public function rightAnswerByResultId($user_id, $question_id){
+            DB::enableQueryLog();
+            $query = DB::table('user_answer as ua')
+                      ->select('question_id', 'answer_id','status','mark')
+                      ->where(array(
+                        // ['result_id' , '=', $res_id],
+                                 ['user_id', '=', $user_id],
+                                 ['question_id' , '=',$question_id ]
+                      ));
+            $result = $query->first();
+            return $result;                      
+
+         }
 }
 
 
