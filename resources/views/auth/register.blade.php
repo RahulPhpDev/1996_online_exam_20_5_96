@@ -14,6 +14,7 @@
         font-size: 17px;
         font-style: italic
         font-weight: 800;
+        cursor: pointer;
     }
 
     .term_check{

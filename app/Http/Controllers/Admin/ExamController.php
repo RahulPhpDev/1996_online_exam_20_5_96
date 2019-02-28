@@ -337,6 +337,7 @@ class ExamController extends Controller
     }
 
      public function saveConfirmExam(Request $request , $id){
+      // dd($request->all());
          $examObj = new Exam;
          $de_id =  Crypt::decrypt($id);
          $examDetails = Exam::findorfail($de_id);

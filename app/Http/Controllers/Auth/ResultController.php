@@ -54,44 +54,21 @@ class ResultController extends Controller
   public function answerSheet($resultId){
         $r_id = Crypt::decrypt($resultId);
         $resultObj = new Result;
+
         $resultData = Result::findorFail($r_id);
         $userData = Auth::user();
         $userId = $userData['id'];
-        // dd($resultData);
-    //      "pivot_exam_id" => 24
-    // "pivot_question_id" => 358
-    // "pivot_answer_id" => 1416
-// echo '<pre>';print_r($resultData->Exam->userAnswer );
-       // echo '<pre>';
-      //   $i = 0;
-      //   // dd($resultData->Exam->userAnswer[0]->toArray());
-      // // foreach($resultData->Exam->userAnswer as $ans){
-      //   echo ' ye foreach hai';
-      //    foreach($resultData->Exam->userAnswer[0]->ExamQuestion as $question){
-      //   // print($ans).'<br>';
-      //   //    echo ++$i.'<br>';
-      //   // dd( $question->toArray());
-      //     echo '<span style = "background:yellow;"> Quetestion:'.'<=====>'.$question['question'].'<========></span>'.'<br>';
-      //     foreach($question->Options as $options){
 
-      //     // echo 'question_id'.$question->id.'<br>'; 
-      //       // dd($question);
-      //       $userAnswerStatus = $resultObj->rightAnswerByResultId($r_id, $userId, $question->id);
-      //       // dd($userAnswerStatus->answer_id);
-
-      //       if((isset($userAnswerStatus->answer_id)) &&$userAnswerStatus->answer_id == $options['id'] ){
-      //           echo ' Ye User Ka Right Answer==>';
-      //         }
-      //         if($question->rightAnswer['option_id'] ==$options['id'] ){
-      //           echo ' Ye Right Answer==>';
-      //         }
-      //       echo $options['question_option'].'<br>';
-      //     }
-
-      //    }
-      //    break;
-      // }
-      
+        $resultData =  $resultObj->getDataByResultId($r_id,$userId);
+        // echo $r_id;
+        // session()->flash('res_id', $r_id);
+// dd(session());
+      //   dd(session()->all());
+// $resultData->Exam->userAnswer;
+        // dd($resultData->Exam->userAnswer->where('result_id', $r_id) );
+      //   foreach($resultData->Exam->userAnswer[0]->ExamQuestion as $key => $question ){
+      //     echo($question->question).'<br>';
+      //   }
       // dd('a age');
         return view('permit/result.answer-sheet',compact('resultData','userId'));
   }

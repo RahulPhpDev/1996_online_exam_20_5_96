@@ -12,6 +12,7 @@ use App\Model\Course;
 use App\Model\Result;
 use DB;
 use Auth;
+use Session;
 
 class Exam extends Model
 {
@@ -84,11 +85,30 @@ class Exam extends Model
 
     public function userAnswer(){
       // dd($userId);
+      $res = session()->get('res_id');
        $userDetails =  Auth::user();
-        $res = $this->belongsToMany(Exam::class,'user_answer')->withPivot(['question_id','answer_id'])->wherePivot('user_id' , "=", $userDetails['id']);
+        $res = $this->belongsToMany(Exam::class,'user_answer')
+                    ->withPivot(['question_id','answer_id','result_id'])
+                    ->wherePivot('user_id' , "=", $userDetails['id'])
+                    // session()->flash('res_id', $r_id);
+                    ->wherePivot('result_id' , "=", $res);
         // dd($res);
+        // res_id
         return $res;
     }
+
+//     $id =       $request->segment(2);
+// dd($id);
+
+//       $r_id = Crypt::decrypt($resultId);
+//       dd($r_id);
+//         $resultObj = new Result;
+//         echo $r_id;
+
+//        $userDetails =  Auth::user();
+//         $res = $this->belongsToMany(Exam::class,'user_answer')->withPivot(['question_id','answer_id','result_id'])->wherePivot('user_id' , "=", $userDetails['id'])->wherePivot('result_id' , "=", 777);
+//         // dd($res); 'result_id' , "=", 777
+//         return $res;
 
      public function UserExamData(){
         $res = $this->belongsToMany(User::class,'user_exam')->wherePivot('status' , "=", 1);

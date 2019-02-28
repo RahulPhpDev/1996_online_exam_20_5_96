@@ -24,7 +24,7 @@
 <style type="text/css">
   .glyphicon{
     display: block;
-    top: 20px;
+    top: 11px;
     height: 0px;
     left: 11px;
     font-weight: 700;
@@ -35,6 +35,9 @@
   .glyphicon-remove{
     color:red;
   }
+  .options_div > .answer {
+    line-height: 2.3;
+}
 </style>
 
   <div class="maincontent">
@@ -81,15 +84,20 @@
               }
           ?>
 
-                <span class="answer">
-                    <?php echo  htmlspecialchars_decode($options['question_option']); ?> </span>               
+            <span class="answer">
+                <?php echo  htmlspecialchars_decode($options['question_option']); ?> 
+              </span>               
             </div>
             <?php
                }
             ?>
             @if($userAnswerStatus->status  > 0)
             <div class="option_footer"> 
-             <span class="pull-right"> Score: 4</span>
+             <?php
+              $bgColor = ($userAnswerStatus->status == 1) ? 'postitive_mark':'negative_mark';
+             ?>
+            
+             <span class="pull-right">  <div class = {{$bgColor}}><a> {{$userAnswerStatus->mark}} </a> </div></span>
            </div>
            <div class="clearfix"></div>
            @endif

@@ -113,6 +113,82 @@ class Result extends Model
             return $result;                      
 
          }
+// Get All Question 
+
+         public function getDataByResultId($rid){
+            DB::enableQueryLog();
+            $query =  DB::table('results as r')
+                        ->select('r.exam_id','r.user_id','r.id','r.obtain_mark','r.result_status','r.time_taken')
+                        ->where(array(['r.id', '=', $rid]));
+                         $result = $query->get()->toArray();
+              $final_array = array();
+              $counter = 0;           
+            foreach($result as $res){
+              $allInfoAboutQuestion =   $this->getUserAnswerByResultId($rid);
+              $final_array = $allInfoAboutQuestion;
+              $counter++;
+            }
+            dd($final_array);
+           }
+
+        public function getQuestionById($qid){
+            DB::enableQueryLog();
+            $query =  DB::table('questions as q')
+                        // ->leftJoin('question_right_answer as ra','ra.question_id','=','ua.question_id')
+                        ->select('q.question')
+                        // ->addselect('ra.option_id')
+                        ->where(array(['q.id', '=', $qid]));
+                         $result = $query->first();
+                        
+            return $result;                         
+        }   
+
+
+        public function getUserAnswerByResultId($rid,$userId){
+            DB::enableQueryLog();
+            $query =  DB::table('user_answer as ua')
+                        ->leftJoin('question_right_answer as ra','ra.question_id','=','ua.question_id')
+                        ->select('ua.question_id','ua.answer_id','ua.mark','ua.status')
+                        ->addselect('ra.option_id')
+                        ->where(array(
+                          ['ua.result_id', '=', $rid],
+                          ['ua.user_id', '=', $userId],
+                        ));
+                         $result = $query->get()->toArray();
+                         // $sql = $query->toSql();
+                         // dd($result);
+            $option_data = array(); 
+            $counter = 0;                        
+            foreach($result as $res){
+               $allInfoAboutQuestion =   $this->getQuestionById($res->question_id);
+               $allOptions =  $this->getOptionByQuestionId($res->question_id);
+              
+               $option_data[$counter]['question'] =   $allInfoAboutQuestion->question;
+               $option_data[$counter]['option'] =  $allOptions;
+               $option_data[$counter]['user_right_answer'] =  $res->answer_id;
+               $option_data[$counter]['question_right_answer'] =  $res->option_id;
+               $option_data[$counter]['mark_status'] =  $res->status;
+               $option_data[$counter]['mark'] =  $res->mark;
+
+               $counter++;
+            }
+            return $option_data;
+            // dd($option_data);
+        }   
+
+        public function getOptionByQuestionId($qid){
+          DB::enableQueryLog();
+            $query =  DB::table('question_options as qo')
+                        ->select('qo.id','qo.question_id','qo.question_option')
+                        ->where(array(['qo.question_id', '=', $qid]));
+                         $result = $query->get()->toArray();
+                         // $sql = $query->toSql();
+            //              dd($result);
+            // foreach($result as $res){
+            //     $this->getOptionByQuestionId($res->question_id);
+            // }
+            return $result; 
+        }
 }
 
 
