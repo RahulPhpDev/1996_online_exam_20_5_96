@@ -21,6 +21,8 @@
 Route::get('test', function(){
 dd(url('/')."/images/equation_icon/");
 });
+
+Route::view('term', 'guest.terms_policy');
 Route::get('send','MailController@send');
 
 Route::get('/downloadPDF/{id?}','GuestController@downloadPDF');

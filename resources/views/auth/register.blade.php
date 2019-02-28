@@ -8,19 +8,48 @@
 <link href="{{ asset('css/validation.css') }}" rel="stylesheet">
 <script src="{{ asset('js/jquery.validate.min.js') }}"></script>
 <script src="{{ asset('js/additional-methods.min.js') }}"></script>
+<style type="text/css">
+     a{
+        color: blue;
+        font-size: 17px;
+        font-style: italic
+        font-weight: 800;
+    }
+
+    .term_check{
+        top: 4px !important;
+        width: 24px;
+        height: 16px;
+        position: relative;
+        margin-right: 5px;
+    }
+    .term_span{
+      font-size: 19px;
+    font-weight: 500;
+}
+
+</style>
 <script type="text/javascript">
   $(document).ready(function () {
+    $('form#post_req').submit(function(){ 
+    if (! $('#accept_term')[0].checked){
+       alert('Please Accept Term Policy');
+       return false;
+    }
+}); 
+
   $("#post_req").validate({
             ignore: [], 
             rules: {
-               fname: {required: true,minlength: 3,maxlength: 60},
-               lname: {required: true,minlength: 3,maxlength: 60},
-               email:{required:true,email:true},
-               address:{required:true},
+                fname: {required: true,minlength: 3,maxlength: 60},
+                lname: {required: true,minlength: 3,maxlength: 60},
+                email:{required:true,email:true},
+                address:{required:true},
                 password: { required: true,minlength: 5  },
                 password_confirmation:{ required: true,equalTo:"#password" },
                phone_no:{ digits: true,minlength: 10,maxlength: 11},
                profile: {required: true, extension: "png|jpg|jpeg" },
+               accept_term:{required:true},
             },
             messages: {
                fname:{required:" First Name is required!",minlength:" First Name require minimum 3 characters!",maxlength:" First Name require max 60 characters!"},
@@ -30,8 +59,9 @@
                address: {required:" Address is required!" },
                password: {required :"Password is required",minlength : "password Should have 5 character"},
                password_confirmation: {required :"Confirm Password is required",equalTo: "Password is not matching "},
-              phone_no:{minlength:" Not valid",maxlength:" Not valid"},
-               profile:{required:" Image Is Required",extension:" Not valid"}
+               phone_no:{minlength:" Not valid",maxlength:" Not valid"},
+               profile:{required:" Image Is Required",extension:" Not valid"},
+               accept_term:{required:" "}
             },
             submitHandler: function(form) {
                $('#disable-button').show();
@@ -174,7 +204,10 @@
                                      @endif     
                         </div>
                     </div>
-                    
+
+
+                    <div class="form-group">
+                    <input id ="accept_term" name ="accept_term" class = "term_check" type ="checkbox"><span class = "term_span" > I accept the  <a id = "terms" data-toggle="modal" data-target="#myModal"> Term And Conditions </a> </span> </div>
                     <div class="form-group text-center">
                         <div class="col-sm-offset-2 col-sm-2">
                           <div id = "enable-button">
@@ -192,7 +225,37 @@
 </section>       
  </div>
 
+
+<div class="modal fade " id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+   
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Terms And Policy</h4>
+        </div>
+        <div class="modal-body">
+          
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+
+   </div>
+</div>
+
  <script>
+ $("#terms").on('click', function(){
+    $.ajax({
+      url: 'term',
+      type:'GET',
+      success:function(data){
+        $(".modal-body").html(data)
+      }
+    });
+ });
  function showPassword() {
     var x = document.getElementById("password");
     if (x.type === "password") {

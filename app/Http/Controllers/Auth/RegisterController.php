@@ -60,6 +60,7 @@ class RegisterController extends Controller
         //    'enrollment' => 'required|regex:/(^[A-Za-z0-9 ]+$)+/|max:255|unique:students,enroll_number',
             'password' => 'required|string|min:6|confirmed',
             'phone_no' => 'regex:/^([0-9\s\-\+\(\)]*)$/|digits_between:10,12|unique:users,phone_no',
+            'accept_term' => 'required'
         ]);
     }
 

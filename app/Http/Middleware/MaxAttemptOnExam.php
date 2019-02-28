@@ -21,11 +21,9 @@ class MaxAttemptOnExam
     {
         $exam_data = Exam::find(Crypt::decrypt($request->id));
         $userData = Auth::user(); 
-         // $route = $request->route();
-         // dd($route->id);
         $userId = $userData['id'];
         $maxAttemptOfExam =  $exam_data['max_attempt'];
-        if(!session()->has('exam_process')) { 
+        if(!session()->has('exam_process') && ($maxAttemptOfExam > 0)) { 
            $countOfUserAttemptExam = $exam_data->UserExamData()->where('user_id', $userId)->count();
            if($countOfUserAttemptExam >= $maxAttemptOfExam ){
             return redirect()->route('not-permit-exam',$request->id); 
