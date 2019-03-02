@@ -74,16 +74,21 @@ function myFunction() {
 
         <li  class="dropdown" id="profile-messages" ><a title="" href="#" data-toggle="dropdown" data-target="#profile-messages" class="dropdown-toggle">
                 <?php
+                // dd(Auth::user()->profile_image);
                   if(!Auth::user()->profile_image){
-                    $profilePic  = Auth::user()->fname[0]. ''.Auth::user()->lname[0];
+                     $profilePic  = Auth::user()->fname[0]. ''.Auth::user()->lname[0];
                     ?>
 
                    <div class="avatarbox material_avatar showtip tooltipstered" style="background-color: #106eca">{{ $profilePic}}</div>
                    <?php
                     }else{
-                        $profilePic = '/images/profile/thumbnail/'.Auth::user()->profile_image;
+                      if(Auth::user()->register_from > 0){
+                        $profilePic = Auth::user()->profile_image;
+                      }else{  
+                        $profilePic = asset('/images/profile/thumbnail/'.Auth::user()->profile_image);
+                    }
                     ?>
-                    <img src="{{ asset( $profilePic )}}"  class="avatarbox material_avatar profile_img"/>
+                    <img src="{{  $profilePic}}"  class="avatarbox material_avatar profile_img"/>
                     <?php
                 }
             ?>

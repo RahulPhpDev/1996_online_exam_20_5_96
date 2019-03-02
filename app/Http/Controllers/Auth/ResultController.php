@@ -60,6 +60,7 @@ class ResultController extends Controller
         $userId = $userData['id'];
 
         $resultData =  $resultObj->getDataByResultId($r_id,$userId);
+        // dd($resultData);
         // echo $r_id;
         // session()->flash('res_id', $r_id);
 // dd(session());
@@ -70,6 +71,6 @@ class ResultController extends Controller
       //     echo($question->question).'<br>';
       //   }
       // dd('a age');
-        return view('permit/result.answer-sheet',compact('resultData','userId'));
+        return view('permit/result/answer-sheet',compact('resultData','userId'));
   }
 }

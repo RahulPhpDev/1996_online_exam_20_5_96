@@ -203,10 +203,11 @@ float: left;
     margin-top: -4px;
 }
 .btn-custom , .btn-exam-custom{
-  padding: 5px 66px;
+  padding: 8px 66px;
 letter-spacing: 0.6px;
 text-transform: uppercase;
 border: none;
+border-radius
 }
 .btn-exam-custom{
     padding: 9px 11px;
@@ -489,3 +490,62 @@ padding-top: 12px;
 .hide_in_lap{
     display: none !important;
 }
+
+
+.col {
+    flex: 1;
+}
+
+    .name_input{
+    height: 40px;
+    width: 57%;
+}
+.msg_textarea{
+    width: 57%;
+}
+
+.background_img{
+     background: url('{{asset('images/contact_us.jpg')}}') no-repeat center center fixed; 
+      -webkit-background-size: cover;
+      -moz-background-size: cover;
+      -o-background-size: cover;
+      background-size: cover;
+}
+.img_div{
+    padding-top: 11px;
+}
+.cont_img{
+        height: 400px;
+}
+   .messages h4{
+       font-size: 27px;
+    padding-top: 14px;
+    padding-left: 14px;
+    font-style: italic;
+    font-family: auto;
+    text-align: center;
+    color: green;
+       }
+.welcome_span {
+    text-align: center;
+    font-size: 23px;
+    font-family: cursive;
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.welcome_span:before,
+.welcome_span:after {
+    content: '';
+    border-top: 2px dashed green;
+    margin: 0 20px 0 0;
+    flex: 1 0 20px;
+}
+
+.welcome_span:after {
+    margin: 0 0 0 20px;
+}
+

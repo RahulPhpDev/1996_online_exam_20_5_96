@@ -164,6 +164,9 @@ return [
          // 
         Maatwebsite\Excel\ExcelServiceProvider::class, #excen; file downlod
 
+        // socialite
+        Laravel\Socialite\SocialiteServiceProvider::class,
+
     ],
 
     /*
@@ -218,6 +221,8 @@ return [
         'PDF' => Barryvdh\DomPDF\Facade::class,
 
         'Excel' => Maatwebsite\Excel\Facades\Excel::class,
+        // socialite
+        'Socialite' => Laravel\Socialite\Facades\Socialite::class,
 
     ],
 

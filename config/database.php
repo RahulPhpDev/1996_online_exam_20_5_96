@@ -43,7 +43,7 @@ return [
             'driver' => 'mysql',
             'host' =>  'localhost',
             'port' => '',
-            'database' => 'online_maarula_exam',
+            'database' => 'online_exam',
             'username' => 'root',
             'password' => '',
             'unix_socket' => env('DB_SOCKET', ''),

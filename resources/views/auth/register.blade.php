@@ -28,7 +28,17 @@
       font-size: 19px;
     font-weight: 500;
 }
-
+.singin__div, .singin__div div{
+  display: inline;
+      margin-right: 7px;
+}
+.singin__div img{
+       width: 8%;
+         margin-top: -20px;
+}
+.singup_title {
+  margin-bottom: 23px;
+}
 </style>
 <script type="text/javascript">
   $(document).ready(function () {
@@ -73,19 +83,33 @@
     });
 </script>
 <div class="maincontent">
-                <section class="section">
+  <section class="section">
     <div class="container mycontainer ">
         <div class="col-md-1"></div>
         <div class="col-md-10">
-            <div class="page-heading">
-                <div class="widget">
-                    <h2 class="title-border"> Registration</h2>
-                </div>
-            </div><div class="panel-body">
-                 <form id="post_req" class="form-horizontal" role="form" enctype="multipart/form-data" method="post" accept-charset="utf-8" action="{{ route('register') }}">
-                        @csrf
+              <div class="page-heading singup_title">
+                  <div class="widget">
+                      <h2 class="title-border" style=" border-bottom: none"> Sing Up Using</h2>
+                  </div>
+                  <div class="singin__div">
+                   <div class = "google__singin">
+                        <a href = "login/google"> <img src = "{{asset('images/google_icon.png')}}">  </a>
+                    </div>
+                  <div class="facebook__signin">
+                      <a href = "login/facebook"> <img src = "{{asset('images/facebook_icon.png')}}">  </a>
+                  </div>
+                 </div> 
+                 <p class = "welcome_span"> We Welcome your feedback </p> 
+              </div>
 
-                                    
+              <div class="page-heading">
+                  <div class="widget">
+                      <h2 class="title-border"> Registration</h2>
+                  </div>
+              </div>
+            <div class="panel-body">
+                 <form id="post_req" class="form-horizontal" role="form" enctype="multipart/form-data" method="post" accept-charset="utf-8" action="{{ route('register') }}">
+                    @csrf     
                       <div class="form-group">
                         <label for="inputEmail3" class="col-sm-2 control-label"><small>Email <span class="text-danger"> *</span></small></label>
                         <div class="col-sm-4">
@@ -97,7 +121,6 @@
                             </span>
                         @endif
                      </div>
-                   
                         
                     </div>
                     <div class="form-group">

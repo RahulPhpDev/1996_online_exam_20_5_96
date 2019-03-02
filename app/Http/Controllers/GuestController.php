@@ -296,4 +296,10 @@ $img->insert($watermark, 'center');
         // $pdf->setWatermarkImage('images/backend_images/watermark.jpg');
         // return $pdf->download('invoice.pdf');
     }
+
+    public function contactUs(){
+        return View('guest/contact-us');
+    }
+
+   // public function  
 }

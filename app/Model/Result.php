@@ -115,20 +115,22 @@ class Result extends Model
          }
 // Get All Question 
 
-         public function getDataByResultId($rid){
+         public function getDataByResultId($rid,$userId){
             DB::enableQueryLog();
             $query =  DB::table('results as r')
                         ->select('r.exam_id','r.user_id','r.id','r.obtain_mark','r.result_status','r.time_taken')
-                        ->where(array(['r.id', '=', $rid]));
+                        ->where(array(['r.id', '=', $rid],
+                          ['r.user_id', '=', $userId],));
                          $result = $query->get()->toArray();
               $final_array = array();
               $counter = 0;           
-            foreach($result as $res){
-              $allInfoAboutQuestion =   $this->getUserAnswerByResultId($rid);
-              $final_array = $allInfoAboutQuestion;
-              $counter++;
-            }
-            dd($final_array);
+              foreach($result as $res){
+                $allInfoAboutQuestion =   $this->getUserAnswerByResultId($rid);
+                $final_array = $allInfoAboutQuestion;
+                $counter++;
+              }
+            // dd($final_array);
+            return $final_array;
            }
 
         public function getQuestionById($qid){
@@ -144,7 +146,7 @@ class Result extends Model
         }   
 
 
-        public function getUserAnswerByResultId($rid,$userId){
+        public function getUserAnswerByResultId($rid){
             DB::enableQueryLog();
             $query =  DB::table('user_answer as ua')
                         ->leftJoin('question_right_answer as ra','ra.question_id','=','ua.question_id')
@@ -152,7 +154,6 @@ class Result extends Model
                         ->addselect('ra.option_id')
                         ->where(array(
                           ['ua.result_id', '=', $rid],
-                          ['ua.user_id', '=', $userId],
                         ));
                          $result = $query->get()->toArray();
                          // $sql = $query->toSql();
