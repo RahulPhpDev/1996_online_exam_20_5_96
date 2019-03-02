@@ -24,3 +24,37 @@ ALTER TABLE `exams` ADD `max_attempt` TINYINT NOT NULL DEFAULT '1' COMMENT '0->f
 ALTER TABLE `exams` ADD `show_answer` TINYINT NOT NULL DEFAULT '1' AFTER `max_attempt`;
 ALTER TABLE `users` ADD `register_from` TINYINT NOT NULL DEFAULT '0' COMMENT '0=>web,1=>google,3=>fb' AFTER `phone_no`;
 ALTER TABLE users add register_id varchar(30) AFTER register_from
+
+namespace Laravel\Socialite\Two;
+ public function redirect()
+    {
+        $state = null;
+
+        if ($this->usesState()) {
+        //         echo $this->getState();die();
+        // session(['start_time' => $time]);
+        //     $this->request->session(['state', $state = $this->getState()]);
+
+             $state = $this->getState();
+            $this->request->session(['state'=> $state]);
+        }
+
+        return new RedirectResponse($this->getAuthUrl($state));
+    }
+
+     public function user()
+    {
+        // if ($this->hasInvalidState()) {
+        //     throw new InvalidStateException;
+        // }
+
+        $response = $this->getAccessTokenResponse($this->getCode());
+
+        $user = $this->mapUserToObject($this->getUserByToken(
+            $token = Arr::get($response, 'access_token')
+        ));
+
+        return $user->setToken($token)
+                    ->setRefreshToken(Arr::get($response, 'refresh_token'))
+                    ->setExpiresIn(Arr::get($response, 'expires_in'));
+    }
