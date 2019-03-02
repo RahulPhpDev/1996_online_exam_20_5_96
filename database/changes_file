@@ -58,3 +58,69 @@ namespace Laravel\Socialite\Two;
                     ->setRefreshToken(Arr::get($response, 'refresh_token'))
                     ->setExpiresIn(Arr::get($response, 'expires_in'));
     }
+
+    
+CREATE TABLE `feedbacks` (
+  `id` int(11) UNSIGNED NOT NULL,
+  `name` varchar(50) NOT NULL,
+  `email` varchar(50) NOT NULL,
+  `subject` varchar(255) NOT NULL,
+  `message` text NOT NULL,
+  `add_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `feedbacks`
+--
+ALTER TABLE `feedbacks`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `feedbacks`
+--
+ALTER TABLE `feedbacks`
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
+COMMIT;
+
+
+
+
+CREATE TABLE `email_forward` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `alert_id` int(11) NOT NULL,
+  `sujbect` mediumtext NOT NULL,
+  `message` longtext NOT NULL,
+  `send_date` datetime NOT NULL,
+  `status` tinyint(4) NOT NULL DEFAULT '0'
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `email_forward`
+--
+ALTER TABLE `email_forward`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `email_forward`
+--
+ALTER TABLE `email_forward`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+COMMIT;

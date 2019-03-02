@@ -34,7 +34,7 @@ class Alert extends Model
 // dd($messageOutput );
 		// get Subject 
 		$inputSubjectObj = new stdClass;
-		$subjectDyamicParmas = ( isset($params->subject_params))   ?  $params->subject_params : '';
+		$subjectDyamicParmas =  $params->subject_params ?? 'this';
 
 		$subjectDbParams = $alertData->email_subject_params;
 		$subject = $alertData->subject;
@@ -86,6 +86,7 @@ class Alert extends Model
 	            $subjecttemplate = str_replace($p, trim($value), $subjecttemplate);
 	         }	
 	        }
+    	
 		return $subjecttemplate;
     }
 

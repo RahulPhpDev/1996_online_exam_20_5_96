@@ -46,6 +46,8 @@ Route::get('checkSession', 'GuestController@checkSession')->name('checkSession')
 
 Route::get('contactUs', 'GuestController@contactUs')->name('contactUs');
 
+Route::post('saveContactUs', 'GuestController@saveContactUs')->name('saveContactUs');
+
 Route::get('/', [
     'as' => '/',
     'uses' => 'GuestController@index'

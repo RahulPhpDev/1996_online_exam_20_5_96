@@ -34,7 +34,7 @@ class EmailForward extends Model
        'subject' => $subject,
        'msg' =>$msg
         );
-
+// dd($data);
     Mail::send( 'mail', $data, function( $message ) use ($data)
     {
         $message->to( $data['email'] )

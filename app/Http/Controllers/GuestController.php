@@ -13,9 +13,12 @@ use Dompdf\Dompdf;
 use Mpdf;
 use Auth;
 use App\User;
-
+use App\Model\Feedback;
 use App\helpers\helper;
 use Session;
+use App\Model\Alert;
+use Illuminate\Support\Facades\Validator;
+use stdClass;
 // use Session;
 
 class GuestController extends Controller
@@ -301,5 +304,35 @@ $img->insert($watermark, 'center');
         return View('guest/contact-us');
     }
 
-   // public function  
+   public function saveContactUs(Request $request){
+         $validator = Validator::make($request->all(), [
+           'email' => 'required|email',
+           'name' => 'required|string|max:50',
+           'subject' => 'required',
+           'message' => 'required'
+       ]);
+        
+       if ($validator->fails()) {
+            Session::flash('error', $validator->messages()->first());
+            return redirect()->back()->withInput();
+       }
+
+       Feedback::create([
+        'name' => $request->name,
+        'email' => $request->email,
+        'subject' => $request->subject,
+        'message' => $request->message,
+        ]);
+       
+       
+        $emailParams = new stdClass;
+        $emailParams->user_id = 4;
+        $emailParams->user_email =  'associate.rahul.chauhan@gmail.com';
+        $emailParams->alert_id = 2;
+        $emailParams->msg_params = [$request->name, $request->subject , $request->message];
+        $alertObj = new Alert();
+        $outputData =  $alertObj->sendEmail($emailParams);
+    die(' dekhte hai');
+
+   }  
 }

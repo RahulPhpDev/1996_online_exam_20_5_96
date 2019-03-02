@@ -14,7 +14,7 @@
 
         <div class="mycontainer">
 		
-        	  <form method="POST"  action = "" class="" style="padding-top:15px">
+        	  <form method="POST"  action = "{{route('saveContactUs')}}" class="" style="padding-top:15px">
         	  	@csrf
 	        	  <div class="form-group">
 	     				 <label for="name">Name:</label>
