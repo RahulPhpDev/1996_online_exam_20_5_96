@@ -9,6 +9,7 @@ use Auth;
 use App\User;
 use Illuminate\Http\Request;
 
+use Socialite;
 
 class LoginController extends Controller
 {
@@ -113,5 +114,80 @@ class LoginController extends Controller
 
 //         }
 
+ public function redirectToProvider()
+    {
+        // return Socialite::driver('github')->redirect();
+        return Socialite::driver('google')->redirect();
+    }
+
+     public function handleProviderCallback()
+    {
+        $user = Socialite::driver('google')->user();
+        $authUser = $this->findOrCreateUser($user, 'google');
+        Auth::login($authUser, true);
+
+        return redirect()->route('home');
+    }
+
+
+     private function findOrCreateUser($google, $from)
+    {
+        // dd($google->name);
+       $nameArr =  explode(' ', $google->name);
+       // dd(count($nameArr));
+
+        $lastName = "";
+        if(count($nameArr) > 1){
+            $firstName = $nameArr[0];
+            for($i = 1; $i < count($nameArr); $i++){
+                $lastName = $lastName . $nameArr[$i].' ';
+            }
+        }
+     $firstName ?? 'Not';
+     $lastName ?? ' Found';
+        $register_id = 2;
+        if($from == 'google'){
+            $register_id = 1;
+        }else{
+          $register_id = 2;
+        }
+        $authUser = User::where('register_id', $google->id)->first();
+
+        if ($authUser){
+            return $authUser;
+        }
+        if(is_null($google->email)){ 
+            $google->email = $google->id.'fb@fb.com';
+        }
+        $userArray = array(
+                'fname' => $firstName,
+                'lname' => $lastName,
+                'email' => $google->email,
+                'register_id' => $google->id,
+                'register_from' =>   $register_id,
+                'password' =>bcrypt(12345),
+                'profile_image' => $google->avatar,
+                'user_type' => 3,
+                'status' => 1,
+                'add_date' => date("Y-m-d"),
+            );
+
+        return User::create($userArray);
+    }
+
+
+    public function redirectToProviderFb()
+    {
+        return Socialite::driver('facebook')->redirect();
+    }
+
+     public function handleProviderCallbackFb()
+    {
+        $user = Socialite::driver('facebook')->user();
+        $authUser = $this->findOrCreateUser($user, 'facebook');
+        Auth::login($authUser, true);
+        return redirect()->route('home');
+        
+    }
 
 }

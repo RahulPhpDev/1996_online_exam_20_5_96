@@ -22,6 +22,14 @@ Route::get('test', function(){
 dd(url('/')."/images/equation_icon/");
 });
 
+
+Route::get('login/google', 'Auth\LoginController@redirectToProvider');
+Route::get('login/google/callback', 'Auth\LoginController@handleProviderCallback');
+
+Route::get('login/facebook', 'Auth\LoginController@redirectToProviderFb');
+Route::get('login/facebook/callback', 'Auth\LoginController@handleProviderCallbackFb');
+
+
 Route::view('term', 'guest.terms_policy');
 Route::get('send','MailController@send');
 
@@ -36,6 +44,7 @@ Route::get('nextSession', 'GuestController@nextSession')->name('nextSession');
 
 Route::get('checkSession', 'GuestController@checkSession')->name('checkSession');
 
+Route::get('contactUs', 'GuestController@contactUs')->name('contactUs');
 
 Route::get('/', [
     'as' => '/',
