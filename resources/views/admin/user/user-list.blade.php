@@ -51,7 +51,6 @@
               <thead>
                 <tr>
                     <th> Id </th>
-                  <!-- <th>User Name</th> -->
                   <th>Name</th>
                   <th>Email</th>
                   <th>User Type </th>

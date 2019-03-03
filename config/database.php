@@ -43,7 +43,7 @@ return [
             'driver' => 'mysql',
             'host' =>  'localhost',
             'port' => '',
-            'database' => 'online_exam',
+            'database' => env('DB_DATABASE'),
             'username' => 'root',
             'password' => '',
             'unix_socket' => env('DB_SOCKET', ''),

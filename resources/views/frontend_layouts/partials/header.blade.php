@@ -55,19 +55,20 @@ function myFunction() {
                             <div class="col-sm-12 col-md-9">
                                 <nav class="navbar-right">
                                     <ul  id="frontMenu" class="menu">
+
                                     <li class="toggle-menu" onclick = "myFunction();"><i class="fa icon_menu"></i></li>
-	<li class="active"><a href="{{route('/welcome')}}"><i class="fa fa-home"></i>&nbsp;Home</a></li>
-	<li>
+	<li class="{{ request()->is('welcome*') || request()->is('/*')? 'active' : '' }}"><a href="{{route('/welcome')}}"><i class="fa fa-home"></i>&nbsp;Home</a></li>
+	<li class="{{ request()->is('about-us*') ? 'active' : '' }}">
     <a href="{{route('about-us')}}"><i class="fa fa-globe"></i>&nbsp;About Us</a>
 		
 	</li>
-    <li><a href="{{route('allpackage')}}"><i class="fa fa-shopping-cart"></i>&nbsp;Packages</a></li>
+    <li class="{{ request()->is('contactUs*') ? 'active' : '' }}"><a href="{{route('contactUs')}}"><i class="fa fa-envelope"></i>&nbsp;Contact Us</a></li>
     @if((Auth::user()) && Auth::user()['user_type'] ==1 )
       <li><a href="{{route('dashboard')}}"><i class="fa fa-dashboard"></i>&nbsp;Dashboard</a></li>
     @endif
     @if( !(Auth::user()))
-	<li><a href="{{route('register')}}"><i class="fa fa-user"></i>&nbsp;Register</a></li>
-	<li><a href="{{route('login')}}"><i class="fa fa-lock"></i>&nbsp;Login</a></li>
+	<li class="{{ request()->is('register*') ? 'active' : '' }}"><a href="{{route('register')}}"><i class="fa fa-user"></i>&nbsp;Register</a></li>
+	<li class="{{ request()->is('login*') ? 'active' : '' }}"><a href="{{route('login')}}"><i class="fa fa-lock"></i>&nbsp;Login</a></li>
         
         @else
 

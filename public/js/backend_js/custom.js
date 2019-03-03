@@ -1,6 +1,7 @@
 
 $(function(){
     
+      $('.textarea_editor').wysihtml5();
 
    var dataSrc = [];
 

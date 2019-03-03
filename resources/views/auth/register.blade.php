@@ -99,7 +99,7 @@
                       <a href = "login/facebook"> <img src = "{{asset('images/facebook_icon.png')}}">  </a>
                   </div>
                  </div> 
-                 <p class = "welcome_span"> We Welcome your feedback </p> 
+                 <p class = "welcome_span"> Or </p> 
               </div>
 
               <div class="page-heading">

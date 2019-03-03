@@ -36,6 +36,11 @@
       </ul>
   </li>
 
+
+    <li ><a href="{{route('feedback')}}"><i class="icon  icon-book"></i> <span>Feedback</span></a>
+     
+    </li>
+
    
 
       <li><a href="{{route('result')}}"><i class="icon  icon-hdd"></i> <span>Result</span></a></li>

@@ -19,10 +19,59 @@ use Session;
 use App\Model\Alert;
 use Illuminate\Support\Facades\Validator;
 use stdClass;
+use Mail;
+use Config;
+
 // use Session;
 
 class GuestController extends Controller
 {
+
+
+    public function contactUs(){
+         return View('guest/contact-us');
+    }
+
+   public function saveContactUs(Request $request){
+    // dd($request->all());
+         $validator = Validator::make($request->all(), [
+           'email' => 'required|email',
+           'name' => 'required|string|max:50',
+           'subject' => 'required',
+           'message' => 'required'
+       ]);
+        
+       if ($validator->fails()) {
+            Session::flash('error', $validator->messages()->first());
+            return redirect()->back()->withInput();
+       }
+
+       Feedback::create([
+        'name' => $request->name,
+        'email' => $request->email,
+        'subject' => $request->subject,
+        'message' => $request->message,
+        ]);
+       
+       
+        $emailParams = new stdClass;
+        $emailParams->user_id = 4;
+        $emailParams->user_email =  'mrrahul2016@gmail.com';
+        $emailParams->alert_id = 2;
+        $emailParams->subject_params = [$request->subject];
+        $emailParams->msg_params = [$request->message, $request->name , $request->email,date('d-m-Y')];
+        $alertObj = new Alert();
+        $outputData =  $alertObj->sendEmail($emailParams);
+        Mail::send( 'mail', $outputData, function( $message ) use ($outputData)
+        {
+            $message->to( $outputData['email'] )
+            ->subject( $outputData['subject']);
+        });
+        Session::flash('status', 'Your Message has send to Admin!'); 
+        return redirect()->route('contactUs');
+
+   }  
+
     public function index(){
         $courseObj = new Course;
         $SubscriptionData  = Subscription::where('status', 1)->get();
@@ -300,39 +349,4 @@ $img->insert($watermark, 'center');
         // return $pdf->download('invoice.pdf');
     }
 
-    public function contactUs(){
-        return View('guest/contact-us');
-    }
-
-   public function saveContactUs(Request $request){
-         $validator = Validator::make($request->all(), [
-           'email' => 'required|email',
-           'name' => 'required|string|max:50',
-           'subject' => 'required',
-           'message' => 'required'
-       ]);
-        
-       if ($validator->fails()) {
-            Session::flash('error', $validator->messages()->first());
-            return redirect()->back()->withInput();
-       }
-
-       Feedback::create([
-        'name' => $request->name,
-        'email' => $request->email,
-        'subject' => $request->subject,
-        'message' => $request->message,
-        ]);
-       
-       
-        $emailParams = new stdClass;
-        $emailParams->user_id = 4;
-        $emailParams->user_email =  'associate.rahul.chauhan@gmail.com';
-        $emailParams->alert_id = 2;
-        $emailParams->msg_params = [$request->name, $request->subject , $request->message];
-        $alertObj = new Alert();
-        $outputData =  $alertObj->sendEmail($emailParams);
-    die(' dekhte hai');
-
-   }  
 }

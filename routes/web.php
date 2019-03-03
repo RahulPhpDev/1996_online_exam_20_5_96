@@ -230,7 +230,12 @@ Route::Post("delete-exam/{id}",  'Admin\ExamController@deleteExam')->name('delet
 Route::get('inspection-sheet/{id?}', 'Admin\ResultController@inspectionSheet')->name('inspection-sheet');
 Route::get('result-answersheet/{id?}', 'Admin\ResultController@resultAnswerSheet')->name('result-answersheet');
 
-Route::get('delete-result/{id?}', 'Admin\ResultController@deleteResult')->name('delete-result');
+Route::get('delete-result/{id?}', 'Admin\ArticleController@deleteResult')->name('delete-result');
+Route::get('feedback', 'Admin\ArticleController@feedback')->name('feedback');
+Route::get('feedback-message/{id}', 'Admin\ArticleController@feedbackMessage')->name('feedback-message');
+Route::any('feedback-reply/{id}', 'Admin\ArticleController@feedbackReply')->name('feedback-reply');
+
+
 
 }) ; 
 

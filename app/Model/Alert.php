@@ -34,7 +34,7 @@ class Alert extends Model
 // dd($messageOutput );
 		// get Subject 
 		$inputSubjectObj = new stdClass;
-		$subjectDyamicParmas =  $params->subject_params ?? 'this';
+		$subjectDyamicParmas =  $params->subject_params ?? '';
 
 		$subjectDbParams = $alertData->email_subject_params;
 		$subject = $alertData->subject;
@@ -56,9 +56,9 @@ class Alert extends Model
 
 		$inputObjSendEmail->subject = $output->subject;
 		$inputObjSendEmail->message = $output->message;
-		$emailforwardObj->saveEmailForward($inputObjSendEmail);
+		$forwardEmailOutput =  $emailforwardObj->saveEmailForward($inputObjSendEmail);
 
-		return $output;
+		return $forwardEmailOutput;
     }
 
    

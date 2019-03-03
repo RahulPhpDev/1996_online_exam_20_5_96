@@ -1,29 +1,12 @@
-public function upload_image(Request $request){
-      $CKEditor = Input::get('CKEditor');
-        $funcNum = Input::get('CKEditorFuncNum');
-        $message = $url = '';
-        if (Input::hasFile('upload')) {
-            $file = Input::file('upload');
-            if ($file->isValid()) {
-                $filename = $file->getClientOriginalName();
-                $fpath = base_path().'/images/equation_icon/';
-                 $file->move($fpath, $filename);
-                $url = url('/')."/images/equation_icon/". $filename;
-            } else {
-                $message = 'An error occured while uploading the file.';
-            }
-        } else {
-            $message = 'No file uploaded.';
-        }
-      $arr = array('fileName' =>  $filename, 'uploaded' => 1, "url" => "$url");
-
-    echo json_encode($arr);
-  }
 
 ALTER TABLE `exams` ADD `max_attempt` TINYINT NOT NULL DEFAULT '1' COMMENT '0->forever' AFTER `exam_visible_status`;
 ALTER TABLE `exams` ADD `show_answer` TINYINT NOT NULL DEFAULT '1' AFTER `max_attempt`;
 ALTER TABLE `users` ADD `register_from` TINYINT NOT NULL DEFAULT '0' COMMENT '0=>web,1=>google,3=>fb' AFTER `phone_no`;
 ALTER TABLE users add register_id varchar(30) AFTER register_from
+ALTER TABLE `feedback` ADD `status` TINYINT NOT NULL COMMENT '0=>delete,2=>read' AFTER `add_date`;
+ALTER TABLE `feedback` CHANGE `status` `status` TINYINT(4) NOT NULL DEFAULT '1' COMMENT '0=>delete,2=>read';
+alter TABLE feedback add feedback_id int(11) DEFAULT 0 after id;
+ALTER TABLE `alerts` ADD `name` VARCHAR(255) NOT NULL AFTER `id`;
 
 namespace Laravel\Socialite\Two;
  public function redirect()
