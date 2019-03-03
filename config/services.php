@@ -35,16 +35,28 @@ return [
         'secret' => env('STRIPE_SECRET'),
     ],
 
-      'google' => [
-            'client_id' => '646543786541-uav218n8mocefkjobc1lqudbmr21ll7e.apps.googleusercontent.com',
-            'client_secret' => '_mWwq29guz1iD23bVhoDWbXL',
-            'redirect' => 'http://127.0.0.1:8000/login/google/callback'
+      // 'google' => [
+      //       'client_id' => '646543786541-uav218n8mocefkjobc1lqudbmr21ll7e.apps.googleusercontent.com',
+      //       'client_secret' => '_mWwq29guz1iD23bVhoDWbXL',
+      //       'redirect' => 'http://127.0.0.1:8000/login/google/callback'
+      //   ],
+
+     'google' => [
+            'client_id' => env('google_client_id'),
+            'client_secret' => env('google_client_secret'),
+            'redirect' => env('google_redirect'),
         ],
 
         'facebook' => [
-                    'client_id' => '1972474266412796',
-                    'client_secret' => '090100c5d4bfa39eef084d67cc62cc4f',
-                    'redirect' => 'http://127.0.0.1:8000/login/facebook/callback'
+                    'client_id' => env('facebook_client_id'),
+                    'client_secret' => env('facebook_client_secret'),
+                    'redirect' => env('facebook_redirect'),
                 ],
+
+        // 'facebook' => [
+        //             'client_id' => '1972474266412796',
+        //             'client_secret' => '090100c5d4bfa39eef084d67cc62cc4f',
+        //             'redirect' => 'http://127.0.0.1:8000/login/facebook/callback'
+        //         ],
 
 ];
