@@ -1,8 +1,4 @@
 
-
-
-
-
 <script src="{{ asset('js/backend_js/jquery.min.js') }}"></script>
 <script src="{{ asset('js/backend_js/jquery.ui.custom.js') }}"></script>
 <script src="{{ asset('js/backend_js/bootstrap.min.js') }}"></script>
@@ -25,6 +21,7 @@
 <script src="{{ asset('js/jquery.validate.min.js') }}"></script>
 
 <script src="{{ asset('js/common/datatables.min.js') }}"></script>
+
 <script>
 $(function(){	
 //  $('.ck_editor_btn').on('click', function() {

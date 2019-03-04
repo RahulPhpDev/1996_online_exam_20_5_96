@@ -1,5 +1,15 @@
 @section('footer')
 
+<div class = "announcement-section">
+<marquee behavior="scroll" scrollamount="5" direction="left" onmouseover="$(this).attr('scrollamount','0');" onmouseout="$(this).attr('scrollamount','5');" style="color:#fff !important; ">
+  <span class="annount_text">
+    <a style="color:#fff !important;font-size: 15px !important;" href="javascript:void(0);">Please check this area for updates - 21-01-2016 08:08:08 AM</a>
+  </span>
+  <span style="color:#fff !important; font-size: 15px !important; ">|</span>
+</marquee>
+<span class="tt-le">Announcement</span>
+</div>
+
 
 <div id="footer_index"></div>
 <footer class="footer-wrapper footer-bg">
@@ -16,9 +26,11 @@
     </div>
 </footer>
 </div>
-<div id="_include_main_plugins"></div>
-<div id="_include_owl_carousel"></div>
-<div id="_include_isotope"></div>
+
+
+
+
+
 
    <script>
 $(document).ready(function () {
@@ -45,10 +57,11 @@ $(document).ready(function () {
       $(this).data("clicks", !clicks);
     });
 
-
-
 });
+
+
 </script>
+
 </body>
  
 </html>

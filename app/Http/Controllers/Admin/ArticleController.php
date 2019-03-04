@@ -6,11 +6,12 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use DB;
 use App\Model\Feedback;
+use App\Model\Announcement;
 
 use App\Events\FeedbackReply;
 use Event;
 use Auth;
-
+use Response;
 class ArticleController extends Controller
 {
     public function feedback(){
@@ -54,6 +55,33 @@ class ArticleController extends Controller
                 return redirect()->route('feedback');
              }
     	return view('admin/article/feedback-reply', compact('feedback','title'));
+    }
 
+    public function addAnnouncement(Request $request){
+
+         if ($request->isMethod('POST')) {
+            // dd($request->all());
+             $feedbackId =    Announcement::create([
+                'content' =>$request->content,
+                'status' => 1,
+                // 'add_date' => date('Y-m-d'),
+            ]);
+             return redirect()->route('announcement');
+            }
+        return view('admin/article/add-announcement');
+    }
+
+    public function announcement(){
+        $allData = Announcement::all(); 
+        $allData = Response::json($allData);
+        // dd($d.data);
+         // return Response::json($allData);
+        return view('admin/article/announcement', compact('allData'));
+    }
+
+    public function editAnnouncement(request $request, $id){
+        $announcementData = Announcement::findOrFail($id);
+       return view('admin/article/edit-announcement',compact('announcementData'));
+       die();
     }
 }

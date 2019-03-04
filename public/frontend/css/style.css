@@ -472,7 +472,7 @@ padding-top: 12px;
   .btn-og:hover, .btn-og:focus, .btn-og:active, .btn-og.active, .btn-og.disabled, .btn-og[disabled] {
     color: #fff;
     background-color: #ff0000;
-    *background-color: #ff0000;
+    /**background-color: #ff0000;*/
   }
   
   .btn-og:active, .btn-og.active {
@@ -549,3 +549,39 @@ padding-top: 12px;
     margin: 0 0 0 20px;
 }
 
+.announcement-section{
+    position: relative;  
+    margin-bottom: -8px;
+  }
+  
+   marquee {
+      line-height: 46px;
+      display: inline-block;
+     width: -webkit-fill-available;
+      background: #666;
+        
+  }
+    .annount_text{
+        color:white;
+    }
+.page2.foo_er .tt-le {
+    top: 0;
+}
+.tt-le {
+    position: absolute;
+    left: 0;
+    background: #426593;
+    height: 47px;
+    line-height: 47px;
+       /*top: 7px;*/
+    padding: 0px 14px;
+    color: #fff;
+    font-size: 16px;
+    width: 136px;
+    text-align: center;
+    font-family: cursive;
+   letter-spacing: 1px;
+}
+.tt-le {
+    top: 0;
+}

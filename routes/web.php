@@ -234,6 +234,9 @@ Route::get('delete-result/{id?}', 'Admin\ArticleController@deleteResult')->name(
 Route::get('feedback', 'Admin\ArticleController@feedback')->name('feedback');
 Route::get('feedback-message/{id}', 'Admin\ArticleController@feedbackMessage')->name('feedback-message');
 Route::any('feedback-reply/{id}', 'Admin\ArticleController@feedbackReply')->name('feedback-reply');
+Route::any('add-announcement', 'Admin\ArticleController@addAnnouncement')->name('add-announcement');
+Route::get('announcement', 'Admin\ArticleController@announcement')->name('announcement');
+Route::any('edit-announcement/{id?}', 'Admin\ArticleController@editAnnouncement')->name('edit-announcement');
 
 
 
