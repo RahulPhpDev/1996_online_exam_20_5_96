@@ -51,7 +51,7 @@ class ArticleController extends Controller
                 ]);
              // dd($feedbackId['feedback_id']);
                 Event::fire(new FeedbackReply($feedbackId['feedback_id']));
-                return route('feedback');
+                return redirect()->route('feedback');
              }
     	return view('admin/article/feedback-reply', compact('feedback','title'));
 
