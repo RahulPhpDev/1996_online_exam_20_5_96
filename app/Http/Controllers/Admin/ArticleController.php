@@ -12,6 +12,7 @@ use App\Events\FeedbackReply;
 use Event;
 use Auth;
 use Response;
+use Session;
 class ArticleController extends Controller
 {
     public function feedback(){
@@ -31,8 +32,7 @@ class ArticleController extends Controller
     	$userFeedback = Feedback::orderBy('add_date','desc')
     							->where(['email' => $userEmail],['status' => 1],['feedback_id' => 0])
     							->select('id', 'subject', 'email','name','add_date')
-    							->get();
-		// dd($userFeedback);    							
+    							->get();				
 		return view('admin/article/feedback-message',compact('userFeedback'));    							
     }
 
@@ -50,10 +50,9 @@ class ArticleController extends Controller
                     'subject' => $feedback->subject,
                     'message' => $request->reply,
                 ]);
-             // dd($feedbackId['feedback_id']);
-                Event::fire(new FeedbackReply($feedbackId['feedback_id']));
-                return redirect()->route('feedback');
-             }
+            Event::fire(new FeedbackReply($feedbackId['feedback_id']));
+            return redirect()->route('feedback');
+         }
     	return view('admin/article/feedback-reply', compact('feedback','title'));
     }
 
@@ -74,14 +73,23 @@ class ArticleController extends Controller
     public function announcement(){
         $allData = Announcement::all(); 
         $allData = Response::json($allData);
-        // dd($d.data);
-         // return Response::json($allData);
         return view('admin/article/announcement', compact('allData'));
     }
 
     public function editAnnouncement(request $request, $id){
         $announcementData = Announcement::findOrFail($id);
+         if ($request->isMethod('POST')) {
+             $announcementData->content = $request->content;
+             $announcementData->save();
+             return redirect()->route('announcement');
+        }
        return view('admin/article/edit-announcement',compact('announcementData'));
-       die();
+    }
+
+    public function deleteAnnouncement($id){
+        $announcementData = Announcement::findOrFail($id);
+        $announcementData->delete();
+        Session::flash('success', 'Announcement Delete!'); 
+        return redirect()->route('announcement');
     }
 }

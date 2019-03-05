@@ -237,9 +237,7 @@ Route::any('feedback-reply/{id}', 'Admin\ArticleController@feedbackReply')->name
 Route::any('add-announcement', 'Admin\ArticleController@addAnnouncement')->name('add-announcement');
 Route::get('announcement', 'Admin\ArticleController@announcement')->name('announcement');
 Route::any('edit-announcement/{id?}', 'Admin\ArticleController@editAnnouncement')->name('edit-announcement');
-
-
-
+Route::get('delete-announcement/{id?}', 'Admin\ArticleController@deleteAnnouncement')->name('delete-announcement');
 }) ; 
 
 

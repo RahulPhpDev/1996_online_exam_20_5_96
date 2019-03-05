@@ -21,7 +21,7 @@ use Illuminate\Support\Facades\Validator;
 use stdClass;
 use Mail;
 use Config;
-
+use App;
 // use Session;
 
 class GuestController extends Controller
@@ -114,6 +114,9 @@ class GuestController extends Controller
    
      public function aboutUs()
     {
+
+    $environment = App::environment();
+dd($environment);
         return view('guest.about-us');
     }
 

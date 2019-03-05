@@ -10,12 +10,27 @@ class MailController extends Controller
     public function send(){
     	Mail::send(['text' => 'mail'],['name','MaaRula Online Test'],function($message){
     		$message->to('associate.rahul.chauhan@gmail.com','To Raul')
+              ->replyTo('associate.rahul.chauhan@gmail.com', 'To Raul')
             ->subject('Test Email');
     		$message->from('mrrahul2016@gmail.com','Rahul');
     	});
+        Mail::send('emails.welcome', $data, function($message)
+{
+    $message->to('foo@example.com', 'John Smith')
+        ->replyTo('reply@example.com', 'Reply Guy')
+        ->subject('Welcome!');
+});
+
+
         die(' check');
     }
     
+
+
+
+
+
+
      public function checkEmail(){
         $alertid = 1;
         $userId = 1;

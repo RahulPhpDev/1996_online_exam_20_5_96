@@ -39,7 +39,6 @@ class UserController extends Controller
 
   public function profile(){
     $user = Auth::user();
-    // dd($user->toArray());
     $title  = 'My Profile';
     return view('auth.profile',compact('title', 'user'));
  }
@@ -69,7 +68,6 @@ class UserController extends Controller
          foreach($package->Exam as $examId){
             $examIdArray[] = $examId['id'];
          }
-
         $userDetails =  User::find($userId);
         // dd($userDetails);
     $package->User()->attach($id, [
