@@ -62,11 +62,11 @@ class GuestController extends Controller
         $emailParams->msg_params = [$request->message, $request->name , $request->email,date('d-m-Y')];
         $alertObj = new Alert();
         $outputData =  $alertObj->sendEmail($emailParams);
-        Mail::send( 'mail', $outputData, function( $message ) use ($outputData)
-        {
-            $message->to( $outputData['email'] )
-            ->subject( $outputData['subject']);
-        });
+        // Mail::send( 'mail', $outputData, function( $message ) use ($outputData)
+        // {
+        //     $message->to( $outputData['email'] )
+        //     ->subject( $outputData['subject']);
+        // });
         Session::flash('status', 'Your Message has send to Admin!'); 
         return redirect()->route('contactUs');
 

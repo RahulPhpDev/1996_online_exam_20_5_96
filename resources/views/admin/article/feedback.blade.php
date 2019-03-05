@@ -9,12 +9,12 @@
      <div class="container-fluid">
     <hr>
     @include('admin.messages.return-messages')
-     <a class ="btn btn-success pull-right" href="{{ route('add-course') }}">Add Course </a>
+    
     <div class="row-fluid">
       <div class="span12">
         <div class="">
           <div class="widget-title"> <span class="icon"> <i class="icon-th"></i> </span>
-            <h5>Course</h5>
+            <h5>Feedback</h5>
           </div>
           <div class=" nopadding">
             <table id = "data_table"  class="table table-bordered table-striped">

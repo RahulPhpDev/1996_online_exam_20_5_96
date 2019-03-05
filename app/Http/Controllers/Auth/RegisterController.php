@@ -127,12 +127,12 @@ class RegisterController extends Controller
        $outputData =  $alertObj->sendEmail($emailParams);
 
 
-      Mail::send( 'mail', $outputData, function( $message ) use ($outputData)
-        {
-            $message->to( $outputData['email'] )
-            ->from( Config::get('mail.from.address'), Config('app.name'))
-            ->subject( $outputData['subject']);
-        });
+      // Mail::send( 'mail', $outputData, function( $message ) use ($outputData)
+      //   {
+      //       $message->to( $outputData['email'] )
+      //       ->from( Config::get('mail.from.address'), Config('app.name'))
+      //       ->subject( $outputData['subject']);
+      //   });
         return $user;
     }
 }

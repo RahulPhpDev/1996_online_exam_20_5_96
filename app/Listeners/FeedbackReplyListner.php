@@ -45,11 +45,11 @@ class FeedbackReplyListner
         $outputData =  $alertObj->sendEmail($emailParams);
 
         
-        Mail::send( 'mail', $outputData, function( $message ) use ($outputData)
-        {
-            $message->to( $outputData['email'] )
-            ->subject( $outputData['subject']);
-        });
+        // Mail::send( 'mail', $outputData, function( $message ) use ($outputData)
+        // {
+        //     $message->to( $outputData['email'] )
+        //     ->subject( $outputData['subject']);
+        // });
         Session::flash('success', 'Your Message has send to User!'); 
        
 

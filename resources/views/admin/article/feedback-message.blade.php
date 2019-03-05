@@ -2,7 +2,7 @@
           <div class="widget-title"> <span class="icon"> <i class="icon-th"></i> </span>
             <h5>Feedback Message</h5>
           </div>
-          <div class=" nopadding">
+          <div class=" ">
             <table id = "data_table"  class="table table-bordered table-striped">
               <thead>
                 <tr>

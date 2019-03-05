@@ -5,8 +5,10 @@
 @extends('layouts.partials.footer')
 @section('title', $title ='Announcment')
 @section('content')
-  <script src="{{ asset('angular.min.js') }}"></script>
-  <script src="{{ asset('angular-sanitize.js') }}"></script>
+
+
+  <script src="{{ asset('js/angular/angular.min.js') }}"></script>
+  <script src="{{ asset('js/angular/angular-sanitize.js') }}"></script>
 
 <div id="content" ng-controller="maarulacontroller">
      <div class="container-fluid">

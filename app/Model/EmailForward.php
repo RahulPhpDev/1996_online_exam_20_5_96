@@ -26,25 +26,32 @@ class EmailForward extends Model
   	                'send_date' =>  date('Y-m-d : H:mm:s'),
                     'status'    => 1,
                    );
-      DB::table('email_forward')->insertGetId($data);
+        DB::table('email_forward')->insertGetId($data);
+       $data = array(
+             'email' => $receiverEmail,
+             'subject' => $subject,
+             'msg' =>$msg
+          );
+    $environment = App::environment();
+    if($environment == 'production'){       
+        Mail::send( 'mail', $data, function( $message ) use ($data)
+        {
+            $message->to( $data['email'] )
+            //->from( Config::get('mail.from.address'), Config('app.name'))
+            ->subject( $data['subject']);
+        });
+      }
 
-
-    $data = array(
-       'email' => $receiverEmail,
-       'subject' => $subject,
-       'msg' =>$msg
-        );
     return $data;
-// // dd($data);
-//     Mail::send( 'mail', $data, function( $message ) use ($data)
-//     {
-//         $message->to( $data['email'] )
-//         //->from( Config::get('mail.from.address'), Config('app.name'))
-//         ->subject( $data['subject']);
-//     });
+
+    // Mail::send( 'mail', $data, function( $message ) use ($data)
+    //     {
+    //         $message->to( $outputData['email'] )
+    //         ->subject( $outputData['subject']);
+    //     });
 
 
-    }
+    // }
 }
 
 
