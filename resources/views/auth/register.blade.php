@@ -9,7 +9,7 @@
 <script src="{{ asset('js/jquery.validate.min.js') }}"></script>
 <script src="{{ asset('js/additional-methods.min.js') }}"></script>
 <style type="text/css">
-     a{
+    .term_span > a{
         color: blue;
         font-size: 17px;
         font-style: italic

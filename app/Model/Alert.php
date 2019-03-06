@@ -12,7 +12,7 @@ class Alert extends Model
     public $timestamps = false;
     protected $guarded = [];
 
-    public function sendEmail($params){
+    public function sendEmail($params, $type = 'email'){
     	// DB::enableQueryLog();
 
     	$alertDatas = DB::table('alerts as a')
@@ -31,8 +31,7 @@ class Alert extends Model
 		$inputMessageObj->message = $message;
 		$inputMessageObj->msg_argument = $params->msg_params;
 		$output->message = 	$this->getMessage($inputMessageObj);
-// dd($messageOutput );
-		// get Subject 
+
 		$inputSubjectObj = new stdClass;
 		$subjectDyamicParmas =  $params->subject_params ?? '';
 
@@ -42,7 +41,6 @@ class Alert extends Model
 		$inputSubjectObj->subject_db_params = $subjectDbParams;
 		$inputSubjectObj->subject = $subject;
 		$inputSubjectObj->subject_argument = $subjectDyamicParmas;
-
 
 		$output->subject = 	$this->getSubject($inputSubjectObj);
 
@@ -56,9 +54,11 @@ class Alert extends Model
 
 		$inputObjSendEmail->subject = $output->subject;
 		$inputObjSendEmail->message = $output->message;
-		$forwardEmailOutput =  $emailforwardObj->saveEmailForward($inputObjSendEmail);
-
-		return $forwardEmailOutput;
+		if($type == 'crone'){
+		    return $inputObjSendEmail;
+		}	
+		$forwardEmailOutput =  $emailforwardObj->saveEmailForward($inputObjSendEmail);	
+		return $forwardEmailOutput;	
     }
 
    

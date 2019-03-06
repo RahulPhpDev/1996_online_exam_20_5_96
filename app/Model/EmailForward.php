@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use DB;
 use Mail;
 use Config;
-
+use App;
 class EmailForward extends Model
 {
     public $table = 'email_forward';
@@ -14,9 +14,6 @@ class EmailForward extends Model
     protected $guarded = [];
 
     public function saveEmailForward($params){
-        $msg = $params->message;
-        $subject = $params->subject;
-        $receiverEmail = $params->receiverEmail;
       	$data = array(
   	                'user_id'   =>	$params->receiverID,
   	                'email'     =>  $params->receiverEmail,
@@ -27,31 +24,23 @@ class EmailForward extends Model
                     'status'    => 1,
                    );
         DB::table('email_forward')->insertGetId($data);
-       $data = array(
-             'email' => $receiverEmail,
-             'subject' => $subject,
-             'msg' =>$msg
+        $data = array(
+               'email'   =>  $params->receiverEmail,
+               'subject' =>  $params->subject,
+               'msg'     =>  $params->message
           );
-    $environment = App::environment();
-    if($environment == 'production'){       
-        Mail::send( 'mail', $data, function( $message ) use ($data)
-        {
+      $environment = App::environment();
+      if($environment == 'production'){       
+          Mail::send( 'mail', $data, function( $message ) use ($data)
+          {
             $message->to( $data['email'] )
-            //->from( Config::get('mail.from.address'), Config('app.name'))
-            ->subject( $data['subject']);
-        });
-      }
-
-    return $data;
-
-    // Mail::send( 'mail', $data, function( $message ) use ($data)
-    //     {
-    //         $message->to( $outputData['email'] )
-    //         ->subject( $outputData['subject']);
-    //     });
-
-
-    // }
+              //->from( Config::get('mail.from.address'), Config('app.name'))
+              ->subject( $data['subject']);
+          });
+        }
+      return $data;
+  }
+    
 }
 
 
