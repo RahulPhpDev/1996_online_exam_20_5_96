@@ -47,9 +47,9 @@
         <li><a  href="{{route('download-file')}}">Download</a></li>
       </ul>
   </li>
-
-   <li ><a href="{{route('feedback')}}"><i class="icon  icon-book"></i> <span>Feedback</span></a>
-     
+<!-- 
+   <li ><a href="{{--route('feedback')--}}"><i class="icon  icon-book"></i> <span>Feedback</span></a>
+      -->
     </li>
   <li ><a href="{{route('announcement')}}"><i class="icon  icon-book"></i> <span>Announcement</span></a>
      

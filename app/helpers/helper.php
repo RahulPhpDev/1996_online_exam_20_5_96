@@ -59,9 +59,9 @@ function DateManipulation($date,$format='d-M-Y'){
 }
 
 if (!function_exists('DateTimeConvert')) {
-    function DateTimeConvert($dates){
+    function DateTimeConvert($dates , $type = 'Y-m-d H:i:s'){
         $date = new \DateTime($dates);
-        return date_format($date, 'Y-m-d H:i:s');
+        return date_format($date, $type);
         }
 }
 
@@ -145,13 +145,35 @@ if (!function_exists('forgetSession')) {
          session()->forget('lastanswer');
         }
       }
-
-      if(!function_exists('trim_words')){
-          function trim_words(string $str,$limit = '15'){
-                $output = strlen($str) > $limit ? substr($str,0,$limit).'...':$str ;
-                return $output;
-          }
-      }
+    }
 
 
+
+if(!function_exists('trim_words')){
+  function trim_words(string $str,$limit = '15'){
+        $output = strlen($str) > $limit ? substr($str,0,$limit).'...':$str ;
+        return $output;
+  }
 }
+
+if(!function_exists('generate_string')){     
+    function generate_string($strength = 16) {
+        $input = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $input_length = strlen($input);
+        $random_string = '';
+        for($i = 0; $i < $strength; $i++) {
+            $random_character = $input[mt_rand(0, $input_length - 1)];
+            $random_string .= $random_character;
+        }
+     
+        return $random_string;
+    }
+ }
+// // Output: iNCHNGzByPjhApvn7XBD
+// echo generate_string($permitted_chars, 20);
+ 
+// // Output: 70Fmr9mOlGID7OhtTbyj
+// echo generate_string($permitted_chars, 20);
+ 
+// // Output: Jp8iVNhZXhUdSlPi1sMNF7hOfmEWYl2UIMO9YqA4faJmS52iXdtlA3YyCfSlAbLYzjr0mzCWWQ7M8AgqDn2aumHoamsUtjZNhBfU
+// echo generate_string($permitted_chars, 100);

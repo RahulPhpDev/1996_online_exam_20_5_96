@@ -21,7 +21,15 @@
 Route::get('test', function(){
 dd(url('/')."/images/equation_icon/");
 });
+/**** Feedback Reply ******/
+Route::resource('feedback','FeedbackController');
 
+Route::any('feedback/reply/{id}', 'FeedbackController@feedbackReply')->name('feedback/reply');
+
+Route::any('feedback/reply_meta/{token}', 'FeedbackController@feedbackReplyMeta')->name('feedback/reply_meta');
+
+
+/**** Feedback Reply ******/
 
 Route::get('login/google', 'Auth\LoginController@redirectToProvider');
 Route::get('login/google/callback', 'Auth\LoginController@handleProviderCallback');
@@ -231,9 +239,9 @@ Route::get('inspection-sheet/{id?}', 'Admin\ResultController@inspectionSheet')->
 Route::get('result-answersheet/{id?}', 'Admin\ResultController@resultAnswerSheet')->name('result-answersheet');
 
 Route::get('delete-result/{id?}', 'Admin\ArticleController@deleteResult')->name('delete-result');
-Route::get('feedback', 'Admin\ArticleController@feedback')->name('feedback');
-Route::get('feedback-message/{id}', 'Admin\ArticleController@feedbackMessage')->name('feedback-message');
-Route::any('feedback-reply/{id}', 'Admin\ArticleController@feedbackReply')->name('feedback-reply');
+// Route::get('feedback', 'Admin\ArticleController@feedback')->name('feedback');
+// Route::get('feedback-message/{id}', 'Admin\ArticleController@feedbackMessage')->name('feedback-message');
+// Route::any('feedback-reply/{id}', 'Admin\ArticleController@feedbackReply')->name('feedback-reply');
 Route::any('add-announcement', 'Admin\ArticleController@addAnnouncement')->name('add-announcement');
 Route::get('announcement', 'Admin\ArticleController@announcement')->name('announcement');
 Route::any('edit-announcement/{id?}', 'Admin\ArticleController@editAnnouncement')->name('edit-announcement');
