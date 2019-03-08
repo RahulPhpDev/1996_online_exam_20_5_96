@@ -13,7 +13,7 @@
 @endif
 
  @if(\Session::has('err_success'))
-    <div class="alert alert-error"> 
+    <div class="alert alert-danger"> 
       <a class="close" data-dismiss="alert" >×</a>
       {{\Session::get('err_success')}}
     </div>

@@ -42,13 +42,8 @@ $(function(){
 <div class="maincontent">
   <section class="section">
     <div class="container">
-
-        @if (session('status'))
-			<div class="alert alert-success" role="alert">
-			   {{ session('status') }}
-			  <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>                      
-        </div>
-        @endif
+      @include('admin.messages.return-messages')
+        
       <div class="row">
        <div class = "col-md-7 col">
 
@@ -64,9 +59,7 @@ $(function(){
              }
             ?>
          
-{!! Form::open(['action' => 'FeedbackController@store',    'id' => 'save_form'])    !!}
-
-        	
+      {!! Form::open(['action' => 'FeedbackController@store',    'id' => 'save_form'])    !!}
 	        	  <div class="form-group">
 	     				 <label for="name">Name:</label>
 	      					<input type="text" class=" name_input form-control{{ $errors->has('name') ? ' is-invalid' : '' }}" id = "name" name="name" value="{{ $nameValue }}" {{$readOnly}}  required autofocus  >

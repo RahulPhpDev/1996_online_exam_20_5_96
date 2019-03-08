@@ -61,7 +61,8 @@ class Kernel extends HttpKernel
         'can' => \Illuminate\Auth\Middleware\Authorize::class,
         'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
-         'maxAttemptOnExam' =>  \App\Http\Middleware\MaxAttemptOnExam::class,
+        'maxAttemptOnExam' =>  \App\Http\Middleware\MaxAttemptOnExam::class,
+        'feedbackReplyByToken' =>  \App\Http\Middleware\FeedbackReplyByToken::class,
 
     ];
 }

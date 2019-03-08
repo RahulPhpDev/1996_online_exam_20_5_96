@@ -11,7 +11,6 @@ class Feedback extends Model
     public $timestamps = false;
 
     public function FeedbackMeta(){
-
     	return $this->hasOne(FeedbackMeta::class);
     }
 

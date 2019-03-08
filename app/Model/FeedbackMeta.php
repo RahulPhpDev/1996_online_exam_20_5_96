@@ -14,8 +14,8 @@ class FeedbackMeta extends Model
     protected $guarded = [];
 
     public function hasFeedback(){
-    	
-    	return $this->belongsTo(Feedback::class);
+    	// die(' check');
+    	return $this->belongsTo(Feedback::class, 'feedback_id');
     }
 
 }

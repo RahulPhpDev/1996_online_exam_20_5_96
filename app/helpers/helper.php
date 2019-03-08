@@ -158,7 +158,7 @@ if(!function_exists('trim_words')){
 
 if(!function_exists('generate_string')){     
     function generate_string($strength = 16) {
-        $input = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $input = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'.time();
         $input_length = strlen($input);
         $random_string = '';
         for($i = 0; $i < $strength; $i++) {
@@ -169,11 +169,3 @@ if(!function_exists('generate_string')){
         return $random_string;
     }
  }
-// // Output: iNCHNGzByPjhApvn7XBD
-// echo generate_string($permitted_chars, 20);
- 
-// // Output: 70Fmr9mOlGID7OhtTbyj
-// echo generate_string($permitted_chars, 20);
- 
-// // Output: Jp8iVNhZXhUdSlPi1sMNF7hOfmEWYl2UIMO9YqA4faJmS52iXdtlA3YyCfSlAbLYzjr0mzCWWQ7M8AgqDn2aumHoamsUtjZNhBfU
-// echo generate_string($permitted_chars, 100);

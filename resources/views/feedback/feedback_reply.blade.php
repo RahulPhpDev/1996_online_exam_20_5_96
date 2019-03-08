@@ -96,7 +96,7 @@ $(".close-button").on("click", function() {
 
 	      		<div class="collapse-group">
 	      		@foreach($feedbackData->MutipleFeedbackMetaData as $feed)
-
+	      		
 				  <div class="panel panel-default">
 				    <div class="panel-heading" role="tab" id="heading_{{$feed->id}}">
 				      <h5 class="panel-title">

@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Validator;
 use App\Model\Feedback;
 use App\Model\FeedbackMeta;
 use DB;
-
+use Response;
 class FeedbackController extends Controller
 {
     protected $expiry_time;
@@ -23,8 +23,25 @@ class FeedbackController extends Controller
     }
     public function index()
     {
-        // dd('check');
-       
+   // select *, (select count(*) as unread_count from feedback_meta where isRead = 0 And  `receiver` = 35) as unread from `feedback_meta` where `sender` = 35 or `receiver` = 35 group by `feedback_id`
+
+        $userId = Auth::user()->id;
+        // ->select(DB::raw('count(*) as user_count, status'))
+        $feedbackMetaData =  FeedbackMeta::where('sender', $userId)
+                            ->with('hasFeedback')
+                            ->orWhere('receiver', $userId)
+                            ->select('*',
+                                 (DB::raw("(select count(*) from feedback_meta where isRead = 0 And  `receiver` = $userId)  as unread_count")),
+                                  (DB::raw("(select max(create_date) from feedback_meta where  `receiver` = $userId)  as last_message_date"))
+                                 )
+                            ->groupBy('feedback_id')
+                            ->get();
+                            // dd($feedbackMetaData);
+       $feedbackJson = FeedbackMeta::with('hasFeedback')->where('sender', $userId)->orWhere('receiver', $userId)->groupBy('feedback_id')->get();
+
+        $feedbackMetaJson =  Response::json($feedbackMetaData);
+        // dd($feedbackMetaJson->getData());
+        return View('feedback.index',compact('feedbackMetaData','feedbackMetaJson'));
     }
 
     public function create()
@@ -35,6 +52,7 @@ class FeedbackController extends Controller
     
     public function store(Request $request)
     {
+        // dd($request->all());
         $validator = Validator::make($request->all(),[
            'email' => 'required|email',
            'name' => 'required|string|max:50',
@@ -45,31 +63,35 @@ class FeedbackController extends Controller
           Session::flash('error', $validator->messages()->first());
             return redirect()->back()->withInput();
        }
-       $userData = User::where('email',$request->email)->select(['id'])->first();
-       $sendBy = 0;
-       if(!empty($userData)){
-            $sendBy = $userData->id;
+      $status = 1;
+       if(!Auth::user()){
+           $userData = User::where('email',$request->email)->select(['id'])->first();
+           $sendBy = 0;
+           if(!empty($userData)){
+                $sendBy = $userData->id;
+           }
+           $status = 2;
+       }else{
+         $sendBy = Auth::user()->id;
        }
-        $status = 2;
-        $category = new Feedback;
-        $category->subject = $request->get('subject');
-        $category->name = $request->get('name');
-        $category->email = $request->get('email');
-        $category->status = 1;
-        $category->save();
+        
+        $feedbackObj = new Feedback;
+        $feedbackObj->subject     =   $request->get('subject');
+        $feedbackObj->name        =   $request->get('name');
+        $feedbackObj->email       =   $request->get('email');
+        $feedbackObj->status      =   $status;
+        $feedbackObj->initiat_by  =   $sendBy;
+        $feedbackObj->save();
 
-        $feed = array(
+        $feedbackMetaData = array(
             'message' => Input::get('message'),
             'sender' => $sendBy,
             'receiver' => 1,
             'status' => 0,
             'create_date' => date('Y-m-d H:i:s')
         );
-
-        $category->FeedbackMeta()->save(new FeedbackMeta($feed ));
-// redirect()->route('profile.show', [$userId]);
-
-        Session::flash('status', 'Your Message has send to Admin!'); 
+        $feedbackObj->FeedbackMeta()->save(new FeedbackMeta($feedbackMetaData ));
+        Session::flash('success', 'Your Message has send to Admin!'); 
         return redirect()->route('feedback.create');
      
     }
@@ -91,16 +113,36 @@ class FeedbackController extends Controller
         );
 
         $feedbackData->FeedbackMeta()->save(new FeedbackMeta($feed ));
-        Session::flash('status', 'Your Message has send to Admin!'); 
+        Session::flash('success', 'Your Message has send to User!'); 
         return redirect()->route('feedback/reply',1);
        }
        return View('feedback/feedback_reply', compact('feedbackData'));
     }
 
     public function feedbackReplyMeta(Request $request, $token){
-        if(checkForExpiry($token)){
-            
+        $feedbackData =  Feedback::where('token', $token)->first();
+        $userId = 0;
+        if(Auth::user()){
+            $userId = Auth::user()->id;
         }
+        if($request->isMethod('post')){
+         $feedbackData->token = '';
+         $feedbackData->expiry = '0000:00:00';
+         $feedbackData->save();
+         $feed = array(
+            'message' => Input::get('reply'),
+            'sender' => $userId,
+            'receiver' => 1,
+            'status' => 0,
+            'create_date' => date('Y-m-d H:i:s')
+        );
+        $feedbackData->FeedbackMeta()->save(new FeedbackMeta($feed ));
+        Session::flash('success', 'Your Message has send to User!'); 
+        return redirect()->route('feedback/reply',1);
+       }
+
+// http://127.0.0.1:8000/feedback/reply_meta/d8Jzj740MGK7r9v4WAxCVd250lZaRRediFgrfLVmX2ARSpiIn4
+        return View('feedback/reply_meta',compact('feedbackData','userId'));
     }
    
     public function show($id)
@@ -116,7 +158,7 @@ class FeedbackController extends Controller
    
     public function update(Request $request, $id)
     {
-        //
+        
     }
 
     

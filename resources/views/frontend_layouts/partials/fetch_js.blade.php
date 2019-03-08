@@ -16,6 +16,3 @@
 <script src="{{ asset('frontend/js/custom.min.js') }}"></script>
 <script src="{{ asset('frontend/design300/js/script.js') }}"></script>
 
-
-<script src="{{ asset('angular.min.js') }}"></script>
-

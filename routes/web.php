@@ -26,7 +26,7 @@ Route::resource('feedback','FeedbackController');
 
 Route::any('feedback/reply/{id}', 'FeedbackController@feedbackReply')->name('feedback/reply');
 
-Route::any('feedback/reply_meta/{token}', 'FeedbackController@feedbackReplyMeta')->name('feedback/reply_meta');
+Route::any('feedback/reply_meta/{token}', 'FeedbackController@feedbackReplyMeta')->name('feedback/reply_meta')->middleware('feedbackReplyByToken');
 
 
 /**** Feedback Reply ******/

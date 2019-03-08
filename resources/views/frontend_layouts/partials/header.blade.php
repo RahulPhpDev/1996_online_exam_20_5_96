@@ -8,7 +8,7 @@
         <title>MaaRula Online Exam:  @yield('title')</title><meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />   
     </head>
-    <body class="">
+    <body class="" ng-app = "frontendApp">
 
 <style>
 	@media only screen and (max-width: 600px) {
