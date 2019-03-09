@@ -10,4 +10,14 @@
 			$interpolateProvider.startSymbol('<@');
 			$interpolateProvider.endSymbol('@>');
 		}
+
+		  var backEnddApp = angular.module('maarulaapp', ['ngSanitize']);
+		      backEnddApp.config(config);
+		      config.$inject = ['$interpolateProvider'];
+		      function config($interpolateProvider){
+
+		      $interpolateProvider.startSymbol('<@');
+		      $interpolateProvider.endSymbol('@>');
+		    }
+
 	</script>

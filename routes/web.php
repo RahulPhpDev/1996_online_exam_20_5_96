@@ -23,11 +23,16 @@ dd(url('/')."/images/equation_icon/");
 });
 /**** Feedback Reply ******/
 Route::resource('feedback','FeedbackController');
+// Route::group(['middleware' => 'auth'], function()
+// {
+	// Route::resource('feedback','FeedbackController', ['only' => ['index']]);
 
-Route::any('feedback/reply/{id}', 'FeedbackController@feedbackReply')->name('feedback/reply');
+    // Route::resource('todo', 'TodoController', ['only' => ['index']]);
+// });
+
+Route::any('feedback/reply/{id}', 'Admin\UserController@feedbackReply')->name('feedback/reply');
 
 Route::any('feedback/reply_meta/{token}', 'FeedbackController@feedbackReplyMeta')->name('feedback/reply_meta')->middleware('feedbackReplyByToken');
-
 
 /**** Feedback Reply ******/
 
@@ -75,6 +80,12 @@ Route::get('payment/{id?}', 'GuestController@payment')->name('payment');
 
 
 Route::group(['middleware' => ['auth']], function(){
+
+
+
+
+Route::Post('save-feedback-show/{id?}', 'FeedbackController@saveFeedbackShow')->name('save-feedback-show');
+
 
 Route::get('save-package-exam/{id?}', 'Auth\UserController@savePackageExam')->name('save-package-exam');
 
@@ -134,6 +145,11 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 // =========================== ADMIN ===========================
 Route::group(['middleware' => ['admin']], function(){
+
+
+Route::any('feedback-messages', 'Admin\UserController@feedbackMessages')->name('feedback-messages');
+
+Route::any('show-feedback-messages/{id}', 'Admin\UserController@showFeedbackMessages')->name('show-feedback-messages');
     
 Route::get('/dashboard', 'HomeController@dashboard')->name('dashboard');
 

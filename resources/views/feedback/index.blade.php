@@ -29,15 +29,14 @@
 				        <th>View</th>
 				    </tr>
 				   
-
 				    <tr ng-repeat="meta in feedbackMetaData"> 
 				    	<td><@ meta.has_feedback.subject @></td>
 				    	<td><@  meta.unread_count @></td>
 				    	<td><@  meta.last_message_date | date : "yyyy-mm-dd hh:mm:ss" : 0 @></td>
-				    	<td><a href = ""> <i class ="fa fa-eye"> </i></a> </td>
+				    	<td><a ng-click="getFeedbackData(meta.feedback_id)"> <i class ="fa fa-eye"> </i></a> </td>
 				    </tr>
 		    </table>
-
+<@ getId @>
       </div>
      </div>
     </div>
@@ -53,8 +52,13 @@
 	// 		$interpolateProvider.startSymbol('<@');
 	// 		$interpolateProvider.endSymbol('@>');
 	// 	}
-	app.controller('feedbackController', function($scope){
+	app.controller('feedbackController', function($scope,$window){
 		$scope.feedbackMetaData = JSON.parse('<?php echo json_encode($feedbackMetaJson->getData()); ?>');
+
+		$scope.getFeedbackData = function(id) {
+			// $scope.getId = id;
+        		   $window.location.href = 'feedback/'+id;	
+    		};
 	})
 </script>
 @endsection

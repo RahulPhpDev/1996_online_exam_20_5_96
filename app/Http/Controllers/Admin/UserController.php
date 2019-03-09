@@ -20,10 +20,22 @@ use App\Http\Controllers\Controller;
 use App\Model\Course;
 use App\Model\Student;
 use App\User;
+
+
+use App\Model\Feedback;
+use App\Model\FeedbackMeta;
+
+use Response;
+
 class UserController extends Controller
 {
 
-
+  protected $expiry_time;
+    public function __construct(){
+          // $this->middleware('auth')->except(['index']);  
+           // $this->middleware('auth', ['only' => ['index']]);
+         $this->expiry_time = date("Y-m-d H:i:s", strtotime('+2 hours'));
+    }
 
     public function userList(){
        $title = 'Users';
@@ -244,4 +256,79 @@ class UserController extends Controller
            $userDetails->save();
            return redirect()-> route('profile')->with('success', 'Update Successfully');  
     }
+
+    public function feedbackMessageReply(Request $request, $subject_id){
+       $feedbackData =  Feedback::find($subject_id);
+       if($request->isMethod('post')){
+         $token =  generate_string(50);
+         $feedbackData->token = $token;
+         $feedbackData->expiry = $this->expiry_time;
+         $feedbackData->save();
+         $sendBy = 1;
+         $feed = array(
+            'message' => Input::get('reply'),
+            'sender' => $sendBy,
+            'receiver' => $feedbackData->initiat_by,
+            'status' => 0,
+            'create_date' => date('Y-m-d H:i:s')
+        );
+
+        $feedbackData->FeedbackMeta()->save(new FeedbackMeta($feed ));
+        Session::flash('success', 'Your Message has send to User!'); 
+        return redirect()->route('feedback/reply',1);
+       }
+       return View('feedback/feedback_reply', compact('feedbackData'));
+    }
+
+    public function feedbackMessages(){
+      // die('this');
+       $userId = Auth::user()->id;
+        // ->select(DB::raw('count(*) as user_count, status'))
+        $feedbackMetaData =  FeedbackMeta::where('sender', $userId)
+                            ->with('hasFeedback')
+                            ->orWhere('receiver', $userId)
+                            ->select('*',
+                                 (DB::raw("(select count(*) from feedback_meta where isRead = 0 And  `receiver` = $userId)  as unread_count")),
+                                  (DB::raw("(select max(create_date) from feedback_meta where  `receiver` = $userId)  as last_message_date"))
+                                 )
+                            ->groupBy('feedback_id')
+                            ->get();
+       $feedbackJson = FeedbackMeta::with('hasFeedback')->where('sender', $userId)->orWhere('receiver', $userId)->groupBy('feedback_id')->get();
+
+        $feedbackMetaJson =  Response::json($feedbackMetaData);
+        // dd($feedbackMetaJson->getData());
+        return View('admin.user.feedback-messages',compact('feedbackMetaData','feedbackMetaJson'));
+    }
+
+   public function showFeedbackMessages(Request $request,$id){
+     $feedbackData = Feedback::find($id);
+        $userId = 0;
+        if(Auth::user()){
+            $userId = Auth::user()->id;
+        }
+
+        if($request->isMethod('post')){
+         $token =  generate_string(50);
+         $feedbackData->token = $token;
+         $feedbackData->expiry = $this->expiry_time;
+         $feedbackData->save();
+         $sendBy = 1;
+         $feed = array(
+            'message' => Input::get('reply'),
+            'sender' => $sendBy,
+            'receiver' => $feedbackData->initiat_by,
+            'status' => 0,
+            'create_date' => date('Y-m-d H:i:s')
+        );
+
+        $feedbackData->FeedbackMeta()->save(new FeedbackMeta($feed ));
+        Session::flash('success', 'Your Message has send to User!'); 
+        // die('check');
+        return redirect()->route('feedback-messages');
+       }
+
+
+        $feedbackData->FeedbackMeta()->update(['isRead' => 1]);
+        return View('admin/user/show-feedback-messages', compact('feedbackData','userId'));
+   } 
 }

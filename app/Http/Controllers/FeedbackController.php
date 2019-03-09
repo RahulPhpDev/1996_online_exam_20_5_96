@@ -18,11 +18,14 @@ class FeedbackController extends Controller
 {
     protected $expiry_time;
     public function __construct(){
-
+          // $this->middleware('auth')->except(['index']);  
+           $this->middleware('auth', ['only' => ['index']]);
          $this->expiry_time = date("Y-m-d H:i:s", strtotime('+2 hours'));
     }
     public function index()
     {
+            // $this->middleware('auth');
+
    // select *, (select count(*) as unread_count from feedback_meta where isRead = 0 And  `receiver` = 35) as unread from `feedback_meta` where `sender` = 35 or `receiver` = 35 group by `feedback_id`
 
         $userId = Auth::user()->id;
@@ -96,28 +99,7 @@ class FeedbackController extends Controller
      
     }
 
-    public function feedbackReply(Request $request, $subject_id){
-       $token =  generate_string(50);
-       $feedbackData =  Feedback::find($subject_id);
-       if($request->isMethod('post')){
-         $feedbackData->token = $token;
-         $feedbackData->expiry = $this->expiry_time;
-         $feedbackData->save();
-         $sendBy = 1;
-         $feed = array(
-            'message' => Input::get('reply'),
-            'sender' => $sendBy,
-            'receiver' => 1,
-            'status' => 0,
-            'create_date' => date('Y-m-d H:i:s')
-        );
-
-        $feedbackData->FeedbackMeta()->save(new FeedbackMeta($feed ));
-        Session::flash('success', 'Your Message has send to User!'); 
-        return redirect()->route('feedback/reply',1);
-       }
-       return View('feedback/feedback_reply', compact('feedbackData'));
-    }
+    
 
     public function feedbackReplyMeta(Request $request, $token){
         $feedbackData =  Feedback::where('token', $token)->first();
@@ -138,16 +120,55 @@ class FeedbackController extends Controller
         );
         $feedbackData->FeedbackMeta()->save(new FeedbackMeta($feed ));
         Session::flash('success', 'Your Message has send to User!'); 
-        return redirect()->route('feedback/reply',1);
+        return redirect()->route('/');
        }
 
 // http://127.0.0.1:8000/feedback/reply_meta/d8Jzj740MGK7r9v4WAxCVd250lZaRRediFgrfLVmX2ARSpiIn4
         return View('feedback/reply_meta',compact('feedbackData','userId'));
     }
    
-    public function show($id)
+    public function show(Request $request,$id)
     {
-        
+        $feedbackData = Feedback::find($id);
+        $userId = 0;
+        if(Auth::user()){
+            $userId = Auth::user()->id;
+        }
+        if($request->isMethod('post')){
+             $feedbackData->token = '';
+             $feedbackData->expiry = '0000:00:00';
+             $feedbackData->save();
+             $feed = array(
+                'message' => Input::get('reply'),
+                'sender' => $userId,
+                'receiver' => 1,
+                'status' => 0,
+                'create_date' => date('Y-m-d H:i:s')
+            );
+            $feedbackData->FeedbackMeta()->save(new FeedbackMeta($feed ));
+            Session::flash('success', 'Your Message has send to User!'); 
+            return redirect()->route('feedback/reply',1);
+       }
+        $feedbackData->FeedbackMeta()->update(['isRead' => 1]);
+// die('hd');
+        return View('feedback/show_feedback', compact('feedbackData','userId'));
+    }
+
+    public function saveFeedbackShow(request $request,$id){
+        // dd('dks');
+        $sendBy =  Auth::user()->id;
+         $feed = array(
+            'feedback_id' => $id ,               
+            'message' => Input::get('reply'),
+            'sender' => $sendBy,
+            'receiver' => 1,
+            'status' => 0,
+            'create_date' => date('Y-m-d H:i:s')
+        );
+        FeedbackMeta::create($feed);
+        Session::flash('success', 'Your Message has send to User!'); 
+         return redirect('feedback');
+        // dd('insert');    
     }
 
     public function edit($id)
