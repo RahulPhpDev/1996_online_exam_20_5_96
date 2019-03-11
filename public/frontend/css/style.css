@@ -585,3 +585,8 @@ padding-top: 12px;
 .tt-le {
     top: 0;
 }
+
+.close_circle {
+  opacity:1;
+  background: #666 !important;
+}
