@@ -7,6 +7,7 @@ use DB;
 use Mail;
 use Config;
 use App;
+use App\Model\Alert;
 class EmailForward extends Model
 {
     public $table = 'email_forward';
@@ -39,6 +40,10 @@ class EmailForward extends Model
           });
         }
       return $data;
+  }
+
+  public function Alert(){
+    return $this->belongsTo(Alert::class);
   }
     
 }

@@ -10,8 +10,13 @@ foreach($allAnnouncement as $announce){
  $contentStr = $contentStr .'  '. $announce['content'];
 }
 ?>
+<style type="text/css">
+  .footer_ann_div{
+    position: relative;top:200px;
+  }
+</style>
+<div class="footer_ann_div"  >
 @if(count($allAnnouncement) > 0)
-
 <div class = "announcement-section">
     <marquee behavior="scroll" scrollamount="5" direction="left" onmouseover="$(this).attr('scrollamount','0');" onmouseout="$(this).attr('scrollamount','5');" style="color:#fff !important; ">
       <span class="annount_text">
@@ -40,7 +45,7 @@ foreach($allAnnouncement as $announce){
 </footer>
 </div>
 
-
+</div>
 
 
 

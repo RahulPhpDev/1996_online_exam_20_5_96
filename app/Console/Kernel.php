@@ -15,6 +15,7 @@ class Kernel extends ConsoleKernel
     protected $commands = [
        'App\Console\Commands\RegisteredUsers',
        'App\Console\Commands\ExamAttempt',
+       'App\Console\Commands\ExamAlert',
     ];
 
     /**
@@ -30,7 +31,12 @@ class Kernel extends ConsoleKernel
                  ->everyMinute();
         $schedule->command('examattempt:users')
                  ->everyMinute();
+
+        $schedule->command('alert:exam')
+                 ->everyMinute();
     }
+
+    // /usr/local/bin/php -q /home/ofdgxkwnaxeq/public_html/php artisan alert:exam >> /dev/null 2>&1 
 
     /**
      * Register the commands for the application.

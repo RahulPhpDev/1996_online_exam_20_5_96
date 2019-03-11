@@ -27,6 +27,9 @@ use App\Model\FeedbackMeta;
 
 use Response;
 
+use App\Events\FeedbackReply;
+use Event;
+
 class UserController extends Controller
 {
 
@@ -34,7 +37,7 @@ class UserController extends Controller
     public function __construct(){
           // $this->middleware('auth')->except(['index']);  
            // $this->middleware('auth', ['only' => ['index']]);
-         $this->expiry_time = date("Y-m-d H:i:s", strtotime('+2 hours'));
+         $this->expiry_time = date("Y-m-d H:i:s", strtotime('+12 hours'));
     }
 
     public function userList(){
@@ -293,14 +296,21 @@ class UserController extends Controller
                                  )
                             ->groupBy('feedback_id')
                             ->get();
-       $feedbackJson = FeedbackMeta::with('hasFeedback')->where('sender', $userId)->orWhere('receiver', $userId)->groupBy('feedback_id')->get();
+        $finalFeedback = array();                            
+        foreach ($feedbackMetaData->toArray() as $key => $feedback) {
+           $finalFeedback[$key] = $feedback;
+           $finalFeedback[$key]['has_feedback']['subject'] = strip_tags($feedback['has_feedback']['subject']);
+           $finalFeedback[$key]['message'] = strip_tags($feedback['message']);
+           $finalFeedback[$key]['last_message_date'] = extractDateTime('d-M-y h:i A',$feedback['last_message_date']);
+       }  
 
-        $feedbackMetaJson =  Response::json($feedbackMetaData);
-        // dd($feedbackMetaJson->getData());
+        $feedbackMetaJson =  Response::json($finalFeedback);
+        // dd($feedbackMetaJson); 
         return View('admin.user.feedback-messages',compact('feedbackMetaData','feedbackMetaJson'));
     }
 
    public function showFeedbackMessages(Request $request,$id){
+    
      $feedbackData = Feedback::find($id);
         $userId = 0;
         if(Auth::user()){
@@ -322,13 +332,25 @@ class UserController extends Controller
         );
 
         $feedbackData->FeedbackMeta()->save(new FeedbackMeta($feed ));
+
+        Event::fire(new FeedbackReply($id,$request->reply,$token));
+
         Session::flash('success', 'Your Message has send to User!'); 
         // die('check');
         return redirect()->route('feedback-messages');
        }
 
 
-        $feedbackData->FeedbackMeta()->update(['isRead' => 1]);
-        return View('admin/user/show-feedback-messages', compact('feedbackData','userId'));
+        // $feedbackData->FeedbackMeta()->update(['isRead' => 1]);
+        return View('admin/user/show-feedback-messages', compact('feedbackData','userId','id'));
    } 
+
+    public function updateReadByAdmin($id){
+      // dd($id);
+        // $id = Crypt::decrypt($en_id);
+        $feedbackData = Feedback::find($id);
+        // $feedbackData->FeedbackMeta()->update(['isRead' => 1]);
+        
+        $feedbackData->FeedbackMeta()->where(['receiver' => 1])->update(['isRead' => 1]);
+    }
 }

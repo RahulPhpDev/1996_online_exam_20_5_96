@@ -11,7 +11,9 @@
 <link href="{{ asset('frontend/css/welcome_css.css') }}" rel="stylesheet">
 <div class="maincontent">
                 <style type="text/css">
-
+.footer_ann_div{position: fixed;
+    bottom: 0;
+    width: 100%;}
 .res_table{margin:20px 0px 10px 10px;font-size:18px;}
 /*.report_th, .report_td{ width:43%;text-align:right;  }
 .report_th >span ,.report_td >span{margin-right:18%}*/
@@ -33,7 +35,8 @@
 				    	<td><@ meta.has_feedback.subject @></td>
 				    	<td><@  meta.unread_count @></td>
 				    	<td><@  meta.last_message_date | date : "yyyy-mm-dd hh:mm:ss" : 0 @></td>
-				    	<td><a ng-click="getFeedbackData(meta.feedback_id)"> <i class ="fa fa-eye"> </i></a> </td>
+				    	<td><a ng-href="/feedback/<@ meta.has_feedback.encrypted_id @>" > <i class ="fa fa-eye"> </i></a> </td>
+				    	<!-- ng-click="getFeedbackData(meta.feedback_id)" -->
 				    </tr>
 		    </table>
 <@ getId @>
@@ -55,10 +58,10 @@
 	app.controller('feedbackController', function($scope,$window){
 		$scope.feedbackMetaData = JSON.parse('<?php echo json_encode($feedbackMetaJson->getData()); ?>');
 
-		$scope.getFeedbackData = function(id) {
-			// $scope.getId = id;
-        		   $window.location.href = 'feedback/'+id;	
-    		};
+		// $scope.getFeedbackData = function(id) {
+		// 	// $scope.getId = id;
+  //       		   $window.location.href = '/feedback/'+id;	
+  //   		};
 	})
 </script>
 @endsection

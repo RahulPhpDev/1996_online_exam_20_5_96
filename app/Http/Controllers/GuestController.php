@@ -29,6 +29,8 @@ class GuestController extends Controller
 
 
     public function contactUs(){
+
+
          return View('guest/contact-us');
     }
 
@@ -115,7 +117,48 @@ class GuestController extends Controller
 
    
      public function aboutUs()
-    {                
+    {          
+     $examAttemptToday = \DB::table('exams as r')
+                            ->where('id', 42)
+                            ->first();
+         
+        // dd($examAttemptToday->exam_name);  
+        $emailParams = new stdClass;
+        $emailParams->alert_id = 5;
+      
+        $alertObj = new Alert();
+        $allUser = User::where(array(
+                ['user_type' ,'<>', 1 ],
+                ['status', '=' , 1]
+                )
+            )->get(['email', 'fname','lname', 'id']);
+        // dd($allUser);
+
+        foreach($allUser as $user){  
+            $userName = $user->getFullName(($user->id));    
+            $emailParams->user_id = $user->id;
+            $emailParams->user_email =  $user->email;    
+            $emailParams->subject_params = [$examAttemptToday->exam_name];
+
+            $emailParams->msg_params = [$userName,$examAttemptToday->exam_name,$examAttemptToday->total_question,$examAttemptToday->time,$examAttemptToday->exam_name];
+// dd($emailParams);
+            $outputData =  $alertObj->sendEmail($emailParams, 'crone');
+            dd($outputData);
+            $data = array(
+                   'email'   =>  $emailParams->user_email,
+                   'subject' =>  $outputData->subject,
+                   'msg'     =>  $outputData->message
+                );
+            // dd($data);
+
+        //     Mail::send('mail', $data, function( $message ) use ($data)
+        //     {
+        //         $message->to( $data['email'] )
+        //         ->from( Config::get('mail.from.address'), Config('app.name'))
+        //         ->subject( $data['subject']);
+        //     });
+        //     dd('check');
+        }  
         return view('guest.about-us');
     }
 

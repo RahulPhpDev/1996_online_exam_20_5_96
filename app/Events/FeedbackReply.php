@@ -14,15 +14,19 @@ class FeedbackReply
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
     public $feedbackId;
+    public $feedbackReply;
+    public $token;
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct($feedbackId)
+    public function __construct($feedbackId, $feedbackReply,$token)
     {
         // dd($feedbackId);
+        $this->feedbackReply = $feedbackReply;
         $this->feedbackId = $feedbackId;
+        $this->token = $token;
     }
 
     /**

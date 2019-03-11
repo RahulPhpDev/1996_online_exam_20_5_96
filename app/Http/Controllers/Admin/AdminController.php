@@ -16,6 +16,16 @@ use \Throwable ;
  use App\Services\PayUService\Exception;
 use Illuminate\Database\QueryException;
 use App\Model\Subscription;
+use App\Model\EmailForward;
+
+use Illuminate\Support\Facades\Mail;
+use App\Mail\SendMailable;
+use Config;
+// use Mail;
+use stdClass;
+use App\Model\Alert;
+
+use App\User;
 //use Illuminate\Http\Request; #form-validation
 
 class AdminController extends Controller
@@ -212,5 +222,55 @@ class AdminController extends Controller
         $msg = 'Package Removed';
         return redirect()->back()->with('success',$msg);
    }
+   public function readEmail(){
+      $emails = EmailForward::take(10)->orderBy('id', 'desc')->get();
+      // dd($emails);
+      return View('read-email', compact('emails'));
+   }  
 
+   public function sendEmail($id){
+    $examAttemptToday = \DB::table('exams as r')
+                            ->where('id', 42)
+                            ->first();
+         
+        $emailParams = new stdClass;
+        $emailParams->alert_id = 5;
+        /*
+            Subject :New Exam (==exam==) created
+            Message: (==user==),(==exam==),(==totalQuestion==),(==time==),(==exam==)
+        
+
+        */
+        $alertObj = new Alert();
+        $allUser = User::where(array(
+                ['user_type' ,'<>', 1 ],
+                ['status', '=' , 1])
+                )
+
+                 ->whereBetween('id', array(40, 42))
+                      ->get(['email', 'fname','lname', 'id']);
+        dd($allUser);
+        foreach($allUser as $user){    
+             $userName = $user->getFullName(($user->id));    
+            $emailParams->user_id = $user->id;
+            $emailParams->user_email =  $user->email;    
+            $emailParams->subject_params = [$examAttemptToday->exam_name];
+
+            $emailParams->msg_params = [$userName,$examAttemptToday->exam_name,$examAttemptToday->total_question,$examAttemptToday->time,$examAttemptToday->exam_name];
+
+            $outputData =  $alertObj->sendEmail($emailParams);
+            $data = array(
+                   'email'   =>  $emailParams->user_email,
+                   'subject' =>  $outputData['subject'],
+                   'msg'     =>  $outputData['msg'],
+                );
+
+            Mail::send('mail', $data, function( $message ) use ($data)
+            {
+                $message->to( $data['email'] )
+                ->from( Config::get('mail.from.address'), Config('app.name'))
+                ->subject( $data['subject']);
+            });
+   }
+ }
 }

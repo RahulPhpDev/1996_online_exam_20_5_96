@@ -58,10 +58,14 @@
 
             @php
             $panelClass = 'send_by_admin';
-            $sendByText = 'MaaRula';
+            $sendByText = 'User';
             if($userId ==  $feed->sender){
               $panelClass = 'send_by_you';
               $sendByText = 'You';
+            }
+            $in = '';
+            if($feed->isRead == 0){
+              $in = 'in';
             }
             @endphp
 
@@ -75,7 +79,7 @@
                 <span class="clearfix"></span>  
               </h5>
             </div>
-            <div id="collapse_{{$feed->id}}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading_{{$feed->id}}">
+            <div id="collapse_{{$feed->id}}" class="panel-collapse collapse {{$in}}" role="tabpanel" aria-labelledby="heading_{{$feed->id}}">
               <div class="panel-body">
                 {{$feed->message}}
               </div>
@@ -101,7 +105,14 @@
        </div> 
     </div>
 </div>
+<?php
 
+
+    use App\Http\Controllers\Admin\UserController; 
+    $obj = new UserController();
+    echo $obj->updateReadByAdmin($id);
+
+?>
 <script type="text/javascript">
     $(".open-button").on("click", function() {
   $(this).closest('.collapse-group').find('.collapse').collapse('show');

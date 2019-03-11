@@ -62,7 +62,7 @@ function myFunction() {
     <a href="{{route('about-us')}}"><i class="fa fa-globe"></i>&nbsp;About Us</a>
 		
 	</li>
-    <li class="{{ request()->is('contactUs*') ? 'active' : '' }}"><a href="{{route('contactUs')}}"><i class="fa fa-envelope"></i>&nbsp;Contact Us</a></li>
+    <li class="{{ request()->is('feedback*') ? 'active' : '' }}"><a href="{{route('feedback.create')}}"><i class="fa fa-envelope"></i>&nbsp;Contact Us</a></li>
     @if((Auth::user()) && Auth::user()['user_type'] ==1 )
       <li><a href="{{route('dashboard')}}"><i class="fa fa-dashboard"></i>&nbsp;Dashboard</a></li>
     @endif

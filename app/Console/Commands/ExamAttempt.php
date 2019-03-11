@@ -12,6 +12,8 @@ use App\Model\Alert;
 class ExamAttempt extends Command
 {
     /**
+     php artisan make:command ExamAlert --command alert:exam
+
      * The name and signature of the console command.
      *
      * @var string

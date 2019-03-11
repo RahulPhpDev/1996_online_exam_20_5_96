@@ -77,7 +77,7 @@ $(function(){
               $sendByText = 'You';
             }
             $in = '';
-            if($feed->isRead == 0){
+            if(($feed->isRead == 0) && ($feed->receiver == Auth::user()->id)){
               $in = 'in';
             }
             @endphp
@@ -118,7 +118,14 @@ $(function(){
      
     </div>
 
-    
+    <?php 
+
+    use App\Http\Controllers\FeedbackController; 
+    $obj = new FeedbackController();
+    echo $obj->updateRead($en_id);
+
+    ?>
+
   </section>
 </div>
 

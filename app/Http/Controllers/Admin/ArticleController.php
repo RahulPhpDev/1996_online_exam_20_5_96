@@ -50,7 +50,7 @@ class ArticleController extends Controller
                     'subject' => $feedback->subject,
                     'message' => $request->reply,
                 ]);
-            Event::fire(new FeedbackReply($feedbackId['feedback_id']));
+            Event::fire(new FeedbackReply($feedbackId['feedback_id'],$request->reply));
             return redirect()->route('feedback');
          }
     	return view('admin/article/feedback-reply', compact('feedback','title'));

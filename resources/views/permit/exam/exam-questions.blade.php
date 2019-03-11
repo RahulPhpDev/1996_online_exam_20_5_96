@@ -123,6 +123,7 @@ var i = setInterval(function() { compareTime(); }, 1000*62);
     $.ajax({
       url: "/get-question",
       type: 'POST',
+       async: false,
       // dataType: 'default: Intelligent Guess (Other values: xml, json, script, or html)',
       data: {
         _method: 'POST',

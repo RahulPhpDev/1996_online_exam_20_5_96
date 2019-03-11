@@ -118,6 +118,7 @@ $(document).on("click",".opt_data",function(){
               $.ajax({
                   type: frm.attr('method'),
                   url: frm.attr('action'),
+                   async: false,
                   data: frm.serialize(),
                   success: function (data) {  
                   var chkToast = '<?php echo $showToast ?>';                  

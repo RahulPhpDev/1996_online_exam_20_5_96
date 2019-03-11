@@ -14,6 +14,7 @@ use App\Model\Feedback;
 use App\Model\FeedbackMeta;
 use DB;
 use Response;
+use Crypt;
 class FeedbackController extends Controller
 {
     protected $expiry_time;
@@ -24,12 +25,7 @@ class FeedbackController extends Controller
     }
     public function index()
     {
-            // $this->middleware('auth');
-
-   // select *, (select count(*) as unread_count from feedback_meta where isRead = 0 And  `receiver` = 35) as unread from `feedback_meta` where `sender` = 35 or `receiver` = 35 group by `feedback_id`
-
         $userId = Auth::user()->id;
-        // ->select(DB::raw('count(*) as user_count, status'))
         $feedbackMetaData =  FeedbackMeta::where('sender', $userId)
                             ->with('hasFeedback')
                             ->orWhere('receiver', $userId)
@@ -39,11 +35,13 @@ class FeedbackController extends Controller
                                  )
                             ->groupBy('feedback_id')
                             ->get();
-                            // dd($feedbackMetaData);
-       $feedbackJson = FeedbackMeta::with('hasFeedback')->where('sender', $userId)->orWhere('receiver', $userId)->groupBy('feedback_id')->get();
-
-        $feedbackMetaJson =  Response::json($feedbackMetaData);
-        // dd($feedbackMetaJson->getData());
+       $finalFeedback = array();
+       foreach ($feedbackMetaData->toArray() as $key => $feedback) {
+           $finalFeedback[$key] = $feedback;
+           $finalFeedback[$key]['last_message_date'] = extractDateTime('d-M-Y h:i A',$feedback['last_message_date']);
+           $finalFeedback[$key]['has_feedback']['encrypted_id'] = Crypt::encrypt($feedback['has_feedback']['id']);
+       }
+        $feedbackMetaJson =  Response::json($finalFeedback);
         return View('feedback.index',compact('feedbackMetaData','feedbackMetaJson'));
     }
 
@@ -119,39 +117,31 @@ class FeedbackController extends Controller
             'create_date' => date('Y-m-d H:i:s')
         );
         $feedbackData->FeedbackMeta()->save(new FeedbackMeta($feed ));
-        Session::flash('success', 'Your Message has send to User!'); 
-        return redirect()->route('/');
+        Session::flash('success', 'Your Message has send to User!You Can send message with new Subject'); 
+        return redirect()->route('feedback.create');
        }
 
 // http://127.0.0.1:8000/feedback/reply_meta/d8Jzj740MGK7r9v4WAxCVd250lZaRRediFgrfLVmX2ARSpiIn4
         return View('feedback/reply_meta',compact('feedbackData','userId'));
     }
    
-    public function show(Request $request,$id)
+    public function show(Request $request,$en_id)
     {
+        $id = Crypt::decrypt($en_id);
         $feedbackData = Feedback::find($id);
         $userId = 0;
         if(Auth::user()){
             $userId = Auth::user()->id;
         }
-        if($request->isMethod('post')){
-             $feedbackData->token = '';
-             $feedbackData->expiry = '0000:00:00';
-             $feedbackData->save();
-             $feed = array(
-                'message' => Input::get('reply'),
-                'sender' => $userId,
-                'receiver' => 1,
-                'status' => 0,
-                'create_date' => date('Y-m-d H:i:s')
-            );
-            $feedbackData->FeedbackMeta()->save(new FeedbackMeta($feed ));
-            Session::flash('success', 'Your Message has send to User!'); 
-            return redirect()->route('feedback/reply',1);
-       }
-        $feedbackData->FeedbackMeta()->update(['isRead' => 1]);
-// die('hd');
-        return View('feedback/show_feedback', compact('feedbackData','userId'));
+        return View('feedback/show_feedback', compact('feedbackData','userId','en_id'));
+    }
+
+    public function updateRead($en_id){
+        $id = Crypt::decrypt($en_id);
+        $feedbackData = Feedback::find($id);
+        $feedbackData->FeedbackMeta()->where('receiver',Auth::user()->id)->update(['isRead' => 1]);
+
+        // $feedbackData->FeedbackMeta()->where(['receiver' => 1])->update(['isRead' => 1]);
     }
 
     public function saveFeedbackShow(request $request,$id){

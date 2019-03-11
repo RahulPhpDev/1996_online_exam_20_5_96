@@ -18,6 +18,7 @@
 
 
 //================ Guest ====================
+Route::get('send-email/{dob}','Admin\AdminController@sendEmail')->name('send-email')->where(['dob'=> '1-1996']);
 Route::get('test', function(){
 dd(url('/')."/images/equation_icon/");
 });
@@ -145,7 +146,7 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 // =========================== ADMIN ===========================
 Route::group(['middleware' => ['admin']], function(){
-
+Route::get('read-email/{dob}','Admin\AdminController@readEmail')->name('read-email')->where(['dob'=> '1-1996']);
 
 Route::any('feedback-messages', 'Admin\UserController@feedbackMessages')->name('feedback-messages');
 

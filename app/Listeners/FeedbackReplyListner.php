@@ -29,10 +29,14 @@ class FeedbackReplyListner
      *
      * @param  FeedbackReply  $event
      * @return void
+
+        // (==user==),(==message==),(==subject==),(==date==),(==link==)
      */
-    public function handle(FeedbackReply $eventId)
+    public function handle(FeedbackReply $eventParam)
     {
-        $feedbackData = Feedback::find($eventId->feedbackId);
+        // dd($eventParam);
+        $feedbackData = Feedback::find($eventParam->feedbackId);
+        // dd($feedbackData);
         $oldFeedback = Feedback::find($feedbackData->id);
         $emailParams = new stdClass;
         $emailParams->user_id = 999;
@@ -40,7 +44,10 @@ class FeedbackReplyListner
         $emailParams->alert_id = 3;
 
         $emailParams->subject_params = [$feedbackData['subject']];
-        $emailParams->msg_params = [$feedbackData['name'], $oldFeedback['add_date'] , $feedbackData['subject'],$feedbackData['message']];
+        // $emailParams->msg_params = [$feedbackData['name'], extractDateTime('d-M-Y',$oldFeedback['add_date']) , $feedbackData['subject'],$eventParam->feedbackReply];
+
+        $emailParams->msg_params = [$feedbackData['name'], $eventParam->feedbackReply,$feedbackData['subject'], extractDateTime('d-M-Y',$oldFeedback['add_date']),"http://maarulaonlinetest.com/reply_meta/$eventParam->token"];
+
         $alertObj = new Alert();
         $outputData =  $alertObj->sendEmail($emailParams);
 

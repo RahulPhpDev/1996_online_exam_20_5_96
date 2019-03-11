@@ -36,7 +36,7 @@
                   <td><@ meta.has_feedback.subject @></td>
                   <td><@  meta.unread_count @></td>
                   <td><@  meta.last_message_date | date : "yyyy-mm-dd hh:mm:ss" : 0 @></td>
-                  <td><a ng-click="getFeedbackData(meta.feedback_id)"> View </a> </td>
+                  <td><a  ng-href = "show-feedback-messages/<@ meta.feedback_id @>"> View </a> </td>
                 </tr>
               </tbody>
             </table>
@@ -53,7 +53,7 @@
 <script type="text/javascript">
 
   backEnddApp.controller('feedbackController', function($scope,$window){
-    $scope.feedbackMetaData = JSON.parse('<?php echo json_encode($feedbackMetaJson->getData()); ?>');
+    $scope.feedbackMetaData = JSON.parse('<?php echo json_encode($feedbackMetaJson->getData(),JSON_UNESCAPED_UNICODE); ?>');
 
     $scope.getFeedbackData = function(id) {
       // $scope.getId = id;
