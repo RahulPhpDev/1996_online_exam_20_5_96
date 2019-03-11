@@ -72,7 +72,9 @@ class ArticleController extends Controller
 
     public function announcement(){
         $allData = Announcement::all(); 
+        // $allData = json_encode($allDataS->toArray());
         $allData = Response::json($allData);
+    //   echo 'hk';  dd($allData->getContent());
         return view('admin/article/announcement', compact('allData'));
     }
 

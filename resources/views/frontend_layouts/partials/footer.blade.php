@@ -13,9 +13,9 @@ foreach($allAnnouncement as $announce){
 @if(count($allAnnouncement) > 0)
 
 <div class = "announcement-section">
-    <marquee behavior="scroll" scrollamount="5" direction="left" onmouseover="$(this).attr('scrollamount','0');" onmouseout="$(this).attr('scrollamount','5');" style="color:#fff !important; ">
+    <marquee behavior="scroll" scrollamount="4" direction="left" onmouseover="$(this).attr('scrollamount','0');" onmouseout="$(this).attr('scrollamount','5');" style="color:#fff !important; ">
       <span class="annount_text">
-        <a style="color:#fff !important;font-size: 15px !important;" href="javascript:void(0);">{{$contentStr}}</a>
+        <span style="color:#fff !important;font-size: 15px !important;" href="javascript:void(0);">{!! htmlspecialchars_decode($contentStr) !!}</a>
       </span>
       <span style="color:#fff !important; font-size: 15px !important; ">|</span>
     </marquee>

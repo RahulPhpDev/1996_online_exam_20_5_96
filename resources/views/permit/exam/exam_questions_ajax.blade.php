@@ -2,60 +2,16 @@
 
 <script src="{{ asset('js/backend_js/jquery.min.js') }}"></script>
 
-<link href="{{ asset('css/backend_css/exam_question.css') }}" rel="stylesheet">
+<!-- <link href="{{-- asset('css/backend_css/exam_question.css') --}}" rel="stylesheet"> -->
 
-
-<script src='https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
   
 
- <script type="text/x-mathjax-config">
-  MathJax.Hub.Config({
-   
-     showMathMenu: false,
-  extensions: ["tex2jax.js"],
-  jax: ["input/TeX", "output/HTML-CSS"],
-  tex2jax: {
-      skipTags: ["body"],
-      processClass: "equation"
-  }
-  });
-</script>
 
 <script type="text/javascript">
-function mobileView(){
-  $(".controls").find(".btn").removeClass('btn-exam-custom');
-    $(".controls").find(".btn").each(function(){
-      var text = $(this).text();
-      var newstr=text.replace('And Next', '');
-      $(this).text(newstr);
-     });
- }
- function laptopView(){
-  $(".controls").find(".btn").addClass('btn-exam-custom');
-   $(".controls").find(".btn").each(function(){
-    var idName  = $(this).attr('id');
-        var text = $(this).text();
-        var findText = 'And Next';
-        $("div:not(#sale_wrap)")
-        if(text.indexOf(findText) == -1 && !$(this).hasClass('submitexam')){
-          var text= text + ' And Next';
-        }
-        $(this).text(text);
-         
-     });
- }
-  $(window).resize(function() {
-  var width = $(window).width();
-   if(width <= 767){
-    mobileView();
-   } else {
-    laptopView();
-   }
-});
-$(function(){
+
+$(function(e){
 
    var navDum =$('.navbardum-fixed-top');
-    // navDum.hide();
     var open = $('.open-nav'),
         close = $('.close'),
         overlay = $('.overlay');
@@ -66,22 +22,26 @@ $(function(){
         $('#wrapper').addClass('toggled');
     });
 
+// var container = $(".navbardum-fixed-top");
+
+    // if the target of the click isn't the container nor a descendant of the container
+    if (!navDum.is(e.target) && navDum.has(e.target).length === 0) 
+    {
+         navDum.hide();
+         overlay.hide();
+        $('#wrapper').removeClass('toggled');
+    }
+
     close.click(function() {
         navDum.hide();
         overlay.hide();
         $('#wrapper').removeClass('toggled');
     });
 
-
-  var width = $(window).width();
-    if(width <= 767){
-        mobileView();
-      }
 compareTime();
 var i = setInterval(function() { compareTime(); }, 1000*62);
     function compareTime() {
         var givenTime =  '<?php echo session('total_time'); ?>';
-        // console.log(givenTime);
         var hour  =  $(".hours").text();
         var minute = $(".minutes").text();
         var totalMintue = parseInt(hour*60) + parseInt(minute);
@@ -91,13 +51,15 @@ var i = setInterval(function() { compareTime(); }, 1000*62);
         }
       }
     }
+  $(document).on("click","#submitExam",function(){
+      window.location = '/view-result' ;
+    });
+
 var i = setInterval(function() { compareTime(); }, 1000*62);
 $(document).on("click",".opt_data",function(){
     $(this).find('input[type="radio"]').prop('checked', true);
   });
-  $(document).on("click","#submitExam",function(){
-      window.location = '/view-result' ;
-    });
+
   $(document).on("click",".savebtn",function(){
     var btnVal = $(this).val();
     $("#saveu").val(btnVal);
@@ -114,25 +76,22 @@ $(document).on("click",".opt_data",function(){
         frm.submit();
     });
     frm.submit(function (e) {
-              e.preventDefault();
-              $.ajax({
-                  type: frm.attr('method'),
-                  url: frm.attr('action'),
-                  data: frm.serialize(),
-                  success: function (data) {  
-                  var chkToast = '<?php echo $showToast ?>';                  
-                      if(chkToast == 1) {
-                         myFunction();
-                        }
-                      $("#question_list").html(data);
-                    
-                  },
-                  error: function (data) {
-                      console.log('An error occurred.');
-                  },
-              });
+          e.preventDefault();
+          $.ajax({
+              type: frm.attr('method'),url: frm.attr('action'),data: frm.serialize(),
+              success: function (data) {  
+               var chkToast = '<?php echo $showToast ?>';                  
+                  if(chkToast == 1) {
+                     myFunction();
+                    }
+                  $("#question_list").html(data);
+              },
+              error: function (data) {
+                  console.log('An error occurred.');
+              },
           });
-        });
+      });
+    });
 </script>
 
          <div class = "col-md-8" >
@@ -184,11 +143,11 @@ $(document).on("click",".opt_data",function(){
                
                 <input type = "hidden" name = "save" id = "saveu">
 
-                <button name="save" type="submit" value="continue" class="btn btn-success savebtn btn-exam-custom">Save And Next</button>
+                <button name="save" type="submit" value="continue" class="btn btn-success savebtn btn-exam-custom submitexam">Save</button>
 
-                <button name="save" type="submit" value="preview" class="btn hidden-sm btn-primary savebtn btn-exam-custom">Preview  And Next</button>
+                <button name="save" type="submit" value="preview" class="btn hidden-sm btn-primary savebtn btn-exam-custom hidden-sm submitexam">Preview </button>
 
-                <button name="save" type="submit" value="skip" class="btn btn-danger savebtn btn-exam-custom">Skip And Next </button>
+                <button name="save" type="submit" value="skip" class="btn btn-danger savebtn btn-exam-custom submitexam">Skip</button>
                 <div class = "pull-right">
                 </div>
                  </div>

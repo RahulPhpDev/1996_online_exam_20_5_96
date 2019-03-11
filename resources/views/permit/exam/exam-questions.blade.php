@@ -5,7 +5,15 @@
 @section('content') 
 
 <link href="{{ asset('css/backend_css/exam_question.css') }}" rel="stylesheet">
-
+<style type="text/css">
+  #load{
+    width:100%;
+    height:100%;
+    position:fixed;
+    z-index:9999;
+    background:url("https://www.creditmutuel.fr/cmne/fr/banques/webservices/nswr/images/loading.gif") no-repeat center center rgba(0,0,0,0.25)
+}
+</style>
 
 <script src='https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
   <script type="text/x-mathjax-config">
@@ -21,39 +29,41 @@
   });
 </script>
 <script type="text/javascript">
- function mobileView(){
-  $(".controls").find(".btn").removeClass('btn-exam-custom');
-    $(".controls").find(".btn").each(function(){
-      var text = $(this).text();
-      var newstr=text.replace('And Next', '');
-      $(this).text(newstr);
-     });
- }
- function laptopView(){
-  $(".controls").find(".btn").addClass('btn-exam-custom');
-   $(".controls").find(".btn").each(function(){
-        var text = $(this).text();
-        var findText = 'And Next';
-        if(text.indexOf(findText) == -1){
-          var text= text + ' And Next';
-        }
+ // function mobileView(){
+ //  $(".controls").find(".btn").removeClass('btn-exam-custom');
+ //    $(".controls").find(".btn").each(function(){
+ //      var text = $(this).text();
+ //      var newstr=text.replace('And Next', '');
+ //      $(this).text(newstr);
+ //     });
+ // }
+ // function laptopView(){
+ //  $(".controls").find(".btn").addClass('btn-exam-custom');
+ //   $(".controls").find(".btn").each(function(){
+ //        var text = $(this).text();
+ //        var findText = 'And Next';
+ //        if(text.indexOf(findText) == -1){
+ //          var text= text + ' And Next';
+ //        }
         
-        if(!$(this).hasClass('submitexam'))
-            {
-              $(this).text(text);
-            }
-     });
- }
- $(window).resize(function() {
-  var width = $(window).width();
-   if(width <= 767){
-    mobileView();
-   } else {
-    laptopView();
-   }
-});
+ //        if(!$(this).hasClass('submitexam'))
+ //            {
+ //              $(this).text(text);
+ //            }
+ //     });
+ // }
+//  $(window).resize(function() {
+//   var width = $(window).width();
+//    if(width <= 767){
+//     mobileView();
+//    } else {
+//     laptopView();
+//    }
+// });
 
-  $(function () {   
+
+  $(function (e) {   
+
      var navDum =$('.navbardum-fixed-top');
     // navDum.hide();
     var open = $('.open-nav'),
@@ -64,26 +74,32 @@
         overlay.show();
           navDum.show();
         $('#wrapper').addClass('toggled');
+        overlay.addClass('overlayopen');
     });
-
+ 
     close.click(function() {
         navDum.hide();
         overlay.hide();
         $('#wrapper').removeClass('toggled');
+        overlay.removeClass('overlayopen');
     });
 
 
-    var width = $(window).width();
-    if(width <= 767){
-        mobileView();
-      }
+// $('body', 'click', function(e){
+// alert(' here click');
+// });
+    // var width = $(window).width();
+    // if(width <= 767){
+    //     mobileView();
+    //   }
     // $('#myModal').modal('show');
     var diff = '<?php echo $difference; ?>';
-    if( diff != 0){
-      watchfun(diff);
-    }else{
-      watchfun(diff);
-    }
+    // if( diff != 0){
+    //   watchfun(diff);
+    // }else{
+    //   watchfun(diff);
+    // }
+    watchfun(diff);
 
 compareTime();
 var i = setInterval(function() { compareTime(); }, 1000*62);
@@ -120,20 +136,20 @@ var i = setInterval(function() { compareTime(); }, 1000*62);
     });
     
     function questionRedirect(questionId){
+      $('#load').show();
     $.ajax({
       url: "/get-question",
       type: 'POST',
-      // dataType: 'default: Intelligent Guess (Other values: xml, json, script, or html)',
       data: {
         _method: 'POST',
         que_id : questionId,
         _token:     '{{ csrf_token() }}'
       },
       success: function (data) {
-                if(data === 'view-result'){
-                }else{
-                  console.log(' herer is is');
+         $('#loading-image').hide();
+                if(data != 'view-result'){
                    $('.overlay').hide();
+                    $('#load').hide();
                    $("#question_list").html(data);
                 }
               },
@@ -156,6 +172,7 @@ var i = setInterval(function() { compareTime(); }, 1000*62);
               $("#saveu").val('continue');
              }
         frm.submit();
+
     });
 
     frm.submit(function (e) {
@@ -167,22 +184,24 @@ var i = setInterval(function() { compareTime(); }, 1000*62);
             type: frm.attr('method'),
             url: frm.attr('action'),
             data: frm.serialize(),
+            // dataType:'json',
             success: function (data) {
-             if(data === 'view-result'){
-               // window.location = '/view-result' ;
-                   
-                    }
+             // if(data === 'view-result'){
+             //        }
               $("#question_list").html(data);
             },
             error: function (data) {
               console.log(data);
-                console.log('An error occurred.');
             },
         });
     });
   });
 
-
+function myFunction() {
+  var x = document.getElementById("snackbar");
+  x.className = "show";
+  setTimeout(function(){ x.className = x.className.replace("show", ""); }, 7000);
+}
 </script>
 
 
@@ -214,6 +233,7 @@ var i = setInterval(function() { compareTime(); }, 1000*62);
   </div>
 
 <div class = "clear"></div>
+<div id = "load" style="display: none"></div>
    <div id = "question_list">   
       <div class = "col-md-8" >
         <div class="mycontainer question_section">
@@ -227,7 +247,7 @@ var i = setInterval(function() { compareTime(); }, 1000*62);
                   <div class="negative_mark"> <a > 
                    - {{$questionDetails->negative_marks}}</a>  </div>
                     @endif
-                     <button type="button" style="position: relative;top: -5px;" class="btn btn-exam-custom btn-success submitexam" id="submitExam"> Submit Exam </button>
+                     <button type="button" style="position: relative;top: -5px;" class="btn btn-exam-custom btn-success  submitexam " id="submitExam"> Submit Exam </button>
                 </div>
             <div class = "questions">
                 <span> <?php echo htmlspecialchars_decode($questionDetails->question); ?> </span>
@@ -262,25 +282,16 @@ var i = setInterval(function() { compareTime(); }, 1000*62);
               </div>
              <div class = "mt-10"> </div>
              <div class="controls">
-               <?php
-               /*if($questionDetails->is_required == 0)
-                 <button name="save" type="submit" class="btn btn-success" value="skip">Skip</button>
-		           endif
-               */?>
-                <!-- <input type = "submit" name = "save" value = "continue" class = "btn btn-success">
-              <input type = "submit" name = "save" value = "preview" class = "btn btn-success"> -->
+              
              
                 <input type = "hidden" name = "save" id = "saveu">
-                @php
-                  $saveToolTip = 'This will save your answer and move to next question ';
-                  $saveToolTip = 'This will save your answer and move to next question ';
-                @endphp
+             
 
-                <button name="save" type="submit" value="continue" class="btn btn-success savebtn btn-exam-custom"  data-toggle="tooltip" data-placement="top" title="Hooray!" >Save And Next</button>
+                <button name="save" type="submit" value="continue" class="btn btn-success savebtn btn-exam-custom  submitexam "  data-toggle="tooltip" data-placement="top" >Save</button>
 
-                <button name="save" type="submit" value="preview" class="btn hidden-sm btn-primary savebtn btn-exam-custom">Preview  And Next</button>
+                <button name="save" type="submit" value="preview" class="btn hidden-sm btn-primary savebtn btn-exam-custom hidden-sm  submitexam ">Preview</button>
 
-                <button name="save" type="submit" value="skip" class="btn btn-danger savebtn btn-exam-custom">Skip And Next </button>
+                <button name="save" type="submit" value="skip" class="btn btn-danger savebtn btn-exam-custom  submitexam ">Skip </button>
                 <div class = "pull-right">
                 </div>
                  </div>
@@ -329,7 +340,7 @@ var i = setInterval(function() { compareTime(); }, 1000*62);
           <a href="JavaScript:void(0);" class="close circle hide_in_lap"><i class="fa fa-close" style="color:red  ;  font-size: 25px;" ></i></a>
         </div>
        </div>
-           <button type="button" class="hamburger open-nav is-closed animated fadeInLeft hide_in_lap">
+           <button type="button" class="hamburger open-nav is-closed animated fadeInLeft hide_in_lap"  style="margin-bottom: 28px;"   >
             <span class="hamb-top"></span>
             <span class="hamb-bottom"></span>
           </button>
@@ -339,69 +350,4 @@ var i = setInterval(function() { compareTime(); }, 1000*62);
 
 <div id="snackbar">You Have Taken all The Questions. Now You Can Review Your Answer Or Submit Exam By Clicking Button....</div>
 
-<script>
-function myFunction() {
-  var x = document.getElementById("snackbar");
-  x.className = "show";
-  setTimeout(function(){ x.className = x.className.replace("show", ""); }, 7000);
-}
-</script>
-
-<style type="text/css">
-/*  #snackbar {
-  visibility: hidden;
-  min-width: 250px;
-  margin-left: -125px;
-  background-color: #333;
-  color: #fff;
-  text-align: center;
-  border-radius: 2px;
-  padding: 16px;
-  position: fixed;
-  z-index: 1;
-  left: 50%;
-  bottom: 30px;
-  font-size: 17px;
-}
-
-#snackbar.show {
-  visibility: visible;
-  -webkit-animation: fadein 1s, fadeout 4s 6s;
-  animation: fadein 1s, fadeout 4s 6s;
-}
-
-@-webkit-keyframes fadein {
-  from {bottom: 0; opacity: 0;} 
-  to {bottom: 30px; opacity: 1;}
-}
-
-@keyframes fadein {
-  from {bottom: 0; opacity: 0;}
-  to {bottom: 30px; opacity: 1;}
-}
-
-@-webkit-keyframes fadeout {
-  from {bottom: 30px; opacity: 1;} 
-  to {bottom: 0; opacity: 0;}
-}
-
-@keyframes fadeout {
-  from {bottom: 30px; opacity: 1;}
-  to {bottom: 0; opacity: 0;}
-}
-
-  .question_count_div {
-    
-    margin-top: 10px;
-    box-shadow: 0px 0px 2px 0px #DDC;
-    padding: -10px 0px;
-}
-.question_count_div h2 {
-    padding: 6px 5px;
-    font-size: 25px;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    font-weight: 600;
-}*/
-</style>
 @endsection

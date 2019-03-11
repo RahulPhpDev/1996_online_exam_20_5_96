@@ -31,8 +31,8 @@
                 </tr>
               </thead>
               <tbody>
-                 <tr ng-repeat="post in allData.original">
-                 <@ post @>
+                 <tr ng-repeat="post in allData">
+              
                          <td> <@  $index + 1 @> </td>
                           <td ng-bind-html="post.content" ></td>
                           <td><@ post.add_date  @></td>
@@ -79,7 +79,7 @@
                  };
             }
 
-               $scope.allData = JSON.parse('<?php echo json_encode($allData); ?>');
+               $scope.allData = <?php echo $allData->getContent(); ?>;
            }]);
 
 
