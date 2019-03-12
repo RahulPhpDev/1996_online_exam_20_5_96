@@ -4,6 +4,7 @@
   
 @include('frontend_layouts.partials.fetch_css')  
  @include('frontend_layouts.partials.fetch_js')
+
 <head>
         <title>MaaRula Online Exam:  @yield('title')</title><meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />   
@@ -98,10 +99,13 @@ function myFunction() {
         <b class="caret"></b></a>
       <ul class="dropdown-menu">
         @if(Auth::user()['user_type'] !=1)
-        <li><a href="{{route('all-result')}}"><i class="icon-user"></i> Show Result</a></li>
+        <li><a href="{{route('all-result')}}"><i class="fa fa-print"></i> Show Result</a></li>
        
         <li class="divider"></li>
-        <li><a href="{{route('myprofile')}}"><i class="icon-check"></i> My Profile</a></li>
+        <li><a href="{{route('myprofile')}}"><i class="fa fa-user"></i> My Profile</a></li>
+
+        <li class="divider"></li>
+        <li><a href="{{route('feedback.index')}}"><i class="fa fa-envelope"></i> Feedback </a></li>
         @endif
        <!--  
         <li class="divider"></li> -->

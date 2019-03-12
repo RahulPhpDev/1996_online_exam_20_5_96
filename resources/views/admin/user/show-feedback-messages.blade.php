@@ -64,7 +64,7 @@
               $sendByText = 'You';
             }
             $in = '';
-            if($feed->isRead == 0){
+            if(($feed->isRead == 0 ) && ( $feed->receiver == 1)){
               $in = 'in';
             }
             @endphp

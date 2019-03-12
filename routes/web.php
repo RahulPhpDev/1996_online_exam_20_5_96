@@ -263,6 +263,13 @@ Route::any('add-announcement', 'Admin\ArticleController@addAnnouncement')->name(
 Route::get('announcement', 'Admin\ArticleController@announcement')->name('announcement');
 Route::any('edit-announcement/{id?}', 'Admin\ArticleController@editAnnouncement')->name('edit-announcement');
 Route::get('delete-announcement/{id?}', 'Admin\ArticleController@deleteAnnouncement')->name('delete-announcement');
+
+/*============== Extra Attempt ========= */
+
+Route::any('result/extra-attempt/{exam_id}/{user_id}', 'Admin\ResultController@extraAttempt')->name('extra-attempt');
+
+Route::post('result/delete-extra-attempt', 'Admin\ResultController@deleteExtraAttempt')->name('delete-extra-attempt');
+
 }) ; 
 
 

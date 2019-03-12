@@ -15,6 +15,12 @@ use App\Model\FeedbackMeta;
 use DB;
 use Response;
 use Crypt;
+use stdClass;
+
+use Mail;
+use Config;
+use App;
+use App\Model\Alert;
 class FeedbackController extends Controller
 {
     protected $expiry_time;
@@ -25,23 +31,29 @@ class FeedbackController extends Controller
     }
     public function index()
     {
-        $userId = Auth::user()->id;
+
+         $userId = Auth::user()->id;
+       $feedbackMetaObj = new FeedbackMeta();
+        // ->select(DB::raw('count(*) as user_count, status'))
         $feedbackMetaData =  FeedbackMeta::where('sender', $userId)
                             ->with('hasFeedback')
                             ->orWhere('receiver', $userId)
-                            ->select('*',
-                                 (DB::raw("(select count(*) from feedback_meta where isRead = 0 And  `receiver` = $userId)  as unread_count")),
-                                  (DB::raw("(select max(create_date) from feedback_meta where  `receiver` = $userId)  as last_message_date"))
-                                 )
+                            ->select( '*')
                             ->groupBy('feedback_id')
-                            ->get();
-       $finalFeedback = array();
-       foreach ($feedbackMetaData->toArray() as $key => $feedback) {
-           $finalFeedback[$key] = $feedback;
-           $finalFeedback[$key]['last_message_date'] = extractDateTime('d-M-Y h:i A',$feedback['last_message_date']);
+                            ->get();     
+        $finalFeedback = array();      
+        // echo '<pre>';                      
+        foreach ($feedbackMetaData->toArray() as $key => $feedback) {
+          $unreadCountFeedback = $feedbackMetaObj->getUnreadCountOfFeedback($feedback['feedback_id'], $userId);
+          $getFeedbackData =  FeedbackMeta::where('feedback_id',$feedback['feedback_id'])->max('create_date');
+          $finalFeedback[$key] = $feedback;
+          $finalFeedback[$key]['unread_count'] = $unreadCountFeedback;
+          $finalFeedback[$key]['last_message_date'] = extractDateTime('d-M-y h:i A',$getFeedbackData);
            $finalFeedback[$key]['has_feedback']['encrypted_id'] = Crypt::encrypt($feedback['has_feedback']['id']);
-       }
+       }        
         $feedbackMetaJson =  Response::json($finalFeedback);
+        $feedbackMetaJson = $feedbackMetaJson->getContent();
+        
         return View('feedback.index',compact('feedbackMetaData','feedbackMetaJson'));
     }
 
@@ -53,7 +65,6 @@ class FeedbackController extends Controller
     
     public function store(Request $request)
     {
-        // dd($request->all());
         $validator = Validator::make($request->all(),[
            'email' => 'required|email',
            'name' => 'required|string|max:50',
@@ -97,10 +108,9 @@ class FeedbackController extends Controller
      
     }
 
-    
-
     public function feedbackReplyMeta(Request $request, $token){
         $feedbackData =  Feedback::where('token', $token)->first();
+
         $userId = 0;
         if(Auth::user()){
             $userId = Auth::user()->id;
@@ -117,12 +127,21 @@ class FeedbackController extends Controller
             'create_date' => date('Y-m-d H:i:s')
         );
         $feedbackData->FeedbackMeta()->save(new FeedbackMeta($feed ));
+
+        $emailParams = new stdClass;
+        $emailParams->user_id = 1;
+        $emailParams->user_email = env('MAIL_USERNAME');
+        $emailParams->alert_id = 2;
+        $emailParams->subject_params = ['RE: ' .$feedbackData['subject']];
+        $emailParams->msg_params = [Input::get('reply'),Auth::user()->fname.' '.Auth::user()->lname, Auth::user()->email, date('Y-m-d H:i:s')];
+        $alertObj = new Alert();
+        $outputData =  $alertObj->sendEmail($emailParams);
+
+
         Session::flash('success', 'Your Message has send to User!You Can send message with new Subject'); 
         return redirect()->route('feedback.create');
        }
-
-// http://127.0.0.1:8000/feedback/reply_meta/d8Jzj740MGK7r9v4WAxCVd250lZaRRediFgrfLVmX2ARSpiIn4
-        return View('feedback/reply_meta',compact('feedbackData','userId'));
+    return View('feedback/reply_meta',compact('feedbackData','userId'));
     }
    
     public function show(Request $request,$en_id)
@@ -144,9 +163,10 @@ class FeedbackController extends Controller
         // $feedbackData->FeedbackMeta()->where(['receiver' => 1])->update(['isRead' => 1]);
     }
 
-    public function saveFeedbackShow(request $request,$id){
-        // dd('dks');
-        $sendBy =  Auth::user()->id;
+    public function saveFeedbackShow(request $request,$eid){
+         $id = Crypt::decrypt($eid);
+         $feedback = Feedback::find($id);
+         $sendBy =  Auth::user()->id;
          $feed = array(
             'feedback_id' => $id ,               
             'message' => Input::get('reply'),
@@ -157,8 +177,17 @@ class FeedbackController extends Controller
         );
         FeedbackMeta::create($feed);
         Session::flash('success', 'Your Message has send to User!'); 
-         return redirect('feedback');
-        // dd('insert');    
+
+        $emailParams = new stdClass;
+        $emailParams->user_id = 1;
+        $emailParams->user_email = env('MAIL_USERNAME');
+        $emailParams->alert_id = 2;
+        $emailParams->subject_params = ['RE: ' .$feedback['subject']];
+        $emailParams->msg_params = [Input::get('reply'),Auth::user()->fname.' '.Auth::user()->lname, Auth::user()->email, date('Y-m-d H:i:s')];
+        $alertObj = new Alert();
+        $outputData =  $alertObj->sendEmail($emailParams);
+
+       return redirect('feedback'); 
     }
 
     public function edit($id)
@@ -176,5 +205,10 @@ class FeedbackController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+     public function updateReadFeedbackByUser($id){
+        $feedbackData = Feedback::find($id);        
+        $feedbackData->FeedbackMeta()->where(array(['receiver' ,'<>', 1]))->update(['isRead' => 1]);
     }
 }

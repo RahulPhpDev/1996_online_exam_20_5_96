@@ -94,7 +94,7 @@ $(function(){
             </div>
             <div id="collapse_{{$feed->id}}" class="panel-collapse collapse {{$in}}" role="tabpanel" aria-labelledby="heading_{{$feed->id}}">
               <div class="panel-body">
-                {{$feed->message}}
+                {!! $feed->message !!}
               </div>
             </div>
           </div>
@@ -102,7 +102,7 @@ $(function(){
             @endforeach
          
         </div>
-        	  <form method="POST" action="{{route('save-feedback-show',$feedbackData->id)}}" id = "save_form"  class="" style="padding-top:15px">
+        	  <form method="POST" action="{{route('save-feedback-show',Crypt::encrypt($feedbackData->id))}}" id = "save_form"  class="" style="padding-top:15px">
         	  	@csrf
       				 <div class="form-group">
            				 <label for="subject">Reply:</label>

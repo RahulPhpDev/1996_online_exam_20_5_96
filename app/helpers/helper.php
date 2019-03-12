@@ -169,3 +169,8 @@ if(!function_exists('generate_string')){
         return $random_string;
     }
  }
+if(!function_exists('maxAttempt')){     
+    function maxAttempt() {
+     return array('1' => '1', '2' => '2', '3' => '3', '0'=> 'Forever');
+    }
+}

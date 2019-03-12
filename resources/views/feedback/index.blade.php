@@ -23,7 +23,12 @@
 <div class="item-container">    
  <div class="container"> 
   <div class="col-md-12" ng-controller ="feedbackController">
-			<table class = "table res_table">
+  			<div class="mt-20">
+            <a class ="btn btn-success pull-right" href="{{ route('feedback.create') }}">Send Feedabck </a>
+            </div>
+            <div class="pt-20"></div>
+            <div class="pt-20"></div>
+			<table class = "table res_table mt-20">
 				    <tr>
 				        <th>Subject</th>
 				        <th class = "report_th"><span> Message </span></th>
@@ -34,7 +39,7 @@
 				    <tr ng-repeat="meta in feedbackMetaData"> 
 				    	<td><@ meta.has_feedback.subject @></td>
 				    	<td><@  meta.unread_count @></td>
-				    	<td><@  meta.last_message_date | date : "yyyy-mm-dd hh:mm:ss" : 0 @></td>
+				    	<td><@  meta.last_message_date @></td>
 				    	<td><a ng-href="/feedback/<@ meta.has_feedback.encrypted_id @>" > <i class ="fa fa-eye"> </i></a> </td>
 				    	<!-- ng-click="getFeedbackData(meta.feedback_id)" -->
 				    </tr>
@@ -56,7 +61,7 @@
 	// 		$interpolateProvider.endSymbol('@>');
 	// 	}
 	app.controller('feedbackController', function($scope,$window){
-		$scope.feedbackMetaData = JSON.parse('<?php echo json_encode($feedbackMetaJson->getData()); ?>');
+		$scope.feedbackMetaData = <?php echo $feedbackMetaJson; ?>;
 
 		// $scope.getFeedbackData = function(id) {
 		// 	// $scope.getId = id;

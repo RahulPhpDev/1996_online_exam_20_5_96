@@ -21,18 +21,6 @@
 <script src="{{ asset('js/jquery.validate.min.js') }}"></script>
 
 <script src="{{ asset('js/common/datatables.min.js') }}"></script>
-
-<script>
-$(function(){	
-//  $('.ck_editor_btn').on('click', function() {
-//  	alert('here');
-//   if (CKEDITOR.instances.txt_area) {
-//     CKEDITOR.instances.txt_area.destroy();
-//   } else {
-//     CKEDITOR.replace('txt_area');
-//   }
-// });
- })
-</script>
+ @stack('angular')
 
 

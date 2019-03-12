@@ -20,7 +20,7 @@
             <table id = "data_table"  class="table table-bordered table-striped">
               <thead>
                 <tr>
-                    <th> Id </th>
+                  <th> Id </th>
                   <th>Name</th>
                   <th>Email</th>
                   <th>Total</th>

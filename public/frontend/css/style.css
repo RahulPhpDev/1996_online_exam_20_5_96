@@ -590,3 +590,12 @@ padding-top: 12px;
   opacity:1;
   background: #666 !important;
 }
+.mb-20{
+  margin-bottom:20px !important;
+}
+.mt-20{
+  margin-top:20px!important;
+}
+.pt-20{
+  padding-top:20px!important;
+}

@@ -87,6 +87,10 @@ $(function(){
               $panelClass = 'send_by_you';
               $sendByText = 'You';
             }
+             $in = '';
+            if(($feed->isRead == 0) && ($feed->receiver != 1)){
+              $in = 'in';
+            }
             @endphp
 
           <div class="panel panel-default {{ $panelClass }}">
@@ -99,7 +103,7 @@ $(function(){
                 <span class="clearfix"></span>  
               </h5>
             </div>
-            <div id="collapse_{{$feed->id}}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading_{{$feed->id}}">
+            <div id="collapse_{{$feed->id}}" class="panel-collapse collapse {{$in}}" role="tabpanel" aria-labelledby="heading_{{$feed->id}}">
               <div class="panel-body">
                 {{$feed->message}}
               </div>
@@ -124,6 +128,13 @@ $(function(){
       </div>
      
     </div>
+    <?php
+
+      use App\Http\Controllers\FeedbackController; 
+      $obj = new FeedbackController();
+      echo $obj->updateReadFeedbackByUser($feedbackData['id']);
+
+    ?>
 
     
   </section>
