@@ -29,8 +29,10 @@ use App\User;
 // request
 use Redirect;
 
+use App\Model\ExtraAttempt;
 
 use App\Http\Requests\QuestionRequest;
+use Response;
 class ExamController extends Controller
 {
    protected $max_attempt;
@@ -699,6 +701,14 @@ class ExamController extends Controller
       Exam::where('id',$e_id)->update($data);
       $msg = 'Update';
       return redirect()->route('exam')->with('success',$msg);
+    }
+
+    public function userExamList(){
+      $extrAttemptObj = new ExtraAttempt;
+      $useExamListData =  Response::json($extrAttemptObj->getUserExamList());
+      $userExamData =  $useExamListData->getContent();
+      // dd($userExamData);
+      return View('admin/exam/user-exam-list', compact("userExamData"));
     }
   }
 

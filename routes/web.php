@@ -270,6 +270,7 @@ Route::any('result/extra-attempt/{exam_id}/{user_id}', 'Admin\ResultController@e
 
 Route::post('result/delete-extra-attempt', 'Admin\ResultController@deleteExtraAttempt')->name('delete-extra-attempt');
 
+Route::get('exam/user-exam-list', 'Admin\ExamController@userExamList')->name('user-exam-list');
 }) ; 
 
 

@@ -86,7 +86,7 @@ class ResultController extends Controller
    
 
       public function extraAttempt(Request $request, $examId, $userId){
-        $userId = 35; $examId = 38;
+        // $userId = 35; $examId = 42;
         $examAttemptObj = new ExtraAttempt;
         $userExamData = Response::json($examAttemptObj->getUserExamById($examId, $userId));
 
@@ -104,7 +104,7 @@ class ResultController extends Controller
         return View('admin/result/extra_attempt', compact('userExamData', 'examId', 'userId','checkUserExtraAttemptOnExam'));
       }
       public function deleteExtraAttempt(Request $request){
-          $userId = 35; $examId = 38;
+          // $userId = 35; $examId = 42;
           ExtraAttempt::destroy($request->id);
           $examAttemptObj = new ExtraAttempt;
           $checkUserExtraAttemptOnExam = Response::json($examAttemptObj->userExtraAttemptOnExamById($examId, $userId));

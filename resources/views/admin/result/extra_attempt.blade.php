@@ -62,9 +62,9 @@
                 </div>
       
                <div class="control-group">
-                    <label class="control-label">Extra Attempt</label>
+                    <label class="control-label">Extra Attempt: <span class="text-danger">* </span></label>
                     <div class="controls">
-                     <select ng-model="selectedOption" name = "attempt" required>
+                     <select ng-model="selectedOption" name = "attempt"   ng-required="required">
                       <option ng-repeat="(key, value) in maxAttempt" value="<@ key @>"><@ value @></option>
                     </select>
                     <span ng-show="inputform.selectedOption.$error.required">Select Extra Attempt.</span>
@@ -72,10 +72,11 @@
                 </div>
 
                 <div class="control-group">
-                    <label class="control-label">Message</label>
+                    <label class="control-label">Message:<span class="text-danger">* </span></label>
                     <div class="controls">
                       {{Form::textarea('message', ' ',array('class' =>'description textarea_editor  span8' ,'rows'=>'6', 'id' => 'editor1',
                        'ng-model' => 'txt_textarea',
+                        'ng-required'=>"true"
                        ))}}
                     </div>
                     <span ng-show="inputform.txt_textarea.$error.required">Send a Message</span> 
@@ -101,20 +102,23 @@
 
 
   app.controller('maarulaController', function($scope, $http){
+     $scope.required = true;
+
     $scope.userExamData = <?php echo $userExamData->getContent(); ?>;
     $scope.checkUserExtraAttemptOnExam = <?php echo $checkUserExtraAttemptOnExam->getContent(); ?>;
     $scope.maxAttempt = <?php echo json_encode(maxAttempt()) ?>;
-
+console.log($scope.checkUserExtraAttemptOnExam);
       $scope.deleteData = function(id){
+        console.log(id);
       if(confirm("Are you sure you want to remove it?"))
       {
         $http({
           method:"POST",
           url: "{{route('delete-extra-attempt')}}" ,
-          data:{'id':id,   "_token": "{{ csrf_token() }}", }
+          data:{'id':id,"_token": "{{ csrf_token() }}", }
         }).then(function(data){
-          console.log(data);
-           $scope.checkUserExtraAttemptOnExam = data;
+          console.log(data.data);
+           $scope.checkUserExtraAttemptOnExam = data.data;
           // $scope.success = true;
           // $scope.error = false;
           // $scope.successMessage = data.message;
