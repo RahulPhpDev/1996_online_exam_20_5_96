@@ -12,12 +12,14 @@ use \Throwable ;
  use App\Services\PayUService\Exception;
 use Illuminate\Database\QueryException;
 use App\Model\Subscription;
+use App\Model\ExtraAttempt;
 
 
 use App\Model\Result;
 use App\Model\Exam;
 use App\User;
 use Redirect;
+use Response;
 //use Illuminate\Http\Request; #form-validation
 
 class ResultController extends Controller
@@ -83,4 +85,29 @@ class ResultController extends Controller
       }
    
 
+      public function extraAttempt(Request $request, $examId, $userId){
+        $userId = 35; $examId = 38;
+        $examAttemptObj = new ExtraAttempt;
+        $userExamData = Response::json($examAttemptObj->getUserExamById($examId, $userId));
+
+        $checkUserExtraAttemptOnExam = Response::json($examAttemptObj->userExtraAttemptOnExamById($examId, $userId));
+        if($request->isMethod('POST')){
+          $data =ExtraAttempt::Create([
+              'user_id' => $userId,
+              'exam_id' => $examId,
+              'attempt' => $request->attempt,
+              'message' => $request->message,
+              'status' => 1,
+            ]) ;
+        }
+        
+        return View('admin/result/extra_attempt', compact('userExamData', 'examId', 'userId','checkUserExtraAttemptOnExam'));
+      }
+      public function deleteExtraAttempt(Request $request){
+          $userId = 35; $examId = 38;
+          ExtraAttempt::destroy($request->id);
+          $examAttemptObj = new ExtraAttempt;
+          $checkUserExtraAttemptOnExam = Response::json($examAttemptObj->userExtraAttemptOnExamById($examId, $userId));
+          return $checkUserExtraAttemptOnExam->getContent();
+      }
 }
