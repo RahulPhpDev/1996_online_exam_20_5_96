@@ -284,7 +284,7 @@ $('#spacificDate').click(function(){
    $('.timepicker').timepicker();
    $(".datepicker").datepicker({
         format:'yyyy-mm-dd',
-        });
+  });
 
    
 

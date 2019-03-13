@@ -80,8 +80,9 @@ Route::get('allExam', 'GuestController@allExam')->name('allExam');
 Route::get('payment/{id?}', 'GuestController@payment')->name('payment');
 
 
+Route::get('attempt-exam/{id}', 'Auth\UserController@attemptExam')->name('attempt-exam');
+Route::get('fetch_exam_question/{id}', 'Auth\UserController@fetchExamQuestion')->name('fetch_exam_question');
 Route::group(['middleware' => ['auth']], function(){
-
 
 
 

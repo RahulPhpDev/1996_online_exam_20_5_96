@@ -19,7 +19,7 @@ class EmailForward extends Model
   	                'user_id'   =>	$params->receiverID,
   	                'email'     =>  $params->receiverEmail,
   	                'alert_id'  =>  $params->alert_id,
-  	                'sujbect'   =>  $params->subject,
+  	                'subject'   =>  $params->subject,
   	                'message'   =>  $params->message,
   	                'send_date' =>  date('Y-m-d : H:mm:s'),
                     'status'    => 1,

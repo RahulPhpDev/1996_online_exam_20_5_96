@@ -16,7 +16,41 @@
     font-weight: 500;
 
   }
+
 </style>
+
+
+
+<script type="text/javascript">
+// datepicker
+  app.controller('maarulaController', function($scope, $http){
+     $scope.required = true;
+     var today=new Date();
+     $scope.today = today.toISOString();
+
+    $scope.userExamData = <?php echo $userExamData->getContent(); ?>;
+    $scope.checkUserExtraAttemptOnExam = <?php echo $checkUserExtraAttemptOnExam->getContent(); ?>;
+    $scope.maxAttempt = <?php echo json_encode(maxAttempt()) ?>;
+console.log($scope.checkUserExtraAttemptOnExam);
+      $scope.deleteData = function(id){
+        // console.log(id);
+      if(confirm("Are you sure you want to remove it?"))
+      {
+        $http({
+          method:"POST",
+          url: "{{route('delete-extra-attempt')}}" ,
+          data:{'id':id,"_token": "{{ csrf_token() }}", }
+        }).then(function(data){
+          console.log(data.data);
+           $scope.checkUserExtraAttemptOnExam = data.data;
+        }); 
+      }
+    };
+
+  });
+
+</script>
+
 <div id="content" ng-controller="maarulaController">
      <div class="container-fluid">
     <hr>
@@ -28,7 +62,7 @@
           </div>
 
           <div class="widget-content nopadding">
-            <table class="table table-bordered table-striped ">
+            <table datatable="ng" dt-options="vm.dtOptions" class="table table-bordered table-striped mb-20">
               <thead>
               <tr>
                     <th> ID</th>
@@ -36,16 +70,16 @@
                     <th > Created On  </th>
                     <th > Remove This </th>
                     </tr>
+              </thead>
                     <tr ng-repeat="(key, value) in checkUserExtraAttemptOnExam">
                       <td> <@ key+1 @> </td>
                       <td> <@ value.attempt @> </td>
                       <td> <@ value.create_at @> </td>
                       <td><button type="button" ng-click="deleteData(value.id)" class="btn btn-danger btn-xs">Delete</button> </td>
                     </tr>
-              </thead>
             </table>
-
-          <div class ="form mb-20" ng-show="userExamData.fname">
+        </div>
+          <div class ="form mb-20">
            {{ Form::open(array('class' => 'form-horizontal', 'id'=>'basic_validate','name' =>"inputform"))}}
                 <div class="control-group">
                     <label class="control-label">User</label>
@@ -64,10 +98,10 @@
                <div class="control-group">
                     <label class="control-label">Extra Attempt: <span class="text-danger">* </span></label>
                     <div class="controls">
-                     <select ng-model="selectedOption" name = "attempt"   ng-required="required">
+                     <select ng-model="attempt" name = "attempt"   ng-required="required">
                       <option ng-repeat="(key, value) in maxAttempt" value="<@ key @>"><@ value @></option>
                     </select>
-                    <span ng-show="inputform.selectedOption.$error.required">Select Extra Attempt.</span>
+                    <span class = "text-danger " ng-show="inputform.attempt.$error.required">Select Extra Attempt.</span>
                     </div>
                 </div>
 
@@ -75,22 +109,31 @@
                     <label class="control-label">Message:<span class="text-danger">* </span></label>
                     <div class="controls">
                       {{Form::textarea('message', ' ',array('class' =>'description textarea_editor  span8' ,'rows'=>'6', 'id' => 'editor1',
-                       'ng-model' => 'txt_textarea',
+                       'ng-model' => 'message',
                         'ng-required'=>"true"
                        ))}}
                     </div>
-                    <span ng-show="inputform.txt_textarea.$error.required">Send a Message</span> 
                 </div> 
 
                 <div class="control-group">
+                  {{ Form::label('end_date','End Date',array('class' => 'control-label'))}}
                 <div class="controls">
-                    {{ Form::submit('Save',array('class' => 'btn btn-success')) }}
+                      <input type="date" ng-model="validdate" name="validdate" class = ""  min="<@ today @>" />
+
+                      <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
+                          <span class = "text-danger "  ng-show="inputform.validdate.$error.min">Start Date should not be less than current date</span>
+                   </div>
+                </div>  
+
+
+                <div class="control-group">
+                <div class="controls">
+                    <input type="submit" name="save" value="Save" class="btn btn-success" ng-disabled="inputform.validdate.$error.min || inputform.attempt.$error.required">
                 </div>
               </div>
               {{ Form::close() }}
             </div>
-
-          </div>             
+           
         </div>
         
         </div>
@@ -98,36 +141,4 @@
 </div>
 </div>
 
-<script type="text/javascript">
-
-
-  app.controller('maarulaController', function($scope, $http){
-     $scope.required = true;
-
-    $scope.userExamData = <?php echo $userExamData->getContent(); ?>;
-    $scope.checkUserExtraAttemptOnExam = <?php echo $checkUserExtraAttemptOnExam->getContent(); ?>;
-    $scope.maxAttempt = <?php echo json_encode(maxAttempt()) ?>;
-console.log($scope.checkUserExtraAttemptOnExam);
-      $scope.deleteData = function(id){
-        console.log(id);
-      if(confirm("Are you sure you want to remove it?"))
-      {
-        $http({
-          method:"POST",
-          url: "{{route('delete-extra-attempt')}}" ,
-          data:{'id':id,"_token": "{{ csrf_token() }}", }
-        }).then(function(data){
-          console.log(data.data);
-           $scope.checkUserExtraAttemptOnExam = data.data;
-          // $scope.success = true;
-          // $scope.error = false;
-          // $scope.successMessage = data.message;
-          // $scope.fetchData();
-        }); 
-      }
-    };
-
-  });
-
-</script>
 @endsection

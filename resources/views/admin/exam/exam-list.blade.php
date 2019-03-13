@@ -15,14 +15,7 @@
     position: relative;
     top: 0;
 }
-.round_num{
-    width: 10%;
-    padding: 4px 10px 5px 9px;
-    background: #ff000082;
-    border-radius: 46%;
-    color: #fff;
-    margin-left: 4px;
-}
+
   </style>
   <script>
   $(function(){

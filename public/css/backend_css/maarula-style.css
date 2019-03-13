@@ -1738,3 +1738,14 @@ padding: 7px 2px 7px 14px;
 }
 
 .hide{display: none !important;}
+
+.round_num{
+    width: 10%;
+    padding: 4px 10px 5px 9px;
+    background: #ff000082;
+    border-radius: 46%;
+    color: #fff;
+    margin-left: 4px;
+}
+.glyphicon-chevron-up:before{content:"\e113";}
+.glyphicon-chevron-down:before{content:"\e114";}

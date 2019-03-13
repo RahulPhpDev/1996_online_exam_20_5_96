@@ -17,9 +17,14 @@ use App\Model\ExtraAttempt;
 
 use App\Model\Result;
 use App\Model\Exam;
+use App\Model\Alert;
 use App\User;
 use Redirect;
 use Response;
+use Notification;
+use App\Notifications\ExtraAttemptNotify;
+use Illuminate\Notifications\Notifiable;
+use stdClass;
 //use Illuminate\Http\Request; #form-validation
 
 class ResultController extends Controller
@@ -86,10 +91,9 @@ class ResultController extends Controller
    
 
       public function extraAttempt(Request $request, $examId, $userId){
-        // $userId = 35; $examId = 42;
         $examAttemptObj = new ExtraAttempt;
-        $userExamData = Response::json($examAttemptObj->getUserExamById($examId, $userId));
-
+        $userExamDataArr = $examAttemptObj->getUserExamById($examId, $userId);
+        $userExamData = Response::json($userExamDataArr );
         $checkUserExtraAttemptOnExam = Response::json($examAttemptObj->userExtraAttemptOnExamById($examId, $userId));
         if($request->isMethod('POST')){
           $data =ExtraAttempt::Create([
@@ -97,15 +101,46 @@ class ResultController extends Controller
               'exam_id' => $examId,
               'attempt' => $request->attempt,
               'message' => $request->message,
+              'end_date' => $request->validdate,
               'status' => 1,
             ]) ;
-        }
+          /*  HEre GOes NOtification  **************/
+         $userData =  User::find($userId);
+         $details = [
+                'user_id' => $userId,
+                'message' => $request->message,
+                'email'   =>  $userData->email
+          ];
+          Notification::send($userData,new ExtraAttemptNotify($details) );
+
+
+        $emailParams = new stdClass;
+        $emailParams->user_id =  $userId;
+        $emailParams->user_email =  $userData->email;
+        $emailParams->alert_id = 6;
+        $emailParams->subject_params = [$userExamDataArr->exam_name];
         
-        return View('admin/result/extra_attempt', compact('userExamData', 'examId', 'userId','checkUserExtraAttemptOnExam'));
+      // (==user==),(==attempt==),(==exam==),(==message==),==exam==),(==attempt==),(==tilldate==)
+        $emailParams->msg_params = [
+                $userData->getFullName(), 
+                $request->attempt,
+                $userExamDataArr->exam_name,
+                $request->message,
+                $userExamDataArr->exam_name,
+                $request->attempt,
+                $request->validdate 
+           ];
+           // dd($emailParams);
+        $alertObj = new Alert();
+        $outputData =  $alertObj->sendEmail($emailParams);
+        }
+       return View('admin/result/extra_attempt', compact('userExamData', 'examId', 'userId','checkUserExtraAttemptOnExam'));
       }
       public function deleteExtraAttempt(Request $request){
-          // $userId = 35; $examId = 42;
-          ExtraAttempt::destroy($request->id);
+          $extraAttemptData =   ExtraAttempt::find($request->id);
+          $userId = $extraAttemptData->user_id;
+          $examId = $extraAttemptData->exam_id;
+          $extraAttemptData->delete();
           $examAttemptObj = new ExtraAttempt;
           $checkUserExtraAttemptOnExam = Response::json($examAttemptObj->userExtraAttemptOnExamById($examId, $userId));
           return $checkUserExtraAttemptOnExam->getContent();

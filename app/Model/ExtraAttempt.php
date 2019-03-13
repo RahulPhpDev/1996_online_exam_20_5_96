@@ -38,17 +38,22 @@ class ExtraAttempt extends Model
     }
 
     public function getUserExamList(){
+        // DB::enableQueryLog();
         $data = DB::table('user_exam as ue')
             ->select(['exam_name', 'fname', 'lname', 'email','ue.user_id','ue.exam_id',DB::raw('count(*) as count_attempt')])
             ->leftJoin('users as u','u.id', '=', 'ue.user_id')
             ->leftJoin('exams as e', 'e.id', '=', 'ue.exam_id')
-
+            ->leftJoin($this->table.' as ea', [['ea.exam_id' ,'=', 'ue.exam_id'],['ea.user_id' ,'=', 'ue.user_id']  ])
+            ->addSelect(DB::raw(' IFNULL(ea.id,0)  as eaId'))
                 ->where(array(
                         ['ue.status',1],
                         ['e.status', 1]
                     ))
             ->groupBy(['ue.exam_id', 'ue.user_id'])
-            ->get();          
+            ->get();   
+            // dd(DB::getQueryLog());
+       
         return $data;           
     }
+
 }

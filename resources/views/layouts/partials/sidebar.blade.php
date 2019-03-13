@@ -37,7 +37,7 @@
   </li>
 
 
-   
+   <li ><a href="{{route('user-exam-list')}}"><i class="icon  icon-book"></i> <span>User Exam</span></a>
    
 
       <li><a href="{{route('result')}}"><i class="icon  icon-hdd"></i> <span>Result</span></a></li>
@@ -51,8 +51,7 @@
    <li ><a href="{{route('feedback-messages')}}"><i class="icon  icon-book"></i> <span>Feedback</span></a>
      
     </li>
-  <li ><a href="{{route('announcement')}}"><i class="icon  icon-book"></i> <span>Announcement</span></a>
-     
+      <li ><a href="{{route('announcement')}}"><i class="icon  icon-book"></i> <span>Announcement</span></a>
     </li>
    
    <!--  

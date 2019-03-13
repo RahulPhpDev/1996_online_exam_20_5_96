@@ -28,6 +28,8 @@ use Mpdf;
 use Response;
 
 
+use Cache;
+
 
 use App\Http\Requests\updateProfileRequest; #form-validation
 use File;
@@ -111,7 +113,57 @@ class UserController extends Controller
       return view('permit.exam.exam-instruction',compact('examData','topTen'));
     }
 
-    public function getExam($e_id){
+    public function attemptExam($e_id){
+     $id =  Crypt::decrypt($e_id);
+     $examData = Exam::find($id);
+     $allQuestionArray = array();
+     // if(!Session::has('all_questions')){
+     //  $questionData = $examData->ExamQuestion;
+     //  $allQuestionArray = array_map(function ($ar) {return $ar['id'];}, $questionData->toArray());
+     //  session(['all_questions' => $allQuestionArray]);
+     // }
+       if(!Session::has('total_time')){
+        session(['total_time' => $examData->time]);
+       }
+     
+     
+     $passArray = array(
+                   'examDetails' => Response::json($examData),
+                   'en_eId' => $e_id,
+                   // 'e_id'
+                   // 'questionDetails' => $questionDetails,
+                   // 'examId' => $e_id,
+                   // 'showToast' => $showToast,
+                   // 'all_questions_class' => session('all_questions_class'),
+                   // 'difference' => $difference
+            );  
+     // dd($passArray);
+      return view('permit.exam.attempt-exam',$passArray);
+    }
+
+  public function fetchExamQuestion($id){
+       $id =  Crypt::decrypt($id);
+       $examData = Exam::find($id);
+       $questionData = $examData->ExamQuestion;
+        $questionWithDetails = array();
+       foreach($questionData as $key => $que){
+          $questionWithDetails['class'][$que['id']]  = ($key == 0) ?  'current':  'pending';
+        }
+       if(!session()->has('exam_process')) { 
+          $current_question = $questionData[0]->id;
+          // $current_question = $questionKeys[0];
+          session(['current_question' => $current_question]);
+       }else{
+         $current_question = session('current_question');
+      }
+      $questionDetails    = Question::find($current_question);
+      $questionWithDetails['question'] =  $questionDetails;
+
+      // dd( $questionWithDetails);
+      return json_encode($questionWithDetails);
+  }
+
+    public function getExamDummy($e_id){
       $showToast = 0;
       $userData = Auth::user(); 
       $userId = $userData['id'];
@@ -126,27 +178,18 @@ class UserController extends Controller
          $examData = Exam::find($id);
 
          if(!session()->has('exam_process')) { 
-        //  $hasUserExam = $examData->UserExamData()->where('user_id', $userId)->exists();
-
-        // if($hasUserExam == false){
            $examData->UserExamData()->attach($id, ['user_id' => $userId, 'status' => 1,
           'start_date' => date('Y-m-d')] );
-          // }
         $questionData = $examData->ExamQuestion;
         $allQuestionArray = array();
         $i = 0;
         foreach($questionData as $que){
           $allQuestionArray[] = $que['id'];
-          if($i == 0){
-            $all_questions_class_array[$que['id']] = 'current';
-          }else{
-            $all_questions_class_array[$que['id']] = 'pending';
-          }
+          $all_questions_class_array[$que['id']]  = ($i == 0) ?  'current':  'pending';
           $i++;
         }
        session(['all_questions_class' => $all_questions_class_array]);
        $time =  $examData->time;
-
        session()->put('exam_process', 1);
        session(['exam_id' => $id]);
        session(['total_time' => $time]);
@@ -159,19 +202,18 @@ class UserController extends Controller
       }
       $questionDetails    = Question::find($current_question);
       $passArray = array(
-       'examDetails' => $examData,
-       'questionDetails' => $questionDetails,
-       'examId' => $e_id,
-       'showToast' => $showToast,
-       'all_questions_class' => session('all_questions_class'),
-       'difference' => $difference
-      );
+                     'examDetails' => $examData,
+                     'questionDetails' => $questionDetails,
+                     'examId' => $e_id,
+                     'showToast' => $showToast,
+                     'all_questions_class' => session('all_questions_class'),
+                     'difference' => $difference
+              );
       return view('permit.exam.exam-questions',$passArray);
     }
 
    
   public function saveAnswer(Request $request){
-       // $this->middleware('maxAttemptOnExam', ['only' => ['save-answer']]);
     if(!session()->has('exam_id')) {
       return redirect('/');
      }

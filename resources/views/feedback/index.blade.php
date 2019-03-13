@@ -1,9 +1,10 @@
 @extends('frontend_layouts.partials.inner_layout')
 @extends('frontend_layouts.partials.header')
 @extends('frontend_layouts.partials.sidebar')
+@push('angular')
+  @include('frontend_layouts.partials.fetch_angular')
+@endpush
 @extends('frontend_layouts.partials.footer')
-
-@extends('frontend_layouts.partials.fetch_angular')
 
 @section('content')  
 

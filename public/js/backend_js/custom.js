@@ -3,6 +3,11 @@ $(function(){
     
       $('.textarea_editor').wysihtml5();
 
+       $(".datepicker").datepicker({
+          format:'yyyy-mm-dd',
+         });
+
+
    var dataSrc = [];
 
    var table = $('#data_table').DataTable({

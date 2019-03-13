@@ -10,6 +10,15 @@
 
 @section('content')
 
+<script type="text/javascript">
+
+  app.controller('maarulaController', function($scope, $http){
+    $scope.userExamData = <?php echo $userExamData; ?> ;
+    console.log($scope.userExamData);
+
+  });
+
+</script>
 <div id="content" ng-controller="maarulaController">
      <div class="container-fluid">
     <hr>
@@ -26,8 +35,9 @@
               <thead>
               <tr>
                     <th> ID</th>
-                    <th class = "center"> User </th>
-                    <th > Exam  </th>
+                    <th class = "center"> Exam </th>
+                    <th >  User </th>
+                    <th > Email  </th>
                     <th > Attempt</th>
                     <th > Give Extra Attempt </th>
                   </tr>
@@ -36,9 +46,19 @@
                   <td> <@ $index+1 @></td>
                   <td> <@  userExam.exam_name @></td>
                   <td> <@  userExam.fname+'  '+userExam.lname @></td>
+                  <td> <@  userExam.email @></td>
                   <td> <@  userExam.count_attempt @></td>
                     
-                  <td> <a ng-href = "/result/extra-attempt/<@ userExam.exam_id+'/'+userExam.user_id  @>" ng-class ="btn btn-primary btn-xs"> CLick </a></td>
+                  <td class="center">
+                   <a 
+                      ng-href = "/result/extra-attempt/<@ userExam.exam_id+'/'+userExam.user_id  @>" class ="btn btn-xs"
+                      ng-class = "(userExam.eaId > 0) ? 'btn-danger' : 'btn-primary'"> CLick
+                        <span class = "round_num" ng-if = "userExam.eaId > 0">
+                           <@ userExam.eaId @>
+                        </span>
+                         </a>
+                      </td>
+                      
                 </tr>  
             </table>
           </div>             
@@ -48,13 +68,4 @@
   </div>
 </div>
 
-<script type="text/javascript">
-
-  app.controller('maarulaController', function($scope, $http){
-    $scope.userExamData = <?php echo $userExamData; ?> ;
-    console.log($scope.userExamData);
-
-  });
-
-</script>
 @endsection

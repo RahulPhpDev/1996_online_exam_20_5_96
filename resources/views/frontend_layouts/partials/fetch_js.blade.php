@@ -1,7 +1,3 @@
-
-
-
-
 <script src="{{ asset('frontend/design300/js/jquery.min.js')}}"></script>
 <script src="{{ asset('frontend/design300/js/jquery.flexslider-min.js') }}"></script>
 <script src="{{ asset('frontend/js/html5shiv.js') }}"></script>
@@ -16,3 +12,4 @@
 <script src="{{ asset('frontend/js/custom.min.js') }}"></script>
 <script src="{{ asset('frontend/design300/js/script.js') }}"></script>
 
+ @stack('angular')

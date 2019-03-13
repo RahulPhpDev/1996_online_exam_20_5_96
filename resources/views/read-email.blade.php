@@ -3,7 +3,7 @@
 
 {{$mail->Alert->name}}
 <p> {{$mail->email}}</p>
-<p> {{$mail->sujbect}}</p>
+<p> {{$mail->subject}}</p>
 	
 <p> {{extractDateTime('d-M-Y h:i A',$mail->send_date)}}</p>
 	
