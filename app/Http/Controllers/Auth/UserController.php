@@ -141,7 +141,21 @@ class UserController extends Controller
       return view('permit.exam.attempt-exam',$passArray);
     }
 
+  public function saveAnswer(Request $request){
+      // dd($request->all());  
+
+       $last_attempt_question = session('current_question');
+        // session()->push('attempt_questions.queID', $last_attempt_question);
+
+        // $nextQuestionId = current($pending_questions);
+        session(['current_question' => 698,
+            'exam_process' => 1,
+      ]);
+        return 'hfks';
+  }
+
   public function fetchExamQuestion($id){
+    // session()->forget('exam_process');
        $id =  Crypt::decrypt($id);
        $examData = Exam::find($id);
        $questionData = $examData->ExamQuestion;
@@ -158,8 +172,11 @@ class UserController extends Controller
       }
       $questionDetails    = Question::find($current_question);
       $questionWithDetails['question'] =  $questionDetails;
-
-      // dd( $questionWithDetails);
+      $questionWithDetails['question']['encoded_question'] = htmlspecialchars_decode($questionDetails->question);
+     foreach($questionDetails->Options->toArray() as $key => $data){
+        $questionWithDetails['optionsdata'][$key]['id'] = $data['id'];
+        $questionWithDetails['optionsdata'][$key]['question_option'] = htmlspecialchars_decode($data['question_option']);
+     }
       return json_encode($questionWithDetails);
   }
 
@@ -213,7 +230,7 @@ class UserController extends Controller
     }
 
    
-  public function saveAnswer(Request $request){
+  public function saveAnswerDummy(Request $request){
     if(!session()->has('exam_id')) {
       return redirect('/');
      }

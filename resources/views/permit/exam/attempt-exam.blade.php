@@ -36,7 +36,8 @@
 
  		<div class = "col-md-8" >
           <div class="mycontainer question_section">
-            {{ Form::open(array('route' => 'save-answer','class' => 'form-horizontal', 'id'=>'basic_validate'))}} 
+            
+            <form method="post" ng-submit="submitForm()", class = "form-horizontal">
            	  <div class = "question_process_color pull-right question_mark_details">
                	 <div class="postitive_mark"> <a > <@ quizWithClass.question.marks @>  </a>  </div>
                   <div class="negative_mark" ng-show="quizWithClass.question.negative_marks > 0">
@@ -45,12 +46,27 @@
             	</div>
 
             	 <div class = "questions"  >
-            	  <!-- ng-bind-html="snippet" -->
-            	  <!-- quizWithClass.question.question -->
-            	  <span ng-bind-html = "deliberatelyTrustDangerousSnippet(quizWithClass.question.question)"> </span>
-
-            	 	  
+            	  <span ng-bind-html = "quizWithClass.question.encoded_question"> </span>            	 	  
             	 </div>
+          
+                 <div class = "options">
+                  <div class = "opt_data question_count_div panel" ng-repeat = "(key, value) in quizOptions">
+                     <input type ="radio" ng-model = "model.answer" value = "<@ value.id @>" class ="rdo_opt" id = "<@ value.id @>" name = "answer" > 
+                     <span class = "options_span" ng-bind-html = "value.question_option ">
+                      </span> 
+                    </div>
+                     
+                 </div>
+          
+                <div class = "mt-10"> </div>
+                <div class="controls"> 
+                  <input type = "hidden" name = "save" id = "saveu">
+                  <button ng-click="ButtonClick('continue')" name="save" type="submit" value="continue" class="btn btn-success savebtn btn-exam-custom">Save</button>
+
+                  <button ng-click="ButtonClick('preview')" name="save" type="submit" value="preview" class="btn hidden-sm btn-primary savebtn btn-exam-custom hidden-sm">Preview</button>
+
+                  <button ng-click="ButtonClick('skip')" name="save" type="submit" value="skip" class="btn btn-danger savebtn btn-exam-custom">Skip </button>
+                 </div>
               {{ Form::close() }}
            </div>
          </div>
@@ -76,24 +92,71 @@
 
 <script type="text/javascript">
 	app.controller('appController', function($scope,$sce, $http){
+       $scope.model = {};
+        $scope.savemodel = {};
+       $scope.model.answer = '';
+       $scope.savemodel.saveBtnc = '';
+
+
 		$scope.examDetails =  <?php echo $examDetails->getContent(); ?>;
 		$scope.examId = '<?php echo $en_eId; ?>';
 		
 		$scope.fetchExamQuestions = function(){
+      console.log('ckj');
 			$http({
 		        method: 'GET',
 		        url: '/fetch_exam_question/'+$scope.examId
 			   }).then(function (response){
-					$scope.quizWithClass = response.data;
+           $scope.quizWithClass = response.data;
+           $scope.quizOptions =  response.data.optionsdata;
 			   },function (error){
 		   });
 		};
+
+
 		$scope.deliberatelyTrustDangerousSnippet = function(snippet) {
-			console.log(snippet);
                return $sce.trustAsHtml(snippet);
-             };
+     };
+
+    $scope.ButtonClick = function(btnValue){
+      $scope.btnVal = btnValue;
+    } 
+
+  $scope.submitForm = function(){
+    $http({
+      method:"POST",
+      url:"/save-answer",
+      data:{
+            "_token": "{{ csrf_token() }}",
+            'answer':$scope.model.answer ,
+            'save':$scope.btnVal
+         }
+    }).then(function(data){
+      console.log(data);
+      if(data.error != '')
+      {
+        console.log('138');
+        $scope.success = false;
+        $scope.error = true;
+        $scope.errorMessage = data.error;
+        $scope.fetchExamQuestions();
+      }
+      else
+      {
+        console.log('145');
+        // $scope.success = true;
+        // $scope.error = false;
+        // $scope.successMessage = data.message;
+        $scope.form_data = {};
+        $scope.fetchExamQuestions();
+        // $scope.fetchData();
+      }
+    });
+  };     
+           
 	});
-	
+
+  
 </script>
 
 
