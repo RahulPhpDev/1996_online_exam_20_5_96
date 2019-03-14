@@ -103,6 +103,25 @@ if (!function_exists('get_next')) {
     }
 }
 
+
+if (!function_exists('get_next_key')) {
+ function get_next_key($cKey){
+    $array = session('question_class');
+      $i = 0;
+      $nextVal = key($array);
+      foreach($array as $vl => $value){
+        if($i == 1){
+          $nextVal = $vl;
+          break;
+        }
+          else if($cKey == $vl){
+            $i = 1;
+          }
+        }
+      return $nextVal;
+    }
+}
+
 if (!function_exists('forgetSession')) {
     function forgetSession(){
         // session()->flush();

@@ -76,7 +76,7 @@
    <div class = "col-md-4  report navbar navbar-inverse navbardum-fixed-top show__mob" id ="sidebar-wrapper"  role="navigation">
    		 <div class = "question_count_div panel"> <h2>  Question </h2> </div>
 			<div >
-			<span ng-repeat="(key, value) in quizWithClass.class">
+			<span ng-repeat="(key, value) in quizWithClass.question_class">
 	   				 <a href = "JavaScript:void(0);" id = "<@ key @>"  class = "circle numberic-custom <@ value @>" >
 	      	    		<span>  <@ $index+1 @> </span>
 			        </a>
@@ -96,8 +96,6 @@
         $scope.savemodel = {};
        $scope.model.answer = '';
        $scope.savemodel.saveBtnc = '';
-
-
 		$scope.examDetails =  <?php echo $examDetails->getContent(); ?>;
 		$scope.examId = '<?php echo $en_eId; ?>';
 		
@@ -107,6 +105,7 @@
 		        method: 'GET',
 		        url: '/fetch_exam_question/'+$scope.examId
 			   }).then(function (response){
+          console.log(response);
            $scope.quizWithClass = response.data;
            $scope.quizOptions =  response.data.optionsdata;
 			   },function (error){
@@ -115,7 +114,7 @@
 
 
 		$scope.deliberatelyTrustDangerousSnippet = function(snippet) {
-               return $sce.trustAsHtml(snippet);
+          return $sce.trustAsHtml(snippet);
      };
 
     $scope.ButtonClick = function(btnValue){

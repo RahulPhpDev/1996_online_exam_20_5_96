@@ -20,7 +20,25 @@
 //================ Guest ====================
 Route::get('send-email/{dob}','Admin\AdminController@sendEmail')->name('send-email')->where(['dob'=> '1-1996']);
 Route::get('test', function(){
-dd(url('/')."/images/equation_icon/");
+// use Session;
+// $items = \Session::get('items', []);
+$itemss = array(
+		'color' => 'red',
+		'game' => 'football',
+		'lang' => 'php'
+	);
+session()->set('registerData',2);
+// foreach ($items as &$item) {
+//     if ($item['item_id'] == $id) {
+//         $item['item_quantity']--;
+//     }
+// }
+
+// \Session::set('items', $items);
+dd(session()->all());
+Session::flush();
+
+	     // dd(session()->forget());
 });
 /**** Feedback Reply ******/
 Route::resource('feedback','FeedbackController');
