@@ -99,7 +99,13 @@ Route::get('payment/{id?}', 'GuestController@payment')->name('payment');
 
 
 Route::get('attempt-exam/{id}', 'Auth\UserController@attemptExam')->name('attempt-exam');
+
 Route::get('fetch_exam_question/{id}', 'Auth\UserController@fetchExamQuestion')->name('fetch_exam_question');
+
+Route::post('get_direct_question', 'Auth\UserController@getDirectQuestion')->name('get_direct_question');
+
+Route::post('submit-exam/{id}', 'Auth\UserController@submitExma')->name('submit-exam');
+
 Route::group(['middleware' => ['auth']], function(){
 
 

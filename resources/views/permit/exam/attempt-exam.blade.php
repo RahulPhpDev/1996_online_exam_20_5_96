@@ -14,6 +14,18 @@
 	.inline_block div{
 		display: inline-block;
 	}
+  .numberCircle {
+    border-radius: 50%;
+    width: 34px;
+    height: 33px;
+    padding: 6px !important;
+    background: #337ab7; 
+    border: 2px solid #626ce4;
+    color: #fff;
+    text-align: center;
+    font: 16px Arial, sans-serif;
+    display: inline;
+}
 </style>
 <div class="maincontent" id="wrapper">
   <div class="overlay"></div>
@@ -36,15 +48,23 @@
 
  		<div class = "col-md-8" >
           <div class="mycontainer question_section">
-            
-            <form method="post" ng-submit="submitForm()", class = "form-horizontal">
+           
+             {{ Form::open(array('route' =>['submit-exam', $en_eId],"class" => "form-horizontal", "onSubmit"=>"if(!confirm('Are you sure to submit Exam?')){return false;}"))  }}
+
            	  <div class = "question_process_color pull-right question_mark_details">
-               	 <div class="postitive_mark"> <a > <@ quizWithClass.question.marks @>  </a>  </div>
+                <div class="numberCircle bg-primary"> 15 </div>
+               	  <div class="postitive_mark"> <a > <@ quizWithClass.question.marks @>  </a>  </div>
                   <div class="negative_mark" ng-show="quizWithClass.question.negative_marks > 0">
                   		 <a > <@ quizWithClass.question.negative_marks @>  </a> 
                   </div>
-            	</div>
+                   
+                   
+                   <button type="submit" style="position: relative;top: -5px;" class="btn btn-exam-custom btn-success submitexam" id="submitExam"> Submit Exam </button>
+               	</div>
+             {{ Form::close() }}
 
+
+            <form method="post" ng-submit="submitForm()", class = "form-horizontal">
             	 <div class = "questions"  >
             	  <span ng-bind-html = "quizWithClass.question.encoded_question"> </span>            	 	  
             	 </div>
@@ -77,7 +97,7 @@
    		 <div class = "question_count_div panel"> <h2>  Question </h2> </div>
 			<div >
 			<span ng-repeat="(key, value) in quizWithClass.question_class">
-	   				 <a href = "JavaScript:void(0);" id = "<@ key @>"  class = "circle numberic-custom <@ value @>" >
+	   				 <a ng-click="directQuestion(key)" href = "JavaScript:void(0);" id = "<@ key @>"  class = "circle numberic-custom <@ value @>" >
 	      	    		<span>  <@ $index+1 @> </span>
 			        </a>
 		        </span> 
@@ -91,16 +111,28 @@
 
 
 <script type="text/javascript">
+
+          
+function submitExam(){
+  return confirm('Do you really want to submit the form?');
+}
+
+
 	app.controller('appController', function($scope,$sce, $http){
        $scope.model = {};
         $scope.savemodel = {};
-       $scope.model.answer = '';
-       $scope.savemodel.saveBtnc = '';
-		$scope.examDetails =  <?php echo $examDetails->getContent(); ?>;
-		$scope.examId = '<?php echo $en_eId; ?>';
-		
+        $scope.model.answer = '';
+        $scope.savemodel.saveBtnc = '';
+		    $scope.examDetails =  <?php echo $examDetails->getContent(); ?>;
+		    $scope.examId = '<?php echo $en_eId; ?>';
+
+
+		// $scope.submitExam = function(){
+  //     return confirm('Do you really want to submit the form?');
+  //   }
+
+
 		$scope.fetchExamQuestions = function(){
-      console.log('ckj');
 			$http({
 		        method: 'GET',
 		        url: '/fetch_exam_question/'+$scope.examId
@@ -119,7 +151,32 @@
 
     $scope.ButtonClick = function(btnValue){
       $scope.btnVal = btnValue;
-    } 
+    }; 
+
+    $scope.directQuestion = function(questionID){
+        $http({
+            method : 'POST',
+            url : '/get_direct_question/',
+            data:{
+              '_token' : '{{csrf_token() }}',
+              'questionId' :questionID,
+            }
+        }).then(function(data){
+          if(data.error != '')
+          {
+            console.log('139');
+            $scope.errorMessage = data.error;
+            $scope.fetchExamQuestions();
+
+          }
+          else{
+            console.log('138');
+            $scope.form_data = {};
+            $scope.fetchExamQuestions();
+          }
+        });
+    };
+
 
   $scope.submitForm = function(){
     $http({
@@ -142,17 +199,13 @@
       }
       else
       {
-        console.log('145');
-        // $scope.success = true;
-        // $scope.error = false;
-        // $scope.successMessage = data.message;
         $scope.form_data = {};
         $scope.fetchExamQuestions();
-        // $scope.fetchData();
       }
     });
   };     
-           
+    
+       
 	});
 
   
