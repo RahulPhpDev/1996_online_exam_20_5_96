@@ -92,7 +92,9 @@
   */
   
   @media (min-width: 481px) and (max-width: 767px) {
-    
+    .exam_submit_header_div{
+  margin-top:100px;
+}
 .btn{
   padding: 6px 12px;
 }

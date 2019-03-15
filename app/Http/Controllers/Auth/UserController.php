@@ -112,107 +112,124 @@ class UserController extends Controller
       
       return view('permit.exam.exam-instruction',compact('examData','topTen'));
     }
-
+/************************* Start Of New ATTempt ********************/
     public function attemptExam($e_id){
      $id =  Crypt::decrypt($e_id);
-     $examData = Exam::find($id);
-     $examData = Cache::remember('examDetails'.Crypt::decrypt($id), 60, function() use ($id) {
-       $id =  Crypt::decrypt($id);
+     $examData = Cache::remember('examDetails'.$id, 60, function() use ($id) {
        return Exam::find($id);
      });
+     $session_array_key = $id.'_'.Auth::user()->id.'.'; 
      $allQuestionArray = array();
-       if(!Session::has('total_time')){
-        session(['total_time' => $examData->time]);
+       if(!Session::has($session_array_key.'total_time')){
+        session([$session_array_key.'total_time' => $examData->time]);
        }
      $passArray = array(
                'examDetails' => Response::json($examData),
                'en_eId' => $e_id,
+               'total_time' =>  $examData->time,
         );  
       return view('permit.exam.attempt-exam',$passArray);
     }
 
-  public function saveAnswer(Request $request){
-      $last_attempt_question = session('current_question'.$examId);
-      if($request['save'] ==  'continue'){
-        if(isset($request['answer'])){
-          $answerID = $request['answer'];
-          Session::put('question_class'.$examId.$last_attempt_question,'answered');
-          Session::put('questions_answer'.$examId.$last_attempt_question,$answerID);
-        }else{
-          Session::put('question_class'.$examId.$last_attempt_question,'review');
-        }
-        $nextQuestionId = get_next_key( session('current_question'.$examId));
-        session(['current_question' => $nextQuestionId]);
-      }
-
-      else if($request['save'] ==  'skip'){
-        $class = 'not_answered';
-        Session::put('question_class'.$examId.$last_attempt_question,$class);
-        Session::put('questions_answer'.$examId.$last_attempt_question,0);
-        $nextQuestionId = get_next_key( session('current_question'));
-        session(['current_question'.$examId => $nextQuestionId]);
-      }
-
-      else if($request['save'] ==  'preview'){
-        Session::put('question_class'.$examId.$last_attempt_question,'review');
-          $nextQuestionId = get_next_key(session('current_question'));
-          session(['current_question'.$examId => $nextQuestionId]);    
-        if(session()->has('questions_answer'.$examId.$last_attempt_question) && (session('questions_answer'.$last_attempt_question ) > 0) ) {
-             Session::put('questions_answer'.$examId.$last_attempt_question,-1);
-        }
-      }
-
-  }
-
   public function fetchExamQuestion($id){
     $examId = Crypt::decrypt($id);
-    $examData = Cache::remember('examDetails'.Crypt::decrypt($id), 60, function() use ($id) {
-       $id =  Crypt::decrypt($id);
-       return Exam::find($id);
+    $examData = Cache::remember('examDetails'.$examId, 60, function() use ($examId) {
+       return Exam::find($examId);
      });
-     $questionData = Cache::remember('questionData'.Crypt::decrypt($id), 60, function() use ($examData) {
+     $questionData = Cache::remember('questionData'.$examId, 60, function() use ($examData) {
         return $questionData = array_column($examData->ExamQuestion->toArray(), 'id');
      });
+      $session_array_key = $examId.'_'.Auth::user()->id.'.'; 
       $questionWithDetails = array();
-      if(!session()->has('exam_process'.$examId)) { 
+      if(!session()->has($session_array_key.'exam_process')) { 
           $current_question = $questionData[0];
-          session(['current_question'.$examId => $current_question]);
-          session()->put('exam_process'.$examId , 1);
+          session([$session_array_key.'current_question' => $current_question]);
+          session()->put($session_array_key.'exam_process' , 1);
        }else{
-         $current_question = session('current_question'.$examId);
+         $current_question = session($session_array_key.'current_question');
       }
-       if(!session()->has('question_class'.$examId)) {   
+       if(!session()->has($session_array_key.'question_class')) {   
           foreach($questionData as $key => $que){
               $questionWithDetailsClass['question_class'][$que]  = ($key == 0) ?  'current':  'pending';
             }
-            session(['question_class'.$examId =>  $questionWithDetailsClass['question_class']]);
+            session([$session_array_key.'question_class' =>  $questionWithDetailsClass['question_class']]);
           }else{
-              Session::put('question_class'.$examId.$current_question,'current');
+              Session::put($session_array_key.'question_class.'.$current_question,'current');
         } 
         session::save();       
        
       $questionDetails    = Question::find($current_question);
       $questionWithDetails['question'] =  $questionDetails;
       $questionWithDetails['question']['encoded_question'] = htmlspecialchars_decode($questionDetails->question);
-      $questionWithDetails['question_class'] = session('question_class'.$examId);;
+      $questionWithDetails['question_class'] = session($session_array_key.'question_class');
+
+      $oldAnswer =   (session($session_array_key.'questions_answer.'.session($session_array_key.'current_question'))) ??  -9; 
+    
+      $difference = 0;
+      if(!session()->has($session_array_key.'start_time')) {
+         session([$session_array_key.'start_time' => date('Y-m-d H:i:s')]);
+      }else{
+       $difference =  timeDifference(session($session_array_key.'start_time'));
+      }
      foreach($questionDetails->Options->toArray() as $key => $data){
         $questionWithDetails['optionsdata'][$key]['id'] = $data['id'];
         $questionWithDetails['optionsdata'][$key]['question_option'] = htmlspecialchars_decode($data['question_option']);
+        $questionWithDetails['old_answer']= $oldAnswer;
+        $questionWithDetails['difference']= $difference;
+
      }
       return json_encode($questionWithDetails);
   }
 
   public function getDirectQuestion(Request $request){
-    $last_attempt_question = session('current_question'.$examId);
-    
-     if(session()->has('questions_answer'.$examId.$last_attempt_question) && (session('questions_answer'.$examId.$last_attempt_question ) > 0) ) {
-             Session::put('question_class'.$examId.$last_attempt_question, 'answered');
+    $examId = Crypt::decrypt($request->examId);
+    $session_array_key = $examId.'_'.Auth::user()->id.'.'; 
+    $last_attempt_question = session($session_array_key.'current_question');
+     if(session()->has($session_array_key.'questions_answer.'.$last_attempt_question) && (session($session_array_key.'questions_answer.'.$last_attempt_question ) > 0) ) {
+             Session::put($session_array_key.'question_class.'.$last_attempt_question, 'answered');
       }else{
-        Session::put('question_class'.$examId.$last_attempt_question,'review');
+        Session::put($session_array_key.'question_class.'.$last_attempt_question,'review');
       }
-    session(['current_question'.$examId => $request->questionId]);
-    
+    session([$session_array_key.'current_question' => $request->questionId]);
+  }  
+
+  public function saveAnswer(Request $request){
+      $examId = Crypt::decrypt($request->examId);
+      $session_array_key = $examId.'_'.Auth::user()->id.'.';
+      $last_attempt_question = session($session_array_key.'current_question');
+      if($request['save'] ==  'continue'){
+        if(isset($request['answer'])){
+          $answerID = $request['answer'];
+          Session::put($session_array_key.'question_class.'.$last_attempt_question,'answered');
+          Session::put($session_array_key.'questions_answer.'.$last_attempt_question,$answerID);
+        }else{
+          Session::put($session_array_key.'question_class.'.$last_attempt_question,'review');
+        }
+        $nextQuestionId = get_next_key( session($session_array_key.'question_class') ,session($session_array_key.'current_question'));
+        session([$session_array_key.'current_question' => $nextQuestionId]);
+      }
+
+      else if($request['save'] ==  'skip'){
+        $class = 'not_answered';
+        Session::put($session_array_key.'question_class.'.$last_attempt_question,$class);
+        Session::put($session_array_key.'questions_answer.'.$last_attempt_question,0);
+        $nextQuestionId = get_next_key( session($session_array_key.'question_class') ,session($session_array_key.'current_question'));
+        session([$session_array_key.'current_question' => $nextQuestionId]);
+      }
+
+      else if($request['save'] ==  'preview'){
+        Session::put($session_array_key.'question_class.'.$last_attempt_question,'review');
+          $nextQuestionId = get_next_key(session($session_array_key.'question_class') ,session($session_array_key.'current_question'));
+          session([$session_array_key.'current_question' => $nextQuestionId]);    
+        if(session()->has($session_array_key.'questions_answer.'.$last_attempt_question) && (session($session_array_key.'questions_answer'.$last_attempt_question ) > 0) ) {
+             Session::put($session_array_key.'questions_answer.'.$last_attempt_question,-1);
+        }
+      }
+
   }
+
+  
+/************************* End Of New ATTempt ********************/
 
 
     public function getExamDummy($e_id){

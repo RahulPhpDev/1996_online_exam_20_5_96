@@ -105,8 +105,8 @@ if (!function_exists('get_next')) {
 
 
 if (!function_exists('get_next_key')) {
- function get_next_key($cKey){
-    $array = session('question_class');
+ function get_next_key(  $array,$cKey){
+    // $array = session('question_class');
       $i = 0;
       $nextVal = key($array);
       foreach($array as $vl => $value){
@@ -193,3 +193,200 @@ if(!function_exists('maxAttempt')){
      return array('1' => '1', '2' => '2', '3' => '3', '0'=> 'Forever');
     }
 }
+
+/************************* Start Of New ATTempt *******************
+    public function attemptExam($e_id){
+     $id =  Crypt::decrypt($e_id);
+     $examData = Cache::remember('examDetails'.$id, 60, function() use ($id) {
+       return Exam::find($id);
+     });
+     $allQuestionArray = array();
+       if(!Session::has('total_time')){
+        session(['total_time' => $examData->time]);
+       }
+     $passArray = array(
+               'examDetails' => Response::json($examData),
+               'en_eId' => $e_id,
+        );  
+      return view('permit.exam.attempt-exam',$passArray);
+    }
+
+  public function fetchExamQuestion($id){
+    $examId = Crypt::decrypt($id);
+    $examData = Cache::remember('examDetails'.$examId, 60, function() use ($examId) {
+       return Exam::find($examId);
+     });
+     $questionData = Cache::remember('questionData'.$examId, 60, function() use ($examData) {
+        return $questionData = array_column($examData->ExamQuestion->toArray(), 'id');
+     });
+      $questionWithDetails = array();
+      if(!session()->has('exam_process')) { 
+          $current_question = $questionData[0];
+          session(['current_question' => $current_question]);
+          session()->put('exam_process' , 1);
+       }else{
+         $current_question = session('current_question');
+      }
+       if(!session()->has('question_class')) {   
+          foreach($questionData as $key => $que){
+              $questionWithDetailsClass['question_class'][$que]  = ($key == 0) ?  'current':  'pending';
+            }
+            session(['question_class' =>  $questionWithDetailsClass['question_class']]);
+          }else{
+              Session::put('question_class.'.$current_question,'current');
+        } 
+        session::save();       
+       
+      $questionDetails    = Question::find($current_question);
+      $questionWithDetails['question'] =  $questionDetails;
+      $questionWithDetails['question']['encoded_question'] = htmlspecialchars_decode($questionDetails->question);
+      $questionWithDetails['question_class'] = session('question_class');
+     foreach($questionDetails->Options->toArray() as $key => $data){
+        $questionWithDetails['optionsdata'][$key]['id'] = $data['id'];
+        $questionWithDetails['optionsdata'][$key]['question_option'] = htmlspecialchars_decode($data['question_option']);
+     }
+      return json_encode($questionWithDetails);
+  }
+
+  public function getDirectQuestion(Request $request){
+    $last_attempt_question = session('current_question');
+     if(session()->has('questions_answer.'.$last_attempt_question) && (session('questions_answer.'.$last_attempt_question ) > 0) ) {
+             Session::put('question_class.'.$last_attempt_question, 'answered');
+      }else{
+        Session::put('question_class.'.$last_attempt_question,'review');
+      }
+    session(['current_question' => $request->questionId]);
+  }  
+
+  public function saveAnswer(Request $request){
+      $last_attempt_question = session('current_question');
+      if($request['save'] ==  'continue'){
+        if(isset($request['answer'])){
+          $answerID = $request['answer'];
+          Session::put('question_class.'.$last_attempt_question,'answered');
+          Session::put('questions_answer.'.$last_attempt_question,$answerID);
+        }else{
+          Session::put('question_class.'.$last_attempt_question,'review');
+        }
+        $nextQuestionId = get_next_key( session('current_question'));
+        session(['current_question' => $nextQuestionId]);
+      }
+
+      else if($request['save'] ==  'skip'){
+        $class = 'not_answered';
+        Session::put('question_class.'.$last_attempt_question,$class);
+        Session::put('questions_answer.'.$last_attempt_question,0);
+        $nextQuestionId = get_next_key( session('current_question'));
+        session(['current_question' => $nextQuestionId]);
+      }
+
+      else if($request['save'] ==  'preview'){
+        Session::put('question_class.'.$last_attempt_question,'review');
+          $nextQuestionId = get_next_key(session('current_question'));
+          session(['current_question' => $nextQuestionId]);    
+        if(session()->has('questions_answer.'.$last_attempt_question) && (session('questions_answer'.$last_attempt_question ) > 0) ) {
+             Session::put('questions_answer.'.$last_attempt_question,-1);
+        }
+      }
+
+  }
+Array
+(
+    [_token] => 0tUykv1twjYl5yusHFsAsVGG7SC11XEJnsyJXVr3
+    [_previous] => Array
+        (
+            [url] => http://127.0.0.1:8000/fetch_exam_question/eyJpdiI6InpZU2pTNDNvVDRDUFwvK1A0VURVK29RPT0iLCJ2YWx1ZSI6IlM1WWk3MmNXZk1ObG91OUJHN29CUmc9PSIsIm1hYyI6IjkzNzNjNWY3MzY4MDI3MTgwN2M5MDk5MTUzNDVkZDliZDIwNjY1MTdmMjJjZjRmYWVlZjU1N2QyMDE5MmJlZGQifQ==
+        )
+
+    [_flash] => Array
+        (
+            [old] => Array
+                (
+                )
+
+            [new] => Array
+                (
+                )
+
+        )
+
+    [login_web_59ba36addc2b2f9401580f014c7f58ea4e30989d] => 35
+    [total_time] => 50
+    [current_question] => 715
+    [exam_process] => 1
+    [question_class] => Array
+        (
+            [697] => answered
+            [698] => answered
+            [699] => answered
+            [700] => answered
+            [701] => answered
+            [702] => answered
+            [703] => answered
+            [704] => answered
+            [705] => review
+            [706] => not_answered
+            [707] => not_answered
+            [708] => review
+            [709] => review
+            [710] => review
+            [711] => review
+            [712] => answered
+            [713] => answered
+            [714] => answered
+            [715] => current
+            [716] => pending
+            [717] => pending
+            [718] => pending
+            [719] => pending
+            [720] => pending
+            [721] => pending
+            [722] => pending
+            [723] => pending
+            [724] => pending
+            [725] => pending
+            [726] => pending
+            [727] => pending
+            [728] => pending
+            [729] => pending
+            [730] => pending
+            [731] => pending
+            [732] => pending
+            [733] => pending
+            [734] => pending
+            [735] => pending
+            [736] => pending
+            [737] => pending
+            [738] => pending
+            [739] => pending
+            [740] => pending
+            [741] => pending
+            [742] => pending
+            [743] => pending
+            [744] => pending
+            [745] => pending
+            [746] => pending
+        )
+
+    [questions_answer] => Array
+        (
+            [697] => 2773
+            [700] => 2785
+            [701] => 2790
+            [702] => 2795
+            [703] => 2797
+            [699] => 2781
+            [704] => 2801
+            [705] => 0
+            [706] => 0
+            [707] => 0
+            [712] => 2836
+            [698] => 2779
+            [713] => 2838
+            [714] => 2842
+        )
+
+)
+check
+  
+/************************* End Of New ATTempt ********************/

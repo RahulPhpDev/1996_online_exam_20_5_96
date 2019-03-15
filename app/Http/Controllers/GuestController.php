@@ -22,14 +22,37 @@ use stdClass;
 use Mail;
 use Config;
 use App;
-// use Session;
 
 class GuestController extends Controller
 {
 
 
     public function contactUs(){
+echo Auth::user()->id; 
+echo '<pre>';
+    $exam_id = 39;
+        $user_id = 35;
+$session_array_key = $exam_id.'_'.Auth::user()->id.'.';
+        if(session()->has($session_array_key.'questions_answer.'.session($session_array_key.'current_question'))){
+                    echo session($session_array_key.'questions_answer.'.session($session_array_key.'current_question'));
+                   }else{
+                    echo -99;
+                   }
+// die();
+    // total_time
+    // session(['ees'=> 1]);
+   print_r(session($exam_id.'_'.Auth::user()->id.'.'));
 
+    // print_r(session($exam_id.'_'.$user_id.'.total_time'));
+    // session(['total_time' => $time]);
+    // \Session::put($user_id.'_'.$exam_id.'.question.', array(
+    //          1,2,3,4,5,6,17,7,8,9
+
+    //  )
+
+    // session()->save();
+    dd(session()->all());
+    die('done');
 
          return View('guest/contact-us');
     }

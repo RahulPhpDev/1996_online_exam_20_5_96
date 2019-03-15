@@ -18,27 +18,29 @@
 
 
 //================ Guest ====================
+
 Route::get('send-email/{dob}','Admin\AdminController@sendEmail')->name('send-email')->where(['dob'=> '1-1996']);
-Route::get('test', function(){
-// use Session;
-// $items = \Session::get('items', []);
-$itemss = array(
-		'color' => 'red',
-		'game' => 'football',
-		'lang' => 'php'
-	);
-session()->set('registerData',2);
-// foreach ($items as &$item) {
-//     if ($item['item_id'] == $id) {
-//         $item['item_quantity']--;
-//     }
-// }
+Route::get('session_set', function(){
+	$user_id = 32;
+	$exam_id = 39;
+	session()->put('ees' , 1);
+	// \Session::put('name','current');
+	// \Session::put($user_id.'_'.$exam_id.'.question.', array(
+	// 			1,2,3,4,5,6,17,7,8,9
 
-// \Session::set('items', $items);
-dd(session()->all());
-Session::flush();
+	// 	)
+	// );
+	// session()->save();
+	die('done');
+});
+Route::get('test2', function(){
 
-	     // dd(session()->forget());
+
+
+// \Session::flush('');
+echo '<pre>';
+print_r(session()->all());
+die('check');
 });
 /**** Feedback Reply ******/
 Route::resource('feedback','FeedbackController');
