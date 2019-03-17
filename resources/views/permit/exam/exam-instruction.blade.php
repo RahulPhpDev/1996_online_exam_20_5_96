@@ -166,7 +166,7 @@ font-family: initial;
               }
            @endphp
            @if($hide == 0)   
-            <form action = "{{route('get-exam', ['id' => Crypt::encrypt($examData->id)])}}" method = "GET"  class = " form_absolute" >
+            <form action = "{{route('attempt-exam', ['id' => Crypt::encrypt($examData->id)])}}" method = "GET"  class = " form_absolute" >
                 <input class = "btn btn-success btn-custom let_start_btn" type = "Submit" value =  "Lets Start">
             </form>
             @endif

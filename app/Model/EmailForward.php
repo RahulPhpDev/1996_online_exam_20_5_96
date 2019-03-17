@@ -21,7 +21,7 @@ class EmailForward extends Model
   	                'alert_id'  =>  $params->alert_id,
   	                'subject'   =>  $params->subject,
   	                'message'   =>  $params->message,
-  	                'send_date' =>  date('Y-m-d : H:mm:s'),
+  	                'send_date' =>  date("Y-m-d H:i:s"),
                     'status'    => 1,
                    );
         DB::table('email_forward')->insertGetId($data);

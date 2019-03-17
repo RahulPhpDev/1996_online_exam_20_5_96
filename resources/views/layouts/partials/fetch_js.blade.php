@@ -21,6 +21,7 @@
 <script src="{{ asset('js/jquery.validate.min.js') }}"></script>
 
 <script src="{{ asset('js/common/datatables.min.js') }}"></script>
+
  @stack('angular')
 
 

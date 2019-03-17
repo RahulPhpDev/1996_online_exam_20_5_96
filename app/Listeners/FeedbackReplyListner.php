@@ -46,7 +46,7 @@ class FeedbackReplyListner
         $emailParams->subject_params = [$feedbackData['subject']];
         // $emailParams->msg_params = [$feedbackData['name'], extractDateTime('d-M-Y',$oldFeedback['add_date']) , $feedbackData['subject'],$eventParam->feedbackReply];
 
-        $emailParams->msg_params = [$feedbackData['name'], $eventParam->feedbackReply,$feedbackData['subject'], extractDateTime('d-M-Y',$oldFeedback['add_date']),"/feedback/reply_meta/$eventParam->token"];
+        $emailParams->msg_params = [$feedbackData['name'], $eventParam->feedbackReply,$feedbackData['subject'], extractDateTime('d-M-Y',$oldFeedback['add_date']),"http://maarulaonlinetest.com/feedback/reply_meta/$eventParam->token"];
 
         $alertObj = new Alert();
         $outputData =  $alertObj->sendEmail($emailParams);

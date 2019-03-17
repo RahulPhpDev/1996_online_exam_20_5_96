@@ -1,7 +1,7 @@
 
 $(function(){
     
-      $('.textarea_editor').wysihtml5();
+      // $('.textarea_editor').wysihtml5();
 
        $(".datepicker").datepicker({
           format:'yyyy-mm-dd',

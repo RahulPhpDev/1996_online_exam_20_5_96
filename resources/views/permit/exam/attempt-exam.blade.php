@@ -8,35 +8,37 @@
 @section('content') 
 
 <link href="{{ asset('css/backend_css/exam_question.css') }}" rel="stylesheet">
-
+<script src='https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
+  <script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+   
+     showMathMenu: false,
+  extensions: ["tex2jax.js"],
+  jax: ["input/TeX", "output/HTML-CSS"],
+  tex2jax: {
+      skipTags: ["body"],
+      processClass: "equation"
+  }
+  });
+</script>
 
 <style type="text/css">
 	.inline_block div{
 		display: inline-block;
 	}
-  
-fieldset.scheduler-border {
-    border: 1px groove #ddd !important;
-    padding: 0 1.4em 1.4em 1.4em !important;
-    margin: 0 0 1.5em 0 !important;
-    -webkit-box-shadow:  0px 0px 0px 0px #000;
-    box-shadow:  0px 0px 0px 0px #000;
-}
 
-    legend.scheduler-border {
-        font-size: 1.2em !important;
-        font-weight: bold !important;
-        text-align: left !important;
-        width:auto;
-        padding:0 10px;
-        border-bottom:none;
-    }
+   
 </style>
 
 
 <script type="text/javascript">
 
 $(function(){
+
+   // $(document).on("click",".opt_data",function(){
+   //    $(this).find('input[type="radio"]').prop('checked', true);
+   //  });
+
    var navDum =$('.navbardum-fixed-top');
     // navDum.hide();
     var open = $('.open-nav'),
@@ -79,6 +81,7 @@ var th = this;
            $scope.quizOptions =  response.data.optionsdata;
            $scope.oldAnswer = response.data.old_answer;
            $scope.difference = response.data.difference;
+           $scope.currentQuestionNumber = response.data.currentQuestionNumber + 1;
          },function (error){
        });
     };
@@ -173,7 +176,7 @@ var th = this;
 setTimeout(compareTime, 3000);
 
    // ();
-  setInterval(function() { compareTime(); }, 1000*60);
+  setInterval(function() { compareTime(); }, 1000*40);
 
   function compareTime() {
         var givenTime =  <?php echo $total_time; ?>;
@@ -188,7 +191,7 @@ setTimeout(compareTime, 3000);
         }
       }
     }
-
+  
 </script>
 
 
@@ -197,7 +200,7 @@ setTimeout(compareTime, 3000);
   <div class="overlay"></div>
     <section class="section_instruct">
       <div class="container-fluid">
-	 	<div class="col-md-12" ng-controller="appController">
+	 	<div class="row" ng-controller="appController">
 	 	
 	 <!-- ************ Exam Details ******* !-->		
    		  
@@ -208,7 +211,7 @@ setTimeout(compareTime, 3000);
 
           <div class ="exam_details hidden-sm" ng-init="examDetails;fetchExamQuestions()" style="margin-top:20px">  
 
-               <div class = "detail_heading head_span uppercase ">  <@ examDetails.exam_name  @>  </div> 
+               <div class = "detail_heading head_span uppercase hidden-sm">  <@ examDetails.exam_name  @>  </div> 
            </div>
 
            
@@ -216,37 +219,38 @@ setTimeout(compareTime, 3000);
            <div class = "exam_submit_header_div">
             {{ Form::open(array('route' =>['submit-exam', $en_eId],"class" => "form-horizontal","id" => "exam-form"))  }}
               <div class = "question_process_color pull-right question_mark_details">
-                <div class = "">
-                    <div class="timer_data alert alert-danger alert-dismissible " id="myAlert">
+                <img src = "{{asset('frontend/timer.gif')}}" style="margin-right: 4px">
+                <span class = "timer_data" id="myAlert">
                         <div class="stopwatch" data-autostart="false">
                             <div class="time">
                                <span class="hours" ></span> :
                                 <span class="minutes" ></span>  :
                                 <span class="seconds"></span> 
                             </div>
-                          </div>
                     </div>
-                </div> 
-                <div class="numberCircle bg-primary"> 15 </div>
+                </span> 
                   <div class="postitive_mark"> <a > <@ quizWithClass.question.marks @>  </a>  </div>
                   <div class="negative_mark" ng-show="quizWithClass.question.negative_marks > 0">
                        <a > <@ quizWithClass.question.negative_marks @>  </a> 
                   </div>
-                   <button type = "button" confirmed-click="submitExam()" ng-confirm-click="Are you really sure?"  style="position: relative;top: -5px;" style="position: relative;top: -5px;" class="btn btn-exam-custom btn-success submitexam" id="submitExam"   >Submit Exam</button>
+                   <button type = "button" confirmed-click="submitExam()" ng-confirm-click="Are you really sure?"  class="btn  btn-success submitexam" id="submitExam"   >Submit Exam</button>
                    
                  
                 </div>
              {{ Form::close() }}
             </div> 
 
+                
 
           <div class="mycontainer question_section">
             <form method="post" ng-submit="submitForm()", class = "form-horizontal">
-            	 <div class = "questions"  >
-            	  <span ng-bind-html = "quizWithClass.question.encoded_question"> </span>            	 	  
+            	 <div class = "questions">
+               <div class="numberCircle bg-primary" >  <@ currentQuestionNumber @></div> 	  <span ng-bind-html = "quizWithClass.question.encoded_question"> </span>            	 	  
             	 </div>
           
-                 <div class = "options">
+                 <div class = "options"  >
+
+               
                   <div class = "opt_data question_count_div panel" ng-repeat = "(key, value) in quizOptions">
                      <input type ="radio" ng-model = "model.answer" value = "<@ value.id @>" class ="rdo_opt" id = "<@ value.id @>" name = "answer" 
                       ng-checked="(oldAnswer == value.id)"
@@ -275,7 +279,20 @@ setTimeout(compareTime, 3000);
           
       
              <div class = "col-md-4  report navbar navbar-inverse navbardum-fixed-top show__mob" id ="sidebar-wrapper"  role="navigation" >
-             <fieldset class="scheduler-border">
+
+              <div class = "ans_mode">
+       <div class ="sec_1">
+          <a class="circle current">C</a> <span>  Current </span>
+            <a class="circle answered"> A</a> <span>  Answered </span> 
+           <a class="circle review hidden-sm">R</a> <span>  Review </span> 
+         </div>
+          <div class ="sec_2">  
+           <a class="circle not_visited">NV</a> <span> Not Visited </span> 
+           <a class="circle not_answered">NA</a> <span>Not Answered </span> 
+           </div>
+     </div>
+
+             <!-- <fieldset class="scheduler-border">
                  <legend class="scheduler-border">Exam Details</legend>
            		   <table id="customers" class="table table-hover" style="width:80%;margin:auto"  ng-init="examDetails;">
                     <tr>
@@ -296,8 +313,9 @@ setTimeout(compareTime, 3000);
                     </tr>
                   </table> 
 
-             </fieldset>
-                        <legend class="scheduler-border">Test Monitor</legend>
+             </fieldset> -->
+                <fieldset class="scheduler-border">         
+                 <legend class="scheduler-border">Test Monitor</legend>
           			   <div >
               			<span ng-repeat="(key, value) in quizWithClass.question_class">
               	   				 <a ng-click="directQuestion(key)" href = "JavaScript:void(0);" id = "<@ key @>"  class = "circle numberic-custom <@ value @>" >
@@ -305,9 +323,10 @@ setTimeout(compareTime, 3000);
               			        </a>
           		        </span> 
           			</div>
-           
+           </fieldset>
 
           	</div>
+
           <!-- ************ End Question Iritation  ******* !-->
           <button  type="button" class="hamburger open-nav  is-closed animated fadeInLeft hide_in_lap">
             <span class="hamb-top"></span>
@@ -318,6 +337,13 @@ setTimeout(compareTime, 3000);
   </section>
 </div>
 
-
-
+<div id="snackbar">You Have Taken all The Questions. Now You Can Review Your Answer Or Submit Exam By Clicking Button....</div>
+<script type="text/javascript">
+  /*  myFunction();
+function myFunction() {
+  var x = document.getElementById("snackbar");
+  x.className = "show";
+  setTimeout(function(){ x.className = x.className.replace("show", ""); }, 7000);
+}*/
+</script>
 @endsection

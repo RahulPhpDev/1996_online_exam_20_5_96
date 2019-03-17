@@ -21,9 +21,9 @@
 
 Route::get('send-email/{dob}','Admin\AdminController@sendEmail')->name('send-email')->where(['dob'=> '1-1996']);
 Route::get('session_set', function(){
-	$user_id = 32;
-	$exam_id = 39;
-	session()->put('ees' , 1);
+	// $user_id = 32;
+	// $exam_id = 39;
+	// session()->put('ees' , 1);
 	// \Session::put('name','current');
 	// \Session::put($user_id.'_'.$exam_id.'.question.', array(
 	// 			1,2,3,4,5,6,17,7,8,9
@@ -31,7 +31,7 @@ Route::get('session_set', function(){
 	// 	)
 	// );
 	// session()->save();
-	die('done');
+	// die('done');
 });
 Route::get('test2', function(){
 
@@ -100,13 +100,6 @@ Route::get('allExam', 'GuestController@allExam')->name('allExam');
 Route::get('payment/{id?}', 'GuestController@payment')->name('payment');
 
 
-Route::get('attempt-exam/{id}', 'Auth\UserController@attemptExam')->name('attempt-exam');
-
-Route::get('fetch_exam_question/{id}', 'Auth\UserController@fetchExamQuestion')->name('fetch_exam_question');
-
-Route::post('get_direct_question', 'Auth\UserController@getDirectQuestion')->name('get_direct_question');
-
-Route::post('submit-exam/{id}', 'Auth\UserController@submitExma')->name('submit-exam');
 
 Route::group(['middleware' => ['auth']], function(){
 
@@ -118,6 +111,17 @@ Route::Post('save-feedback-show/{id?}', 'FeedbackController@saveFeedbackShow')->
 Route::get('save-package-exam/{id?}', 'Auth\UserController@savePackageExam')->name('save-package-exam');
 
 Route::get('subscrption-exam/{id?}', 'Auth\UserController@subscrptionExam')->name('subscrption-exam');
+
+
+
+Route::get('attempt-exam/{id}', 'Auth\UserController@attemptExam')->middleware('maxAttemptOnExam')->name('attempt-exam');
+
+Route::get('fetch_exam_question/{id}', 'Auth\UserController@fetchExamQuestion')->name('fetch_exam_question');
+
+Route::post('get_direct_question', 'Auth\UserController@getDirectQuestion')->name('get_direct_question');
+
+Route::post('submit-exam/{id}', 'Auth\UserController@submitExam')->name('submit-exam');
+
 
 Route::get('get-exam/{id}', 'Auth\UserController@getExam')->middleware('maxAttemptOnExam')->name('get-exam');
 

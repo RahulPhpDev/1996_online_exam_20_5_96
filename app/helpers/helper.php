@@ -123,46 +123,63 @@ if (!function_exists('get_next_key')) {
 }
 
 if (!function_exists('forgetSession')) {
-    function forgetSession(){
+    function forgetSession($session_array_key){
+       session()->forget($session_array_key);
+
+    //        right_anwer{background-image: linear-gradient(to right, #6363d6 , #76f376);
+    // color: white;
+    // width: 63%;}
+    // {
+    //       background: #6363d6;
+    // color: #fff;
+    // width: 63%;
+    // }
+
+    // {
+    //       background: #76f376;
+    // padding: 3px;
+    // color: #fff;
+    // width: 63%;
+    // }
         // session()->flush();
-        if(session()->has('user_answer.question')) {
-            session()->forget('user_answer.question');
-        }
-        if(session()->has('all_question_checked')) {
-            session()->forget('all_question_checked');
-        }
-        if(session()->has('attempt_questions')) {
-            session()->forget('attempt_questions');
-        }
-        if(session()->has('questions_answer')) {
-            session()->forget('questions_answer');
-        }
+        // if(session()->has($session_array_key.'user_answer.question')) {
+        //     session()->forget($session_array_key.'user_answer.question');
+        // }
+        // if(session()->has($session_array_key.'all_question_checked')) {
+        //     session()->forget('all_question_checked');
+        // }
+        // if(session()->has('attempt_questions')) {
+        //     session()->forget('attempt_questions');
+        // }
+        // if(session()->has('questions_answer')) {
+        //     session()->forget('questions_answer');
+        // }
         
-        if(session()->has('exam_id')) {
-            session()->forget('exam_id');
-        }
-        if(session()->has('all_questions')) {
-            session()->forget('all_questions');
-        }
-        if(session()->has('all_questions_class')) {
-        session()->forget('all_questions_class');
-        }
+        // if(session()->has('exam_id')) {
+        //     session()->forget('exam_id');
+        // }
+        // if(session()->has('all_questions')) {
+        //     session()->forget('all_questions');
+        // }
+        // if(session()->has('all_questions_class')) {
+        // session()->forget('all_questions_class');
+        // }
 
-        if(session()->has('exam_process')) {
-            session()->forget('current_question');
-            session()->forget('exam_process');
-        }
+        // if(session()->has('exam_process')) {
+        //     session()->forget('current_question');
+        //     session()->forget('exam_process');
+        // }
 
-        if(session()->has('user_answer.question')) {
-        session()->forget('user_answer.question');
-        }
-        if(session()->has('start_time')) {
-         session()->forget('start_time');
-        }
+        // if(session()->has('user_answer.question')) {
+        // session()->forget('user_answer.question');
+        // }
+        // if(session()->has('start_time')) {
+        //  session()->forget('start_time');
+        // }
 
-        if(session()->has('lastanswer')) {
-         session()->forget('lastanswer');
-        }
+        // if(session()->has('lastanswer')) {
+        //  session()->forget('lastanswer');
+        // }
       }
     }
 

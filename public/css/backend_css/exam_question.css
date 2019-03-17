@@ -1,3 +1,15 @@
+
+
+input[type=radio] {
+  width: 20px;
+  height: 20px;
+  margin-top:2px;
+}
+
+button.btn-exam-custom:focus {
+    outline: transparent !important;
+}
+
  #snackbar {
   visibility: hidden;
   min-width: 250px;

@@ -31,7 +31,6 @@
     $scope.userExamData = <?php echo $userExamData->getContent(); ?>;
     $scope.checkUserExtraAttemptOnExam = <?php echo $checkUserExtraAttemptOnExam->getContent(); ?>;
     $scope.maxAttempt = <?php echo json_encode(maxAttempt()) ?>;
-console.log($scope.checkUserExtraAttemptOnExam);
       $scope.deleteData = function(id){
         // console.log(id);
       if(confirm("Are you sure you want to remove it?"))
@@ -41,7 +40,6 @@ console.log($scope.checkUserExtraAttemptOnExam);
           url: "{{route('delete-extra-attempt')}}" ,
           data:{'id':id,"_token": "{{ csrf_token() }}", }
         }).then(function(data){
-          console.log(data.data);
            $scope.checkUserExtraAttemptOnExam = data.data;
         }); 
       }

@@ -4,7 +4,9 @@
 @extends('layouts.partials.footer')
 @section('title', $title = ' Feedback')
 
-@extends('frontend_layouts.partials.fetch_angular')
+@push('angular')
+  @include('layouts.partials.fetch_layout_angular')
+@endpush
 
 @section('content')
 
@@ -44,7 +46,7 @@
       <hr>
       
       @include('admin.messages.return-messages')
-     <a class ="btn btn-success pull-right" href="{{ route('add-user') }}">Add User </a>
+     
     <div class="row-fluid">
         <div class="span12">
           

@@ -4,7 +4,10 @@
 @extends('layouts.partials.footer')
 @section('title', $title = ' Feedback')
 
-@extends('frontend_layouts.partials.fetch_angular')
+@push('angular')
+  @include('layouts.partials.fetch_layout_angular')
+@endpush
+
 
 @section('content')
 <style type="text/css">
@@ -58,7 +61,7 @@
 
 <script type="text/javascript">
 
-  backEnddApp.controller('feedbackController', function($scope,$window){
+  app.controller('feedbackController', function($scope){
     $scope.feedbackMetaData = <?php echo $feedbackMetaJson; ?>;
 // console.log( $scope.feedbackMetaData );
     // $scope.getFeedbackData = function(id) {

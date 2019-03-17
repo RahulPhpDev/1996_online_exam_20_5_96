@@ -92,6 +92,11 @@
   */
   
   @media (min-width: 481px) and (max-width: 767px) {
+    .question_mark_details {
+    position: relative;
+    top: -71px;
+    right: -9px;
+}
     .exam_submit_header_div{
   margin-top:100px;
 }
@@ -144,6 +149,7 @@
       -webkit-box-shadow: 0 0 1px rgba(0,0,0,0.6);
       -o-box-shadow: 0 0 1px rgba(0,0,0,0.6);
       border-radius : 3px;
+          margin-top: 76px;
   }
 
 

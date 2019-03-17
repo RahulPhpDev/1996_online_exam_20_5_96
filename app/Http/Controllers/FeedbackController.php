@@ -27,7 +27,7 @@ class FeedbackController extends Controller
     public function __construct(){
           // $this->middleware('auth')->except(['index']);  
            $this->middleware('auth', ['only' => ['index']]);
-         $this->expiry_time = date("Y-m-d H:i:s", strtotime('+2 hours'));
+         $this->expiry_time = date("Y-m-d H:i:s", strtotime('+12 hours'));
     }
     public function index()
     {

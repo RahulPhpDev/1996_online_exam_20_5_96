@@ -42,35 +42,19 @@ class ResultController extends Controller
   	    return view('permit/result.exam-question',compact('resultData'));
 	}
 
-  public function answerSheet2($resultId){
-        $r_id = Crypt::decrypt($resultId);
-        $resultObj = new Result;
-        $resultData = $resultObj->getResultDetailsById($r_id);
-        dd($resultData);
-        // dd($resultData[0]->exam_name);
-        return view('permit/result.answer-sheet',compact('resultData'));
-  }
+
 
   public function answerSheet($resultId){
         $r_id = Crypt::decrypt($resultId);
         $resultObj = new Result;
 
         $resultData = Result::findorFail($r_id);
+       // dd($resultData);
         $userData = Auth::user();
         $userId = $userData['id'];
 
-        $resultData =  $resultObj->getDataByResultId($r_id,$userId);
-        // dd($resultData);
-        // echo $r_id;
-        // session()->flash('res_id', $r_id);
-// dd(session());
-      //   dd(session()->all());
-// $resultData->Exam->userAnswer;
-        // dd($resultData->Exam->userAnswer->where('result_id', $r_id) );
-      //   foreach($resultData->Exam->userAnswer[0]->ExamQuestion as $key => $question ){
-      //     echo($question->question).'<br>';
-      //   }
-      // dd('a age');
-        return view('permit/result/answer-sheet',compact('resultData','userId'));
+        $resultDataWithDetails =  $resultObj->getDataByResultId($r_id,$userId);
+ // dd($resultDataWithDetails);
+        return view('permit/result/answer-sheet',compact('resultData','userId','resultDataWithDetails'));
   }
 }

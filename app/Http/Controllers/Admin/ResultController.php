@@ -128,11 +128,12 @@ class ResultController extends Controller
                 $request->message,
                 $userExamDataArr->exam_name,
                 $request->attempt,
-                $request->validdate 
+                ($request->validdate) ?? ''
            ];
            // dd($emailParams);
         $alertObj = new Alert();
         $outputData =  $alertObj->sendEmail($emailParams);
+        return redirect()->back()->with('success', 'User Get More Attempt');
         }
        return View('admin/result/extra_attempt', compact('userExamData', 'examId', 'userId','checkUserExtraAttemptOnExam'));
       }
