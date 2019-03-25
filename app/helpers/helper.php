@@ -124,23 +124,10 @@ if (!function_exists('get_next_key')) {
 
 if (!function_exists('forgetSession')) {
     function forgetSession($session_array_key){
+      // dd(session()->all());
        session()->forget($session_array_key);
 
-    //        right_anwer{background-image: linear-gradient(to right, #6363d6 , #76f376);
-    // color: white;
-    // width: 63%;}
-    // {
-    //       background: #6363d6;
-    // color: #fff;
-    // width: 63%;
-    // }
-
-    // {
-    //       background: #76f376;
-    // padding: 3px;
-    // color: #fff;
-    // width: 63%;
-    // }
+   
         // session()->flush();
         // if(session()->has($session_array_key.'user_answer.question')) {
         //     session()->forget($session_array_key.'user_answer.question');

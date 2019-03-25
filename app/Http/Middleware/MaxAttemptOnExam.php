@@ -25,11 +25,12 @@ class MaxAttemptOnExam
                               THEN 999
                                ELSE attempt
                                END) as total_sum from extra_attempt where user_id = $userId && exam_id = $exam_id && status = 1 && (end_date  is null OR  end_date > CURDATE())");
-        // dd($data);
+        
         $extraAttempt = ( $data[0]->total_sum > 0) ?  $data[0]->total_sum : 0;
         $maxAttemptOfExam = $extraAttempt + $maxAttemptOfExam;
         if(!session()->has('exam_process') && ($maxAttemptOfExam > 0)) { 
-           $countOfUserAttemptExam = $exam_data->UserExamData()->where('user_id', $userId)->count();
+           $countOfUserAttemptExam = $exam_data->Results()->where('user_id', $userId)->count();
+// dd( $countOfUserAttemptExam );
            if($countOfUserAttemptExam >= $maxAttemptOfExam ){
             return redirect()->route('not-permit-exam',$request->id); 
            }

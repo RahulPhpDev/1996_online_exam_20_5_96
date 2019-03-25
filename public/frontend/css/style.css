@@ -285,7 +285,7 @@ display: inline-block;
 .postitive_mark, .negative_mark{
     padding: 2px !important;
     border-radius: 8px;
-    width: 43px;
+    width: 20px;
     text-align: center;
     margin: 5px;
 }

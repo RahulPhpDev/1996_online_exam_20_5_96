@@ -23,7 +23,8 @@
 	  }
 		.max_height.xs_max_height .el_max_height { height: auto !important; }
 		.h-wrapper {
-			position: fixed;
+			
+			position: relative;
 			z-index: 99999;
 			width: 100%;
 		}
@@ -57,9 +58,7 @@
 		.topbar {
     		display: none;
 		}
-		.main-header {
-    		padding: 10px;
-		}	
+		
 	}
 
 

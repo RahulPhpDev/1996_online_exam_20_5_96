@@ -37,12 +37,7 @@ class ExtraAttemptNotify extends Notification
                 'message' => 'accha',
 
             ])->id;
-        // die('dekho');
-        // return (new MailMessage)
-        //             ->greeting('Congratulation on Getting More Attempt')
-        //             ->line('Congratulation on more attempt.')
-        //             ->action('Notification Action', url('/'))
-        //             ->line('Thank you for using our Website!');
+        
     }
 
 
