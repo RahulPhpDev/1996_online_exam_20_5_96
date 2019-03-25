@@ -31,14 +31,14 @@ class EmailForward extends Model
                'msg'     =>  $params->message
           );
       $environment = App::environment();
-      if($environment == 'production'){       
+      // if($environment == 'production'){       
           Mail::send( 'mail', $data, function( $message ) use ($data)
           {
             $message->to( $data['email'] )
               //->from( Config::get('mail.from.address'), Config('app.name'))
               ->subject( $data['subject']);
           });
-        }
+        // }
       return $data;
   }
 

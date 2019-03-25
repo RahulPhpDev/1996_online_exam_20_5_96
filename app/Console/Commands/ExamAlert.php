@@ -50,7 +50,7 @@ class ExamAlert extends Command
     public function handle()
     {
          $examAttemptToday = \DB::table('exams as r')
-                            ->where('id', 42)
+                            ->where('id', 46)
                             ->first();
          
         $emailParams = new stdClass;
@@ -64,9 +64,11 @@ class ExamAlert extends Command
         $alertObj = new Alert();
         $allUser = User::where(array(
                 ['user_type' ,'<>', 1 ],
-                ['status', '=' , 1]
+                ['status', '=' , 1],
+                // ['email', '=','mrrahul2016@gmail.com' ]
                 )
             )->get(['email', 'fname','lname', 'id']);
+        // dd($allUser);
         foreach($allUser as $user){    
              $userName = $user->getFullName(($user->id));    
             $emailParams->user_id = $user->id;

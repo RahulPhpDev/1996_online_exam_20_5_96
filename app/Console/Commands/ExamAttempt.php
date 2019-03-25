@@ -18,6 +18,7 @@ class ExamAttempt extends Command
      *
      * @var string
      */
+     // /usr/local/bin/php /home/ofdgxkwnaxeq/public_html/artisan schedule:run >> /dev/null 2>&1   
     protected $signature = 'examattempt:users';
 
     /**

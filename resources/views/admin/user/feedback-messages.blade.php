@@ -10,12 +10,6 @@
 
 
 @section('content')
-<style type="text/css">
-  .bg-danger {
-    background: #eca2a2 !important;
-    color: white;
-}
-</style>
 
 <div id="content">
      <div class="container-fluid"  ng-controller="feedbackController">
@@ -33,6 +27,8 @@
             <table id = "data_table" class="table table-bordered table-striped">
               <thead>
                 <tr>
+                    <th>Name</th>
+                    <th>Email</th>
                     <th>Subject</th>
                     <th class = "report_th"><span> Message </span></th>
                     <th class = ""><span> Last Message Date </span></th>
@@ -41,7 +37,9 @@
               </thead>
               <tbody>
                <!-- ng-class="apt.name.length >= 15 ? 'col-md-12' : (apt.name.length >= 10 ? 'col-md-6' : 'col-md-4')" -->
-                 <tr ng-repeat="meta in feedbackMetaData"> 
+                 <tr ng-repeat="meta in feedbackMetaData "> 
+                  <td><@ meta.has_feedback.name @></td>
+                  <td><@ meta.has_feedback.email @></td>
                   <td><@ meta.has_feedback.subject @></td>
                   <td class = "center" ng-class="meta.unread_count > 0 ? 'bg-danger' :'nothing' "><a style="color:blue" ng-href = "show-feedback-messages/<@ meta.feedback_id @>"><@  meta.unread_count @> </a></td>
                   <td><@  meta.last_message_date | date : "yyyy-mm-dd hh:mm:ss" : 0 @></td>
@@ -63,7 +61,7 @@
 
   app.controller('feedbackController', function($scope){
     $scope.feedbackMetaData = <?php echo $feedbackMetaJson; ?>;
-// console.log( $scope.feedbackMetaData );
+console.log( $scope.feedbackMetaData );
     // $scope.getFeedbackData = function(id) {
     //   // $scope.getId = id;
     //            $window.location.href = 'show-feedback-messages/'+id;  

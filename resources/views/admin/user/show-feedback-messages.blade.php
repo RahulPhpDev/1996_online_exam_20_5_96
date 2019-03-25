@@ -40,6 +40,8 @@
         line-height: 1.8;
         padding: 14px;
       }
+
+     
 </style>
 <div id="content">
      <div class="container-fluid"  ng-controller="feedbackController">
@@ -52,6 +54,22 @@
           
             <div class="mycontainer">      
             <div class = "subject__div" >
+              <fieldset class="scheduler-border" style="width:50%">
+                 <legend class="scheduler-border">User Details</legend>
+                 <table id="customers" class="table table-hover" style="width:80%;margin:auto"  ng-init="examDetails;">
+                    <tr>
+                      <th> Name: </th>
+                      <td>{{$feedbackData->name}}  </td>
+                    </tr>
+                     <tr>
+                      <th>Email </th>
+                      <td> {{$feedbackData->email}} </td>
+                    </tr>
+                     
+                  </table> 
+
+             </fieldset>
+
               <h4>Subject :<span> {{$feedbackData->subject}}</span> </h4> 
             </div>
 
