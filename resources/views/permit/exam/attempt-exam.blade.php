@@ -56,6 +56,19 @@ var th = this;
            $scope.oldAnswer = response.data.old_answer;
            $scope.difference = response.data.difference;
            $scope.currentQuestionNumber = response.data.currentQuestionNumber + 1;
+           <?php
+           $cur = session($session_array_key.'current_question'); 
+           // echo $cur;
+           if(!session($session_array_key.'questions_answer'.$cur) > 0) {?>
+           $scope.model.answer = '';
+           console.log('cs');
+           var fd = <?php echo session($session_array_key.'questions_answer'.session($session_array_key.'current_question')); ?>;
+           console.log(f);
+         <?php }else {
+          ?>
+console.log('hii');
+          $scope.model.answer = <?php echo session($session_array_key.'questions_answer'.$cur);
+         } ?>
          },function (error){
        });
     };
@@ -192,7 +205,8 @@ function submitFormWithComment(disable = false){
                     $.alert('provide a valid Comment');
                     return false;
                 }
-                 $("#exam-form-pop").submit();
+              $('#load').show();
+              $("#exam-form-pop").submit();
             }
         },
         formCancel: {
@@ -276,7 +290,8 @@ function submitFormWithComment(disable = false){
            
             </div> 
 
-                
+               
+<div id = "load" style="display: none"></div> 
 
           <div class="mycontainer question_section">
             <form method="post" ng-submit="submitForm()", class = "form-horizontal">

@@ -31,3 +31,25 @@ composer update
 "maatwebsite/excel": "~2.1.0"
 
 php artisan vendor:publish --provider="Maatwebsite\Excel\ExcelServiceProvider"
+
+/usr/local/bin/php -q /home/ofdgxkwnaxeq/public_html && php artisan schedule:run >> /dev/null 2>&1 
+
+
+
+ * * * * * cd /path-to-your-project && php artisan schedule:run >> /dev/null 2>&1
+ && php artisan schedule:run >> /dev/null 2>&1
+
+ * * * * * php /home/master/applications/your_project_folder_name/public_html/artisan schedule:run >> /dev/null 2>&1
+
+cd
+
+
+cd /usr/local/bin/php -q /home/ofdgxkwnaxeq/public_html && php artisan schedule:run >> /dev/null 2>&1
+php artisan schedual:run
+
+/usr/local/bin/php /home/ofdgxkwnaxeq/public_html/artisan schedule:run >> /dev/null 2>&1	
+
+/usr/local/bin/php /home/ofdgxkwnaxeq/public_html/artisan schedule:run >> /dev/null 2>&1
+
+
+/usr/local/bin/php /home/ofdgxkwnaxeq/public_html/artisan alert:exam >> /dev/null 2>&1

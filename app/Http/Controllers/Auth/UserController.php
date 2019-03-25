@@ -133,6 +133,7 @@ class UserController extends Controller
                'examDetails' => Response::json($examData),
                'en_eId' => $e_id,
                'total_time' =>  $examData->time,
+               'session_array_key' =>  $session_array_key,
         );  
       return view('permit.exam.attempt-exam',$passArray);
     }
@@ -202,17 +203,20 @@ class UserController extends Controller
   }  
 
   public function saveAnswer(Request $request){
-    // print_r($request->all());die();
+    print_r($request->all());
       $examId = Crypt::decrypt($request->examId);
       $session_array_key = $examId.'_'.Auth::user()->id.'.';
       $last_attempt_question = session($session_array_key.'current_question');
       if($request['save'] ==  'continue'){
-        if(isset($request['answer'])){
+        if(isset($request['answer']) && $request['answer'] > 0 ){
           $answerID = $request['answer'];
+          echo __LINE__;
           Session::put($session_array_key.'question_class.'.$last_attempt_question,'answered');
           Session::put($session_array_key.'questions_answer.'.$last_attempt_question,$answerID);
         }else{
+          echo __LINE__;
           Session::put($session_array_key.'question_class.'.$last_attempt_question,'review');
+          Session::put($session_array_key.'questions_answer.'.$last_attempt_question,-1);
         }
         $nextQuestionId = get_next_key( session($session_array_key.'question_class') ,session($session_array_key.'current_question'));
         session([$session_array_key.'current_question' => $nextQuestionId]);
@@ -239,6 +243,7 @@ class UserController extends Controller
 
 
 public function submitExam(Request $request, $e_eId){
+  dd(session()->all());
     $userData = Auth::user();
     $userId = $userData['id'];
    
