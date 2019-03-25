@@ -3,7 +3,10 @@
 @extends('frontend_layouts.partials.sidebar')
 @push('angular')
   @include('frontend_layouts.partials.fetch_angular')
+  <link href="{{ asset('css/jquery-confirm.min.css') }}" rel="stylesheet">
+  <script src="{{ asset('js/jquery-confirm.min.js') }}"></script>
 @endpush
+
 
 @section('content') 
 
@@ -27,40 +30,11 @@
 		display: inline-block;
 	}
 
-   
 </style>
 
 
 <script type="text/javascript">
 
-$(function(){
-
-   // $(document).on("click",".opt_data",function(){
-   //    $(this).find('input[type="radio"]').prop('checked', true);
-   //  });
-
-   var navDum =$('.navbardum-fixed-top');
-    // navDum.hide();
-    var open = $('.open-nav'),
-        close = $('.close'),
-        overlay = $('.overlay');
-
-    open.click(function() {
-      console.log(' hii');
-          overlay.toggle();
-          navDum.toggle();
-         $('#wrapper').toggleClass('toggled');
-    });
-
-    close.click(function() {
-        navDum.hide();
-        overlay.hide();
-        $('#wrapper').removeClass('toggled');
-    });
-
-
-
-});
 var th = this;
   app.controller('appController', function($scope,$timeout,$sce, $http){
 
@@ -149,13 +123,9 @@ var th = this;
       }
     });
   };    
-
-  $scope.submitExam = function() {
-   $("#exam-form").submit();
-  } 
-    $scope.yes = function() {
-      alert('Confirmed!')
-    }
+    $scope.submitExam = function() {
+     $("#exam-form").submit();
+    } 
   });
 
   app.directive('ngConfirmClick', [
@@ -173,10 +143,12 @@ var th = this;
             };
     }])
 
+$(function(){
+  var autoSubmit = true;
 setTimeout(compareTime, 3000);
 
    // ();
-  setInterval(function() { compareTime(); }, 1000*40);
+  setInterval(function() { compareTime(); }, 1000*30);
 
   function compareTime() {
         var givenTime =  <?php echo $total_time; ?>;
@@ -187,11 +159,75 @@ setTimeout(compareTime, 3000);
         console.log(totalMintue);
         if(givenTime != 0){
         if(totalMintue >= givenTime){
-           $("#exam-form").submit();
+           if(autoSubmit == true){
+               submitFormWithComment('true');
+             }
         }
       }
     }
   
+
+$('#submitExam').on('click', function(){
+  submitFormWithComment();  
+});
+
+function submitFormWithComment(disable = false){
+  autoSubmit = false;
+  $.confirm({
+    title: 'Confirmation!',
+    content: '' +
+    '{{ Form::open(array("route" =>["submit-exam", $en_eId],"id" => "exam-form-pop"))  }}' +
+    '<div class="form-group">' +
+    '<label>Enter something here</label>' +
+    '<textarea type="text" name = "comment" placeholder="any Comment" class="comment form-control" required />' +
+    '</div>' +
+    '{{ Form::close() }}',
+    buttons: {
+        formSubmit: {
+            text: 'Submit Exam',
+            btnClass: 'btn-blue',
+            action: function () {
+                var name = this.$content.find('.comment').val();
+                if(!name){
+                    $.alert('provide a valid Comment');
+                    return false;
+                }
+                 $("#exam-form-pop").submit();
+            }
+        },
+        formCancel: {
+            text: 'Cancel',
+            btnClass :'cancel_btn btn-danger',
+            isDisabled: disable,
+        },
+        // cancel: function () {
+
+        // },
+    },
+  
+});
+}
+
+//============ END +++++++++++++++==========
+   var navDum =$('.navbardum-fixed-top');
+    // navDum.hide();
+    var open = $('.open-nav'),
+        close = $('.close'),
+        overlay = $('.overlay');
+
+    open.click(function() {
+          overlay.toggle();
+          navDum.toggle();
+         $('#wrapper').toggleClass('toggled');
+    });
+
+    close.click(function() {
+        navDum.hide();
+        overlay.hide();
+        $('#wrapper').removeClass('toggled');
+    });
+});
+
 </script>
 
 
@@ -217,7 +253,7 @@ setTimeout(compareTime, 3000);
            
 
            <div class = "exam_submit_header_div">
-            {{ Form::open(array('route' =>['submit-exam', $en_eId],"class" => "form-horizontal","id" => "exam-form"))  }}
+           
               <div class = "question_process_color pull-right question_mark_details">
                 <img src = "{{asset('frontend/timer.gif')}}" style="margin-right: 4px">
                 <span class = "timer_data" id="myAlert">
@@ -233,11 +269,11 @@ setTimeout(compareTime, 3000);
                   <div class="negative_mark" ng-show="quizWithClass.question.negative_marks > 0">
                        <a > <@ quizWithClass.question.negative_marks @>  </a> 
                   </div>
-                   <button type = "button" confirmed-click="submitExam()" ng-confirm-click="Are you really sure?"  class="btn  btn-success submitexam" id="submitExam"   >Submit Exam</button>
+                   <button type = "button"   class="btn  btn-success submitexam" id="submitExam"   >Submit Exam</button>
                    
                  
                 </div>
-             {{ Form::close() }}
+           
             </div> 
 
                 
@@ -261,7 +297,7 @@ setTimeout(compareTime, 3000);
                  </div>
           
                 <div class = "mt-10"> </div>
-                <div class="controls"> 
+                <div class="controls quiz_action"> 
                   <input type = "hidden" name = "save" id = "saveu">
                   <button ng-click="ButtonClick('continue')" name="save" type="submit" value="continue" class="btn btn-success savebtn btn-exam-custom">Save</button>
 
@@ -279,44 +315,26 @@ setTimeout(compareTime, 3000);
           
       
              <div class = "col-md-4  report navbar navbar-inverse navbardum-fixed-top show__mob" id ="sidebar-wrapper"  role="navigation" >
-
+<a href="JavaScript:void(0);" class="close circle close_circle hide_in_lap"><i class="fa fa-close" style="color:red  ;  font-size: 25px;" ></i></a>
               <div class = "ans_mode">
-       <div class ="sec_1">
-          <a class="circle current">C</a> <span>  Current </span>
-            <a class="circle answered"> A</a> <span>  Answered </span> 
-           <a class="circle review hidden-sm">R</a> <span>  Review </span> 
-         </div>
-          <div class ="sec_2">  
-           <a class="circle not_visited">NV</a> <span> Not Visited </span> 
-           <a class="circle not_answered">NA</a> <span>Not Answered </span> 
-           </div>
+                <div class ="sec_1">
+                  <a class="circle current">C</a> <span>  Current </span>
+                    <a class="circle answered"> A</a> <span>  Answered </span> 
+                   <a class="circle review hidden-sm">R</a> <span>  Review </span> 
+               </div>
+              <div class ="sec_2">  
+                   <a class="circle not_visited">NV</a> <span> Not Visited </span> 
+                   <a class="circle not_answered">NA</a> <span>Not Answered </span> 
+            </div>
+
      </div>
 
-             <!-- <fieldset class="scheduler-border">
-                 <legend class="scheduler-border">Exam Details</legend>
-           		   <table id="customers" class="table table-hover" style="width:80%;margin:auto"  ng-init="examDetails;">
-                    <tr>
-                      <th> Time </th>
-                      <td> <@ examDetails.time @>   </td>
-                    </tr>
-                     <tr>
-                      <th>Total Question </th>
-                      <td>  <@ examDetails.total_question @>  </td>
-                    </tr>
-                     <tr>
-                      <th> Total Mark </th>
-                      <td>  <@ examDetails.total_marks @>  </td>
-                    </tr>
-                     <tr>
-                      <th> Total Time </th>
-                      <td>  <@ examDetails.time @>  </td>
-                    </tr>
-                  </table> 
-
-             </fieldset> -->
+           
                 <fieldset class="scheduler-border">         
                  <legend class="scheduler-border">Test Monitor</legend>
+
           			   <div >
+                      
               			<span ng-repeat="(key, value) in quizWithClass.question_class">
               	   				 <a ng-click="directQuestion(key)" href = "JavaScript:void(0);" id = "<@ key @>"  class = "circle numberic-custom <@ value @>" >
               	      	    		<span>  <@ $index+1 @> </span>
@@ -338,12 +356,5 @@ setTimeout(compareTime, 3000);
 </div>
 
 <div id="snackbar">You Have Taken all The Questions. Now You Can Review Your Answer Or Submit Exam By Clicking Button....</div>
-<script type="text/javascript">
-  /*  myFunction();
-function myFunction() {
-  var x = document.getElementById("snackbar");
-  x.className = "show";
-  setTimeout(function(){ x.className = x.className.replace("show", ""); }, 7000);
-}*/
-</script>
+
 @endsection

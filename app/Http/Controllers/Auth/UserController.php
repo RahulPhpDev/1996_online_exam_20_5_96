@@ -35,7 +35,8 @@ use App\Http\Requests\updateProfileRequest; #form-validation
 use File;
 use stdClass;
 use Illuminate\Support\Facades\Hash;
-
+use Notifications;
+use App\Notifications\notifyExamSubmission;
 class UserController extends Controller
 {
 
@@ -101,7 +102,7 @@ class UserController extends Controller
     public function examInstruction($e_id){
       $id = Crypt::decrypt($e_id);
       $examData = Exam::find($id);
-       forgetSession($id.'_'.Auth::user()->id);
+      forgetSession($id.'_'.Auth::user()->id);
       $topTen =   Result::where('exam_id', '=',$id)
                   ->where('result_status' ,'=', 1)
                   ->orderBy(DB::raw('max(obtain_mark)'), 'desc')
@@ -120,12 +121,13 @@ class UserController extends Controller
      });
      $session_array_key = $id.'_'.Auth::user()->id.'.'; 
      $allQuestionArray = array();
-       if(!Session::has($session_array_key.'total_time')){
-        session([$session_array_key.'total_time' => $examData->time]);
-       }
+      
      if(!session()->has($session_array_key.'exam_process')) { 
            $examData->UserExamData()->attach($id, ['user_id' => Auth::user()->id, 'status' => 1,
           'start_date' => date('Y-m-d')] );
+            if(!Session::has($session_array_key.'total_time')){
+            session([$session_array_key.'total_time' => $examData->time]);
+           }
       }      
      $passArray = array(
                'examDetails' => Response::json($examData),
@@ -237,16 +239,15 @@ class UserController extends Controller
 
 
 public function submitExam(Request $request, $e_eId){
-  // dd(session()->all());
     $userData = Auth::user();
     $userId = $userData['id'];
+   
     $examId = Crypt::decrypt($e_eId);
     $session_array_key = $examId.'_'.$userId.'.';
-      $answerQuestionArray = session($session_array_key.'questions_answer');
+    $answerQuestionArray = session($session_array_key.'questions_answer');
 
-    // dd($answerQuestionArray);
-      $userAnswerData = array();
-      $correctAnswerCount = $correctAnswerMark = $wrongAnswerCount =  $wrongAnswerMark = $totalMark = $false = 0;
+    $userAnswerData = array();
+    $correctAnswerCount = $correctAnswerMark = $wrongAnswerCount =  $wrongAnswerMark = $totalMark = $false = 0;
     if(!empty($answerQuestionArray)){
       foreach($answerQuestionArray as $qId => $ansId ){
            if($ansId > 0){ 
@@ -268,38 +269,37 @@ public function submitExam(Request $request, $e_eId){
               $totalMark += $mark;
             }
 
-            $lastAnswerid = UserAnswer::create([
-              'user_id' => $userId,
-              'exam_id' => $examId,
-              'question_id' => $qId,
-              'answer_id' => $ansId,
-              'status' => $status,
-              'mark' =>  $mark,
-           ])->id;
-           $userAnswerData[] =  $lastAnswerid;
+              $lastAnswerid = UserAnswer::create([
+                  'user_id' => $userId,
+                  'exam_id' => $examId,
+                  'question_id' => $qId,
+                  'answer_id' => $ansId,
+                  'status' => $status,
+                  'mark' =>  $mark,
+               ])->id;
+             $userAnswerData[] =  $lastAnswerid;
             }
-
-           //  else{
-           //    $lastAnswerid = UserAnswer::create([
-           //      'user_id' => $userId,
-           //      'exam_id' => $examId,
-           //      'question_id' => $qId,
-           //      'answer_id' => 0,
-           //      'status' => 3,
-           //      'mark' =>  0,
-           //   ])->id;
-           // $userAnswerData[] =  $lastAnswerid;
-           //  }
+            else{
+              $lastAnswerid = UserAnswer::create([
+                  'user_id' => $userId,
+                  'exam_id' => $examId,
+                  'question_id' => $qId,
+                  'answer_id' => 0,
+                  'status' => 3,
+                  'mark' =>  0,
+               ])->id;
+             $userAnswerData[] =  $lastAnswerid;
+            }
           }
         }
-
-           if($false == 0){  
-                $examUserObj = new UserAnswer();
-                $examDetails =  Exam::find($examId);
-                $userExamData  = $examDetails->UserExam()
-                                ->where('user_exam.user_id','=',$userId)
-                                ->get()->toArray();                
-              }
+      $examDetails =  Exam::find($examId);
+           // if($false == 0){  
+           //      $examUserObj = new UserAnswer();
+           //      $examDetails =  Exam::find($examId);
+           //      $userExamData  = $examDetails->UserExam()
+           //                      ->where('user_exam.user_id','=',$userId)
+           //                      ->get()->toArray();                
+           //    }
 
       if($false != 1){ 
         if($examDetails['passing_marks_type'] == 1){
@@ -325,7 +325,8 @@ public function submitExam(Request $request, $e_eId){
           'correct_answer' => $correctAnswerCount,
           'wrong_answer' =>  $wrongAnswerCount,
           'not_attempt'  =>  $notAttempt,
-          'time_taken'   => $difference 
+          'time_taken'   => $difference,
+          'user_comment' => ($request->comment) ?? ''
        );
       $id =  $resultObj::create($resultData)->id;  
      
@@ -334,17 +335,18 @@ public function submitExam(Request $request, $e_eId){
         $userAnswerDetails->result_id = $id;
         $userAnswerDetails->save();
       }
-      forgetSession($examId.'_'.$userId);
+      
       $viewData = array(
-        'examDetails' => $examDetails,
-        'userExamData' => $userExamData,
+        'examDetails' => Response::json($examDetails), 
+        'resultDetails' => Response::json(Result::findOrFail($id)),
+        // 'userExamData' => $userExamData,
         'userData' => $userData,
         'totalMark' => $totalMark,
         'r_id' => $id 
-      );
-      
+      );      
     }
-    return view('permit.exam.result', $viewData);
+    forgetSession($examId.'_'.$userId);
+    return view('permit.exam.exam_overview',$viewData);
   }
   
 /************************* End Of New ATTempt ********************/

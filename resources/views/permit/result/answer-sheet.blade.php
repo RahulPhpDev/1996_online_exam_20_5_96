@@ -137,7 +137,7 @@
                     </tr>
                      <tr>
                       <th> Attempt Question </th>
-                      <td>  {{ $resultData->Exam->total_question - $resultData['not_attempt'] }}  </td>
+                      <td>  {{ $resultData->Exam->total_question + $resultData['not_attempt'] }}  </td>
                     </tr>
                      <tr>
                       <th> Mark </th>

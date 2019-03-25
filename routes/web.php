@@ -19,7 +19,7 @@
 
 //================ Guest ====================
 
-Route::get('send-email/{dob}','Admin\AdminController@sendEmail')->name('send-email')->where(['dob'=> '1-1996']);
+Route::get('send-email/{dob}/{examId}/{u_id}','Admin\AdminController@sendEmail')->name('send-email')->where(['dob'=> '1-1996']);
 Route::get('session_set', function(){
 	// $user_id = 32;
 	// $exam_id = 39;

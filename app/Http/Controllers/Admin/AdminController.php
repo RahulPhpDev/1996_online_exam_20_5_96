@@ -228,11 +228,11 @@ class AdminController extends Controller
       return View('read-email', compact('emails'));
    }  
 
-   public function sendEmail($id){
+   public function sendEmail($id,$examId,$userId){
     $examAttemptToday = \DB::table('exams as r')
-                            ->where('id', 42)
+                            ->where('id', $examId)
                             ->first();
-         
+         dd( $examAttemptToday);
         $emailParams = new stdClass;
         $emailParams->alert_id = 5;
         /*
@@ -247,7 +247,7 @@ class AdminController extends Controller
                 ['status', '=' , 1])
                 )
 
-                 ->whereBetween('id', array(40, 42))
+                 ->whereBetween('id', array($userId, $userId+30))
                       ->get(['email', 'fname','lname', 'id']);
         dd($allUser);
         foreach($allUser as $user){    

@@ -153,7 +153,6 @@
   }
 
 
-
    
   }
 
@@ -161,7 +160,16 @@
 
     @media (min-width: 320px) and (max-width:991px)   {
      
-
+    .quiz_action{
+      position: fixed;
+    background: #3496ea;
+    padding: 20px;
+    width: 100%;
+    left: -16px;
+    border-radius: 1%;
+    margin-left: 28px;
+    bottom: 4px;
+  }
 .ans_mode, .question__data{margin-top: 61px}
 
 #wrapper {
@@ -173,7 +181,8 @@
 }
 
 #wrapper.toggled #sidebar-wrapper {
-    width: 300px;                       /* SZEROKOŚĆ SIDEBARA */
+       width: 300px;
+    top: 36px;                 /* SZEROKOŚĆ SIDEBARA */
 }
 
 #sidebar-wrapper {
