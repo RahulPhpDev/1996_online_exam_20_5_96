@@ -32,6 +32,7 @@ $scope.examDetails = <?php echo $examDetails->getContent(); ?>;
 $scope.resultDetails =<?php echo $resultDetails->getContent(); ?>; 
 
 
+$scope.Total = function() { return parseInt($scope.examDetails.total_question ) + parseInt($scope.resultDetails.not_attempt ); };
 
 });
 </script>
@@ -70,7 +71,7 @@ td, th{
               <tr>
                 <td> <@ examDetails.exam_name @></td>
                 <td> <@ examDetails.total_question @></td>
-                <td> <@ examDetails.total_question + resultDetails.not_attempt @></td>
+                <td> <@ Total() @></td>
                 <td> <@ examDetails.total_marks @></td>
                 <td> <@ resultDetails.obtain_mark @></td>
                 <td> <@ resultDetails.negative_marks @></td>

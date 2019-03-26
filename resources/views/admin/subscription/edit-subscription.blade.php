@@ -33,7 +33,7 @@ div.radio input{ opacity: 10 !important;
         <div class="span12">
           <div class="widget-box">
             <div class="widget-title"> <span class="icon"> <i class="icon-info-sign"></i> </span>
-              <h5>Security validation</h5>
+              <h5>Edit {{$editData['name']}}</h5>
             </div>
             <div class="widget-content nopadding">
                  {{Form::open(array('route' => array('update-subscription','id' => Crypt::encrypt($editData['id']) ), 'method' => 'post','class' => 'form-horizontal', 'id'=>'basic_validate'))}}
@@ -44,6 +44,17 @@ div.radio input{ opacity: 10 !important;
                       {{Form::text('name',$editData['name'], array('class' =>'name_div', 'id' => 'name'))}}
                   </div>
                 </div>
+                 
+                 <div class="control-group">
+                     {{Form::label('exam','Select Exam' , array('class' => 'control-label')) }}
+                     <div class="controls">
+                         <select name= "exam_id[]" multiple class="multiselect">
+                            @foreach($examList as $k => $v)
+                             <option @if(in_array($k,$exmaIdArray)) {{'selected'}} @endif value="{{$k}}"> {{$v}}</option>
+                            @endforeach
+                       </select>
+                     </div>
+                  </div>
                  
 
                  <div class="control-group">
@@ -110,10 +121,16 @@ div.radio input{ opacity: 10 !important;
   <script>
         
        $(document).ready(function(){
+        $('.multiselect').multiselect({
+                nonSelectedText: 'Select Option!',
+                buttonWidth: 250,
+                enableFiltering: true
+            });
+
            var isDatePermit = '<?php echo $editData['isDatePermit']; ?>';
            console.log(isDatePermit);
            if(isDatePermit == 0){
-               $(".date_div").hide();
+               $("#date_div").hide();
            }else{
                $("#duration_div").hide();
            }

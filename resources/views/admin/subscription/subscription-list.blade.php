@@ -22,12 +22,13 @@
           <div class="widget-title"> <span class="icon"><i class="icon-th"></i></span>
             <h5>Subscription Package</h5>
           </div>
-          <div class="">
+          <div class="nopadding">
             <table class="table table-bordered table-striped">
               <thead>
                 <tr>
                 <th> SN </th>
                   <th>Name</th>
+                  <th>Exam</th>
                   <th>Duration</th>
                   <th>Price</th>
                   <th>Image</th>
@@ -39,10 +40,11 @@
               <tbody>
               @php  $i = 1; @endphp
                 @foreach($allData as $data)
-              
+        
                 <tr class="gradeX">
                   <td>{{$i}}</td>
                   <td>{{$data['name']}}</td>
+                  <td><a class="btn btn-primary " id = "{{$data['id']}}"> View  <spam class = "circle">{{(count($data->Exam))}} </spam></a></td>
                   <td>
                     @if($data['isDatePermit'] == 0)
                      {{$data['duration']}}
@@ -62,9 +64,10 @@
                   
                   <td class = "center">  <img style = "max-width:120px" src="{{ asset( $pic )}}"  class="avatarbox material_avatar package_img"/> </td>
                   <td class="center">
-                    <a class = "btn btn-danger update_img" data-subid = "{{$data['id']}}" >Update</a></td>
-                  <td class="center">
                     <a class = "btn btn-danger" href = "{{route('edit-subscription', ['id' => Crypt::encrypt($data['id']) ]) }}">Edit</a></td>
+                  <td class="center">
+                    <a class = "btn btn-danger update_img" data-subid = "{{$data['id']}}" >Update</a></td>
+                  
                   <td class="center" ><a class = "btn btn-og delete_btn">Delete </a>
                   <div class = "delete_div" style = "display:none">
                   {{Form::open(array('route' => array('delete-subscription','id' => Crypt::encrypt($data['id']) ), 'method' => 'post','class' => 'form-horizontal'))}}
