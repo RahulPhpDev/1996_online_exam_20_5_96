@@ -5,9 +5,7 @@
 @section('title', $title)
 @section('content')
 <style>
-.select2-container{
-  width: 30%;
-}
+
 input[type="checkbox" i] {
     -webkit-appearance: checkbox;
     box-sizing: border-box;
@@ -23,6 +21,9 @@ div.radio input{ opacity: 10 !important;
     filter: alpha(opacity:10);
     display: inline-block;
     background: none;
+}
+.select2-container{
+  width: 30%;
 }
 </style>  
 <div id="content">  
@@ -46,6 +47,16 @@ div.radio input{ opacity: 10 !important;
                   </div>
                 </div>
                  
+                    <div class="control-group">
+                     {{Form::label('exam','Select Exam' , array('class' => 'control-label')) }}
+                     <div class="controls">
+                         <select name= "exam_id[]" multiple class="multiselect">
+                            @foreach($examList as $k => $v)
+                             <option value="{{$k}}"> {{$v}}</option>
+                            @endforeach
+                       </select>
+                     </div>
+                    </div>
 
                  <div class="control-group">
                     {{Form::label('price' , 'Price', array('class' => 'control-label')) }}
@@ -54,6 +65,11 @@ div.radio input{ opacity: 10 !important;
                     </div>
                  </div>
                  
+
+
+                 
+
+
                   <div class="control-group">
                     {{Form::label('valid_date' , 'Valid Date', array('class' => 'control-label')) }}
                     <div class="" style="display: inline;margin-left:30px;margin-top:20px "> 
@@ -77,6 +93,8 @@ div.radio input{ opacity: 10 !important;
                     </div>
                   </div>
                     
+                   </div>
+
 
                     <div class="control-group">
                      {{Form::label('end_date','End Date' , array('class' => 'control-label')) }}
@@ -85,6 +103,7 @@ div.radio input{ opacity: 10 !important;
                      </div>
                     </div>
                    </div>
+
                    <div class="control-group">
                     {{Form::label('Description' , 'Description', array('class' => 'control-label')) }}
                     <div class="controls">
@@ -119,6 +138,12 @@ div.radio input{ opacity: 10 !important;
 
   <script>
        $(document).ready(function(){
+         $('.multiselect').multiselect({
+                nonSelectedText: 'Select Option!',
+                buttonWidth: 250,
+                enableFiltering: true
+            });
+
         $('.description_div').wysihtml5();
           $(".valid_date").on("click",function(){
               

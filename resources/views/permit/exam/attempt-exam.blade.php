@@ -56,19 +56,10 @@ var th = this;
            $scope.oldAnswer = response.data.old_answer;
            $scope.difference = response.data.difference;
            $scope.currentQuestionNumber = response.data.currentQuestionNumber + 1;
-           <?php
-           $cur = session($session_array_key.'current_question'); 
-           // echo $cur;
-           if(!session($session_array_key.'questions_answer'.$cur) > 0) {?>
-           $scope.model.answer = '';
-           console.log('cs');
-           var fd = <?php echo session($session_array_key.'questions_answer'.session($session_array_key.'current_question')); ?>;
-           console.log(f);
-         <?php }else {
-          ?>
-console.log('hii');
-          $scope.model.answer = <?php echo session($session_array_key.'questions_answer'.$cur);
-         } ?>
+
+$scope.model.answer = response.data.old_answer;
+
+        console.log( $scope.oldAnswer);
          },function (error){
        });
     };
@@ -169,7 +160,6 @@ setTimeout(compareTime, 3000);
         var hour  =  $(".hours").text();
         var minute = $(".minutes").text();
         var totalMintue = parseInt(hour*60) + parseInt(minute);
-        console.log(totalMintue);
         if(givenTime != 0){
         if(totalMintue >= givenTime){
            if(autoSubmit == true){
@@ -304,8 +294,7 @@ function submitFormWithComment(disable = false){
                
                   <div class = "opt_data question_count_div panel" ng-repeat = "(key, value) in quizOptions">
                      <input type ="radio" ng-model = "model.answer" value = "<@ value.id @>" class ="rdo_opt" id = "<@ value.id @>" name = "answer" 
-                      ng-checked="(oldAnswer == value.id)"
-                     > 
+                      ng-checked="(oldAnswer == value.id)"> 
                        <span class = "options_span" ng-bind-html = "value.question_option "> </span> 
                     </div>
                      

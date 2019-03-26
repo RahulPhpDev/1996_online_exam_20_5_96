@@ -24,6 +24,7 @@ use Config;
 // use Mail;
 use stdClass;
 use App\Model\Alert;
+use App\Model\Exam;
 
 use App\User;
 //use Illuminate\Http\Request; #form-validation
@@ -59,7 +60,8 @@ class AdminController extends Controller
     
     public function addSubscription(){
         $title = 'Add Subscription Package';
-        return view('admin.subscription.add-subscription',compact('title'));
+        $examList = Exam::where('status', 1)->pluck('exam_name', 'id');
+        return view('admin.subscription.add-subscription',compact('title','examList'));
     }
     
     public function saveSubscription(Request $request){
@@ -85,6 +87,8 @@ class AdminController extends Controller
             'duration' => $duration
         );
         $subId =  Subscription::create($data)->id;
+
+        
        if(isset($request['image'])){
         $image = $request['image'];
         $detailsByID = Subscription::find($subId);
