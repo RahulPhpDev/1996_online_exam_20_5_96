@@ -65,10 +65,10 @@ class AdminController extends Controller
     }
     
     public function saveSubscription(Request $request){
-        
         $isDatePermitted = 0;
          $start_date = $end_date = "";
          $duration = $request->duration;
+         $duration = 0;
         if($request->start_date){
             $isDatePermitted = 1;
             $start_date = $request->start_date."00:00:00";
@@ -88,10 +88,16 @@ class AdminController extends Controller
         );
         $subId =  Subscription::create($data)->id;
 
+        $detailsByID = Subscription::find($subId);
+
+        if(count($request->exam_id) > 0){
+
+          $detailsByID->Exam()->sync($request->exam_id);
+
+        }
         
        if(isset($request['image'])){
         $image = $request['image'];
-        $detailsByID = Subscription::find($subId);
         $imageName = 'package_'.$subId.'.'.$image->getClientOriginalExtension();
         $imagesPath =  public_path().'/images';
         $imgPath =  $imagesPath.'/package';
@@ -157,13 +163,16 @@ class AdminController extends Controller
            }
            return redirect('subscription')->with('success', $message);
     }
-    
     public function editSubscription($id){
          $title = 'Edit Course';
          $newId =  Crypt::decrypt($id);
          $editData = Subscription::findOrFail($newId);
+         $getExam = $editData->Exam;
+         $exmaIdArray =  array_column($getExam->toArray(), 'id');
+         // dd($ar);
+         $examList = Exam::where('status', 1)->pluck('exam_name', 'id');
         // dd($editData);
-     	 return view('admin.subscription.edit-subscription',compact('title','editData'));
+     	 return view('admin.subscription.edit-subscription',compact('title','editData','examList','exmaIdArray'));
     }
 
     public function updateSubscription(Request $request, $id){
@@ -189,6 +198,14 @@ class AdminController extends Controller
            'duration' => $duration
        );
       Subscription::where('id', $newId)->update($data);
+
+      $detailsByID = Subscription::find($newId);
+        // if(isset($request->exam_id) && count($request->exam_id) > 0){
+          $detailsByID->Exam()->sync($request->exam_id);
+        // }else{
+          
+        // }
+
       $msg = 'Data Updated'; 
       return redirect()->route('subscription')->with('success',$msg);
     } catch (QueryException $e) {
