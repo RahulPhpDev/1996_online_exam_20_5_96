@@ -1,25 +1,33 @@
 <?php
+/* ******************************
+    ***********
+         This used to notify super admin when 
+                exam submitted by User
+    ********** 
 
+
+*************************
+*/
 namespace App\Notifications;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
-
+use App\Model\NotificationAlert;
+use stdClass;
 class notifyExamSubmission extends Notification
 {
     use Queueable;
 
-   
-    public function __construct()
-    {
-        //
-    }
-
     public $details;
-    public function __construct($details)
+    protected $notifyDetails;
+    public function __construct($details,$notifyParams)
     {
+        // $inputObj = new stdClass();
+        $notificationAlertObj = new NotificationAlert();
+        $notifyDetails = $notificationAlertObj->getNotifictionTemplate($notifyParams);
+        $this->notifyDetails = $notifyDetails;
         $this->details = $details;
     }
    
@@ -28,19 +36,11 @@ class notifyExamSubmission extends Notification
         return [ 'database'];
     }
 
-  
-    // public function toMail($notifiable)
-    // {
-    //     return (new MailMessage)
-    //                 ->line('The introduction to the notification.')
-    //                 ->action('Notification Action', url('/'))
-    //                 ->line('Thank you for using our application!');
-    // }
-
     public function toArray($notifiable)
     {
        return [
-            'message' =>  $this->details['message'],
+            'subject' => $this->notifyDetails->subject,
+            'message' =>  $this->notifyDetails->message,
             'email' => $this->details['email'] 
         ];
     }

@@ -1,9 +1,6 @@
-ALTER TABLE `results` ADD `user_comment` TEXT NULL AFTER `edit_date`;
 
+RENAME TABLE `exam`.`notification_params` TO `exam`.`notification_alerts`;
 
-git add app/Http/Controllers/Admin/AdminController.php
-git add app/Http/Controllers/Auth/UserController.php
-git add public/frontend/js/custom.min.js
-git add resources/views/admin/subscription/add-subscription.blade.php
-git add resources/views/permit/exam/attempt-exam.blade.php
+ALTER TABLE `notification_alerts` CHANGE `content_params` `notification_params` VARCHAR(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL;
+
 

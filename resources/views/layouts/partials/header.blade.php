@@ -22,19 +22,17 @@
 <div id="user-nav" class="navbar navbar-inverse">
   <ul class="nav">
     <li  class="dropdown" id="profile-messages" ><a title="" href="#" data-toggle="dropdown" data-target="#profile-messages" class="dropdown-toggle"><i class="icon icon-user"></i>  <span class="text">
-      
-@php
+      @php
+      $userData = Auth::user();
+        echo $userData['fname'].' '.$userData['lname'];
+      @endphp
 
-$userData = Auth::user();
-echo $userData['fname'].' '.$userData['lname'];
-@endphp
-
-    </span><b class="caret"></b></a>
-      <ul class="dropdown-menu">
-        <li><a href="/profile"><i class="icon-user"></i> My Profile</a></li>
-        <li class="divider"></li>
-        <li><a href="#"><i class="icon-check"></i> My Tasks</a></li>
-        <li class="divider"></li>
+         </span><b class="caret"></b></a>
+        <ul class="dropdown-menu">
+            <li><a href="/profile"><i class="icon-user"></i> My Profile</a></li>
+            <li class="divider"></li>
+            <li><a href="#"><i class="icon-check"></i> My Tasks</a></li>
+            <li class="divider"></li>
         <li>
 
           <a class="" href="{{ route('logout') }}"
@@ -52,35 +50,37 @@ echo $userData['fname'].' '.$userData['lname'];
        
       </ul>
     </li>
-   <!-- <li class="dropdown" id="menu-messages"><a href="#" data-toggle="dropdown" data-target="#menu-messages" class="dropdown-toggle"><i class="icon icon-envelope"></i> <span class="text">Messages</span> <span class="label label-important">5</span> <b class="caret"></b></a>
+
+   <li class="dropdown" id="menu-messages"><a href="#" data-toggle="dropdown" data-target="#menu-messages" class="dropdown-toggle"><i class="icon icon-globe"></i> <span class="text">Notification</span> <span class="label label-important">{{Auth::user()->unreadNotifications->count()}}</span> <b class="caret"></b></a>
       <ul class="dropdown-menu">
-        <li><a class="sAdd" title="" href="#"><i class="icon-plus"></i> new message</a></li>
-        <li class="divider"></li>
-        <li><a class="sInbox" title="" href="#"><i class="icon-envelope"></i> inbox</a></li>
-        <li class="divider"></li>
-        <li><a class="sOutbox" title="" href="#"><i class="icon-arrow-up"></i> outbox</a></li>
-        <li class="divider"></li>
-        <li><a class="sTrash" title="" href="#"><i class="icon-trash"></i> trash</a></li>
+        @foreach(Auth::user()->unreadNotifications->take(4) as $notify)
+          <li style="padding:3px">
+            <a class="sAdd" title="" href="#">{{ $notify['data']['subject']}}</a>
+            <span class="pull-right" style="font-size:9px">{{ extractDateTime('d-M h:i A',$notify['created_at'])}} </span>
+            <span class="clearfix"></span>
+          </li>
+          <li class="divider"></li>
+        @endforeach
+           <li><a class="sAdd text-center" title="" href="{{route('notify.index')}}">View All </a></li>
       </ul>
-    </li> -->
-  <!--   <li class=""><a title="" href="#"><i class="icon icon-cog"></i> <span class="text">Settings</span></a></li> -->
-    <li class="">
-                                    <a class="dropdown-item" href="{{ route('logout') }}"
-                                       onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
-                                        Logout
-                                    </a>
+    </li>
 
-                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                                        @csrf
-                                    </form>
+     <li class="">
+          <a class="dropdown-item" href="{{ route('logout') }}"
+             onclick="event.preventDefault();
+                           document.getElementById('logout-form').submit();">
+              Logout
+          </a>
 
+          <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+              @csrf
+          </form>
     </li>
   </ul>
 </div>
 <!--start-top-serch-->
 <div id="search">
-  <a class="tip-bottom btn" style="margin-top:10px" href = "{{route('/')}}"> Vist Site</a>
+  <a class="tip-bottom btn" style="" href = "{{route('/')}}"> Vist Site</a>
 </div>
 
 <!--close-top-serch--> 

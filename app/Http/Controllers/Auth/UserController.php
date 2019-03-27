@@ -35,7 +35,7 @@ use App\Http\Requests\updateProfileRequest; #form-validation
 use File;
 use stdClass;
 use Illuminate\Support\Facades\Hash;
-use Notifications;
+use Notification;
 use App\Notifications\notifyExamSubmission;
 class UserController extends Controller
 {
@@ -242,7 +242,8 @@ class UserController extends Controller
   }
 
 
-public function submitExam(Request $request, $e_eId){
+public function submitExam(Request $request, $e_eId)
+{
   // dd(session()->all());
     $userData = Auth::user();
     $userId = $userData['id'];
@@ -340,16 +341,37 @@ public function submitExam(Request $request, $e_eId){
         $userAnswerDetails->result_id = $id;
         $userAnswerDetails->save();
       }
-      
+      $resultData = Result::findOrFail($id);
       $viewData = array(
         'examDetails' => Response::json($examDetails), 
-        'resultDetails' => Response::json(Result::findOrFail($id)),
+        'resultDetails' => Response::json($resultData),
         // 'userExamData' => $userExamData,
         'userData' => $userData,
         'totalMark' => $totalMark,
         'r_id' => $id 
-      );      
+      );     
+
+      $notifyParams = new stdClass();
+      $notifyParams->notify_id = 1;
+      $notifyParams->subject_params =  [$userData->getFullName(), $examDetails->exam_name];
+      $resultTable = "<table class = 'table res_table' border = '1'>
+                      <tr>
+                        <th> Exam </th>
+                        <th> Obtain Mark </th>
+                        <th> MarkSheet </th>
+                      </tr>
+                      <tr>
+                          <td> $examDetails->exam_name; </td>
+                          <td> ".$resultData['obtain_mark']." </td>
+                          <td> <a href = ''> Click  </a> </td>
+                      </tr>
+                      </table>
+                    ";
+
+      $notifyParams->msg_params =[$userData->getFullName(), $examDetails->exam_name,date('d-m-Y'), $resultTable];
+      Notification::send(User::find(1), new notifyExamSubmission(Result::findOrFail($id), $notifyParams)); 
     }
+
     forgetSession($examId.'_'.$userId);
     return view('permit.exam.exam_overview',$viewData);
   }

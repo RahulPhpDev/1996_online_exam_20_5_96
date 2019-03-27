@@ -249,6 +249,8 @@ function submitFormWithComment(disable = false){
  		<div class = "col-md-8 header_question_exam" >
 
 
+<div id = "load" style="display: none"></div> 
+
           <div class ="exam_details hidden-sm" ng-init="examDetails;fetchExamQuestions()" style="margin-top:20px">  
 
                <div class = "detail_heading head_span uppercase hidden-sm">  <@ examDetails.exam_name  @>  </div> 
@@ -281,7 +283,6 @@ function submitFormWithComment(disable = false){
             </div> 
 
                
-<div id = "load" style="display: none"></div> 
 
           <div class="mycontainer question_section">
             <form method="post" ng-submit="submitForm()", class = "form-horizontal">

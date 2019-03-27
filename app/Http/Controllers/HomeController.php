@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Model\Subscription;
 use App\User;
 use App\Model\Exam;
+use Auth;
 class HomeController extends Controller
 {
     /**
@@ -25,6 +26,8 @@ class HomeController extends Controller
      */
 
     public function dashboard(){
+        // dd(Auth::user()->unreadNotifications[0]);
+        // dd(Auth::user()->unreadNotifications[0]['data']['subject']);
         $title = 'Dashboard';
        $userCount =  User::where(array('status' => 1, 'user_type' => 3))->count();
        $ExamCount =  Exam::where(array('status' => 1))->count();

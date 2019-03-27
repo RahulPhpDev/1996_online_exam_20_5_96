@@ -46,6 +46,9 @@ die('check');
 });
 /**** Feedback Reply ******/
 Route::resource('feedback','FeedbackController');
+Route::resource('notification','NotificationController' ,['only' => ['index', 'show','destroy']]);
+
+
 // Route::group(['middleware' => 'auth'], function()
 // {
 	// Route::resource('feedback','FeedbackController', ['only' => ['index']]);
@@ -304,6 +307,9 @@ Route::any('result/extra-attempt/{exam_id}/{user_id}', 'Admin\ResultController@e
 Route::post('result/delete-extra-attempt', 'Admin\ResultController@deleteExtraAttempt')->name('delete-extra-attempt');
 
 Route::get('exam/user-exam-list', 'Admin\ExamController@userExamList')->name('user-exam-list');
+
+
+Route::resource('notify','Admin\AdminNotifyController' ,['only' => ['index', 'show','destroy']]);
 }) ; 
 
 
