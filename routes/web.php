@@ -309,6 +309,7 @@ Route::post('result/delete-extra-attempt', 'Admin\ResultController@deleteExtraAt
 Route::get('exam/user-exam-list', 'Admin\ExamController@userExamList')->name('user-exam-list');
 
 
+Route::get('notify/unreadNotification','Admin\AdminNotifyController@unreadNotification')->name('unreadNotification');
 Route::resource('notify','Admin\AdminNotifyController' ,['only' => ['index', 'show','destroy']]);
 }) ; 
 
