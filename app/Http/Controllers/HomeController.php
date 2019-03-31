@@ -6,7 +6,10 @@ use Illuminate\Http\Request;
 use App\Model\Subscription;
 use App\User;
 use App\Model\Exam;
+use App\Model\Result;
 use Auth;
+use Carbon\Carbon;
+use DB;
 class HomeController extends Controller
 {
     /**
@@ -33,8 +36,15 @@ class HomeController extends Controller
        $ExamCount =  Exam::where(array('status' => 1))->count();
        $packageCount =  Subscription::where(array('status' => 1))->count();
        $data = ['userCount' => $userCount, 'ExamCount' => $ExamCount, 'packageCount' => $packageCount]; 
-       // dd($data);
-        return view('admin.dashboard', compact('title','data'));
+    
+        $resultData = DB::table('results as a')
+                            ->select('exam_name', DB::raw('count(exam_id) as total'))
+                             ->leftJoin('exams as e', 'a.exam_id', '=', 'e.id')
+                            ->whereDate('a.add_date',Carbon::today())
+                            ->groupBy('exam_id')
+                            ->get();
+     // dd($resultData);
+        return view('admin.dashboard', compact('title','data','resultData'));
     }
 
     public function index()

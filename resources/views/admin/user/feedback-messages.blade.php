@@ -4,9 +4,7 @@
 @extends('layouts.partials.footer')
 @section('title', $title = ' Feedback')
 
-@push('angular')
-  @include('layouts.partials.fetch_layout_angular')
-@endpush
+
 
 
 @section('content')
@@ -24,7 +22,7 @@
             <h5>Message</h5>
           </div>
           <div class="nopadding">
-            <table id = "data_table" class="table table-bordered table-striped">
+            <table  datatable="ng" dt-options="vm.dtOptions" class="table table-bordered table-striped">
               <thead>
                 <tr>
                     <th>Name</th>

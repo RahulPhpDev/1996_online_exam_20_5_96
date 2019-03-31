@@ -16,7 +16,7 @@ class AdminNotifyController extends Controller
     {
 
         $notificationData = Auth::user()->Notifications->find($id);
-        return View('admin.notify.show_notification', $notificationData)
+        return View('admin.notify.show_notification', $notificationData);
         
     }
 

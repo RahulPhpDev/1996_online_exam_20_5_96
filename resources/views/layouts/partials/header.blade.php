@@ -3,7 +3,8 @@
 <html lang="en">
   
 @include('layouts.partials.fetch_css')  
- @include('layouts.partials.fetch_js')
+ @include('layouts.partials.fetch_js')  
+ @include('layouts.partials.fetch_layout_angular')
 <head>
         <title>Online Exam :: @yield('title')</title><meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />   
