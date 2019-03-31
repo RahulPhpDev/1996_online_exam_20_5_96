@@ -3,16 +3,35 @@
 <html lang="en">
   
 @include('layouts.partials.fetch_css')  
- @include('layouts.partials.fetch_js')  
- @include('layouts.partials.fetch_layout_angular')
+ @include('layouts.partials.fetch_js')
+   @include('layouts.partials.fetch_layout_angular')
+   <link href="{{ asset('css/jquery-confirm.min.css') }}" rel="stylesheet">
+  <script src="{{ asset('js/jquery-confirm.min.js') }}"></script>
 <head>
         <title>Online Exam :: @yield('title')</title><meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />   
     </head>
     <body ng-app="maarulaapp">
 
+<script type="text/javascript">
+app.controller('notifyController',['$rootScope', '$scope', 'myservice',
+    function ($rootScope, $scope, myservice) {
+      // console.log('hi');
+       $scope.myservice = myservice;  
+       console.log( $scope.myservice.unreadNotification);
+       // $scope.unreadNotification = <?php echo Auth::user()->unreadNotifications->count(); ?>;
+    }]);
 
 
+    app.service('myservice', function() {
+      this.unreadNotification = <?php echo Auth::user()->unreadNotifications->count(); ?>;
+      // console.log(this.unreadNotification);
+    });
+// angular.module('')
+  // app.controller('notifyController', function($scope, $rootScope,$http){
+  //   $scope.unreadNotification = <?php echo Auth::user()->unreadNotifications->count(); ?>;
+  // });
+</script>
 <!--Header-part-->
 <div id="header">
  <a href="{{route('/')}}"> <h1>Maarula Admin</h1></a>
@@ -27,7 +46,6 @@
       $userData = Auth::user();
         echo $userData['fname'].' '.$userData['lname'];
       @endphp
-
          </span><b class="caret"></b></a>
         <ul class="dropdown-menu">
             <li><a href="/profile"><i class="icon-user"></i> My Profile</a></li>
@@ -39,7 +57,7 @@
           <a class="" href="{{ route('logout') }}"
              onclick="event.preventDefault();
                            document.getElementById('logout-form').submit();">
-             <i class="icon-key"></i> Log Out
+             <i class="icon-key"></i> Log Out 
           </a>
 
           <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
@@ -52,11 +70,13 @@
       </ul>
     </li>
 
-   <li class="dropdown" id="menu-messages"><a href="#" data-toggle="dropdown" data-target="#menu-messages" class="dropdown-toggle"><i class="icon icon-globe"></i> <span class="text">Notification</span> <span class="label label-important">{{Auth::user()->unreadNotifications->count()}}</span> <b class="caret"></b></a>
+   <li ng-controller="notifyController" class="dropdown" id="menu-messages"><a href="#" data-toggle="dropdown" data-target="#menu-messages" class="dropdown-toggle"><i class="icon icon-globe"></i> <span class="text">Notification </span> <span class="label label-important">
+   <@ myservice.unreadNotification @>
+   </span> <b class="caret"></b></a>
       <ul class="dropdown-menu">
         @foreach(Auth::user()->unreadNotifications->take(4) as $notify)
           <li style="padding:3px">
-            <a class="sAdd" title="" href="#">{{ $notify['data']['subject']}}</a>
+            <a class="sAdd" title="" href="{{ route('notify.show', ['id' =>$notify['id'] ]) }}">{{ $notify['data']['subject']}}</a>
             <span class="pull-right" style="font-size:9px">{{ extractDateTime('d-M h:i A',$notify['created_at'])}} </span>
             <span class="clearfix"></span>
           </li>
@@ -70,7 +90,7 @@
           <a class="dropdown-item" href="{{ route('logout') }}"
              onclick="event.preventDefault();
                            document.getElementById('logout-form').submit();">
-              Logout
+              Logout 
           </a>
 
           <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">

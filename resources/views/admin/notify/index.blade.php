@@ -4,9 +4,7 @@
 @extends('layouts.partials.sidebar')
 @extends('layouts.partials.footer')
 @section('title', $title ='Notification')
-@push('angular')
-  @include('layouts.partials.fetch_layout_angular')
-@endpush
+
 
 @section('content')
 <style type="text/css">
@@ -19,16 +17,65 @@
 
 </style>
 
-
-
 <script type="text/javascript">
-
-  app.controller('maarulaController', function($scope, $http){
-
+  app.controller('maarulaController', ['$rootScope', '$scope','$http', 'myservice',function($scope, $rootScope,$http,myservice){
     $scope.notification = <?php echo Auth::user()->unreadNotifications; ?>;
-    
-  });
+    $scope.deleteNotification = function (id){
+          $http({
+                url: 'notify/'+id,
+                method: 'DELETE', 
+              }).then(function(response){
+                 $scope.notification = response.data;
+                console.log($scope.notification);
+              },function(error){
+          });
+        };
 
+      $scope.getMessage = function(id){
+        $http({
+          method:'get',
+          url: 'notify/'+id,
+        }).then(function (response){
+          $scope.countUnreadNotification();
+
+          $.confirm({
+             columnClass: 'col-sm-1 col-md-1',
+             title: 'Notification',
+             content: response,
+             buttons: {
+                  delete: {
+                    text: 'Remove',
+                    btnClass: 'btn-danger',
+                    keys: ['enter', 'shift'],
+                    action: function(){
+                        $scope.deleteNotification(id);
+                        $scope.countUnreadNotification();
+                    }
+                  },
+                  close: function () {
+
+                  }
+                }
+            });
+          
+        },function(error){
+
+        });
+      };
+    
+
+    $scope.countUnreadNotification = function(){
+      $http({
+        url: 'notify/unreadNotification',
+        method :'Get'
+      }).then(function (response){
+        myservice.unreadNotification = response.data;
+      },function(error){      
+      });
+    }
+
+  }]);
+ 
 </script>
 
 <div id="content" ng-controller="maarulaController">
@@ -38,7 +85,7 @@
       <div class="span12">
         <div class="widget-box">
           <div class="widget-title"> <span class="icon"> <i class="icon-th"></i> </span>
-            <h5>Exam</h5>
+            <h5>Notification</h5>
           </div>
           <div class="widget-content nopadding">
             <table datatable="ng" dt-options="vm.dtOptions" class="table table-bordered table-striped mb-20">
@@ -55,8 +102,9 @@
                <td>  <@ $index+1 @> </td>
                <td>   <@ notify.created_at @></td>
                <td>  <@ notify.data.subject @> </td>
-               <td> <a href = "" class= "btn btn-primary">  View </a></td>
-               <td>  <a href = "" class= "btn btn-danger"> Delete </a></td>
+               <td> 
+               <a ng-click = "getMessage(notify.id)" class= "btn btn-primary">  View </a></td>
+               <td>  <a ng-click = "deleteNotification(notify.id)"   class= "btn btn-danger"> Delete </a></td>
               </tr>
             </table>
           </div>  
