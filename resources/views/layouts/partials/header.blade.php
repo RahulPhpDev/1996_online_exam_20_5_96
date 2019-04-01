@@ -16,21 +16,14 @@
 <script type="text/javascript">
 app.controller('notifyController',['$rootScope', '$scope', 'myservice',
     function ($rootScope, $scope, myservice) {
-      // console.log('hi');
        $scope.myservice = myservice;  
-       console.log( $scope.myservice.unreadNotification);
-       // $scope.unreadNotification = <?php echo Auth::user()->unreadNotifications->count(); ?>;
     }]);
 
 
     app.service('myservice', function() {
       this.unreadNotification = <?php echo Auth::user()->unreadNotifications->count(); ?>;
-      // console.log(this.unreadNotification);
     });
-// angular.module('')
-  // app.controller('notifyController', function($scope, $rootScope,$http){
-  //   $scope.unreadNotification = <?php echo Auth::user()->unreadNotifications->count(); ?>;
-  // });
+
 </script>
 <!--Header-part-->
 <div id="header">

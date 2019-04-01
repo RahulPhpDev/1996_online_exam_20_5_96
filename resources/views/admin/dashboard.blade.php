@@ -6,7 +6,7 @@
 @section('title', $title)
 @section('content')
 <script src="{{ asset('js/backend_js/matrix.js') }}"></script>
-<!-- <script src= "{{asset('js/chart_loader.js') }}"></script> -->
+
 <!--main-container-part-->
 <div id="content">
 <!--breadcrumbs-->
@@ -37,20 +37,24 @@
               </ul>
             </div>
 
-            <div class="span12">
-              <select ng-change=""  >
-                <option value="today">Today</option>
-                <option value="today">Yesterday</option>
-              </select>
+            
+
+          <div class="span12" style="margin: 50px">
+             <label class="label">Select Date: </label>
+                    {{ Form::text('start_date', ' ',array('class' =>'dd', 'id' => 'datepicker',"autocomplete"=>"off"))}}
+  
+
+   
+             <label class="label">Select Date: </label>
+                    {{ Form::text('start_date', ' ',array('class' =>'datepicker', 'id' => '',"autocomplete"=>"off",'ng-change'=>"dataByDate()",'ng-model'=>"date" ))}}
+
                <label class="label">Chart Type: </label>
                    <select ng-model="chartType" ng-options="chartType.name for chartType in chartTypes" ng-init="chartType=chartTypes[0]" ng-change="myChart.type=chartType.type">
                </select>
-               <div style="border:1px solid lightblue;width:100%;height:100%;" google-chart chart="myChart"></div>
+               <div style="border:1px solid lightblue;width:50%;height:400px" google-chart chart="myChart"></div>
         
         <!-- Chart items -->
-        <div style="text-align:center;font-size:25px">
-     
-        </div>
+                 <div style="text-align:center;font-size:25px"> </div>
             </div>
           </div>
         </div>
@@ -65,19 +69,42 @@
 div.google-visualization-tooltip { pointer-events: none }
 </style>
 <script type="text/javascript">
-  app.controller("dashboardController", ['$scope','chartService',
-    function ($scope,chartService) {
+        $(function() {
+            $("#datepicker").datepicker( {
+                format: "mm-yyyy",
+                startView: "months", 
+                minViewMode: "months"
+            });
+        });
+
+  app.controller("dashboardController", ['$scope','chartService','$http',
+    function ($scope,chartService,$http) {
         $scope.myChart = chartService;
         $scope.chartTypes=chartService.chartTypes;
    
+  $scope.chartData =<?php echo $resultData; ?>;
     $scope.init = function(){
-        $scope.employees =<?php echo $resultData; ?>;
-        angular.forEach($scope.employees, function(value, key) {
+      console.log('akd'+$scope.chartData);
+        angular.forEach($scope.chartData, function(value, key) {
+          // console.log(value.exam_name);
            $scope.myChart.addColumn(value.exam_name,parseInt(value.total));
         });
       }
       $scope.init();
+
+      $scope.dataByDate = function(){
+       $http.get("result_by_date/"+$scope.date)
+                .then(function(response) {
+                    $scope.myChart.clearChart();
+                  console.log(response.data);
+                  $scope.chartData = response.data;
+                    $scope.init();
+                });
+      }
+
     }
+
+    
   ]);
 </script>
 <!--end-main-container-part-->

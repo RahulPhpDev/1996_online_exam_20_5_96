@@ -4,9 +4,7 @@
 @extends('layouts.partials.sidebar')
 @extends('layouts.partials.footer')
 @section('title', $title ='Extra Attempt')
-@push('angular')
-  @include('layouts.partials.fetch_layout_angular')
-@endpush
+
 
 @section('content')
 
@@ -14,7 +12,6 @@
 
   app.controller('maarulaController', function($scope, $http){
     $scope.userExamData = <?php echo $userExamData; ?> ;
-    console.log($scope.userExamData);
 
   });
 

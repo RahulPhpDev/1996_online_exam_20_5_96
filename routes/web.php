@@ -189,6 +189,7 @@ Route::any('feedback-messages', 'Admin\UserController@feedbackMessages')->name('
 Route::any('show-feedback-messages/{id}', 'Admin\UserController@showFeedbackMessages')->name('show-feedback-messages');
     
 Route::get('/dashboard', 'HomeController@dashboard')->name('dashboard');
+Route::get('/result_by_date/{date?}', 'HomeController@result_by_date')->name('result_by_date');
 
 Route::get('/course', 'Admin\CourseController@courseList')->name('course');
 Route::get('/add-course', 'Admin\CourseController@addCourse')->name('add-course');

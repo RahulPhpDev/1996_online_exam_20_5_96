@@ -50,6 +50,6 @@ ALTER TABLE `exams` ADD `is_new` ENUM('yes','no') NOT NULL DEFAULT 'no' AFTER `e
 
 alter table exams add exam_ref varchar(10) default null after exam_name;
 update exams set exam_ref = concat('MOT_', (CASE when length(id) = 1 then '00' when length(id) = 2 then '0' end) ,id )
- 
-update users set user_ref = concat('MOT_', (select lpad(id,3,0) from users));
+ ALTER TABLE `users` ADD `user_ref` varchar(20) DEFAULT null AFTER `lname`
+
 update users set user_ref = (concat('MOT_',lpad(id, 3, 0)));

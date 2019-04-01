@@ -6,7 +6,7 @@
     <li><a href="{{route('dashboard')}}"><i class="icon icon-home"></i> <span>Dashboard</span></a> </li>
     <li class="submenu"><a href="#" ><i class="icon icon-user"></i> <span>Users</span></a>
   
-    <ul>
+      <ul>
         <li><a href="{{route('users')}}">View Users</a></li>
         <li><a href="{{route('add-user')}}">Add User</a></li>
       </ul>

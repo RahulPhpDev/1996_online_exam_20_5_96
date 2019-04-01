@@ -41,6 +41,10 @@
             {id:2, label:"", type:"number"}
         ];
         obj.data["rows"] = [];
+         obj.clearChart = function(){
+            obj.data["rows"] = [];
+        }
+        
         obj.addColumn = function(label,value){
             obj.data["rows"].push({
                 c: [
