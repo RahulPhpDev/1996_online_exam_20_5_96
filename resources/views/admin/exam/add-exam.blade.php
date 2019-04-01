@@ -102,8 +102,8 @@ $(".multiselect-clear-filter").hide();
                   Yes</label>
             </div>
           </div>
-        <div class = "exam_date_div" style = "display:none;">
-             <div class="control-group">
+          <div class = "exam_date_div" style = "display:none;">
+              <div class="control-group">
                   {{ Form::label('start_date','Start Date',array('class' => 'control-label'))}}
                 <div class="controls">
                     {{ Form::text('start_date', ' ',array('class' =>'datepicker', 'id' => ''))}}
@@ -115,18 +115,16 @@ $(".multiselect-clear-filter").hide();
               </div>   
 
 
-                  <div class="control-group">
+                <div class="control-group">
                   {{ Form::label('end_date','End Date',array('class' => 'control-label'))}}
-                <div class="controls">
-                    {{ Form::text('end_date', ' ',array('class' =>'datepicker', 'id' => ''))}}
-                    <div class="input-group bootstrap-timepicker timepicker" style = "display:inline">
-                      <input id="timepicker1" name = "end_time" type="text" class="form-control input-small timepicker" >
-                      <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
+                    <div class="controls">
+                        {{ Form::text('end_date', ' ',array('class' =>'datepicker', 'id' => ''))}}
+                        <div class="input-group bootstrap-timepicker timepicker" style = "display:inline">
+                          <input id="timepicker1" name = "end_time" type="text" class="form-control input-small timepicker" >
+                          <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
+                        </div>
                     </div>
-                </div>
-              </div>   
-
-
+              </div>  
           </div>  
           
           <div class="control-group">
@@ -136,6 +134,17 @@ $(".multiselect-clear-filter").hide();
                   <input type="checkbox" name="payable" id = "payable" value = "1"/>
                   Yes</label>
             </div>
+          </div>
+
+           <div class="control-group">
+              <label class="control-label"> Mark As New: </label>
+              <div class="controls">
+                <label>
+                 {{ Form::radio('is_new', 'no' , false) }}
+                   <span> No </span>
+                 {{ Form::radio('is_new', 'yes' ,true) }}
+                   <span> Yes </span>
+              </div>
           </div>
 
            <div class="control-group" id = "amout_div" style = "display:none;">

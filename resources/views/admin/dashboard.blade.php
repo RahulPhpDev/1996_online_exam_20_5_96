@@ -6,7 +6,7 @@
 @section('title', $title)
 @section('content')
 <script src="{{ asset('js/backend_js/matrix.js') }}"></script>
-<script src= "{{asset('js/chart_loader.js') }}"></script>
+<!-- <script src= "{{asset('js/chart_loader.js') }}"></script> -->
 <!--main-container-part-->
 <div id="content">
 <!--breadcrumbs-->
@@ -27,7 +27,7 @@
           <h5>Site Analytics</h5>
         </div>
         <div class="widget-content" >
-          <div class="row-fluid">
+          <div class="row-fluid" ng-controller="dashboardController">
             
             <div class="span12">
               <ul class="site-stats">
@@ -38,11 +38,19 @@
             </div>
 
             <div class="span12">
-              <select   >
+              <select ng-change=""  >
                 <option value="today">Today</option>
                 <option value="today">Yesterday</option>
               </select>
-              <div id="piechart"></div>
+               <label class="label">Chart Type: </label>
+                   <select ng-model="chartType" ng-options="chartType.name for chartType in chartTypes" ng-init="chartType=chartTypes[0]" ng-change="myChart.type=chartType.type">
+               </select>
+               <div style="border:1px solid lightblue;width:100%;height:100%;" google-chart chart="myChart"></div>
+        
+        <!-- Chart items -->
+        <div style="text-align:center;font-size:25px">
+     
+        </div>
             </div>
           </div>
         </div>
@@ -52,34 +60,25 @@
     
   </div>
 </div>
+<style type="text/css">
+  svg > g:last-child > g:last-child { pointer-events: none }
+div.google-visualization-tooltip { pointer-events: none }
+</style>
 <script type="text/javascript">
-google.charts.load('current', {'packages':['corechart']});
-google.charts.setOnLoadCallback(drawChart);
- 
-function drawChart() {
-
-    var data = google.visualization.arrayToDataTable([
-      ['Language', 'Rating'],
-      <?php
-      if(count($resultData) > 0){
-          foreach($resultData as $u){
-            echo "['".$u->exam_name."', ".$u->total."],";
-          }
+  app.controller("dashboardController", ['$scope','chartService',
+    function ($scope,chartService) {
+        $scope.myChart = chartService;
+        $scope.chartTypes=chartService.chartTypes;
+   
+    $scope.init = function(){
+        $scope.employees =<?php echo $resultData; ?>;
+        angular.forEach($scope.employees, function(value, key) {
+           $scope.myChart.addColumn(value.exam_name,parseInt(value.total));
+        });
       }
-      ?>
-    ]);
-    
-    var options = {
-        title: 'Exam taken Today',
-        width: 500,
-        height: 500,
-        pieSliceText: 'value-and-percentage',
-    };
-    
-    var chart = new google.visualization.PieChart(document.getElementById('piechart'));
-    
-    chart.draw(data, options);
-}
+      $scope.init();
+    }
+  ]);
 </script>
 <!--end-main-container-part-->
 @endsection

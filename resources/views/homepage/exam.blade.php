@@ -8,6 +8,9 @@
 	 <div class =  "row">
             @foreach($allExam as $exam)	    
 			<div class = "col-sm-3 exam--card">	
+			@if($exam['is_new'] =='yes')
+				<button class="btn btn-danger new__tag" > New Exam </button>
+			@endif	
 			<div class="panel-group col-sm-offset-1">
 				<div class="panel panel-info">
 				@php  $pic = (!is_null($exam['image'])) ? '/images/exam/thumbnail/'.$exam['image'] : '/images/exam/exam_icon_2.png'; 

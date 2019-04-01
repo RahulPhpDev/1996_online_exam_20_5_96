@@ -90,6 +90,7 @@ class ExamController extends Controller
                 'particular_date'=> $spacific_date,
                 'start_date' =>  $startDate,
                 'end_date' =>  $endDate,
+                'is_new' => $request['is_new'],
             );
             $id =  $exam::create($examData)->id;
 
@@ -368,6 +369,7 @@ class ExamController extends Controller
      public function editExam($id){
          $de_id =  Crypt::decrypt($id);
          $examDetails = Exam::findorfail($de_id);
+        // dd($examDetails);
          $title = 'Edit '.$examDetails['exam_name']. ' Exam';
          $max_attempt =  $this->max_attempt; 
          return view('admin.exam.edit-exam',compact('examDetails','id', 'title','max_attempt'));
@@ -392,6 +394,7 @@ class ExamController extends Controller
         $examDetails->particular_date = $spacific_date;
         $examDetails->start_date = $startDate;
         $examDetails->end_date =  $endDate;
+        $examDetails->is_new =  $req['is_new'];
         $examDetails->save();
         return redirect()->route('exam')->with('success', 'Exam Details are updated!');
      }

@@ -40,7 +40,7 @@ class HomeController extends Controller
         $resultData = DB::table('results as a')
                             ->select('exam_name', DB::raw('count(exam_id) as total'))
                              ->leftJoin('exams as e', 'a.exam_id', '=', 'e.id')
-                            ->whereDate('a.add_date',Carbon::today())
+                            ->whereDate('a.add_date','2019-03-19')
                             ->groupBy('exam_id')
                             ->get();
      // dd($resultData);

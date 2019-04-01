@@ -104,14 +104,15 @@ $(document).ready(function () {
                     </div>
                  </div>
 
-                <!--     <div class="control-group">
-                    {{--Form::label('passing_marks_type' , 'Passing Mark Type', array('class' => 'control-label')) --}}
+                    <div class="control-group">
+                    {{Form::label('is_new' , 'Is New', array('class' => 'control-label')) }}
                     <div class="controls">
-                    <input type = "radio" name = "passing_marks_type" value = "1" <?php// $r = ( $examDetails['passing_marks_type'] == 1) ? 'checked' : ''; echo $r; ?>> Number
-                    <input type = "radio" name = "passing_marks_type" value = "2" <?php //$r = ( $examDetails['passing_marks_type'] == 2) ? 'checked' : ''; echo $r; ?>> Percentage
-                 
+                      {{ Form::radio('is_new', 'no' , $examDetails['is_new'] == 'no') }}
+                      <span> No </span>
+                      {{ Form::radio('is_new', 'yes' , $examDetails['is_new'] == 'yes') }}
+                      <span> Yes </span>
                     </div>
-                 </div> -->
+                 </div> 
 
 
                    <div class="control-group">

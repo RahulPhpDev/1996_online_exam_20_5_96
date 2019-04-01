@@ -41,3 +41,15 @@ ALTER TABLE `notification_alerts`
 ALTER TABLE `notification_template`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 COMMIT;
+
+
+
+
+ALTER TABLE `exams` ADD `is_new` ENUM('yes','no') NOT NULL DEFAULT 'no' AFTER `edit_date`;
+
+
+alter table exams add exam_ref varchar(10) default null after exam_name;
+update exams set exam_ref = concat('MOT_', (CASE when length(id) = 1 then '00' when length(id) = 2 then '0' end) ,id )
+ 
+update users set user_ref = concat('MOT_', (select lpad(id,3,0) from users));
+update users set user_ref = (concat('MOT_',lpad(id, 3, 0)));

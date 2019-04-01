@@ -80,14 +80,14 @@ class GuestController extends Controller
                                         ->where('end_date', '>=', date('Y-m-d H:i:s'))
                                         ->orderBy('id', 'DESC')
                                         ->take(6)
-                                        ->get(['id','exam_name','total_question', 'total_marks','image','time','start_date','end_date','description']);
+                                        ->get(['id','exam_name','total_question', 'total_marks','image','time','start_date','end_date','description','is_new']);
                                         // ::
         $nonSubscriptionExams =  Exam::where('status' , 1)
                                         ->where('exam_visible_status', 1)
                                         ->where('particular_date', 0)
                                         ->orderBy('id', 'DESC')
                                         ->take(8)
-                                        ->get(['id','exam_name','total_question', 'total_marks','image','time']);
+                                        ->get(['id','exam_name','total_question', 'total_marks','image','time','is_new']);
                                     
 
             $courseData =   $courseObj->getCourseHaveExam();         
@@ -103,6 +103,7 @@ class GuestController extends Controller
                         'total_marks' => $exam->total_marks,
                         'image' => $exam->image,
                         'time' => $exam->time,
+                        'is_new' => $exam->is_new,
                     );  
                     }
                 }

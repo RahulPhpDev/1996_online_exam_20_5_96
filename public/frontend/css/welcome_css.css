@@ -172,3 +172,15 @@ content: "\f196";
     border: 1px dashed #ccc;
 
 }
+
+.new__tag{
+	position: absolute;
+    left: 30px;
+    top: 1px;
+    font-size: 12px;
+    letter-spacing: 1.5px;
+    padding: 6px 14px;
+    border-radius: 8px 3px 9px;
+    background: orange;
+    pointer-events: none;
+}
